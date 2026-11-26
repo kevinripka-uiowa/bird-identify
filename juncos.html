@@ -121,11 +121,12 @@
   .note { background: var(--accent-soft); border-radius: 10px; padding: 14px 16px; max-width: none; }
 
   /* Decoder table */
-  .table-wrap { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; overflow: hidden; }
-  table { width: 100%; border-collapse: collapse; font-size: 15px; }
+  .table-wrap { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; overflow: auto; max-height: 75vh; max-height: 75svh; -webkit-overflow-scrolling: touch; }
+  table { width: 100%; border-collapse: separate; border-spacing: 0; font-size: 15px; }
   th, td { text-align: left; vertical-align: top; padding: 12px 14px; border-bottom: 1px solid var(--line); }
   thead th { font-size: 13px; text-transform: uppercase; letter-spacing: .05em; color: var(--muted);
              background: var(--accent-soft); font-weight: 600; }
+  thead th { position: sticky; top: 0; z-index: 2; }  /* header row stays put while the table scrolls */
   tbody tr:last-child td, tbody tr:last-child th { border-bottom: 0; }
   tbody th { font-weight: 700; min-width: 140px; }
   tbody th em { display: block; }
@@ -139,18 +140,21 @@
   .chip-vrare    { background: var(--chip-vrare);    color: var(--chip-vrare-ink); }
   .status-detail { display: block; color: var(--muted); font-size: 14px; margin-top: 4px; }
 
-  /* Table becomes stacked cards on narrow screens */
+  .scroll-hint { display: none; font-size: 13px; color: var(--muted); margin: 0 0 6px; }
+  /* Narrow screens: table scrolls sideways, Form column stays frozen on the left */
   @media (max-width: 760px) {
-    .table-wrap { background: none; border: 0; border-radius: 0; }
-    table, thead, tbody, tr, th, td { display: block; }
-    thead { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
-    tbody tr { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; margin-bottom: 12px; overflow: hidden; }
-    tbody th { font-size: 18px; background: var(--accent-soft); border-bottom: 1px solid var(--line); }
-    tbody th em { display: inline; margin-left: 6px; }
-    td { border-bottom: 0; padding: 8px 14px; }
-    td:last-child { padding-bottom: 14px; }
-    td::before { content: attr(data-label); display: block; font-size: 12px; text-transform: uppercase;
-                 letter-spacing: .05em; color: var(--muted); font-weight: 600; margin-bottom: 2px; }
+    table { width: auto; min-width: 760px; font-size: 14px; }
+    th, td { padding: 10px 12px; }
+    td { min-width: 165px; }
+    thead th:first-child, tbody th {
+      position: sticky; left: 0; z-index: 1;
+      width: 112px; min-width: 112px; max-width: 112px;
+      border-right: 1px solid var(--line);
+      box-shadow: 4px 0 6px -4px rgba(0,0,0,.25);
+    }
+    thead th:first-child { background: var(--accent-soft); z-index: 3; }
+    tbody th { background: var(--surface); }
+    .scroll-hint { display: block; }
   }
 
   /* Pitfalls */
@@ -232,6 +236,7 @@
   <section>
     <h2>Decoder table</h2>
     <p>Rows run from most to least likely in Iowa. Status is approximate; check eBird or the Iowa Ornithologists’ Union for your county.</p>
+    <p class="scroll-hint">Swipe the table sideways for more →</p>
     <div class="table-wrap">
       <table>
         <thead>
