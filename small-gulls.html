@@ -1,0 +1,482 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Iowa Small Gull Decoder</title>
+<meta name="description" content="How to age, then identify, Iowa's small and hooded gulls: Franklin's, Bonaparte's, Laughing, Little, Black-headed, Sabine's, Ross's and Black-legged Kittiwake.">
+<style>
+  :root {
+    --bg: #f6f4ef;
+    --surface: #ffffff;
+    --ink: #22262b;
+    --muted: #5d646c;
+    --line: #dcd8cf;
+    --accent: #4a5563;
+    --accent-soft: #e8ebef;
+    --rust: #9a5a34;
+    --chip-common: #dfe9dc;   --chip-common-ink: #2f5129;
+    --chip-uncommon: #f2e7d2; --chip-uncommon-ink: #6b4b14;
+    --chip-regular: #e6e3f1;  --chip-regular-ink: #43386d;
+    --chip-casual: #ecdde6;   --chip-casual-ink: #6a2850;
+    --chip-acc: #f4dfd8;      --chip-acc-ink: #7a3322;
+    --bird-a: #bfc4ca; --bird-b: #cfd3d8; --bird-c: #dde0e3; --bird-d: #8e959d;
+    --bird-white: #fbfbf9; --bird-line: #4f565e;
+    --hi: #f3cf8a; --hi-line: #b8741a; --hi-soft: #fbf1de; --hi-ink: #8a520c;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #17191c;
+      --surface: #202328;
+      --ink: #e7e9ec;
+      --muted: #a2a9b1;
+      --line: #353a41;
+      --accent: #b9c3cf;
+      --accent-soft: #2a2f36;
+      --rust: #d18c5f;
+      --chip-common: #26362a;   --chip-common-ink: #b5d7ad;
+      --chip-uncommon: #3a3020; --chip-uncommon-ink: #e8cd96;
+      --chip-regular: #2e2a40;  --chip-regular-ink: #c9c0ee;
+      --chip-casual: #3a2433;   --chip-casual-ink: #e8b2d2;
+      --chip-acc: #3d2621;      --chip-acc-ink: #f0b4a4;
+      --bird-a: #6d747c; --bird-b: #7f868d; --bird-c: #959ba1; --bird-d: #3b4046;
+      --bird-white: #e9eaea; --bird-line: #1b1e22;
+      --hi: #e0a94a; --hi-line: #f0b65a; --hi-soft: #3a2f1c; --hi-ink: #f3c77a;
+    }
+  }
+
+  * { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font: 16px/1.55 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  }
+  main { max-width: 1040px; margin: 0 auto; padding: 32px 16px 64px; }
+
+  header { margin-bottom: 28px; }
+  .kicker { font-size: 13px; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); margin: 0 0 6px; }
+  h1 { font-size: clamp(28px, 5vw, 40px); line-height: 1.15; margin: 0 0 10px; }
+  .lede { font-size: 18px; color: var(--muted); max-width: 62ch; margin: 0; }
+
+  h2 { font-size: 24px; margin: 44px 0 12px; }
+  h3 { font-size: 19px; margin: 28px 0 10px; }
+  p { max-width: 70ch; }
+  em.sci { font-style: italic; color: var(--muted); font-weight: 400; }
+  .note { background: var(--accent-soft); border-radius: 10px; padding: 14px 16px; max-width: none; }
+
+  /* Cast list */
+  .cast { list-style: none; padding: 0; margin: 12px 0; display: grid; gap: 8px;
+          grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); }
+  .cast li { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 10px 14px; }
+  .cast strong { display: block; }
+  .cast small { display: block; color: var(--muted); font-size: 13px; margin-top: 4px; }
+  .chip { display: inline-block; font-size: 12px; font-weight: 600; padding: 1px 8px; border-radius: 999px; white-space: nowrap; margin-top: 4px; }
+  .chip-common   { background: var(--chip-common);   color: var(--chip-common-ink); }
+  .chip-uncommon { background: var(--chip-uncommon); color: var(--chip-uncommon-ink); }
+  .chip-regular  { background: var(--chip-regular);  color: var(--chip-regular-ink); }
+  .chip-casual   { background: var(--chip-casual);   color: var(--chip-casual-ink); }
+  .chip-acc      { background: var(--chip-acc);      color: var(--chip-acc-ink); }
+
+  /* Tabs */
+  .tabs { display: flex; gap: 6px; margin: 16px 0 8px; padding: 4px; background: var(--accent-soft);
+          border-radius: 12px; overflow-x: auto; }
+  .tab { flex: 1 0 auto; font: inherit; font-weight: 600; font-size: 15px; color: var(--muted); cursor: pointer;
+         background: none; border: 0; border-radius: 9px; padding: 10px 14px; white-space: nowrap; }
+  .tab[aria-selected="true"] { background: var(--surface); color: var(--ink); box-shadow: 0 1px 3px rgba(0,0,0,.15); }
+  .tab:focus-visible { outline: 2px solid var(--hi-line); outline-offset: 1px; }
+  .panel[hidden] { display: none; }
+  .panel > h3:first-child { margin-top: 20px; }
+
+  /* Checks */
+  .checks { list-style: none; padding: 0; margin: 16px 0; display: grid; gap: 12px;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); counter-reset: check; }
+  .checks li { position: relative; counter-increment: check; display: flex; }
+  .checks li::before { content: counter(check); position: absolute; left: 16px; top: 15px; z-index: 1; pointer-events: none;
+                       width: 28px; height: 28px; border-radius: 50%; background: var(--accent);
+                       color: var(--bg); font-weight: 700; display: grid; place-items: center; font-size: 15px; }
+  .check { flex: 1; text-align: left; font: inherit; color: inherit; cursor: pointer;
+           background: var(--surface); border: 1px solid var(--line); border-radius: 10px;
+           padding: 16px 16px 16px 56px; transition: border-color .15s, box-shadow .15s; }
+  .check:hover { border-color: var(--hi-line); }
+  .check:focus-visible { outline: 2px solid var(--hi-line); outline-offset: 2px; }
+  .check[aria-pressed="true"] { border-color: var(--hi-line); box-shadow: 0 0 0 2px var(--hi-line) inset; background: var(--hi-soft); }
+  .checks strong { display: block; margin-bottom: 4px; }
+
+  /* Diagram */
+  .diagram { margin: 16px 0; background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 12px 12px 10px; }
+  .diagram svg { display: block; width: 100%; height: auto; max-height: 340px; }
+  .diagram figcaption { font-size: 14px; color: var(--muted); padding: 4px 4px 0; }
+  .part { fill: var(--bird-white); stroke: var(--bird-line); stroke-width: 1.5; stroke-linejoin: round; }
+  .part[data-part="upperwing"]     { fill: var(--bird-b); }
+  .part[data-part="carpal"]        { fill: var(--bird-a); }
+  .part[data-part="trailing"]      { fill: var(--bird-a); }
+  .part[data-part="wingtip"]       { fill: var(--bird-d); }
+  .part[data-part="underwing"]     { fill: var(--bird-c); }
+  .part[data-part="underprimaries"]{ fill: var(--bird-a); }
+  .part[data-part="hood"]          { fill: var(--bird-a); }
+  .part[data-part="earspot"]       { fill: var(--bird-d); }
+  .part[data-part="bill"]          { fill: var(--bird-d); }
+  .part[data-part="tailband"]      { fill: var(--bird-d); }
+  .side-label { fill: var(--muted); font-size: 13px; font-style: italic; }
+  .label line { stroke: var(--muted); stroke-width: 1; }
+  .label text { fill: var(--ink); font-size: 15px; font-weight: 600; }
+  /* When a check is selected, other parts become blank outlines (still opaque, so they hide what's beneath) */
+  svg.focus .part:not(.on) { fill: var(--surface); stroke: var(--muted); stroke-opacity: .55; }
+  svg.focus .label { opacity: .3; }
+  svg.focus .label.on { opacity: 1; }
+  svg.focus .part.on { fill: var(--hi); stroke: var(--hi-line); stroke-width: 2.5; }
+  svg.focus .label.on line { stroke: var(--hi-line); stroke-width: 2; }
+  svg.focus .label.on text { fill: var(--hi-ink); }
+
+  /* Tables */
+  .table-wrap { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; overflow: auto; max-height: 75vh; max-height: 75svh; -webkit-overflow-scrolling: touch; }
+  table { width: 100%; border-collapse: separate; border-spacing: 0; font-size: 15px; }
+  th, td { text-align: left; vertical-align: top; padding: 12px 14px; border-bottom: 1px solid var(--line); }
+  thead th { font-size: 13px; text-transform: uppercase; letter-spacing: .05em; color: var(--muted);
+             background: var(--accent-soft); font-weight: 600; }
+  thead th { position: sticky; top: 0; z-index: 2; }  /* header row stays put while the table scrolls */
+  tbody tr:last-child td, tbody tr:last-child th { border-bottom: 0; }
+  tbody th { font-weight: 700; min-width: 130px; }
+  tbody th em { display: block; }
+  tr.rarity th { color: var(--muted); }
+  td.clincher { font-weight: 600; }
+  .scroll-hint { display: none; font-size: 13px; color: var(--muted); margin: 0 0 6px; }
+
+  /* Pitfalls */
+  .pitfalls { padding: 0; list-style: none; display: grid; gap: 10px; }
+  .pitfalls li { background: var(--surface); border: 1px solid var(--line); border-left: 4px solid var(--rust);
+                 border-radius: 8px; padding: 12px 16px; }
+  .pitfalls strong { display: block; }
+
+  .sources { color: var(--muted); padding-left: 20px; }
+  .sources a { color: inherit; }
+  footer { margin-top: 40px; padding-top: 16px; border-top: 1px solid var(--line); color: var(--muted); font-size: 14px; }
+  footer a { color: inherit; }
+
+  /* Narrow screens */
+  @media (max-width: 760px) {
+    /* Tables scroll sideways with the first column frozen */
+    table { width: auto; min-width: 760px; font-size: 14px; }
+    th, td { padding: 10px 12px; }
+    td { min-width: 150px; }
+    thead th:first-child, tbody th {
+      position: sticky; left: 0; z-index: 1;
+      width: 108px; min-width: 108px; max-width: 108px;
+      border-right: 1px solid var(--line);
+      box-shadow: 4px 0 6px -4px rgba(0,0,0,.25);
+    }
+    thead th:first-child { background: var(--accent-soft); z-index: 3; }
+    tbody th { background: var(--surface); }
+    .scroll-hint { display: block; }
+
+    /* Keep the bird in view while tapping through the checks below it */
+    .diagram { position: sticky; top: 0; z-index: 4; margin-left: -8px; margin-right: -8px; padding: 8px;
+               box-shadow: 0 6px 12px -8px rgba(0,0,0,.25); }
+    .label text { font-size: 19px; }
+    .side-label { font-size: 16px; }
+    .diagram figcaption { font-size: 13px; }
+    .tab { font-size: 14px; padding: 9px 10px; }
+  }
+
+  @media print {
+    body { background: #fff; color: #000; }
+    .checks li, .table-wrap, .pitfalls li { break-inside: avoid; }
+    .panel[hidden] { display: block; }
+    .tabs { display: none; }
+    .table-wrap { max-height: none; overflow: visible; }
+  }
+</style>
+</head>
+<body>
+<main>
+  <header>
+    <p class="kicker">Tricky birds · Iowa</p>
+    <h1>Iowa Small Gull Decoder</h1>
+    <p class="lede">Franklin’s and Bonaparte’s are the small gulls you’ll see most. The rest are rarities that usually turn up in their flocks. Age the bird, then let the wing pattern do most of the work.</p>
+  </header>
+
+  <!-- ========================= CAST ========================= -->
+  <section>
+    <h2>Who to expect</h2>
+    <p>Status follows the Iowa Ornithologists’ Union; check eBird for your county. Check every Franklin’s and Bonaparte’s flock: that’s where the rarities hide.</p>
+    <ul class="cast">
+      <li><strong>Franklin’s</strong><span class="chip chip-common">Common</span><small>Spring mostly April; big fall flocks Sept–Nov, a few into December. Missouri River oxbows, reservoirs, plowed fields. Adult in 2 years.</small></li>
+      <li><strong>Bonaparte’s</strong><span class="chip chip-uncommon">Uncommon to fairly common</span><small>April–early May; late Oct–early Dec, peaking near freeze-up. Reservoirs and the Mississippi. Adult in 2 years.</small></li>
+      <li><strong>Laughing</strong><span class="chip chip-regular">Rare but regular</span><small>April–September, usually single birds with Franklin’s. Red Rock most often. Adult in 3 years.</small></li>
+      <li><strong>Sabine’s</strong><span class="chip chip-regular">Rare but regular</span><small>September–early October, nearly all juveniles. Recent: Big Creek and Red Rock, Sept 2025. Adult in 2 years.</small></li>
+      <li><strong>Black-legged Kittiwake</strong><span class="chip chip-regular">Rare but regular</span><small>Not every year. November–December, almost always juveniles. Red Rock, Saylorville, Mississippi dams. Adult in about 3 years.</small></li>
+      <li><strong>Little</strong><span class="chip chip-casual">Casual</span><small>26 records. April and Oct–Nov, usually with Bonaparte’s. Adult in 2–3 years.</small></li>
+      <li><strong>Black-headed</strong><span class="chip chip-acc">Accidental</span><small>17 records, often with Franklin’s or Bonaparte’s; several in summer at the Iowa Great Lakes. Adult in 2 years.</small></li>
+      <li><strong>Ross’s</strong><span class="chip chip-acc">Accidental</span><small>4 records, including Red Rock in Oct 1993 (the first) and an adult there in Dec 1997. Adult in 2 years.</small></li>
+    </ul>
+    <p>Iowa also has 2 records of Ivory Gull and 1 of Heermann’s Gull. Neither is covered here.</p>
+  </section>
+
+  <!-- ========================= AGING ========================= -->
+  <section class="decoder">
+    <h2>Step 1: Age it</h2>
+    <p>The wing and tail tell you the age; the head mostly tells you the season. Tap a check to see where to look. The diagram is a bird flying away from you: its left wing is shown from above, its right wing from below.</p>
+
+    <div class="how">
+    <figure class="diagram" data-svg>
+      <figcaption>Schematic only. Shading just separates the parts; it isn’t any species’ colors.</figcaption>
+    </figure>
+
+    <ol class="checks">
+      <li><button type="button" class="check" data-parts="carpal" aria-pressed="false"><strong>Dark marks on the inner wing</strong>A dark bar across the inner wing, or a full “W”, means 1st cycle. Adults have clean gray inner wings. (Juvenile Sabine’s is the exception: no bar, but a brown, scaly inner wing.)</button></li>
+      <li><button type="button" class="check" data-parts="tailband" aria-pressed="false"><strong>Tail band</strong>A black band near the tip of the tail means 1st cycle (or a 2nd-cycle Laughing with a trace left). Adults have all-white tails.</button></li>
+      <li><button type="button" class="check" data-parts="bill" aria-pressed="false"><strong>Bill</strong>Young birds mostly have dark bills; a pink-orange bill with a dark tip is a young Black-headed. A red bill means an adult Black-headed, Franklin’s or Laughing. Bonaparte’s bill is black at every age.</button></li>
+    </ol>
+    </div>
+
+    <p class="note"><strong>Juveniles count as 1st cycle.</strong> A brown-backed bird from July to September is a juvenile; use the 1st-cycle tab. Most small gulls look adult by their 2nd cycle. Laughing and Little can show leftover black in the wing coverts or wingtip at that age, and Franklin’s shows less white in its wingtip. Franklin’s is the only gull that replaces all its flight feathers twice a year, so spring birds look unusually fresh; don’t age it on freshness alone.</p>
+  </section>
+
+  <!-- ========================= TABS ========================= -->
+  <section>
+    <h2 id="step-2">Step 2: Identify it for its age and season</h2>
+    <p>In Iowa, hoods usually mean April–May and white winter heads mean August–November, so pick the tab that matches when you saw it.</p>
+    <div class="tabs" role="tablist" aria-labelledby="step-2">
+      <button type="button" class="tab" role="tab" id="tab-first"  aria-controls="first"  aria-selected="true">1st cycle</button>
+      <button type="button" class="tab" role="tab" id="tab-spring" aria-controls="spring" aria-selected="false">Adult, spring–summer</button>
+      <button type="button" class="tab" role="tab" id="tab-fall"   aria-controls="fall"   aria-selected="false">Adult, fall–winter</button>
+    </div>
+
+    <!-- ---------- 1st cycle ---------- -->
+    <div class="panel decoder" role="tabpanel" id="first" aria-labelledby="tab-first">
+      <h3>1st cycle (including juveniles)</h3>
+      <p>The upperwing pattern sorts most of these at a glance. The rarities (Sabine’s, Kittiwake, Ross’s) nearly always show up at this age.</p>
+      <div class="how">
+      <figure class="diagram" data-svg>
+        <figcaption>Schematic only. Shading just separates the parts.</figcaption>
+      </figure>
+      <ol class="checks">
+        <li><button type="button" class="check" data-parts="carpal wingtip trailing" aria-pressed="false"><strong>Upperwing pattern</strong>Thin dark bar and a white wedge near the wingtip: Bonaparte’s or Black-headed. Bold black “W” across both wings: Little, Kittiwake or Ross’s. Three bold blocks (black outer wing, white triangle, brown inner wing): Sabine’s. Plain gray with a dark tip: Franklin’s or Laughing.</button></li>
+        <li><button type="button" class="check" data-parts="hood earspot bill" aria-pressed="false"><strong>Head and bill</strong>Ear spot and all-black bill: Bonaparte’s. Ear spot and two-toned pink-orange bill: Black-headed. Dark cap: Little. Black collar on the back of the neck: Kittiwake. Crisp half-hood with bold white eye-arcs: Franklin’s. Smudgy gray head and heavy drooping bill: Laughing.</button></li>
+        <li><button type="button" class="check" data-parts="tail tailband underwing underprimaries" aria-pressed="false"><strong>Tail and underwing</strong>Tail band that stops short of the outer feathers, with a clean white breast and underwing: Franklin’s. Broad, complete band, gray breast and dusky underwing: Laughing. Wedge-shaped tail with black only in the center: Ross’s. Slightly forked tail: Sabine’s.</button></li>
+      </ol>
+      </div>
+      <p class="scroll-hint">Swipe the table sideways for more →</p>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th scope="col">Species</th><th scope="col">Upperwing</th><th scope="col">Head</th><th scope="col">Bill and legs</th><th scope="col">Tail and underwing</th><th scope="col">Clincher</th></tr></thead>
+          <tbody>
+            <tr><th scope="row">Franklin’s</th><td>Gray with a dark wingtip</td><td>Crisp dark half-hood with bold white eye-arcs</td><td>Slim, dark</td><td>Tail band stops short of the outer feathers; white breast; clean, pale underwing</td><td class="clincher">Half-hood, white breast and a partial tail band</td></tr>
+            <tr><th scope="row">Bonaparte’s</th><td>Narrow dark bar on the inner wing; white wedge near the tip, edged black; black trailing edge</td><td>White with a dark ear spot</td><td>All black; pinkish legs</td><td>Narrow black tail band; underwing pale and see-through</td><td class="clincher">All-black bill on a small, pale-winged gull</td></tr>
+            <tr><th scope="row">Laughing</th><td>Dark gray-brown with a dark wingtip</td><td>Smudgy gray</td><td>Heavy, drooping, dark</td><td>Broad, complete tail band; dusky underwing; gray wash on breast and flanks</td><td class="clincher">Gray breast and a complete tail band</td></tr>
+            <tr><th scope="row">Little</th><td>Bold blackish “W” across both wings; faint dark trailing edge</td><td>Dark cap and ear spot</td><td>Small, dark; reddish legs</td><td>Nearly complete tail band; white underwing</td><td class="clincher">“W” plus a dark cap on the smallest gull</td></tr>
+            <tr><th scope="row">Black-headed</th><td>Broader brown bar on the inner wing; white wedge near the tip</td><td>White with a dark ear spot</td><td>Pink-orange with a dark tip; orange legs</td><td>Tail band; underside of the outer wing grayer and darker than Bonaparte’s</td><td class="clincher">Two-toned bill</td></tr>
+            <tr class="rarity"><th scope="row">Sabine’s<em class="sci">juvenile</em></th><td>Three bold blocks: black outer wing, white triangle, brown inner wing; no dark bar</td><td>Gray-brown nape and breast sides; scaly brown back</td><td>Small, all black</td><td>Slightly forked, with a black tip</td><td class="clincher">Three-color wing on a scaly brown, Bonaparte’s-sized bird</td></tr>
+            <tr class="rarity"><th scope="row">Black-legged Kittiwake</th><td>Black “W” on gray and white</td><td>Black collar on the back of the neck; dark ear spot</td><td>Black, stouter</td><td>Notched or square, with a black band</td><td class="clincher">Black neck collar plus a “W” on a clean gray back</td></tr>
+            <tr class="rarity"><th scope="row">Ross’s</th><td>Blackish “W” with a broad white rear wing</td><td>Mostly white; small ear spot; no cap</td><td>Tiny, black</td><td>Wedge-shaped, black only in the center</td><td class="clincher">Wedge-shaped tail with a central black tip</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <h3>Pitfalls</h3>
+      <ul class="pitfalls">
+        <li><strong>Three birds show a “W”.</strong>A 1st-cycle Little Gull, Kittiwake and Ross’s all have one. Little is the smallest and has a dark cap and square tail; Kittiwake has a black neck collar and clean gray back; Ross’s has a wedge-shaped tail.</li>
+        <li><strong>Don’t call a Sabine’s by elimination.</strong>A distant juvenile Kittiwake’s white inner wing can look like Sabine’s white triangle. Confirm no dark bar on the inner wing, no neck collar and a brown, scaly back.</li>
+        <li><strong>Franklin’s vs. Laughing.</strong>Use the tail band (partial vs. complete) and the breast (white vs. gray). Bill size helps, but small Laughings overlap.</li>
+        <li><strong>Bonaparte’s vs. Black-headed.</strong>Check the bill first: black at every age on Bonaparte’s, two-toned on a young Black-headed. Leg color overlaps, so don’t use it.</li>
+      </ul>
+    </div>
+
+    <!-- ---------- Adult, spring–summer ---------- -->
+    <div class="panel decoder" role="tabpanel" id="spring" aria-labelledby="tab-spring" hidden>
+      <h3>Adult, spring–summer (hooded)</h3>
+      <p>Hoods are in, so start with the hood, then confirm with the wingtip from above and below.</p>
+      <div class="how">
+      <figure class="diagram" data-svg>
+        <figcaption>Schematic only. Shading just separates the parts.</figcaption>
+      </figure>
+      <ol class="checks">
+        <li><button type="button" class="check" data-parts="hood bill" aria-pressed="false"><strong>Hood and bill</strong>Black hood, thin black bill: Bonaparte’s. Brown hood that stops short of the nape, dark red bill: Black-headed. Black hood with no white eye-arcs, tiny bill: Little. Black hood with thick white eye-arcs, short red bill: Franklin’s. Long, drooping dark-red bill: Laughing.</button></li>
+        <li><button type="button" class="check" data-parts="wingtip" aria-pressed="false"><strong>Wingtip from above</strong>White wedge along the leading edge: Bonaparte’s or Black-headed. No black at all, with a rounded tip: Little. A white band between the gray and the black: Franklin’s. Black that blends into dark gray: Laughing.</button></li>
+        <li><button type="button" class="check" data-parts="underwing underprimaries" aria-pressed="false"><strong>Underwing</strong>White and see-through with a thin black edge: Bonaparte’s. Blackish under the outer wing: Black-headed. Sooty black all over: Little. Dusky outer wing: Laughing.</button></li>
+      </ol>
+      </div>
+      <p class="scroll-hint">Swipe the table sideways for more →</p>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th scope="col">Species</th><th scope="col">Hood</th><th scope="col">Bill and legs</th><th scope="col">Wingtip from above</th><th scope="col">Underwing</th><th scope="col">Clincher</th></tr></thead>
+          <tbody>
+            <tr><th scope="row">Franklin’s</th><td>Black, with thick white eye-arcs; often a pink flush below</td><td>Short red bill; dark legs</td><td>White band between the gray and the black; big white tips</td><td>Pale</td><td class="clincher">White band across the wingtip</td></tr>
+            <tr><th scope="row">Bonaparte’s</th><td>Black, with thin white eye-arcs</td><td>Thin black bill; orange-red legs</td><td>White wedge on the leading edge; neat black trailing edge</td><td>White and see-through; thin black tips</td><td class="clincher">Black bill and a white underwing</td></tr>
+            <tr><th scope="row">Laughing</th><td>Black, with thin eye-arcs</td><td>Long, drooping dark-red bill; dark legs</td><td>Black blends into dark gray; tiny white tips</td><td>Dusky outer wing</td><td class="clincher">All-dark wingtip and a long, drooping bill</td></tr>
+            <tr><th scope="row">Little</th><td>Black, reaching down the nape; no eye-arcs</td><td>Tiny, dark; red legs</td><td>Pale gray, no black; rounded tip; white trailing edge</td><td>Sooty black</td><td class="clincher">Blackish underwing with no black on top</td></tr>
+            <tr><th scope="row">Black-headed</th><td>Chocolate brown, stopping short of the nape; eye-arcs</td><td>Dark red, thicker; red legs</td><td>White wedge on the leading edge</td><td>Outer wing blackish below</td><td class="clincher">Dark underside of the outer wing and a red bill</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <h3>Pitfalls</h3>
+      <ul class="pitfalls">
+        <li><strong>Brown vs. black hoods are hard to judge.</strong>In poor light a Black-headed’s brown hood looks black. Check the bill color and the underwing instead.</li>
+        <li><strong>Some 1st-summer birds get hoods too.</strong>Look for a leftover dark bar on the inner wing or a tail band before treating a hooded bird as an adult.</li>
+        <li><strong>Fresh-looking Franklin’s.</strong>Franklin’s molts its flight feathers twice a year, so even young birds look crisp in spring. Second-cycle birds show less white in the wingtip.</li>
+      </ul>
+    </div>
+
+    <!-- ---------- Adult, fall–winter ---------- -->
+    <div class="panel decoder" role="tabpanel" id="fall" aria-labelledby="tab-fall" hidden>
+      <h3>Adult, fall–winter</h3>
+      <p>Hoods are gone on most species, so the head pattern and bill take over. Sabine’s is the exception: fall adults usually keep their hood.</p>
+      <div class="how">
+      <figure class="diagram" data-svg>
+        <figcaption>Schematic only. Shading just separates the parts.</figcaption>
+      </figure>
+      <ol class="checks">
+        <li><button type="button" class="check" data-parts="hood earspot" aria-pressed="false"><strong>Head pattern</strong>Dark ear spot on a white head: Bonaparte’s or Black-headed. Dark cap and ear spot: Little. Crisp blackish half-hood with bold eye-arcs: Franklin’s. Smudgy gray rear head: Laughing. Gray smudge behind the eye and gray nape: Kittiwake. Still hooded in fall: Sabine’s.</button></li>
+        <li><button type="button" class="check" data-parts="bill" aria-pressed="false"><strong>Bill</strong>Black: Bonaparte’s, Franklin’s. Red with a dark tip: Black-headed. Heavy and black: Laughing. Black with a yellow tip: Sabine’s. Plain yellow: Kittiwake. Tiny and black: Ross’s.</button></li>
+        <li><button type="button" class="check" data-parts="wingtip underprimaries" aria-pressed="false"><strong>Wingtip, above and below</strong>Solid black tips with no white, “dipped in ink”: Kittiwake. Three-color wing: Sabine’s. Sooty underwing: Little. Dark gray underwing with a wedge-shaped tail: Ross’s. The rest match the spring–summer tab.</button></li>
+      </ol>
+      </div>
+      <p class="scroll-hint">Swipe the table sideways for more →</p>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th scope="col">Species</th><th scope="col">Head</th><th scope="col">Bill</th><th scope="col">Wingtip</th><th scope="col">Clincher</th></tr></thead>
+          <tbody>
+            <tr><th scope="row">Franklin’s</th><td>Crisp blackish half-hood; bold eye-arcs</td><td>Black</td><td>White band and big white tips</td><td class="clincher">Half-hood with bold eye-arcs</td></tr>
+            <tr><th scope="row">Bonaparte’s</th><td>White, with a dark ear spot and faint gray nape</td><td>Black</td><td>White leading wedge; white underwing</td><td class="clincher">Ear spot and a black bill</td></tr>
+            <tr><th scope="row">Laughing</th><td>Smudgy gray rear head; thin eye-arcs</td><td>Heavy, black</td><td>All-dark tips</td><td class="clincher">Smudgy head and a heavy bill</td></tr>
+            <tr><th scope="row">Little</th><td>Dark cap and ear spot</td><td>Small, dark</td><td>No black above; sooty underwing</td><td class="clincher">Dark underwing</td></tr>
+            <tr><th scope="row">Black-headed</th><td>White, with a dark ear spot</td><td>Red with a dark tip</td><td>White leading wedge; dark underside of the outer wing</td><td class="clincher">Red bill</td></tr>
+            <tr class="rarity"><th scope="row">Sabine’s</th><td>Usually still hooded: dark gray with a black lower border</td><td>Black with a yellow tip</td><td>Three-color: gray, black outer wing, white triangle; slightly forked tail</td><td class="clincher">Yellow-tipped bill and a three-color wing</td></tr>
+            <tr class="rarity"><th scope="row">Black-legged Kittiwake</th><td>White; gray smudge behind the eye and gray nape</td><td>Plain yellow, duller in winter</td><td>Solid black tips with no white; black legs</td><td class="clincher">Ink-dipped wingtips and black legs</td></tr>
+            <tr class="rarity"><th scope="row">Ross’s</th><td>Small dark mark behind the eye; no cap; often a pink flush</td><td>Tiny, black</td><td>Pale gray with a broad white trailing edge; dark gray underwing; wedge-shaped tail</td><td class="clincher">Wedge-shaped tail and a pink flush</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <h3>Pitfalls</h3>
+      <ul class="pitfalls">
+        <li><strong>A dark underwing alone isn’t Ross’s.</strong>Adult Little Gulls have dark underwings too, and paler ones can look like Ross’s at a distance. Ross’s needs the wedge-shaped tail and no dark cap.</li>
+        <li><strong>Franklin’s vs. Laughing in fall.</strong>Franklin’s has a crisp half-hood and a white band in the wingtip; Laughing has a smudgy head and all-dark wingtips.</li>
+        <li><strong>Bonaparte’s vs. Black-headed.</strong>Both have ear spots in winter. Check the bill (black vs. red) and the underside of the outer wing (white vs. dark).</li>
+      </ul>
+    </div>
+  </section>
+
+  <section>
+    <h2>Sources</h2>
+    <p>Iowa status is from the Iowa Ornithologists’ Union checklist and records. eBird data couldn’t be checked directly; see the Iowa bar charts.</p>
+    <ul class="sources">
+      <li><a href="https://iowabirds.org/Birds/Checklist.aspx">Iowa Ornithologists’ Union: Official Checklist of Iowa Birds</a> and <a href="https://iowabirds.org/Birds/ReviewList.aspx">Rare Bird Review List</a></li>
+      <li><a href="http://iowabirdrecords.org/Reports/Status.aspx">Iowa Bird Records: status table</a></li>
+      <li><a href="https://avian.lib.iastate.edu/birds/46/view">Iowa State University avian archive: Ross’s Gull records</a></li>
+      <li><a href="https://groups.google.com/g/ia-bird/c/B1lDFAjpF5U">IA-BIRD: Iowa Rare Bird Alert, Sept 12, 2025 (Sabine’s Gulls)</a></li>
+      <li><a href="https://sites.google.com/view/greatgreatlakesbirding/home/gull-study/ageing">Great Great Lakes Birding: Ageing Gulls</a> (Franklin’s, Laughing, Bonaparte’s, Black-headed and Sabine’s pages)</li>
+      <li><a href="https://gull-research.org/minutus/minutus1cy.html">Gull Research Organisation: Little Gull, 1st year</a> (with Kittiwake and Ross’s comparisons)</li>
+      <li>Audubon Field Guide: <a href="https://www.audubon.org/field-guide/bird/bonapartes-gull">Bonaparte’s</a>, <a href="https://www.audubon.org/field-guide/bird/black-headed-gull">Black-headed</a>, <a href="https://www.audubon.org/field-guide/bird/sabines-gull">Sabine’s</a>, <a href="https://www.audubon.org/field-guide/bird/black-legged-kittiwake">Black-legged Kittiwake</a> and <a href="https://www.audubon.org/field-guide/bird/rosss-gull">Ross’s</a></li>
+      <li><a href="https://www.mail-archive.com/cobirds@googlegroups.com/msg06766.html">Leukering, COBirds: Sabine’s Gull ageing and molt</a></li>
+      <li><a href="https://www.birdguides.com/articles/focus-on-how-to-separate-bonapartes-and-black-headed-gulls">BirdGuides: How to separate Bonaparte’s and Black-headed Gulls</a></li>
+      <li><a href="https://ebird.org/barchart?r=US-IA">eBird bar charts for Iowa</a></li>
+    </ul>
+  </section>
+
+  <footer><a href="index.html">← All bird pages</a> · Kevin Ripka · Nov 26, 2026</footer>
+</main>
+
+<!-- One schematic flying gull, copied into every figure with data-svg.
+     Seen from above, flying away; left wing from above, right wing (mirrored) from below. -->
+<template id="gull-svg">
+  <svg viewBox="0 0 600 320" role="img">
+    <title>Schematic small gull in flight with labeled parts: bill, hood, ear spot, inner-wing bar, wingtip, trailing edge, tail band, underwing and underside of the wingtip</title>
+    <!-- left wing, from above -->
+    <path class="part" data-part="upperwing" d="M282,135 C220,118 140,110 72,126 L30,150 C85,162 160,172 220,178 L282,182 Z"/>
+    <path class="part" data-part="trailing" d="M140,160 C175,166 225,173 282,176 L282,182 C225,180 170,174 132,168 Z"/>
+    <path class="part" data-part="carpal" d="M118,121 L148,118 L282,156 L282,166 Z"/>
+    <path class="part" data-part="wingtip" d="M72,126 C95,120 112,118 125,118 L140,160 C110,156 70,154 30,150 Z"/>
+    <!-- right wing, from below (mirror image) -->
+    <g transform="translate(600 0) scale(-1 1)">
+      <path class="part" data-part="underwing" d="M282,135 C220,118 140,110 72,126 L30,150 C85,162 160,172 220,178 L282,182 Z"/>
+      <path class="part" data-part="underprimaries" d="M72,126 C95,120 112,118 125,118 L140,160 C110,156 70,154 30,150 Z"/>
+    </g>
+    <!-- tail, body, head -->
+    <path class="part" data-part="tail" d="M284,236 L316,236 L321,282 L279,282 Z"/>
+    <path class="part" data-part="tailband" d="M280,268 L320,268 L321,282 L279,282 Z"/>
+    <ellipse class="part" data-part="body" cx="300" cy="172" rx="22" ry="70"/>
+    <circle class="part" data-part="hood" cx="300" cy="100" r="20"/>
+    <ellipse class="part" data-part="earspot" cx="283" cy="106" rx="4" ry="5"/>
+    <ellipse class="part" data-part="earspot" cx="317" cy="106" rx="4" ry="5"/>
+    <path class="part" data-part="bill" d="M294,82 L300,58 L306,82 Z"/>
+
+    <text class="side-label" x="95" y="190" text-anchor="middle">upperwing</text>
+    <text class="side-label" x="505" y="190" text-anchor="middle">underwing</text>
+
+    <!-- labels -->
+    <g class="label" data-part="bill"><line x1="256" y1="58" x2="296" y2="70"/><text x="252" y="62" text-anchor="end">Bill</text></g>
+    <g class="label" data-part="hood"><line x1="344" y1="62" x2="314" y2="88"/><text x="348" y="62" text-anchor="start">Head / hood</text></g>
+    <g class="label" data-part="earspot"><line x1="362" y1="110" x2="321" y2="107"/><text x="366" y="115" text-anchor="start">Ear spot</text></g>
+    <g class="label" data-part="wingtip"><line x1="62" y1="96" x2="80" y2="134"/><text x="60" y="88" text-anchor="middle">Wingtip</text></g>
+    <g class="label" data-part="carpal"><line x1="186" y1="96" x2="205" y2="140"/><text x="186" y="88" text-anchor="middle">Inner-wing bar</text></g>
+    <g class="label" data-part="trailing"><line x1="180" y1="232" x2="196" y2="176"/><text x="180" y="250" text-anchor="middle">Trailing edge</text></g>
+    <g class="label" data-part="tailband"><line x1="354" y1="292" x2="320" y2="276"/><text x="358" y="298" text-anchor="start">Tail band</text></g>
+    <g class="label" data-part="tail"><line x1="250" y1="294" x2="281" y2="262"/><text x="246" y="302" text-anchor="end">Tail</text></g>
+    <g class="label" data-part="underwing"><line x1="430" y1="232" x2="420" y2="168"/><text x="430" y="250" text-anchor="middle">Underwing</text></g>
+    <g class="label" data-part="underprimaries"><line x1="538" y1="96" x2="520" y2="134"/><text x="540" y="88" text-anchor="middle">Under wingtip</text></g>
+  </svg>
+</template>
+
+<script>
+  (function () {
+    var tpl = document.getElementById('gull-svg');
+
+    // Put a diagram in each figure and wire up that section's checks
+    document.querySelectorAll('.decoder').forEach(function (section) {
+      var fig = section.querySelector('figure[data-svg]');
+      var svg = tpl.content.firstElementChild.cloneNode(true);
+      fig.insertBefore(svg, fig.firstChild);
+      var caption = fig.querySelector('figcaption');
+      var defaultCaption = caption.textContent;
+      var buttons = section.querySelectorAll('.check');
+
+      function show(btn) {
+        var parts = btn ? btn.dataset.parts.split(' ') : [];
+        buttons.forEach(function (b) { b.setAttribute('aria-pressed', b === btn ? 'true' : 'false'); });
+        svg.classList.toggle('focus', !!btn);
+        svg.querySelectorAll('[data-part]').forEach(function (el) {
+          el.classList.toggle('on', parts.indexOf(el.dataset.part) !== -1);
+        });
+        caption.textContent = btn
+          ? 'Check: ' + btn.querySelector('strong').textContent + '. Tap it again to show all parts.'
+          : defaultCaption;
+      }
+
+      buttons.forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          show(btn.getAttribute('aria-pressed') === 'true' ? null : btn);
+        });
+      });
+    });
+
+    // Tabs; the URL hash (#first, #spring, #fall) remembers the choice
+    var tabs = Array.prototype.slice.call(document.querySelectorAll('.tab'));
+    function select(id, fromHash) {
+      var found = false;
+      tabs.forEach(function (t) {
+        var on = t.getAttribute('aria-controls') === id;
+        if (on) found = true;
+        t.setAttribute('aria-selected', on ? 'true' : 'false');
+        t.tabIndex = on ? 0 : -1;
+        document.getElementById(t.getAttribute('aria-controls')).hidden = !on;
+      });
+      if (found && !fromHash) history.replaceState(null, '', '#' + id);
+      return found;
+    }
+    tabs.forEach(function (t, i) {
+      t.addEventListener('click', function () { select(t.getAttribute('aria-controls')); });
+      t.addEventListener('keydown', function (e) {
+        var d = e.key === 'ArrowRight' ? 1 : e.key === 'ArrowLeft' ? -1 : 0;
+        if (!d) return;
+        var next = tabs[(i + d + tabs.length) % tabs.length];
+        next.focus(); next.click();
+      });
+    });
+    var start = location.hash.slice(1);
+    if (!start || !select(start, true)) select('first', true);
+    window.addEventListener('hashchange', function () { select(location.hash.slice(1), true); });
+  })();
+</script>
+</body>
+</html>
