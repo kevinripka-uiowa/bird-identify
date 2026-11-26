@@ -1,0 +1,346 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Iowa Junco Decoder</title>
+<meta name="description" content="How to sort Dark-eyed Junco forms in Iowa: three checks, a decoder table and common pitfalls.">
+<style>
+  :root {
+    --bg: #f6f4ef;
+    --surface: #ffffff;
+    --ink: #22262b;
+    --muted: #5d646c;
+    --line: #dcd8cf;
+    --accent: #4a5563;
+    --accent-soft: #e8ebef;
+    --pink: #b9786a;
+    --rust: #9a5a34;
+    --chip-common: #dfe9dc;  --chip-common-ink: #2f5129;
+    --chip-regular: #e6e3f1; --chip-regular-ink: #43386d;
+    --chip-uncommon: #f2e7d2; --chip-uncommon-ink: #6b4b14;
+    --chip-rare: #f4dfd8;    --chip-rare-ink: #7a3322;
+    --chip-vrare: #ecdde6;   --chip-vrare-ink: #6a2850;
+    --bird-a: #bfc4ca; --bird-b: #cfd3d8; --bird-c: #dde0e3; --bird-d: #8e959d;
+    --bird-white: #fbfbf9; --bird-line: #4f565e; --bird-bill: #e8c4b8;
+    --hi: #f3cf8a; --hi-line: #b8741a; --hi-soft: #fbf1de; --hi-ink: #8a520c;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #17191c;
+      --surface: #202328;
+      --ink: #e7e9ec;
+      --muted: #a2a9b1;
+      --line: #353a41;
+      --accent: #b9c3cf;
+      --accent-soft: #2a2f36;
+      --pink: #d79a8c;
+      --rust: #d18c5f;
+      --chip-common: #26362a;  --chip-common-ink: #b5d7ad;
+      --chip-regular: #2e2a40; --chip-regular-ink: #c9c0ee;
+      --chip-uncommon: #3a3020; --chip-uncommon-ink: #e8cd96;
+      --chip-rare: #3d2621;    --chip-rare-ink: #f0b4a4;
+      --chip-vrare: #3a2433;   --chip-vrare-ink: #e8b2d2;
+      --bird-a: #6d747c; --bird-b: #7f868d; --bird-c: #959ba1; --bird-d: #3b4046;
+      --bird-white: #e9eaea; --bird-line: #1b1e22; --bird-bill: #c99a8c;
+      --hi: #e0a94a; --hi-line: #f0b65a; --hi-soft: #3a2f1c; --hi-ink: #f3c77a;
+    }
+  }
+
+  * { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font: 16px/1.55 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  }
+  main { max-width: 1040px; margin: 0 auto; padding: 32px 16px 64px; }
+
+  header { margin-bottom: 28px; }
+  .kicker { font-size: 13px; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); margin: 0 0 6px; }
+  h1 { font-size: clamp(28px, 5vw, 40px); line-height: 1.15; margin: 0 0 10px; }
+  .lede { font-size: 18px; color: var(--muted); max-width: 62ch; margin: 0; }
+
+  h2 { font-size: 22px; margin: 40px 0 12px; }
+  p { max-width: 70ch; }
+  em.sci { font-style: italic; color: var(--muted); font-weight: 400; }
+
+  /* Three checks */
+  .checks { list-style: none; padding: 0; margin: 16px 0; display: grid; gap: 12px;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); counter-reset: check; }
+  .checks li { position: relative; counter-increment: check; display: flex; }
+  .checks li::before { content: counter(check); position: absolute; left: 16px; top: 15px; z-index: 1; pointer-events: none;
+                       width: 28px; height: 28px; border-radius: 50%; background: var(--accent);
+                       color: var(--bg); font-weight: 700; display: grid; place-items: center; font-size: 15px; }
+  .check { flex: 1; text-align: left; font: inherit; color: inherit; cursor: pointer;
+           background: var(--surface); border: 1px solid var(--line); border-radius: 10px;
+           padding: 16px 16px 16px 56px; transition: border-color .15s, box-shadow .15s; }
+  .check:hover { border-color: var(--hi-line); }
+  .check:focus-visible { outline: 2px solid var(--hi-line); outline-offset: 2px; }
+  .check[aria-pressed="true"] { border-color: var(--hi-line); box-shadow: 0 0 0 2px var(--hi-line) inset; background: var(--hi-soft); }
+  .checks strong { display: block; margin-bottom: 4px; }
+
+  /* Diagram */
+  .diagram { margin: 16px 0; background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 12px 12px 10px; }
+  .diagram svg { display: block; width: 100%; height: auto; max-height: 340px; }
+  .diagram figcaption { font-size: 14px; color: var(--muted); padding: 4px 4px 0; }
+  .part { fill: var(--bird-c); stroke: var(--bird-line); stroke-width: 1.5; transition: fill .15s, opacity .15s; }
+  .part[data-part="hood"]      { fill: var(--bird-a); }
+  .part[data-part="back"]      { fill: var(--bird-b); }
+  .part[data-part="wing"]      { fill: var(--bird-a); }
+  .part[data-part="tail"]      { fill: var(--bird-a); }
+  .part[data-part="belly"],
+  .part[data-part="outertail"] { fill: var(--bird-white); }
+  .part[data-part="lores"]     { fill: var(--bird-d); }
+  .part[data-part="bill"]      { fill: var(--bird-bill); }
+  .part.border  { fill: none; stroke-width: 2; stroke-dasharray: 5 4; }
+  .part.wingbar { fill: none; stroke: var(--bird-white); stroke-width: 4; stroke-linecap: round; }
+  .eye { fill: var(--bird-line); }
+  .label line { stroke: var(--muted); stroke-width: 1; }
+  .label text { fill: var(--ink); font-size: 15px; font-weight: 600; }
+  /* When a check is selected, other parts become blank outlines (still opaque, so they hide what's beneath) */
+  svg.focus .part:not(.on) { fill: var(--surface); stroke: var(--muted); stroke-opacity: .55; }
+  svg.focus .part.border:not(.on) { stroke: none; }
+  svg.focus .part.wingbar:not(.on) { fill: none; stroke: var(--line); }
+  svg.focus .label { opacity: .3; }
+  svg.focus .label.on { opacity: 1; }
+  footer a { color: inherit; }
+  @media (max-width: 760px) {
+    /* Keep the bird in view while tapping through the checks below it */
+    .diagram { position: sticky; top: 0; z-index: 2; margin-left: -8px; margin-right: -8px; padding: 8px;
+               box-shadow: 0 6px 12px -8px rgba(0,0,0,.25); }
+    .label text { font-size: 19px; }
+    .diagram figcaption { font-size: 13px; }
+  }
+  svg.focus .part.on { fill: var(--hi); stroke: var(--hi-line); stroke-width: 2.5; }
+  svg.focus .part.border.on { fill: none; stroke-width: 4; }
+  svg.focus .part.wingbar.on { fill: none; stroke: var(--hi-line); stroke-width: 6; }
+  svg.focus .label.on line { stroke: var(--hi-line); stroke-width: 2; }
+  svg.focus .label.on text { fill: var(--hi-ink); }
+  .note { background: var(--accent-soft); border-radius: 10px; padding: 14px 16px; max-width: none; }
+
+  /* Decoder table */
+  .table-wrap { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; overflow: hidden; }
+  table { width: 100%; border-collapse: collapse; font-size: 15px; }
+  th, td { text-align: left; vertical-align: top; padding: 12px 14px; border-bottom: 1px solid var(--line); }
+  thead th { font-size: 13px; text-transform: uppercase; letter-spacing: .05em; color: var(--muted);
+             background: var(--accent-soft); font-weight: 600; }
+  tbody tr:last-child td, tbody tr:last-child th { border-bottom: 0; }
+  tbody th { font-weight: 700; min-width: 140px; }
+  tbody th em { display: block; }
+  td.clincher { font-weight: 600; }
+
+  .chip { display: inline-block; font-size: 13px; font-weight: 600; padding: 2px 9px; border-radius: 999px; white-space: nowrap; }
+  .chip-common   { background: var(--chip-common);   color: var(--chip-common-ink); }
+  .chip-regular  { background: var(--chip-regular);  color: var(--chip-regular-ink); }
+  .chip-uncommon { background: var(--chip-uncommon); color: var(--chip-uncommon-ink); }
+  .chip-rare     { background: var(--chip-rare);     color: var(--chip-rare-ink); }
+  .chip-vrare    { background: var(--chip-vrare);    color: var(--chip-vrare-ink); }
+  .status-detail { display: block; color: var(--muted); font-size: 14px; margin-top: 4px; }
+
+  /* Table becomes stacked cards on narrow screens */
+  @media (max-width: 760px) {
+    .table-wrap { background: none; border: 0; border-radius: 0; }
+    table, thead, tbody, tr, th, td { display: block; }
+    thead { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+    tbody tr { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; margin-bottom: 12px; overflow: hidden; }
+    tbody th { font-size: 18px; background: var(--accent-soft); border-bottom: 1px solid var(--line); }
+    tbody th em { display: inline; margin-left: 6px; }
+    td { border-bottom: 0; padding: 8px 14px; }
+    td:last-child { padding-bottom: 14px; }
+    td::before { content: attr(data-label); display: block; font-size: 12px; text-transform: uppercase;
+                 letter-spacing: .05em; color: var(--muted); font-weight: 600; margin-bottom: 2px; }
+  }
+
+  /* Pitfalls */
+  .pitfalls { padding: 0; list-style: none; display: grid; gap: 10px; }
+  .pitfalls li { background: var(--surface); border: 1px solid var(--line); border-left: 4px solid var(--rust);
+                 border-radius: 8px; padding: 12px 16px; }
+  .pitfalls strong { display: block; }
+
+  .sources { color: var(--muted); padding-left: 20px; }
+  footer { margin-top: 40px; padding-top: 16px; border-top: 1px solid var(--line); color: var(--muted); font-size: 14px; }
+
+  @media print {
+    body { background: #fff; color: #000; }
+    .checks li, .table-wrap, .pitfalls li { break-inside: avoid; }
+  }
+</style>
+</head>
+<body>
+<main>
+  <header>
+    <p class="kicker">Tricky birds · Iowa</p>
+    <h1>Iowa Junco Decoder</h1>
+    <p class="lede">Most Iowa juncos are Slate-colored, but not every non-Oregon bird is: Cassiar-type birds (Slate-colored × Oregon intergrades) are reported regularly in Iowa.</p>
+  </header>
+
+  <section>
+    <h2>How to use it</h2>
+    <p>Work through three checks, in this order, on any odd junco. Tap a check to see where to look on the bird.</p>
+
+    <figure class="diagram">
+      <svg id="bird" viewBox="0 0 600 290" role="img" aria-labelledby="bird-title">
+        <title id="bird-title">Schematic junco with labeled parts: hood, hood border, back, flanks, belly, wingbars, lores, bill and white outer tail feathers</title>
+        <defs>
+          <clipPath id="body-clip"><ellipse cx="245" cy="165" rx="105" ry="58"/></clipPath>
+        </defs>
+        <g transform="translate(110 10)">
+          <!-- tail (behind body) -->
+          <path class="part" data-part="tail" d="M318,150 L450,172 L446,198 L316,182 Z"/>
+          <path class="part" data-part="outertail" d="M318,174 L448,188 L446,198 L316,182 Z"/>
+          <!-- body layers -->
+          <ellipse class="part" data-part="flanks" cx="245" cy="165" rx="105" ry="58"/>
+          <g clip-path="url(#body-clip)">
+            <ellipse class="part" data-part="back" cx="250" cy="116" rx="118" ry="40"/>
+            <ellipse class="part" data-part="belly" cx="240" cy="230" rx="88" ry="36"/>
+          </g>
+          <path class="part" data-part="wing" d="M200,130 C240,118 300,126 350,152 C322,170 260,173 210,160 Z"/>
+          <path class="part wingbar" data-part="wingbars" d="M222,138 Q256,146 292,142"/>
+          <path class="part wingbar" data-part="wingbars" d="M230,151 Q264,160 306,154"/>
+          <!-- hood: head + breast -->
+          <path class="part" data-part="hood" d="M150,70 C110,65 85,95 88,120 C90,160 125,205 182,212 C190,186 193,150 195,120 C190,95 175,72 150,70 Z"/>
+          <path class="part border" data-part="border" d="M182,212 C190,186 193,150 195,120"/>
+          <ellipse class="part" data-part="lores" cx="102" cy="109" rx="9" ry="5"/>
+          <path class="part" data-part="bill" d="M93,106 L66,116 L93,124 Z"/>
+          <circle class="eye" cx="116" cy="101" r="4.5"/>
+
+          <!-- labels -->
+          <g class="label" data-part="hood"><line x1="148" y1="36" x2="145" y2="80"/><text x="148" y="28" text-anchor="middle">Hood</text></g>
+          <g class="label" data-part="back"><line x1="245" y1="62" x2="245" y2="112"/><text x="245" y="54" text-anchor="middle">Back</text></g>
+          <g class="label" data-part="wingbars"><line x1="345" y1="94" x2="290" y2="143"/><text x="350" y="88" text-anchor="start">Wingbars</text></g>
+          <g class="label" data-part="lores"><line x1="40" y1="82" x2="96" y2="107"/><text x="36" y="86" text-anchor="end">Lores</text></g>
+          <g class="label" data-part="bill"><line x1="40" y1="128" x2="70" y2="118"/><text x="36" y="132" text-anchor="end">Bill</text></g>
+          <g class="label" data-part="border"><line x1="115" y1="238" x2="188" y2="180"/><text x="110" y="256" text-anchor="middle">Hood border</text></g>
+          <g class="label" data-part="belly"><line x1="210" y1="250" x2="225" y2="214"/><text x="210" y="268" text-anchor="middle">Belly</text></g>
+          <g class="label" data-part="flanks"><line x1="295" y1="250" x2="290" y2="185"/><text x="295" y="268" text-anchor="middle">Flanks</text></g>
+          <g class="label" data-part="outertail"><line x1="420" y1="238" x2="410" y2="190"/><text x="420" y="256" text-anchor="middle">White outer tail</text></g>
+        </g>
+      </svg>
+      <figcaption id="diagram-caption">Schematic only. Shading just separates the parts; it isn’t any one form’s colors.</figcaption>
+    </figure>
+
+    <ol class="checks">
+      <li><button type="button" class="check" data-parts="hood border flanks" aria-pressed="false"><strong>Hood vs. flanks</strong>Does the hood color run smoothly down into the flanks (Slate-colored), or stop at a line with differently colored flanks below it (Oregon, Pink-sided, Cassiar)?</button></li>
+      <li><button type="button" class="check" data-parts="hood back" aria-pressed="false"><strong>Hood vs. back</strong>Is the back the same gray as the hood (Slate-colored, White-winged), or brown or rufous and set off from it (Oregon, Gray-headed, often Cassiar)?</button></li>
+      <li><button type="button" class="check" data-parts="wingbars outertail lores" aria-pressed="false"><strong>Wings, lores and size</strong>White wingbars and lots of white in the tail suggest White-winged. Dark lores on a pale gray head suggest Pink-sided or Gray-headed.</button></li>
+    </ol>
+    <p class="note">Adult males are the easiest to sort. Females and first-winter birds are browner and duller in every form, so many can only be called “Dark-eyed Junco”. That’s a correct ID, not a failure.</p>
+  </section>
+
+  <section>
+    <h2>Decoder table</h2>
+    <p>Rows run from most to least likely in Iowa. Status is approximate; check eBird or the Iowa Ornithologists’ Union for your county.</p>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th scope="col">Form</th>
+            <th scope="col">Iowa status (approx.)</th>
+            <th scope="col">Adult male</th>
+            <th scope="col">Female / first-winter</th>
+            <th scope="col">Clincher</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th scope="row">Slate-colored <em class="sci">hyemalis</em></th>
+            <td data-label="Iowa status"><span class="chip chip-common">Common</span><span class="status-detail">Common to abundant, Oct–Apr</span></td>
+            <td data-label="Adult male">Uniform dark slate gray on head, breast, flanks and back; white belly; pink bill</td>
+            <td data-label="Female / first-winter">Paler gray washed brown on back and flanks; young females can look quite brown, with buffy flanks</td>
+            <td data-label="Clincher" class="clincher">Gray runs smoothly from hood into flanks with no sharp line</td>
+          </tr>
+          <tr>
+            <th scope="row">Cassiar <em class="sci">cismontanus</em></th>
+            <td data-label="Iowa status"><span class="chip chip-regular">Regular</span><span class="status-detail">Reported regularly; status poorly known</span></td>
+            <td data-label="Adult male">Dark Oregon-shaped hood, sharply bordered, over gray (not pink) flanks; back gray to slightly brownish</td>
+            <td data-label="Female / first-winter">Usually not separable from Slate-colored or Oregon females</td>
+            <td data-label="Clincher" class="clincher">Male with a contrasting dark hood but gray flanks</td>
+          </tr>
+          <tr>
+            <th scope="row">Oregon <em class="sci">oreganus group</em></th>
+            <td data-label="Iowa status"><span class="chip chip-uncommon">Uncommon</span><span class="status-detail">More frequent in western Iowa</span></td>
+            <td data-label="Adult male">Black hood with a crisp, convex lower edge; rusty-brown back; pinkish-buff flanks</td>
+            <td data-label="Female / first-winter">Gray to brownish hood, still bordered, over brown back and buffy flanks; contrast weaker</td>
+            <td data-label="Clincher" class="clincher">Hood contrasts with both back and flanks</td>
+          </tr>
+          <tr>
+            <th scope="row">Pink-sided <em class="sci">mearnsi</em></th>
+            <td data-label="Iowa status"><span class="chip chip-rare">Rare</span><span class="status-detail">Mainly western Iowa</span></td>
+            <td data-label="Adult male">Pale blue-gray hood; blackish lores; dull brown back; broad, bright pinkish-cinnamon flanks reaching onto the breast</td>
+            <td data-label="Female / first-winter">Similar but duller; lores less dark</td>
+            <td data-label="Clincher" class="clincher">Pale gray hood plus dark lores plus extensive pink sides</td>
+          </tr>
+          <tr>
+            <th scope="row">White-winged <em class="sci">aikeni</em></th>
+            <td data-label="Iowa status"><span class="chip chip-vrare">Very rare</span><span class="status-detail">Vagrant</span></td>
+            <td data-label="Adult male">Largest and palest gray; two white wingbars; white on 3–4 outer tail feathers per side</td>
+            <td data-label="Female / first-winter">Slightly browner; wingbars can be thin</td>
+            <td data-label="Clincher" class="clincher">Wingbars plus extra tail white plus pale gray, together</td>
+          </tr>
+          <tr>
+            <th scope="row">Gray-headed <em class="sci">caniceps</em></th>
+            <td data-label="Iowa status"><span class="chip chip-vrare">Very rare</span><span class="status-detail">Vagrant</span></td>
+            <td data-label="Adult male">Pale gray head and underparts; dark lores; bright rufous back patch; pale bill</td>
+            <td data-label="Female / first-winter">Very similar to male, slightly duller</td>
+            <td data-label="Clincher" class="clincher">Gray sides (not pink) with a rufous back</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section>
+    <h2>Pitfalls</h2>
+    <ul class="pitfalls">
+      <li><strong>Brown Slate-colored females look Oregon-ish.</strong>Check the hood border: a smudgy, concave edge that bleeds into the flanks points to Slate-colored; a crisp, convex edge points to Oregon.</li>
+      <li><strong>Cassiar is a sliding scale, not a clean form.</strong>It is widely considered a Slate-colored × Oregon hybrid swarm, so expect every in-between. eBird has no separate entry for a generic intergrade; “Dark-eyed Junco (cismontanus)” is the closest.</li>
+      <li><strong>One wingbar isn’t White-winged.</strong>Some Slate-colored birds show thin white wingbars. Require pale overall gray, larger size and extra white in the tail too.</li>
+      <li><strong>Light changes everything.</strong>Gray can look brown in low or warm light. Compare birds side by side in the same flock before calling one odd.</li>
+      <li><strong>Juveniles are streaky.</strong>In summer, a streaked bird with white outer tail feathers is a young junco; it can’t be assigned to a group.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>Sources</h2>
+    <ul class="sources">
+      <li>eBird Northwest: Oregon, Slate-colored and Cassiar juncos</li>
+      <li>All About Birds: Dark-eyed Junco photo gallery</li>
+      <li>Ontario Birds (1993): junco identification</li>
+      <li>Bird Hybrids blog: Slate-colored × Oregon intergrades</li>
+      <li>The Gazette: juncos in Iowa</li>
+      <li>Western Birds: White-winged Junco records</li>
+    </ul>
+  </section>
+
+  <footer><a href="index.html">← All bird pages</a> · Kevin Ripka · Nov 26, 2026</footer>
+</main>
+<script>
+  (function () {
+    var svg = document.getElementById('bird');
+    var caption = document.getElementById('diagram-caption');
+    var defaultCaption = caption.textContent;
+    var buttons = document.querySelectorAll('.check');
+
+    function show(btn) {
+      var parts = btn ? btn.dataset.parts.split(' ') : [];
+      buttons.forEach(function (b) { b.setAttribute('aria-pressed', b === btn ? 'true' : 'false'); });
+      svg.classList.toggle('focus', !!btn);
+      svg.querySelectorAll('[data-part]').forEach(function (el) {
+        el.classList.toggle('on', parts.indexOf(el.dataset.part) !== -1);
+      });
+      caption.textContent = btn
+        ? 'Check: ' + btn.querySelector('strong').textContent + '. Tap it again to show all parts.'
+        : defaultCaption;
+    }
+
+    buttons.forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        show(btn.getAttribute('aria-pressed') === 'true' ? null : btn);
+      });
+    });
+  })();
+</script>
+</body>
+</html>
