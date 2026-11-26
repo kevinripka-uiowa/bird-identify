@@ -1,0 +1,173 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Junco Picker</title>
+<meta name="description" content="Tap parts of a junco, pick what you see, and get a ranked list of Dark-eyed Junco forms in Iowa.">
+<link rel="stylesheet" href="picker.css">
+<style>
+  :root { --bird-bill: #e8c4b8; }
+  @media (prefers-color-scheme: dark) { :root { --bird-bill: #c99a8c; } }
+  .part[data-part="hood"]      { fill: var(--bird-a); }
+  .part[data-part="back"]      { fill: var(--bird-b); }
+  .part[data-part="wing"]      { fill: var(--bird-a); }
+  .part[data-part="tail"]      { fill: var(--bird-a); }
+  .part[data-part="belly"],
+  .part[data-part="outertail"] { fill: var(--bird-white); }
+  .part[data-part="lores"]     { fill: var(--bird-d); }
+  .part[data-part="bill"]      { fill: var(--bird-bill); cursor: default; }
+  .part[data-part="belly"]     { cursor: default; }
+  .part.border  { fill: none; stroke-width: 2; stroke-dasharray: 5 4; }
+  .part.wingbar { fill: none; stroke: var(--bird-white); stroke-width: 4; stroke-linecap: round; }
+  .eye { fill: var(--bird-line); }
+</style>
+</head>
+<body>
+<main>
+  <p class="kicker"><a class="home" href="index.html">← Home</a> · Tricky birds · Iowa</p>
+  <h1>Junco Picker</h1>
+  <p class="lede">Tap any part of the bird and choose what you see. Adult males are easiest; dull brown birds often can’t be named past “Dark-eyed Junco”, and that’s a correct ID. Answers tagged <span class="unsure">check</span> aren’t confirmed yet. For the full write-up, see the <a href="juncos.html">junco reference page</a>.</p>
+
+  <div class="layout">
+    <div class="stack">
+      <section class="card">
+        <div class="card-head"><h2>1 · Tap a part</h2><button type="button" class="clear">↺ Start over</button></div>
+        <div id="diagram"></div>
+        <div class="parts" id="partchips" role="group" aria-label="Parts"></div>
+      </section>
+
+      <section class="card q" id="question" aria-live="polite"></section>
+
+      <section class="card">
+        <h2>Your picks</h2>
+        <div class="picks" id="picks"></div>
+      </section>
+    </div>
+
+    <section class="card results" id="results-card">
+      <div class="results-head">
+        <h2 id="results">Could be</h2>
+        <span class="count" id="count"></span>
+        <button type="button" class="clear">↺ Start over</button>
+      </div>
+      <ul class="res" id="res"></ul>
+    </section>
+  </div>
+
+  <footer><a href="index.html">← All bird pages</a> · Answers come from the <a href="juncos.html">junco reference page</a> and its sources. Things tagged <span class="unsure">check</span> aren’t confirmed; the full list is in the reference page’s <a href="juncos.html#to-check">To check</a> section.</footer>
+</main>
+
+<div class="bar" id="bar"><span id="bar-text"></span><button type="button" class="clear">↺</button><a href="#results">See results ↓</a></div>
+
+<template id="bird-svg">
+  <svg viewBox="0 0 600 290" role="img" aria-label="Diagram: tap a part">
+        <defs>
+          <clipPath id="body-clip"><ellipse cx="245" cy="165" rx="105" ry="58"/></clipPath>
+        </defs>
+        <g transform="translate(110 10)">
+          <!-- tail (behind body) -->
+          <path class="part" data-part="tail" d="M318,150 L450,172 L446,198 L316,182 Z"/>
+          <path class="part" data-part="outertail" d="M318,174 L448,188 L446,198 L316,182 Z"/>
+          <!-- body layers -->
+          <ellipse class="part" data-part="flanks" cx="245" cy="165" rx="105" ry="58"/>
+          <g clip-path="url(#body-clip)">
+            <ellipse class="part" data-part="back" cx="250" cy="116" rx="118" ry="40"/>
+            <ellipse class="part" data-part="belly" cx="240" cy="230" rx="88" ry="36"/>
+          </g>
+          <path class="part" data-part="wing" d="M200,130 C240,118 300,126 350,152 C322,170 260,173 210,160 Z"/>
+          <path class="part wingbar stroke-only" data-part="wingbars" d="M222,138 Q256,146 292,142"/>
+          <path class="part wingbar stroke-only" data-part="wingbars" d="M230,151 Q264,160 306,154"/>
+          <!-- hood: head + breast -->
+          <path class="part" data-part="hood" d="M150,70 C110,65 85,95 88,120 C90,160 125,205 182,212 C190,186 193,150 195,120 C190,95 175,72 150,70 Z"/>
+          <path class="part border stroke-only" data-part="border" d="M182,212 C190,186 193,150 195,120"/>
+          <ellipse class="part" data-part="lores" cx="102" cy="109" rx="9" ry="5"/>
+          <path class="part" data-part="bill" d="M93,106 L66,116 L93,124 Z"/>
+          <circle class="eye" cx="116" cy="101" r="4.5"/>
+
+          <!-- labels -->
+          <g class="label" data-q="hood"><line x1="148" y1="36" x2="145" y2="80"/><text x="148" y="28" text-anchor="middle">Hood</text></g>
+          <g class="label" data-q="back"><line x1="245" y1="62" x2="245" y2="112"/><text x="245" y="54" text-anchor="middle">Back</text></g>
+          <g class="label" data-q="wingbars"><line x1="345" y1="94" x2="290" y2="143"/><text x="350" y="88" text-anchor="start">Wingbars</text></g>
+          <g class="label" data-q="lores"><line x1="40" y1="82" x2="96" y2="107"/><text x="36" y="86" text-anchor="end">Lores</text></g>
+          
+          <g class="label" data-q="hood"><line x1="115" y1="238" x2="188" y2="180"/><text x="110" y="256" text-anchor="middle">Hood border</text></g>
+          
+          <g class="label" data-q="flanks"><line x1="295" y1="250" x2="290" y2="185"/><text x="295" y="268" text-anchor="middle">Flanks</text></g>
+          <g class="label" data-q="tail"><line x1="420" y1="238" x2="410" y2="190"/><text x="420" y="256" text-anchor="middle">White outer tail</text></g>
+        <g class="label" data-q="size"><line x1="40" y1="200" x2="92" y2="170"/><text x="36" y="214" text-anchor="middle">Size</text></g>
+        </g>
+      </svg>
+</template>
+
+<script src="picker.js"></script>
+<script>
+(function () {
+  var SPECIES = [
+    { id: 'sc', name: 'Slate-colored' },
+    { id: 'cs', name: 'Cassiar (intergrade)' },
+    { id: 'or', name: 'Oregon', rare: 'Rare to uncommon' },
+    { id: 'ps', name: 'Pink-sided', rare: 'Rare to casual' },
+    { id: 'ww', name: 'White-winged', rare: 'Very rare' },
+    { id: 'gh', name: 'Gray-headed', rare: 'No Iowa record' }
+  ];
+  var PART_TO_Q = { hood: 'hood', border: 'hood', flanks: 'flanks', back: 'back', wing: 'wingbars', wingbars: 'wingbars',
+                    tail: 'tail', outertail: 'tail', lores: 'lores' };
+  var Q_ORDER = ['hood', 'flanks', 'back', 'wingbars', 'tail', 'lores', 'size'];
+  var Q_NAMES = { hood: 'Hood', flanks: 'Flanks', back: 'Back', wingbars: 'Wingbars', tail: 'Outer tail', lores: 'Lores', size: 'Size' };
+
+  var ALL = {
+    hood: [
+      { id: 'hoodcolor', title: 'Hood color', help: 'Dull brown birds (females, first-winter) are hard; many stay “Dark-eyed Junco”.', options: [
+        { label: 'Dark slate gray to black', fits: 'sc cs or' },
+        { label: 'Pale gray or blue-gray', fits: 'ps gh ww' },
+        { label: 'Gray to brownish (a dull bird)', fits: '~sc ~cs ~or ~ps' }
+      ]},
+      { id: 'border', title: 'Lower edge of the hood', options: [
+        { label: 'Blends smoothly into the flanks; smudgy, curving up into the breast', fits: 'sc ww' },
+        { label: 'Stops at a crisp line, bulging down', fits: 'or cs ps' }
+      ]}
+    ],
+    flanks: [{ id: 'flanks', title: 'Flanks', options: [
+      { label: 'Gray, the same as the hood', fits: 'sc ww gh' },
+      { label: 'Gray, set off from a dark hood (often browner toward the rear)', fits: 'cs' },
+      { label: 'Rusty to buffy-brown', fits: 'or ~sc' },
+      { label: 'Broad, bright pinkish-cinnamon', fits: 'ps' }
+    ]}],
+    back: [{ id: 'back', title: 'Back', options: [
+      { label: 'Same gray as the hood', fits: 'sc ww' },
+      { label: 'Paler gray to brownish-gray, set off from a dark hood', fits: 'cs' },
+      { label: 'Rusty-brown', fits: 'or' },
+      { label: 'Poorly defined reddish-brown', fits: 'ps' },
+      { label: 'Bright, well-defined rufous patch on a gray bird', fits: 'gh' }
+    ]}],
+    wingbars: [{ id: 'wingbars', title: 'Wingbars', options: [
+      { label: 'Two thin white wingbars', fits: 'ww ~sc' },
+      { label: 'None', fits: 'sc cs or ps gh ~ww' }
+    ]}],
+    tail: [{ id: 'tail', title: 'White in the outer tail (per side)', options: [
+      { label: 'About 2 feathers', fits: 'sc cs or ps gh' },
+      { label: '3 or 4 feathers mostly white', fits: 'ww', check: 'The 3-vs-4 count is from National Geographic and search snippets; Pyle and Birds of the World weren’t read.' }
+    ]}],
+    lores: [{ id: 'lores', title: 'Lores (between the eye and bill)', options: [
+      { label: 'Dark, contrasting with a pale gray head', fits: 'ps gh' },
+      { label: 'Fairly dark, on a slate-gray head with wingbars', fits: 'ww' },
+      { label: 'No contrast with the hood', fits: 'sc cs or' }
+    ]}],
+    size: [{ id: 'size', title: 'Size', options: [
+      { label: 'Larger and paler than the other juncos, with a bigger bill', fits: 'ww' },
+      { label: 'Typical junco', fits: 'sc cs or ps gh' }
+    ]}]
+  };
+
+  Picker({
+    species: SPECIES,
+    stages: null,
+    partToQ: PART_TO_Q, qOrder: Q_ORDER, qNames: Q_NAMES,
+    data: { all: ALL },
+    ref: 'juncos.html'
+  });
+})();
+</script>
+</body>
+</html>

@@ -57,6 +57,8 @@
 
   header { margin-bottom: 28px; }
   .kicker { font-size: 13px; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); margin: 0 0 6px; }
+  .kicker .home { display: inline-block; padding: 6px 10px 6px 0; margin: -6px 0; color: inherit; font-weight: 700; text-decoration: none; }
+  .kicker .home:hover { text-decoration: underline; }
   h1 { font-size: clamp(28px, 5vw, 40px); line-height: 1.15; margin: 0 0 10px; }
   .lede { font-size: 18px; color: var(--muted); max-width: 62ch; margin: 0; }
 
@@ -187,12 +189,20 @@
     .tabs { display: none; }
     .table-wrap { max-height: none; overflow: visible; }
   }
+  /* "check" markers: things not confirmed from a source */
+  .unsure { display: inline-block; font-size: 11px; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; line-height: 1.5;
+            color: #8a520c; background: #fbf1de; border: 1px dashed #d9a34a; border-radius: 999px; padding: 0 6px; margin-left: 4px;
+            vertical-align: 1px; white-space: nowrap; cursor: help; }
+  .to-check ul { padding-left: 20px; }
+  .to-check li { margin: 4px 0; }
+  .to-check li strong { margin-right: 4px; }
+  @media (prefers-color-scheme: dark) { .unsure { color: #f3c77a; background: #3a2f1c; border-color: #8a6a2c; } }
 </style>
 </head>
 <body>
 <main>
   <header>
-    <p class="kicker">Tricky birds · Iowa</p>
+    <p class="kicker"><a class="home" href="index.html">← Home</a> · Tricky birds · Iowa</p>
     <h1>Iowa Small Gull Decoder</h1>
     <p class="lede">Franklin’s and Bonaparte’s are the small gulls you’ll see most. The rest are rarities that usually turn up in their flocks. Age the bird, then let the wing pattern do most of the work.</p>
   </header>
@@ -202,14 +212,14 @@
     <h2>Who to expect</h2>
     <p>Status follows the Iowa Ornithologists’ Union; check eBird for your county. Check every Franklin’s and Bonaparte’s flock: that’s where the rarities hide.</p>
     <ul class="cast">
-      <li><strong>Franklin’s</strong><span class="chip chip-common">Common</span><small>Spring mostly April; big fall flocks Sept–Nov, a few into December. Missouri River oxbows, reservoirs, plowed fields. Adult in 2 years.</small></li>
+      <li><strong>Franklin’s</strong><span class="chip chip-common">Common</span><small>Spring mostly April; big fall flocks Sept–Nov, a few into December. Missouri River oxbows, reservoirs, plowed fields. Adult in 2 years.<span class="unsure" title="Sources differ on whether Franklin’s takes 2 or 3 years.">check</span></small></li>
       <li><strong>Bonaparte’s</strong><span class="chip chip-uncommon">Uncommon to fairly common</span><small>April–early May; late Oct–early Dec, peaking near freeze-up. Reservoirs and the Mississippi. Adult in 2 years.</small></li>
       <li><strong>Laughing</strong><span class="chip chip-regular">Rare but regular</span><small>April–September, usually single birds with Franklin’s. Red Rock most often. Adult in 3 years.</small></li>
       <li><strong>Sabine’s</strong><span class="chip chip-regular">Rare but regular</span><small>September–early October, nearly all juveniles. Recent: Big Creek and Red Rock, Sept 2025. Adult in 2 years.</small></li>
-      <li><strong>Black-legged Kittiwake</strong><span class="chip chip-regular">Rare but regular</span><small>Not every year. November–December, almost always juveniles. Red Rock, Saylorville, Mississippi dams. Adult in about 3 years.</small></li>
-      <li><strong>Little</strong><span class="chip chip-casual">Casual</span><small>26 records. April and Oct–Nov, usually with Bonaparte’s. Adult in 2–3 years.</small></li>
-      <li><strong>Black-headed</strong><span class="chip chip-acc">Accidental</span><small>17 records, often with Franklin’s or Bonaparte’s; several in summer at the Iowa Great Lakes. Adult in 2 years.</small></li>
-      <li><strong>Ross’s</strong><span class="chip chip-acc">Accidental</span><small>4 records, including Red Rock in Oct 1993 (the first) and an adult there in Dec 1997. Adult in 2 years.</small></li>
+      <li><strong>Black-legged Kittiwake</strong><span class="chip chip-regular">Rare but regular</span><small>Not every year. November–December, almost always juveniles. Red Rock, Saylorville, Mississippi dams. Adult in about 3 years.<span class="unsure" title="BTO says 3 years; Wikipedia says up to 4.">check</span></small></li>
+      <li><strong>Little</strong><span class="chip chip-casual">Casual</span><small>26 records.<span class="unsure" title="Count may miss 2023–2026 records; eBird couldn’t be checked.">check</span> April and Oct–Nov, usually with Bonaparte’s. Adult in 2–3 years.</small></li>
+      <li><strong>Black-headed</strong><span class="chip chip-acc">Accidental</span><small>17 records, often with Franklin’s or Bonaparte’s;<span class="unsure" title="Count may miss 2023–2026 records; the date of the most recent one wasn’t found.">check</span> several in summer at the Iowa Great Lakes. Adult in 2 years.</small></li>
+      <li><strong>Ross’s</strong><span class="chip chip-acc">Accidental</span><small>4 records, including Red Rock in Oct 1993 (the first) and an adult there in Dec 1997.<span class="unsure" title="The 4th record wasn’t found, and a Lake Manawa Dec 1997 file’s outcome couldn’t be seen.">check</span> Adult in 2 years.</small></li>
     </ul>
     <p>Iowa also has 2 records of Ivory Gull and 1 of Heermann’s Gull. Neither is covered here.</p>
   </section>
@@ -302,11 +312,11 @@
         <table>
           <thead><tr><th scope="col">Species</th><th scope="col">Hood</th><th scope="col">Bill and legs</th><th scope="col">Wingtip from above</th><th scope="col">Underwing</th><th scope="col">Clincher</th></tr></thead>
           <tbody>
-            <tr><th scope="row">Franklin’s</th><td>Black, with thick white eye-arcs; often a pink flush below</td><td>Short red bill; dark legs</td><td>White band between the gray and the black; big white tips</td><td>Pale</td><td class="clincher">White band across the wingtip</td></tr>
-            <tr><th scope="row">Bonaparte’s</th><td>Black, with thin white eye-arcs</td><td>Thin black bill; orange-red legs</td><td>White wedge on the leading edge; neat black trailing edge</td><td>White and see-through; thin black tips</td><td class="clincher">Black bill and a white underwing</td></tr>
+            <tr><th scope="row">Franklin’s</th><td>Black, with thick white eye-arcs; often a pink flush below</td><td>Short red bill; dark legs</td><td>White band between the gray and the black; big white tips</td><td>Pale</td><td class="clincher">White band across the wingtip</td><span class="unsure" title="Adult Franklin’s and Laughing underwing details: standard, but not confirmed on a source page.">check</span></tr>
+            <tr><th scope="row">Bonaparte’s</th><td>Black, with thin white eye-arcs</td><td>Thin black bill; orange-red legs</td><span class="unsure" title="Bonaparte’s leg color by season wasn’t confirmed.">check</span><td>White wedge on the leading edge; neat black trailing edge</td><td>White and see-through; thin black tips</td><td class="clincher">Black bill and a white underwing</td></tr>
             <tr><th scope="row">Laughing</th><td>Black, with thin eye-arcs</td><td>Long, drooping dark-red bill; dark legs</td><td>Black blends into dark gray; tiny white tips</td><td>Dusky outer wing</td><td class="clincher">All-dark wingtip and a long, drooping bill</td></tr>
-            <tr><th scope="row">Little</th><td>Black, reaching down the nape; no eye-arcs</td><td>Tiny, dark; red legs</td><td>Pale gray, no black; rounded tip; white trailing edge</td><td>Sooty black</td><td class="clincher">Blackish underwing with no black on top</td></tr>
-            <tr><th scope="row">Black-headed</th><td>Chocolate brown, stopping short of the nape; eye-arcs</td><td>Dark red, thicker; red legs</td><td>White wedge on the leading edge</td><td>Outer wing blackish below</td><td class="clincher">Dark underside of the outer wing and a red bill</td></tr>
+            <tr><th scope="row">Little</th><td>Black, reaching down the nape; no eye-arcs</td><td>Tiny, dark; red legs</td><span class="unsure" title="Sources conflict on breeding Little Gull’s bill: dark red or black.">check</span><td>Pale gray, no black; rounded tip; white trailing edge</td><td>Sooty black</td><td class="clincher">Blackish underwing with no black on top</td></tr>
+            <tr><th scope="row">Black-headed</th><td>Chocolate brown, stopping short of the nape; eye-arcs</td><span class="unsure" title="Standard, but not confirmed on a source page.">check</span><td>Dark red, thicker; red legs</td><td>White wedge on the leading edge</td><td>Outer wing blackish below</td><td class="clincher">Dark underside of the outer wing and a red bill</td></tr>
           </tbody>
         </table>
       </div>
@@ -342,7 +352,7 @@
             <tr><th scope="row">Laughing</th><td>Smudgy gray rear head; thin eye-arcs</td><td>Heavy, black</td><td>All-dark tips</td><td class="clincher">Smudgy head and a heavy bill</td></tr>
             <tr><th scope="row">Little</th><td>Dark cap and ear spot</td><td>Small, dark</td><td>No black above; sooty underwing</td><td class="clincher">Dark underwing</td></tr>
             <tr><th scope="row">Black-headed</th><td>White, with a dark ear spot</td><td>Red with a dark tip</td><td>White leading wedge; dark underside of the outer wing</td><td class="clincher">Red bill</td></tr>
-            <tr class="rarity"><th scope="row">Sabine’s</th><td>Usually still hooded: dark gray with a black lower border</td><td>Black with a yellow tip</td><td>Three-color: gray, black outer wing, white triangle; slightly forked tail</td><td class="clincher">Yellow-tipped bill and a three-color wing</td></tr>
+            <tr class="rarity"><th scope="row">Sabine’s</th><td>Usually still hooded: dark gray with a black lower border</td><span class="unsure" title="Adult Sabine’s winter head and leg color weren’t confirmed.">check</span><td>Black with a yellow tip</td><td>Three-color: gray, black outer wing, white triangle; slightly forked tail</td><td class="clincher">Yellow-tipped bill and a three-color wing</td></tr>
             <tr class="rarity"><th scope="row">Black-legged Kittiwake</th><td>White; gray smudge behind the eye and gray nape</td><td>Plain yellow, duller in winter</td><td>Solid black tips with no white; black legs</td><td class="clincher">Ink-dipped wingtips and black legs</td></tr>
             <tr class="rarity"><th scope="row">Ross’s</th><td>Small dark mark behind the eye; no cap; often a pink flush</td><td>Tiny, black</td><td>Pale gray with a broad white trailing edge; dark gray underwing; wedge-shaped tail</td><td class="clincher">Wedge-shaped tail and a pink flush</td></tr>
           </tbody>
@@ -355,6 +365,22 @@
         <li><strong>Bonaparte’s vs. Black-headed.</strong>Both have ear spots in winter. Check the bill (black vs. red) and the underside of the outer wing (white vs. dark).</li>
       </ul>
     </div>
+  </section>
+
+  <section class="to-check" id="to-check">
+    <h2>To check</h2>
+    <p>Anything tagged <span class="unsure" title="Example">check</span> couldn’t be confirmed from a source I could open, or came from general knowledge.</p>
+    <ul>
+      <li><strong>Franklin’s cycles.</strong>2 or 3 years to adult; also the exact look of first-summer birds.</li>
+      <li><strong>Kittiwake cycles.</strong>3 years (BTO) or up to 4 (Wikipedia).</li>
+      <li><strong>Recent records.</strong>Any 2023–2026 Iowa records of Little, Black-headed, Laughing or Kittiwake; eBird couldn’t be checked.</li>
+      <li><strong>Ross’s records.</strong>The 4th Iowa record, the Lake Manawa Dec 1997 outcome, and which ages turn up inland.</li>
+      <li><strong>Little Gull bill.</strong>Dark red or black in breeding plumage; sources conflict.</li>
+      <li><strong>Bonaparte’s legs.</strong>Exact leg color by season.</li>
+      <li><strong>Black-headed hood and Franklin’s/Laughing underwings.</strong>Standard field-guide details not confirmed on a source page.</li>
+      <li><strong>Adult Sabine’s.</strong>Winter head pattern and leg color.</li>
+      <li><strong>Franklin’s numbers.</strong>Peak counts beyond 2,000 at Lake Manawa.</li>
+    </ul>
   </section>
 
   <section>

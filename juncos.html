@@ -59,6 +59,8 @@
 
   header { margin-bottom: 28px; }
   .kicker { font-size: 13px; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); margin: 0 0 6px; }
+  .kicker .home { display: inline-block; padding: 6px 10px 6px 0; margin: -6px 0; color: inherit; font-weight: 700; text-decoration: none; }
+  .kicker .home:hover { text-decoration: underline; }
   h1 { font-size: clamp(28px, 5vw, 40px); line-height: 1.15; margin: 0 0 10px; }
   .lede { font-size: 18px; color: var(--muted); max-width: 62ch; margin: 0; }
 
@@ -170,14 +172,22 @@
     body { background: #fff; color: #000; }
     .checks li, .table-wrap, .pitfalls li { break-inside: avoid; }
   }
+  /* "check" markers: things not confirmed from a source */
+  .unsure { display: inline-block; font-size: 11px; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; line-height: 1.5;
+            color: #8a520c; background: #fbf1de; border: 1px dashed #d9a34a; border-radius: 999px; padding: 0 6px; margin-left: 4px;
+            vertical-align: 1px; white-space: nowrap; cursor: help; }
+  .to-check ul { padding-left: 20px; }
+  .to-check li { margin: 4px 0; }
+  .to-check li strong { margin-right: 4px; }
+  @media (prefers-color-scheme: dark) { .unsure { color: #f3c77a; background: #3a2f1c; border-color: #8a6a2c; } }
 </style>
 </head>
 <body>
 <main>
   <header>
-    <p class="kicker">Tricky birds · Iowa</p>
+    <p class="kicker"><a class="home" href="index.html">← Home</a> · Tricky birds · Iowa</p>
     <h1>Iowa Junco Decoder</h1>
-    <p class="lede">Most Iowa juncos are Slate-colored, but not every non-Oregon bird is: Cassiar-type birds (Slate-colored × Oregon intergrades) are reported regularly in Iowa.</p>
+    <p class="lede">Most Iowa juncos are Slate-colored, but not every non-Oregon bird is: Cassiar-type birds (Slate-colored × Oregon intergrades) are probably a regular part of Iowa’s winter flocks, though most can’t be told apart in the field.</p>
   </header>
 
   <section>
@@ -227,8 +237,8 @@
 
     <ol class="checks">
       <li><button type="button" class="check" data-parts="hood border flanks" aria-pressed="false"><strong>Hood vs. flanks</strong>Does the hood color run smoothly down into the flanks (Slate-colored), or stop at a line with differently colored flanks below it (Oregon, Pink-sided, Cassiar)?</button></li>
-      <li><button type="button" class="check" data-parts="hood back" aria-pressed="false"><strong>Hood vs. back</strong>Is the back the same gray as the hood (Slate-colored, White-winged), or brown or rufous and set off from it (Oregon, Gray-headed, often Cassiar)?</button></li>
-      <li><button type="button" class="check" data-parts="wingbars outertail lores" aria-pressed="false"><strong>Wings, lores and size</strong>White wingbars and lots of white in the tail suggest White-winged. Dark lores on a pale gray head suggest Pink-sided or Gray-headed.</button></li>
+      <li><button type="button" class="check" data-parts="hood back" aria-pressed="false"><strong>Hood vs. back</strong>Is the back the same gray as the hood (Slate-colored, White-winged), or brown or rufous and set off from it (Oregon, Gray-headed)? Cassiar males usually show a dark hood sharply set off from a paler gray or brownish-gray back.</button></li>
+      <li><button type="button" class="check" data-parts="wingbars outertail lores" aria-pressed="false"><strong>Wings, lores and size</strong>White wingbars and lots of white in the tail suggest White-winged. Dark lores on a pale gray head suggest Pink-sided or Gray-headed. (White-winged has fairly dark lores too, but on a slate-gray head with wingbars.)</button></li>
     </ol>
     <p class="note">Adult males are the easiest to sort. Females and first-winter birds are browner and duller in every form, so many can only be called “Dark-eyed Junco”. That’s a correct ID, not a failure.</p>
   </section>
@@ -251,44 +261,44 @@
         <tbody>
           <tr>
             <th scope="row">Slate-colored <em class="sci">hyemalis</em></th>
-            <td data-label="Iowa status"><span class="chip chip-common">Common</span><span class="status-detail">Common to abundant, Oct–Apr</span></td>
+            <td data-label="Iowa status"><span class="chip chip-common">Common</span><span class="status-detail">Abundant migrant and winter resident, late Sep/Oct–Apr; stragglers into May</span></td>
             <td data-label="Adult male">Uniform dark slate gray on head, breast, flanks and back; white belly; pink bill</td>
             <td data-label="Female / first-winter">Paler gray washed brown on back and flanks; young females can look quite brown, with buffy flanks</td>
             <td data-label="Clincher" class="clincher">Gray runs smoothly from hood into flanks with no sharp line</td>
           </tr>
           <tr>
             <th scope="row">Cassiar <em class="sci">cismontanus</em></th>
-            <td data-label="Iowa status"><span class="chip chip-regular">Regular</span><span class="status-detail">Reported regularly; status poorly known</span></td>
-            <td data-label="Adult male">Dark Oregon-shaped hood, sharply bordered, over gray (not pink) flanks; back gray to slightly brownish</td>
+            <td data-label="Iowa status"><span class="chip chip-regular">Regular</span><span class="status-detail">Probably regular in winter flocks; most can’t be separated in the field</span></td>
+            <td data-label="Adult male">Dark Oregon-shaped hood, sharply bordered, over gray (not pink) flanks, often browner toward the rear; back paler gray to slightly brownish</td>
             <td data-label="Female / first-winter">Usually not separable from Slate-colored or Oregon females</td>
             <td data-label="Clincher" class="clincher">Male with a contrasting dark hood but gray flanks</td>
           </tr>
           <tr>
             <th scope="row">Oregon <em class="sci">oreganus group</em></th>
-            <td data-label="Iowa status"><span class="chip chip-uncommon">Uncommon</span><span class="status-detail">More frequent in western Iowa</span></td>
-            <td data-label="Adult male">Black hood with a crisp, convex lower edge; rusty-brown back; pinkish-buff flanks</td>
+            <td data-label="Iowa status"><span class="chip chip-uncommon">Rare to uncommon</span><span class="status-detail">Regular winter visitor statewide, mid-Oct to mid-Apr; a few each winter, often at feeders</span></td>
+            <td data-label="Adult male">Black hood with a crisp, convex lower edge; rusty-brown back; rusty to buffy-brown flanks</td>
             <td data-label="Female / first-winter">Gray to brownish hood, still bordered, over brown back and buffy flanks; contrast weaker</td>
             <td data-label="Clincher" class="clincher">Hood contrasts with both back and flanks</td>
           </tr>
           <tr>
             <th scope="row">Pink-sided <em class="sci">mearnsi</em></th>
-            <td data-label="Iowa status"><span class="chip chip-rare">Rare</span><span class="status-detail">Mainly western Iowa</span></td>
-            <td data-label="Adult male">Pale blue-gray hood; blackish lores; dull brown back; broad, bright pinkish-cinnamon flanks reaching onto the breast</td>
-            <td data-label="Female / first-winter">Similar but duller; lores less dark</td>
+            <td data-label="Iowa status"><span class="chip chip-rare">Rare to casual</span><span class="status-detail">Sight reports scattered statewide; no accepted or photo records (2 reports not accepted, 2004)</span></td>
+            <td data-label="Adult male">Pale blue-gray hood; blackish lores; poorly defined reddish-brown back; broad, bright pinkish-cinnamon flanks (rarely meeting across the breast)</td>
+            <td data-label="Female / first-winter">Duller, but keeps the pattern; can closely resemble Oregon females</td>
             <td data-label="Clincher" class="clincher">Pale gray hood plus dark lores plus extensive pink sides</td>
           </tr>
           <tr>
             <th scope="row">White-winged <em class="sci">aikeni</em></th>
-            <td data-label="Iowa status"><span class="chip chip-vrare">Very rare</span><span class="status-detail">Vagrant</span></td>
-            <td data-label="Adult male">Largest and palest gray; two white wingbars; white on 3–4 outer tail feathers per side</td>
+            <td data-label="Iowa status"><span class="chip chip-vrare">Very rare</span><span class="status-detail">A few unreviewed reports (1973, 2022–23); none reviewed or accepted. Photograph it.</span></td>
+            <td data-label="Adult male">Largest and palest gray; usually two thin white wingbars; usually 3 (sometimes 4) outer tail feathers per side mostly white, vs. about 2 in Slate-colored; bigger bill</td>
             <td data-label="Female / first-winter">Slightly browner; wingbars can be thin</td>
             <td data-label="Clincher" class="clincher">Wingbars plus extra tail white plus pale gray, together</td>
           </tr>
           <tr>
             <th scope="row">Gray-headed <em class="sci">caniceps</em></th>
-            <td data-label="Iowa status"><span class="chip chip-vrare">Very rare</span><span class="status-detail">Vagrant</span></td>
-            <td data-label="Adult male">Pale gray head and underparts; dark lores; bright rufous back patch; pale bill</td>
-            <td data-label="Female / first-winter">Very similar to male, slightly duller</td>
+            <td data-label="Iowa status"><span class="chip chip-vrare">Not recorded</span><span class="status-detail">No Iowa record found; a possible vagrant (rare in Nebraska). Document carefully.</span></td>
+            <td data-label="Adult male">Pale gray head and underparts; dark lores; bright, well-defined rufous back patch; pale pinkish bill (Red-backed <em>dorsalis</em> has a dark upper bill)</td>
+            <td data-label="Female / first-winter">Very similar to male, slightly duller<span class="unsure" title="Only search snippets support this.">check</span></td>
             <td data-label="Clincher" class="clincher">Gray sides (not pink) with a rufous back</td>
           </tr>
         </tbody>
@@ -299,23 +309,35 @@
   <section>
     <h2>Pitfalls</h2>
     <ul class="pitfalls">
-      <li><strong>Brown Slate-colored females look Oregon-ish.</strong>Check the hood border: a smudgy, concave edge that bleeds into the flanks points to Slate-colored; a crisp, convex edge points to Oregon.</li>
-      <li><strong>Cassiar is a sliding scale, not a clean form.</strong>It is widely considered a Slate-colored × Oregon hybrid swarm, so expect every in-between. eBird has no separate entry for a generic intergrade; “Dark-eyed Junco (cismontanus)” is the closest.</li>
-      <li><strong>One wingbar isn’t White-winged.</strong>Some Slate-colored birds show thin white wingbars. Require pale overall gray, larger size and extra white in the tail too.</li>
-      <li><strong>Light changes everything.</strong>Gray can look brown in low or warm light. Compare birds side by side in the same flock before calling one odd.</li>
-      <li><strong>Juveniles are streaky.</strong>In summer, a streaked bird with white outer tail feathers is a young junco; it can’t be assigned to a group.</li>
+      <li><strong>Brown Slate-colored females look Oregon-ish.</strong>Check the hood border. On Slate-colored the lower edge is smudgy and concave (curving up into the breast at the center) and bleeds into the flanks; on Oregon it is crisp and convex (bulging down). Some sources, including eBird Northwest, use these two words the other way round, so go by the shape.</li>
+      <li><strong>Cassiar is a sliding scale, not a clean form.</strong>It is widely considered a Slate-colored × Oregon hybrid swarm, so expect every in-between. eBird has an entry for these birds: “Dark-eyed Junco (Slate-colored x Oregon or cismontanus)”.</li>
+      <li><strong>One wingbar isn’t White-winged.</strong>Some Slate-colored birds show thin white wingbars (Sibley: about 1 in 200; older studies found more). Require pale overall gray, larger size, a bigger bill and extra white in the tail too.</li>
+      <li><strong>Light changes everything.<span class="unsure" title="General advice; no junco source found.">check</span></strong>Gray can look brown in low or warm light. Compare birds side by side in the same flock before calling one odd.</li>
+      <li><strong>Juveniles are streaky.</strong>In summer, a streaked bird with white outer tail feathers is a young junco; it usually can’t be assigned to a group.</li>
+    </ul>
+  </section>
+
+  <section class="to-check" id="to-check">
+    <h2>To check</h2>
+    <p>Anything tagged <span class="unsure" title="Example">check</span> couldn’t be confirmed from a source I could open, or came from general knowledge.</p>
+    <ul>
+      <li><strong>Gray-headed female.</strong>“Very similar to male, slightly duller” is from search snippets only.</li>
+      <li><strong>Light pitfall.</strong>Reasonable, but no junco source found.</li>
+      <li><strong>Recent records.</strong>Iowa Bird Life after 2023 and any recent Records Committee decisions weren’t searched.</li>
+      <li><strong>White-winged tail.</strong>The 3-vs-4 white tail feathers count is from National Geographic and search snippets; Pyle and Birds of the World weren’t read.</li>
     </ul>
   </section>
 
   <section>
     <h2>Sources</h2>
     <ul class="sources">
-      <li>eBird Northwest: Oregon, Slate-colored and Cassiar juncos</li>
-      <li>All About Birds: Dark-eyed Junco photo gallery</li>
-      <li>Ontario Birds (1993): junco identification</li>
-      <li>Bird Hybrids blog: Slate-colored × Oregon intergrades</li>
-      <li>The Gazette: juncos in Iowa</li>
-      <li>Western Birds: White-winged Junco records</li>
+      <li><a href="https://archive.org/details/iowabirdlife72iowa">Kenne (2002): Review of junco forms in Iowa and their identification, <em>Iowa Bird Life</em> 72:6–10</a></li>
+      <li><a href="https://archive.org/details/iowabirdlife75iowab">Records Committee report for 2004, <em>Iowa Bird Life</em> 75 (Pink-sided reports)</a></li>
+      <li><a href="https://iowabirds.org/Birds/ReviewList.aspx">Iowa Ornithologists’ Union: Rare Bird Review List</a></li>
+      <li><a href="https://publications.iowa.gov/49936/1/iowa_birds_1985_OCR_RED_.pdf">Dinsmore, Kent et al.: Iowa Birds (1984)</a></li>
+      <li><a href="https://ebird.org/pnw/news/dark-eyed-junco-races-oregon-slate-colored-and-cassiar/">eBird Northwest (2014): Dark-eyed Junco races: Oregon, Slate-colored and Cassiar</a></li>
+      <li><a href="https://www.nationalgeographic.com/animals/birds/facts/dark-eyed-junco">National Geographic: Dark-eyed Junco</a></li>
+      <li><a href="https://www.audubon.org/field-guide/bird/dark-eyed-junco">Audubon Field Guide: Dark-eyed Junco</a></li>
     </ul>
   </section>
 

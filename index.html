@@ -25,6 +25,8 @@
   .kicker { font-size: 13px; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); margin: 0 0 6px; }
   h1 { font-size: clamp(28px, 5vw, 40px); line-height: 1.15; margin: 0 0 10px; }
   .lede { font-size: 18px; color: var(--muted); margin: 0 0 28px; }
+  h2 { font-size: 15px; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); margin: 32px 0 2px; }
+  .sub { color: var(--muted); margin: 0 0 12px; font-size: 15px; }
   .pages { list-style: none; padding: 0; margin: 0; display: grid; gap: 12px; }
   .pages a {
     display: block; text-decoration: none; color: inherit;
@@ -35,15 +37,50 @@
   .pages strong { display: block; font-size: 18px; }
   .pages strong::after { content: " →"; color: var(--accent); }
   .pages span { color: var(--muted); }
+  .pages .proto { display: inline-block; font-size: 11px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase;
+                  background: #fbf1de; color: #8a520c; border-radius: 999px; padding: 1px 8px; margin-left: 6px; vertical-align: 2px; }
+  @media (prefers-color-scheme: dark) { .pages .proto { background: #3a2f1c; color: #f3c77a; } }
 </style>
 </head>
 <body>
 <main>
   <p class="kicker">Field notes · Iowa</p>
   <h1>Tricky Bird IDs</h1>
-  <p class="lede">Quick decoders for birds that are easy to get wrong.</p>
+  <p class="lede">Decoders and references for birds that are easy to get wrong.</p>
 
-  <!-- Add a new <li> here for each new bird page -->
+  <h2>Decoders</h2>
+  <p class="sub">Tap what you see and get a ranked list of what it could be.</p>
+  <!-- Interactive decoders go here -->
+  <ul class="pages">
+    <li>
+      <a href="gulls-picker.html">
+        <strong>White-headed Gull Picker</strong>
+        <span>White-headed gulls: pick the age, tap parts of the bird, choose what you see.</span>
+      </a>
+    </li>
+    <li>
+      <a href="small-gulls-picker.html">
+        <strong>Small Gull Picker</strong>
+        <span>Small and hooded gulls: pick the age and season, then tap the wing, head, bill and tail.</span>
+      </a>
+    </li>
+    <li>
+      <a href="dowitchers-picker.html">
+        <strong>Dowitcher Picker</strong>
+        <span>Short-billed or Long-billed: pick the plumage (or “not sure”), then call, date, tertials, scapulars and more.</span>
+      </a>
+    </li>
+    <li>
+      <a href="juncos-picker.html">
+        <strong>Junco Picker</strong>
+        <span>Dark-eyed Junco forms: tap the hood, flanks, back, wingbars and tail.</span>
+      </a>
+    </li>
+  </ul>
+
+  <h2>References</h2>
+  <p class="sub">Full write-ups: diagrams, key checks, tables and pitfalls.</p>
+  <!-- Reference pages go here -->
   <ul class="pages">
     <li>
       <a href="juncos.html">

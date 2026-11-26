@@ -53,6 +53,8 @@
 
   header { margin-bottom: 28px; }
   .kicker { font-size: 13px; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); margin: 0 0 6px; }
+  .kicker .home { display: inline-block; padding: 6px 10px 6px 0; margin: -6px 0; color: inherit; font-weight: 700; text-decoration: none; }
+  .kicker .home:hover { text-decoration: underline; }
   h1 { font-size: clamp(28px, 5vw, 40px); line-height: 1.15; margin: 0 0 10px; }
   .lede { font-size: 18px; color: var(--muted); max-width: 62ch; margin: 0; }
 
@@ -177,12 +179,20 @@
     .panel[hidden] { display: block; }
     .tabs { display: none; }
   }
+  /* "check" markers: things not confirmed from a source */
+  .unsure { display: inline-block; font-size: 11px; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; line-height: 1.5;
+            color: #8a520c; background: #fbf1de; border: 1px dashed #d9a34a; border-radius: 999px; padding: 0 6px; margin-left: 4px;
+            vertical-align: 1px; white-space: nowrap; cursor: help; }
+  .to-check ul { padding-left: 20px; }
+  .to-check li { margin: 4px 0; }
+  .to-check li strong { margin-right: 4px; }
+  @media (prefers-color-scheme: dark) { .unsure { color: #f3c77a; background: #3a2f1c; border-color: #8a6a2c; } }
 </style>
 </head>
 <body>
 <main>
   <header>
-    <p class="kicker">Tricky birds · Iowa</p>
+    <p class="kicker"><a class="home" href="index.html">← Home</a> · Tricky birds · Iowa</p>
     <h1>Iowa Gull Decoder</h1>
     <p class="lede">White-headed gulls change for years before they look like adults. Age the bird first, then use the checks for that age.</p>
   </header>
@@ -193,14 +203,14 @@
     <p>Status is approximate; check eBird or the Iowa Ornithologists’ Union for your county. Gulls gather where there’s open water: Saylorville, Red Rock, Coralville and Rathbun reservoirs, the Mississippi River locks and dams, and Missouri River oxbows such as Lake Manawa and Carter Lake.</p>
     <ul class="cast">
       <li><strong>Ring-billed</strong><span class="chip chip-common">Common</span><small>Abundant in migration; winters where water stays open. Adult in 3 years.</small></li>
-      <li><strong>Herring</strong><span class="chip chip-common">Common</span><small>Mostly Oct–Apr on big rivers and reservoirs. Adult in 4 years.</small></li>
-      <li><strong>Lesser Black-backed</strong><span class="chip chip-regular">Rare but regular</span><small>Mostly fall through spring. Adult in 4 years.</small></li>
+      <li><strong>Herring</strong><span class="chip chip-common">Common</span><small>Mostly Oct–Apr on big rivers and reservoirs.<span class="unsure" title="Herring’s “Common” status and Oct–Apr timing: no eBird data could be checked.">check</span> Adult in 4 years.</small></li>
+      <li><strong>Lesser Black-backed</strong><span class="chip chip-regular">Rare but regular</span><small>Mostly fall through spring.<span class="unsure" title="Lesser Black-backed in spring: Iowa records found are mostly Nov–Dec.">check</span> Adult in 4 years.</small></li>
       <li><strong>Iceland</strong> <em class="sci">Thayer’s &amp; Kumlien’s</em><span class="chip chip-regular">Rare but regular</span><small>Winter. Adult in 4 years.</small></li>
       <li><strong>Glaucous</strong><span class="chip chip-regular">Rare but regular</span><small>Winter. Adult in 4 years.</small></li>
       <li><strong>Great Black-backed</strong><span class="chip chip-regular">Rare but regular</span><small>Winter, mostly on the Mississippi. Adult in 4 years.</small></li>
       <li><strong>California</strong><span class="chip chip-regular">Rare but regular</span><small>Mostly fall to early winter. Adult in 4 years.</small></li>
-      <li><strong>Short-billed</strong> <em class="sci">formerly Mew Gull</em><span class="chip chip-rare">Accidental</span><small>22 accepted records, mostly late fall to winter on big reservoirs and the Mississippi; recent birds at Dubuque and the Quad Cities. Adult in 3 years.</small></li>
-      <li><strong>Slaty-backed</strong><span class="chip chip-rare">Accidental</span><small>4 records, mostly December–February on the Mississippi; an adult at Dubuque, Dec 2025–Jan 2026. Adult in 4 years.</small></li>
+      <li><strong>Short-billed</strong> <em class="sci">formerly Mew Gull</em><span class="chip chip-rare">Accidental</span><small>22 accepted records, mostly late fall to winter on big reservoirs and the Mississippi; recent birds at Dubuque and the Quad Cities.<span class="unsure" title="Not confirmed whether the 2024–25 birds are accepted or already counted in the 22.">check</span> Adult in 3 years.</small></li>
+      <li><strong>Slaty-backed</strong><span class="chip chip-rare">Accidental</span><small>4 records, mostly December–February on the Mississippi; an adult at Dubuque, Dec 2025–Jan 2026.<span class="unsure" title="Not confirmed which records are accepted, or whether the 4 include Lake Manawa and the Dubuque bird.">check</span> Adult in 4 years.</small></li>
     </ul>
   </section>
 
@@ -363,22 +373,23 @@
         <li><button type="button" class="check" data-parts="mantle coverts tertials" aria-pressed="false"><strong>Back shade</strong>Pale: Glaucous. Clearly darker than Ring-billed on a small gull: Short-billed. About like Herring: Ring-billed, Herring and Iceland (Kumlien’s a bit paler, Thayer’s a bit darker). A shade darker: California. Dark slate: Lesser Black-backed (or, with deep pink legs, Slaty-backed). Blackish: Great Black-backed.</button></li>
         <li><button type="button" class="check" data-parts="primaries" aria-pressed="false"><strong>Wingtips</strong>Black with white mirrors: most species. Less black, with very large white mirrors and a row of white tips: Short-billed. Slaty black (Thayer’s) to gray or white (Kumlien’s), and silvery from below: Iceland. All white: Glaucous. On a dark-backed gull, a “string of pearls” of white spots and a very broad white trailing edge: Slaty-backed.</button></li>
         <li><button type="button" class="check" data-parts="bill legs eye" aria-pressed="false"><strong>Bill, legs and eye</strong>Black ring on the bill: Ring-billed. Red and black spot with a dark eye: California. Thin, plain yellow bill with a dark eye on a small gull: Short-billed. Yellow legs: Ring-billed, Lesser Black-backed. Greenish to grayish legs: California. Pink legs: Herring, Iceland, Glaucous, Great Black-backed, Slaty-backed (deep pink).</button></li>
+        <li><button type="button" class="check" data-parts="head eye" aria-pressed="false"><strong>Winter head and eye ring</strong>Winter head (about Sept–Mar; every species is clean white-headed by spring): nearly white with fine streaks: Great Black-backed. Fine spots heaviest on the hindneck, often a “necklace”: Ring-billed, California. Soft, blurry mottling onto the breast: Short-billed, Iceland, Glaucous. Heavy streaks: Herring, Lesser Black-backed, and Slaty-backed, which adds a dark mask around the eye. Eye ring in spring and summer: red on Ring-billed, California, Short-billed and Great Black-backed; yellow-orange on Herring and Glaucous; pink to purple on Iceland and Slaty-backed.<span class="unsure" title="Lesser Black-backed and Great Black-backed eye rings, and what 3rd-cycle winter heads look like, aren’t confirmed.">check</span></button></li>
       </ol>
     </div>
       <p class="scroll-hint">Swipe the table sideways for more →</p>
       <div class="table-wrap">
         <table>
-          <thead><tr><th scope="col">Species</th><th scope="col">Back</th><th scope="col">Wingtips</th><th scope="col">Bill</th><th scope="col">Legs</th><th scope="col">Eye</th><th scope="col">Clincher</th></tr></thead>
+          <thead><tr><th scope="col">Species</th><th scope="col">Back</th><th scope="col">Wingtips</th><th scope="col">Bill</th><th scope="col">Legs</th><th scope="col">Eye<span class="unsure" title="Pale adult eyes for Herring, Lesser and Great Black-backed and Glaucous: standard field-guide fact, but no source page confirmed it.">check</span></th><th scope="col">Winter head</th><th scope="col">Eye ring (summer)</th><th scope="col">Clincher</th></tr></thead>
           <tbody>
-            <tr><th scope="row">Ring-billed</th><td>Pale-medium gray</td><td>Black, small mirrors</td><td>Yellow with a full black ring</td><td>Yellow</td><td>Pale</td><td class="clincher">Black ring and yellow legs on a medium-sized gull</td></tr>
-            <tr><th scope="row">Short-billed</th><td>Medium gray, clearly darker than Ring-billed</td><td>Less black; very large white mirrors and a “string of pearls” of white tips</td><td>Thin, plain yellow; winter birds can show a faint dusky ring</td><td>Greenish-yellow</td><td>Usually dark</td><td class="clincher">Darker back and big white mirrors on a small, round-headed gull with a thin bill</td></tr>
-            <tr><th scope="row">Herring</th><td>Medium gray</td><td>Black with white mirrors</td><td>Yellow, red spot</td><td>Pink</td><td>Pale</td><td class="clincher">Medium gray, black wingtips, pink legs</td></tr>
-            <tr><th scope="row">California</th><td>A shade darker than Herring</td><td>Black with white mirrors</td><td>Yellow with a red and a black spot; in winter paler, with a fuller black band</td><td>Greenish-yellow; often grayish in winter</td><td>Dark</td><td class="clincher">Dark eye, greenish or grayish legs and a red-and-black bill spot</td></tr>
-            <tr><th scope="row">Lesser Black-backed</th><td>Dark slate</td><td>Black</td><td>Yellow, red spot</td><td>Yellow (duller in winter)</td><td>Pale</td><td class="clincher">Dark slate back with yellow legs, Herring-sized or smaller</td></tr>
-            <tr><th scope="row">Great Black-backed</th><td>Blackish</td><td>Black, big white tip</td><td>Massive, yellow, red spot</td><td>Pale pink</td><td>Pale</td><td class="clincher">Blackish back, pink legs, huge size</td></tr>
-            <tr><th scope="row">Iceland</th><td>About like Herring (Thayer’s slightly darker, Kumlien’s slightly paler)</td><td>Slaty black (Thayer’s) to gray or white (Kumlien’s); silvery from below</td><td>Smaller, yellow, red spot</td><td>Pink</td><td>Variable; Thayer’s usually not as clean pale as Herring, Kumlien’s often pale</td><td class="clincher">From below, silvery wingtips with dark only along the outer edges</td></tr>
-            <tr><th scope="row">Glaucous</th><td>Pale gray</td><td>All white</td><td>Big, yellow, red spot</td><td>Pink</td><td>Pale</td><td class="clincher">White wingtips on a big, heavy-billed gull</td></tr>
-            <tr><th scope="row">Slaty-backed</th><td>Dark slate, like Lesser Black-backed</td><td>Black, with a “string of pearls” of white spots and a very broad white trailing edge; gray from below</td><td>Yellow, red spot</td><td>Deep pink</td><td>Pale, in a heavily streaked face with a dark mask around the eye</td><td class="clincher">Slate back plus deep pink legs on a Herring-sized gull with a string of pearls</td></tr>
+            <tr><th scope="row">Ring-billed</th><td>Pale-medium gray</td><td>Black, small mirrors</td><td>Yellow with a full black ring</td><td>Yellow</td><td>Pale</td><td>Fine spots and streaks, heaviest on the hindneck</td><td>Red; blackish in winter</td><td class="clincher">Black ring and yellow legs on a medium-sized gull</td></tr>
+            <tr><th scope="row">Short-billed</th><td>Medium gray, clearly darker than Ring-billed</td><td>Less black; very large white mirrors and a “string of pearls” of white tips</td><td>Thin, plain yellow; winter birds can show a faint dusky ring</td><td>Greenish-yellow</td><td>Usually dark</td><td>Soft brown mottling, often onto the breast</td><td>Red; grayish in winter</td><td class="clincher">Darker back and big white mirrors on a small, round-headed gull with a thin bill</td></tr>
+            <tr><th scope="row">Herring</th><td>Medium gray</td><td>Black with white mirrors</td><td>Yellow, red spot</td><td>Pink</td><td>Pale</td><td>Moderate to heavy streaks, heaviest on the hindneck</td><td>Yellow-orange; can look dark in winter</td><td class="clincher">Medium gray, black wingtips, pink legs</td></tr>
+            <tr><th scope="row">California</th><td>A shade darker than Herring</td><td>Black with white mirrors</td><td>Yellow with a red and a black spot; in winter paler, with a fuller black band</td><td>Greenish-yellow; often grayish in winter</td><td>Dark</td><td>Streaks or spots on the hindneck, usually a “necklace”; a few look hooded</td><td>Red; dull red to black in winter</td><td class="clincher">Dark eye, greenish or grayish legs and a red-and-black bill spot</td></tr>
+            <tr><th scope="row">Lesser Black-backed</th><td>Dark slate</td><td>Black</td><td>Yellow, red spot</td><td>Yellow (duller in winter)</td><td>Pale</td><td>Fairly heavy streaks on the head and neck</td><td>Reddish-orange to red<span class="unsure" title="Lesser Black-backed eye-ring color: only photo captions found (reddish-orange, red); no source describes winter.">check</span></td><td class="clincher">Dark slate back with yellow legs, Herring-sized or smaller</td></tr>
+            <tr><th scope="row">Great Black-backed</th><td>Blackish</td><td>Black, big white tip</td><td>Massive, yellow, red spot</td><td>Pale pink</td><span class="unsure" title="Great Black-backed pink legs: only one source (Audubon).">check</span><td>Pale</td><td>Nearly white; fine streaks on the crown and hindneck</td><td>Red<span class="unsure" title="Great Black-backed: no source says whether the eye ring changes in winter.">check</span></td><td class="clincher">Blackish back, pink legs, huge size</td></tr>
+            <tr><th scope="row">Iceland</th><td>About like Herring (Thayer’s slightly darker, Kumlien’s slightly paler)</td><td>Slaty black (Thayer’s) to gray or white (Kumlien’s); silvery from below</td><td>Smaller, yellow, red spot</td><td>Pink</td><td>Variable; Thayer’s usually not as clean pale as Herring, Kumlien’s often pale</td><td>Moderate to heavy dusky mottling</td><td>Pink to purplish-red</td><td class="clincher">From below, silvery wingtips with dark only along the outer edges</td></tr>
+            <tr><th scope="row">Glaucous</th><td>Pale gray</td><td>All white</td><td>Big, yellow, red spot</td><td>Pink</td><span class="unsure" title="Glaucous pink legs: standard, but no source page confirmed it.">check</span><td>Pale</td><td>Pale brown streaks; the amount varies</td><td>Yellow to orange-red; can look pinkish in winter</td><td class="clincher">White wingtips on a big, heavy-billed gull</td></tr>
+            <tr><th scope="row">Slaty-backed</th><td>Dark slate, like Lesser Black-backed</td><td>Black, with a “string of pearls” of white spots and a very broad white trailing edge; gray from below</td><td>Yellow, red spot</td><td>Deep pink</td><td>Pale, in a heavily streaked face with a dark mask around the eye</td><td>Heavy streaks, densest around the eye as a dark mask</td><td>Purple to pink; rarely red</td><td class="clincher">Slate back plus deep pink legs on a Herring-sized gull with a string of pearls</td></tr>
           </tbody>
         </table>
       </div>
@@ -392,6 +403,24 @@
         <li><strong>Rarer gulls exist.</strong>Iowa also has a record of Glaucous-winged Gull. A bird that fits nothing here deserves photos and notes.</li>
       </ul>
     </div>
+  </section>
+
+  <section class="to-check" id="to-check">
+    <h2>To check</h2>
+    <p>Anything tagged <span class="unsure" title="Example">check</span> couldn’t be confirmed from a source I could open, or came from general knowledge.</p>
+    <ul>
+      <li><strong>Herring status and timing.</strong>“Common”, mostly Oct–Apr. eBird was blocked, so current Iowa frequency wasn’t checked.</li>
+      <li><strong>Lesser Black-backed in spring.</strong>Iowa records found were mostly November–December.</li>
+      <li><strong>Short-billed records.</strong>Whether the 2024–25 Dubuque and Quad Cities birds are accepted, or included in the 22.</li>
+      <li><strong>Slaty-backed records.</strong>Which of the 4 are accepted; the year of the Lake Manawa bird.</li>
+      <li><strong>Pale adult eyes</strong>for Herring, Lesser and Great Black-backed and Glaucous. Standard, but not confirmed on a source page.</li>
+      <li><strong>Pink legs</strong>on adult Glaucous and Great Black-backed beyond one Audubon page.</li>
+      <li><strong>Eye ring.</strong>Lesser Black-backed (only photo captions) and whether Great Black-backed’s changes in winter.</li>
+      <li><strong>3rd-cycle winter heads.</strong>Only California is documented as matching the adult. Used in the Gull Picker.</li>
+      <li><strong>Size groups in the Gull Picker.</strong>Rough groupings from the size notes on this page; sizes overlap and males run bigger.</li>
+      <li><strong>Slaty-backed hybrids.</strong>No source compares Herring × Lesser or Herring × Great Black-backed hybrids with Slaty-backed.</li>
+      <li><strong>“Adult in 4 years”</strong>for Herring, Glaucous, Iceland and Great Black-backed. Standard, but no source stated it directly.</li>
+    </ul>
   </section>
 
   <section>

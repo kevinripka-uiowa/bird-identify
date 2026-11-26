@@ -1,0 +1,278 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Gull Picker</title>
+<meta name="description" content="Tap parts of a gull, pick what you see, and get a ranked list of Iowa's white-headed gulls.">
+<link rel="stylesheet" href="picker.css">
+<style>
+  .part[data-part="mantle"] { fill: var(--bird-b); }
+  .part[data-part="coverts"] { fill: var(--bird-c); }
+  .part[data-part="tertials"] { fill: var(--bird-a); }
+  .part[data-part="primaries"] { fill: var(--bird-d); }
+  .part[data-part="bill"] { fill: var(--bird-c); }
+  .part[data-part="legs"] { fill: var(--bird-leg); }
+</style>
+</head>
+<body>
+<main>
+  <p class="kicker"><a class="home" href="index.html">← Home</a> · Tricky birds · Iowa</p>
+  <h1>Gull Picker</h1>
+  <p class="lede">Pick the age, then tap any part of the bird and choose what you see. Answers tagged <span class="unsure">check</span> aren’t confirmed yet. Every species stays listed, ranked by how well it fits; ones that conflict fade and say why. For the full write-up, see the <a href="gulls.html">gull reference page</a>.</p>
+
+  <div class="layout">
+    <div class="stack">
+      <section class="card">
+        <div class="card-head"><h2>1 · Age</h2><button type="button" class="clear">↺ Start over</button></div>
+        <div class="seg" id="stages" role="group" aria-label="Age"></div>
+      </section>
+
+      <section class="card">
+        <h2>2 · Tap a part</h2>
+        <div id="diagram"></div>
+        <div class="parts" id="partchips" role="group" aria-label="Parts"></div>
+      </section>
+
+      <section class="card q" id="question" aria-live="polite"></section>
+
+      <section class="card">
+        <h2>Your picks</h2>
+        <div class="picks" id="picks"></div>
+      </section>
+    </div>
+
+    <section class="card results" id="results-card">
+      <div class="results-head">
+        <h2 id="results">Could be</h2>
+        <span class="count" id="count"></span>
+        <button type="button" class="clear">↺ Start over</button>
+      </div>
+      <ul class="res" id="res"></ul>
+    </section>
+  </div>
+
+  <footer><a href="index.html">← All bird pages</a> · Answers come from the <a href="gulls.html">gull reference page</a> and its sources; orbital-ring and winter-head answers from <a href="https://gull-research.org/">Gull Research Organisation</a> species pages. Things tagged <span class="unsure">check</span> aren’t confirmed; the full list is in the reference page’s <a href="gulls.html#to-check">To check</a> section.</footer>
+</main>
+
+<div class="bar" id="bar"><span id="bar-text"></span><button type="button" class="clear">↺</button><a href="#results">See results ↓</a></div>
+
+<!-- Same schematic gull as the decoder page, with simpler labels -->
+<template id="bird-svg">
+  <svg viewBox="0 0 600 300" role="img" aria-label="Gull diagram: tap a part">
+    <g transform="translate(80 10)">
+      <path class="part leg-line" data-part="legs" d="M240,196 L238,250 M270,196 L274,250"/>
+      <path class="part" data-part="legs" d="M224,253 L238,248 L252,254 Z M260,253 L274,248 L288,254 Z"/>
+      <path class="part" data-part="tail" d="M335,142 L420,158 L418,172 L333,166 Z"/>
+      <ellipse class="part" data-part="body" cx="250" cy="150" rx="100" ry="50"/>
+      <path class="part" data-part="body" d="M118,108 C125,135 150,165 190,178 L212,112 C190,96 170,82 160,72 Z"/>
+      <circle class="part" data-part="head" cx="145" cy="92" r="30"/>
+      <path class="part" data-part="mantle" d="M185,118 C215,102 290,98 340,128 L336,142 C300,130 240,126 195,134 Z"/>
+      <path class="part" data-part="coverts" d="M195,128 C250,116 320,120 360,136 C330,160 255,168 205,160 Z"/>
+      <path class="part" data-part="tertials" d="M298,124 C328,121 352,128 368,138 C345,147 318,145 300,137 Z"/>
+      <path class="part" data-part="primaries" d="M342,132 L462,156 L456,168 L338,152 Z"/>
+      <path class="part" data-part="bill" d="M120,84 L74,90 C66,91 63,96 66,99 L76,99 L86,105 L121,103 Z"/>
+      <circle class="part" data-part="eye" cx="136" cy="86" r="7"/>
+      <circle class="pupil" cx="135.5" cy="86" r="2.6"/>
+
+      <g class="label" data-q="bill"><line x1="44" y1="124" x2="72" y2="100"/><text x="40" y="142" text-anchor="middle">Bill</text><circle class="dot" cx="64" cy="137" r="4"/></g>
+      <g class="label" data-q="eye"><line x1="116" y1="46" x2="134" y2="80"/><text x="110" y="38" text-anchor="middle">Eye</text><circle class="dot" cx="132" cy="33" r="4"/></g>
+      <g class="label" data-q="head"><line x1="170" y1="58" x2="160" y2="70"/><text x="170" y="52" text-anchor="middle">Head</text><circle class="dot" cx="197" cy="47" r="4"/></g>
+      <g class="label" data-q="back"><line x1="245" y1="60" x2="248" y2="108"/><text x="245" y="52" text-anchor="middle">Back</text><circle class="dot" cx="272" cy="47" r="4"/></g>
+      <g class="label" data-q="wingtip"><line x1="448" y1="126" x2="436" y2="152"/><text x="448" y="118" text-anchor="middle">Wingtip</text><circle class="dot" cx="488" cy="113" r="4"/></g>
+      <g class="label" data-q="tail"><line x1="402" y1="196" x2="396" y2="168"/><text x="404" y="214" text-anchor="middle">Tail</text><circle class="dot" cx="426" cy="209" r="4"/></g>
+      <g class="label" data-q="size"><line x1="300" y1="214" x2="290" y2="190"/><text x="304" y="232" text-anchor="middle">Size</text><circle class="dot" cx="328" cy="227" r="4"/></g>
+      <g class="label" data-q="legs"><line x1="206" y1="256" x2="236" y2="238"/><text x="200" y="266" text-anchor="end">Legs</text><circle class="dot" cx="208" cy="261" r="4"/></g>
+    </g>
+  </svg>
+</template>
+
+<script src="picker.js"></script>
+<script>
+(function () {
+  // ---------- Species ----------
+  var SPECIES = [
+    { id: 'rb', name: 'Ring-billed',         cycles: 3 },
+    { id: 'he', name: 'Herring',             cycles: 4 },
+    { id: 'lb', name: 'Lesser Black-backed', cycles: 4 },
+    { id: 'ic', name: 'Iceland',             cycles: 4 },
+    { id: 'gl', name: 'Glaucous',            cycles: 4 },
+    { id: 'gb', name: 'Great Black-backed',  cycles: 4 },
+    { id: 'ca', name: 'California',          cycles: 4 },
+    { id: 'sb', name: 'Short-billed',        cycles: 3, rare: 'Accidental in Iowa' },
+    { id: 'sl', name: 'Slaty-backed',        cycles: 4, rare: 'Accidental in Iowa' }
+  ];
+
+  // Which diagram shapes open which question
+  var PART_TO_Q = { bill: 'bill', eye: 'eye', mantle: 'back', coverts: 'back', tertials: 'back',
+                    primaries: 'wingtip', tail: 'tail', legs: 'legs', body: 'size', head: 'head' };
+  var Q_ORDER = ['back', 'wingtip', 'bill', 'eye', 'head', 'legs', 'tail', 'size'];
+  var Q_NAMES = { back: 'Back', wingtip: 'Wingtip', bill: 'Bill', eye: 'Eye', head: 'Head & neck', legs: 'Legs', tail: 'Tail', size: 'Size' };
+
+  // ---------- Answers ----------
+  // fits: species that usually show it; a leading "~" means "sometimes".
+  var SIZE = { id: 'size', title: 'Size and shape', help: 'Compare with gulls standing nearby.',
+    check: 'Rough groupings drawn from the size notes on the reference page. Sizes overlap, and males run bigger than females.', options: [
+    { label: 'Small, round-headed, with a thin bill', fits: 'sb' },
+    { label: 'Medium, about Ring-billed size', fits: 'rb ~ca ~sb' },
+    { label: 'Large, about Herring size', fits: 'he ca lb ic gl sl ~gb' },
+    { label: 'Huge and bulky', fits: 'gb ~gl' }
+  ]};
+
+  // Winter head streaking (adults and 3rd cycle). In summer every species is clean white-headed.
+  var HEAD_OPTS = [
+    { label: 'Nearly white, a few fine streaks', fits: 'gb ~gl' },
+    { label: 'Fine spots or streaks, heaviest on the hindneck (often a “necklace”)', fits: 'rb ca ~gb' },
+    { label: 'Soft, blurry mottling over the head and neck, often onto the breast', fits: 'sb ic gl ~he' },
+    { label: 'Heavy brown streaks over the head and neck', fits: 'he lb sl ~ca ~ic' },
+    { label: 'Dense streaks around the eye forming a dark “mask”', fits: 'sl' }
+  ];
+  var HEAD = { id: 'head', title: 'Head and neck in winter',
+    help: 'Only useful from about September to March. By spring every species has a clean white head.', options: HEAD_OPTS };
+  var HEAD3 = { id: 'head', title: 'Head and neck in winter', options: HEAD_OPTS,
+    help: 'Only useful from about September to March.',
+    check: 'Only California is documented as matching the adult at this age; for the other big gulls it’s not confirmed.' };
+
+  var ADULT = {
+    back: [{ id: 'back', title: 'Back shade', help: 'Compare it with a Herring or Ring-billed in the same light.', options: [
+      { label: 'Pale gray', fits: 'gl ic' },
+      { label: 'Medium gray, like Herring', fits: 'rb he ic ~sb' },
+      { label: 'A shade darker than Herring', fits: 'ca ~sb ~ic' },
+      { label: 'Dark slate', fits: 'lb sl' },
+      { label: 'Blackish', fits: 'gb' }
+    ]}],
+    wingtip: [{ id: 'wingtip', title: 'Wingtip', options: [
+      { label: 'Black with small white spots', fits: 'rb he ca lb ~gb' },
+      { label: 'Black with a big white tip', fits: 'gb ~he' },
+      { label: 'Less black: big white spots and a row of white tips', fits: 'sb sl' },
+      { label: 'Slaty black to gray, silvery from below', fits: 'ic' },
+      { label: 'All white', fits: 'gl ~ic' }
+    ]}],
+    bill: [{ id: 'bill', title: 'Bill', options: [
+      { label: 'Yellow with a full black ring', fits: 'rb ~sb' },
+      { label: 'Red and black spot near the tip', fits: 'ca ~he ~lb' },
+      { label: 'Red spot only', fits: 'he lb gb ic gl sl ~ca' },
+      { label: 'Thin and plain yellow', fits: 'sb' }
+    ]}],
+    eye: [
+      { id: 'eye', title: 'Eye color', options: [
+        { label: 'Pale yellow', fits: 'rb he lb gb gl sl ~ic ~sb ~ca', check: 'Pale eyes on Herring, Lesser and Great Black-backed and Glaucous are standard, but no source page confirmed them.' },
+        { label: 'Dark', fits: 'ca sb ~ic' }
+      ]},
+      { id: 'orbital', title: 'Orbital ring in spring and summer', check: 'Lesser Black-backed’s ring is known only from photo captions, and no source says whether Great Black-backed’s changes in winter.', help: 'The skin around the eye. Hard to see except up close or in photos. In winter Ring-billed, California and Short-billed rings turn dull or blackish, and others can look dark, so use this on breeding-season birds.', options: [
+        { label: 'Red', fits: 'rb ca gb sb ~lb ~ic ~sl ~gl' },
+        { label: 'Yellow to orange', fits: 'he gl ~lb' },
+        { label: 'Pink to purple', fits: 'ic sl' }
+      ]}
+    ],
+    legs: [{ id: 'legs', title: 'Leg color', options: [
+      { label: 'Yellow', fits: 'rb lb ~ca ~sb' },
+      { label: 'Greenish-yellow to grayish', fits: 'ca sb ~rb ~lb' },
+      { label: 'Pink', fits: 'he ic gl gb ~sl', check: 'Pink legs on Glaucous and Great Black-backed: standard, but only one source page (Audubon, Great Black-backed).' },
+      { label: 'Deep, bright pink', fits: 'sl ~ic' }
+    ]}],
+    head: [HEAD],
+    tail: { note: 'Adults of every species have all-white tails, so the tail won’t separate them.' },
+    size: [SIZE]
+  };
+
+  var THIRD = {
+    back: ADULT.back,
+    wingtip: [{ id: 'wingtip', title: 'Wingtip', help: 'Like an adult’s, but with smaller white spots.', options: ADULT.wingtip[0].options }],
+    bill: { note: 'Most 3rd-cycle gulls have a dark band on the bill, so it won’t separate them. For California, check for a dark eye and greenish legs.' },
+    eye: [ADULT.eye[0]],
+    legs: ADULT.legs,
+    head: [HEAD3],
+    tail: { note: 'Often still has some black marks at this age, on every species.' },
+    size: [SIZE]
+  };
+
+  var SECOND = {
+    back: [{ id: 'back', title: 'New gray on the back', help: 'Judge the newest back feathers, not the brown wing.', options: [
+      { label: 'Gray and almost adult', fits: 'rb sb' },
+      { label: 'Medium-gray saddle on brown', fits: 'he ~ic' },
+      { label: 'Saddle a shade darker than Herring', fits: 'ca' },
+      { label: 'Pale gray saddle', fits: 'gl ic' },
+      { label: 'Dark slate saddle', fits: 'lb sl' },
+      { label: 'Blackish saddle', fits: 'gb' },
+      { label: 'Little or no gray yet', fits: '~he' }
+    ]}],
+    wingtip: [{ id: 'wingtip', title: 'Wingtip', options: [
+      { label: 'Black, with small or no white spots', fits: 'rb' },
+      { label: 'Narrow black tip with a white spot', fits: 'sb' },
+      { label: 'Dark brown to black', fits: 'he ca lb gb sl' },
+      { label: 'Brownish', fits: 'ic' },
+      { label: 'Pale to white', fits: 'gl ic' }
+    ]}],
+    bill: [{ id: 'bill', title: 'Bill', options: [
+      { label: 'Yellowish-green with a black ring', fits: 'rb' },
+      { label: 'Blue-gray base, dark tip', fits: 'sb' },
+      { label: 'Grayish-green base, dark tip', fits: 'ca' },
+      { label: 'Pink base, dark tip', fits: 'he gb ic gl sl ~lb' },
+      { label: 'Dark with a paler base', fits: 'lb ~he' }
+    ]}],
+    eye: { note: 'Eyes are still changing at this age, so eye color won’t separate most species. Short-billed and California stay dark.' },
+    head: { note: 'Immatures have brownish, streaked heads on every species, so head streaking only helps on adults and 3rd-cycle birds.' },
+    legs: [{ id: 'legs', title: 'Leg color', options: [
+      { label: 'Pink', fits: 'he gb ic gl sl ~lb' },
+      { label: 'Pinkish to pale yellow', fits: 'lb' },
+      { label: 'Greenish-gray or blue-gray', fits: 'ca sb' },
+      { label: 'Yellowish to greenish', fits: 'rb ~sb' }
+    ]}],
+    tail: { note: 'Mostly dark on most species at this age, so the tail won’t separate them.' },
+    size: [SIZE]
+  };
+
+  var FIRST = {
+    back: [{ id: 'back', title: 'Back and wing', options: [
+      { label: 'Gray back already', fits: 'rb sb ~ca' },
+      { label: 'Evenly brown, barred and mottled', fits: 'he ca ic' },
+      { label: 'Cold, dark-centered back feathers', fits: 'lb' },
+      { label: 'Bold black-and-white checkerboard', fits: 'gb ~ca' },
+      { label: 'Pale, creamy to whitish', fits: 'gl ic ~sl ~he' }
+    ]}],
+    wingtip: [{ id: 'wingtip', title: 'Wingtip', options: [
+      { label: 'Blackish, darker than the rest of the bird', fits: 'rb he ca lb gb sb' },
+      { label: 'Brown with pale edges', fits: 'ic sl' },
+      { label: 'As pale as the rest of the bird', fits: 'gl ic' }
+    ]}],
+    bill: [{ id: 'bill', title: 'Bill', options: [
+      { label: 'Pink with a crisp black tip', fits: 'rb gl ca' },
+      { label: 'Dull pink blending into a dark tip', fits: 'sb' },
+      { label: 'Mostly black (the base may be paling)', fits: 'he lb ic sl' },
+      { label: 'Huge and black', fits: 'gb' }
+    ]}],
+    eye: { note: 'Every species has a dark eye at this age, so the eye won’t separate them.' },
+    head: { note: 'Immatures have brownish, streaked heads on every species, so head streaking only helps on adults and 3rd-cycle birds.' },
+    legs: { note: 'Legs are pink on every species at this age, so they won’t separate them yet.' },
+    tail: [{ id: 'tail', title: 'Tail', options: [
+      { label: 'White with a black band', fits: 'rb' },
+      { label: 'Mostly dark', fits: 'he ca sb sl ic' },
+      { label: 'White rump against a sharp black band (in flight)', fits: 'lb gb' },
+      { label: 'Pale', fits: 'gl ic' }
+    ]}],
+    size: [SIZE]
+  };
+
+  var DATA = { first: FIRST, second: SECOND, third: THIRD, adult: ADULT };
+
+  Picker({
+    species: SPECIES,
+    stages: [
+      { id: 'first',  label: '1st cycle', name: '1st cycle', tab: 'first' },
+      { id: 'second', label: '2nd',       name: '2nd cycle', tab: 'second' },
+      { id: 'third',  label: '3rd',       name: '3rd cycle', tab: 'third' },
+      { id: 'adult',  label: 'Adult',     name: 'Adult',     tab: 'adult' }
+    ],
+    defaultStage: 'adult',
+    partToQ: PART_TO_Q, qOrder: Q_ORDER, qNames: Q_NAMES,
+    data: DATA,
+    ref: 'gulls.html',
+    stageRule: function (sp, stage) {
+      return stage === 'third' && sp.cycles === 3 ? 'Adult by its 3rd cycle: try the Adult age' : null;
+    }
+  });
+})();
+</script>
+</body>
+</html>

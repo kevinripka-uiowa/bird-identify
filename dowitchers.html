@@ -47,6 +47,8 @@
 
   header { margin-bottom: 28px; }
   .kicker { font-size: 13px; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); margin: 0 0 6px; }
+  .kicker .home { display: inline-block; padding: 6px 10px 6px 0; margin: -6px 0; color: inherit; font-weight: 700; text-decoration: none; }
+  .kicker .home:hover { text-decoration: underline; }
   h1 { font-size: clamp(28px, 5vw, 40px); line-height: 1.15; margin: 0 0 10px; }
   .lede { font-size: 18px; color: var(--muted); max-width: 62ch; margin: 0; }
 
@@ -155,14 +157,22 @@
     body { background: #fff; color: #000; }
     .checks li, .table-wrap, .pitfalls li { break-inside: avoid; }
   }
+  /* "check" markers: things not confirmed from a source */
+  .unsure { display: inline-block; font-size: 11px; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; line-height: 1.5;
+            color: #8a520c; background: #fbf1de; border: 1px dashed #d9a34a; border-radius: 999px; padding: 0 6px; margin-left: 4px;
+            vertical-align: 1px; white-space: nowrap; cursor: help; }
+  .to-check ul { padding-left: 20px; }
+  .to-check li { margin: 4px 0; }
+  .to-check li strong { margin-right: 4px; }
+  @media (prefers-color-scheme: dark) { .unsure { color: #f3c77a; background: #3a2f1c; border-color: #8a6a2c; } }
 </style>
 </head>
 <body>
 <main>
   <header>
-    <p class="kicker">Tricky birds · Iowa</p>
+    <p class="kicker"><a class="home" href="index.html">← Home</a> · Tricky birds · Iowa</p>
     <h1>Iowa Dowitcher Decoder</h1>
-    <p class="lede">Short-billed and Long-billed Dowitchers both move through Iowa, and despite the names, bill length barely helps. Voice, the tertials of juveniles and the breast sides of breeding adults do.</p>
+    <p class="lede">Short-billed and Long-billed Dowitchers both move through Iowa, and despite the names, bill length barely helps. Voice, the tertials of juveniles, and the scapulars and underparts of breeding adults do.</p>
   </header>
 
   <section>
@@ -214,7 +224,7 @@
     <ol class="checks">
       <li><button type="button" class="check" data-parts="call" aria-pressed="false"><strong>Listen first</strong>A sharp, high <em>keek</em>, single or in a quick series, is Long-billed. A mellow, stuttering <em>tu-tu-tu</em> is Short-billed. Voice works at any age and in any season.</button></li>
       <li><button type="button" class="check" data-parts="tertials scapulars" aria-pressed="false"><strong>Juveniles: tertials</strong>Short-billed tertials (and often scapulars) are dark with bold buff internal bars and loops. Long-billed tertials are plain gray-brown with only a thin pale or rusty edge, and its scapulars are neatly edged bright chestnut.</button></li>
-      <li><button type="button" class="check" data-parts="breast belly" aria-pressed="false"><strong>Breeding adults: breast sides</strong>Round black spots on the breast sides and a fairly clean foreneck point to Short-billed. A densely spotted foreneck with barred breast sides points to Long-billed. Flanks can be barred on both. Works best on fresh spring birds; don’t judge by how far the orange reaches.</button></li>
+      <li><button type="button" class="check" data-parts="scapulars breast belly" aria-pressed="false"><strong>Breeding adults: scapulars, then underparts</strong>On fresh spring birds (April–May), look at the scapulars, not the wing coverts. Short-billed: broad buff to orange edges run into the pale tips, making “closed loops”. Long-billed: mostly white tips cut off by black at the sides, so the pale marks look separate and “open”. Below, Long-billed has neat white fringes, many feathers banded orange, black and white, for a striped look (strongest on the undertail). Short-billed has white in random patches, with dark marks set in orange. Round spots on the breast sides support Short-billed, but spots vs. bars is the least reliable of these. Don’t judge by how far the orange reaches.</button></li>
     </ol>
     <p class="note">Date is a strong clue in Iowa: from late September on, a dowitcher is most likely Long-billed. Silent nonbreeding birds are hard, and many are best left as “dowitcher sp.” That’s a correct ID, not a failure.</p>
   </section>
@@ -239,7 +249,7 @@
             <td>Sharp, high <em>keek</em>, single or in a rapid series. Often calls while feeding, a soft chatter.</td>
           </tr>
           <tr>
-            <th scope="row">Iowa timing (approx.)</th>
+            <th scope="row">Iowa timing (approx.)<span class="unsure" title="Based on Iowa Birds (1984) plus Illinois and Michigan; current Iowa eBird data couldn’t be checked.">check</span></th>
             <td>Spring mainly early to mid-May. Fall adults July–early Aug, juveniles mid-Aug to mid-Sept. Scarce after late September.</td>
             <td>Spring mid-Apr to mid-May, peaking early May. Fall Aug–Nov, peaking Aug–Sept; juveniles mainly from mid-September. The expected dowitcher from late September through November.</td>
           </tr>
@@ -254,14 +264,19 @@
             <td>Grayer and duller, with a plainer gray breast; scapulars neatly edged bright chestnut</td>
           </tr>
           <tr class="key">
+            <th scope="row">Breeding scapulars</th>
+            <td>Broad buff to orange edges that join the pale tips, so each feather looks outlined: “closed loops”. Tips rarely pure white.</td>
+            <td>Mostly white tips, cut off by black on the feather sides, so the pale marks look separate: “open”. Coverts can look Short-billed-like, so judge the scapulars.</td>
+          </tr>
+          <tr class="key">
             <th scope="row">Breeding underparts</th>
-            <td>Orange, often well onto the belly in the interior form, sometimes with white patches low on the belly; round spots on the breast sides; foreneck fairly clean</td>
-            <td>Deep rufous to the undertail; foreneck densely spotted; breast sides barred. Spring birds still molting can show white below.</td>
+            <td>Orange, often well onto the belly in the interior form. White in random patches; many dark marks set in orange. Usually round spots on the breast sides, but some show bars. Foreneck lightly spotted or clean.</td>
+            <td>Deep, redder orange to the undertail. Neat white fringes; many feathers banded orange, black and white, giving a striped look, especially on the undertail. Foreneck densely spotted; breast sides barred. Can keep white winter feathers on the belly.</td>
           </tr>
           <tr>
-            <th scope="row">Breeding upperparts</th>
-            <td>Scapulars with broad buff to orange edges; looks golden and “spangled”</td>
-            <td>Darker, with rufous and white-tipped scapulars when fresh</td>
+            <th scope="row">Underwing in flight (spring adults)</th>
+            <td>Wing base and inner coverts darker and evenly marked; any pale area isn’t truly white</td>
+            <td>White patch at the leading edge of the wing base, often continuing as a pale line through the coverts</td>
           </tr>
           <tr>
             <th scope="row">Nonbreeding</th>
@@ -293,11 +308,22 @@
     <ul class="pitfalls">
       <li><strong>Bill length overlaps.</strong>Female Short-billed have long bills and male Long-billed have short ones, so many birds fall in the overlap. Use bill length as support, never alone.</li>
       <li><strong>Iowa’s Short-billed can be orange to the belly.</strong>Many guides picture the Atlantic form, which has a white belly. The interior form that passes through Iowa (<em>hendersoni</em>) is much more orange below, so check how the breast sides are marked, not how far the orange goes.</li>
-      <li><strong>Worn and molting adults lose their patterns.</strong>By late summer, adults are faded and patchy, and the fine markings that separate them wear away. Lean on voice and date.</li>
+      <li><strong>Worn and molting adults lose their patterns.</strong>The scapular and underpart marks work on fresh April–May birds. From June on, and into late summer, adults are faded and patchy, worn gray-brown feathers can mimic the other species, and the fine markings wear away. Lean on voice and date.</li>
+      <li><strong>Wing coverts and odd feathers fool you.</strong>Long-billed wing coverts often have joined pale edges like Short-billed’s scapulars, and a few odd feathers on either species won’t fit. Judge the scapulars as a whole, and combine marks.</li>
       <li><strong>Age the bird before comparing.</strong>The tertial check only works on juveniles, and the breast-side check only works on breeding adults. Comparing a juvenile of one species to an adult of the other will mislead you.</li>
       <li><strong>A white belly in spring isn’t proof of Short-billed.</strong>Long-billed passing through in spring are often still molting and can show white below. Check the breast sides and listen.</li>
       <li><strong>Who’s calling matters.</strong>A dowitcher calling from the mud while it feeds is more likely Long-billed; Short-billed are mostly quiet on the ground.</li>
-      <li><strong>Light changes everything.</strong>Warm, low light makes gray birds look buffy and bright birds look orange. Compare birds side by side in the same flock.</li>
+      <li><strong>Light changes everything.<span class="unsure" title="General birding sense; no dowitcher-specific source.">check</span></strong>Warm, low light makes gray birds look buffy and bright birds look orange. Compare birds side by side in the same flock.</li>
+    </ul>
+  </section>
+
+  <section class="to-check" id="to-check">
+    <h2>To check</h2>
+    <p>Anything tagged <span class="unsure" title="Example">check</span> couldn’t be confirmed from a source I could open, or came from general knowledge.</p>
+    <ul>
+      <li><strong>Iowa timing.</strong>From Iowa Birds (1984) plus Illinois and Michigan data. Current eBird bar charts for Iowa weren’t checked.</li>
+      <li><strong>Light pitfall.</strong>Reasonable, but no dowitcher-specific source.</li>
+      <li><strong>Newlon and Kent (1980).</strong>The original Iowa dowitcher article in Iowa Bird Life 50:59–68 wasn’t found online.</li>
     </ul>
   </section>
 
@@ -305,6 +331,9 @@
     <h2>Sources</h2>
     <p>Iowa timing comes from <em>Iowa Birds</em> (1984) and recent Illinois data; check the current eBird bar charts for Iowa.</p>
     <ul class="sources">
+      <li><a href="https://chicagobirdalliance.org/blog/2024/5/8/identify-dowitchers-during-spring-migration">Woody Goss, Chicago Bird Alliance (2024): How to identify dowitchers during spring migration</a></li>
+      <li><a href="https://www.aba.org/birding_archive_files/v38n5p34.pdf">Lee and Birch, <em>Birding</em> (2006): Advances in the field identification of North American dowitchers</a> (cited by Goss)</li>
+      <li><a href="https://birdersjournal.ca/wp-content/uploads/2016/02/dowitchers.pdf">Birder’s Journal: Breeding-plumaged dowitchers in southern Ontario</a> (cited by Goss)</li>
       <li><a href="https://illinoisaudubon.org/?p=34171">Illinois Audubon Society: Dowitcher Identification in Illinois</a></li>
       <li><a href="https://publications.iowa.gov/49936/1/iowa_birds_1985_OCR_RED_.pdf">Dinsmore, Kent et al.: Iowa Birds (1984), species accounts</a></li>
       <li><a href="https://www.birdobserver.org/Better-Birding/New-England-Shorebird-Guide/Short-billed-Dowitcher-photographic-identification-guide">Bird Observer: Short-billed Dowitcher photographic ID guide</a></li>
