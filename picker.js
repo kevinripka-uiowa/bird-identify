@@ -187,6 +187,23 @@
       if (hint) hint.textContent = stageObj().hint || '';
     }
 
+    // An answer is "ruled out" when no species that still fits every other pick shows it.
+    // A species this group doesn't cover never rules anything out. Off with markConflicts: false.
+    function ruledOut(g) {
+      var out = {};
+      if (cfg.markConflicts === false) return out;
+      var others = {};
+      Object.keys(state.picks).forEach(function (id) { if (id !== g.id) others[id] = state.picks[id]; });
+      var live = evaluate(others).filter(function (r) { return r.no === 0; }).map(function (r) { return r.sp.id; });
+      if (!live.length) return out;
+      g.options.forEach(function (o, i) {
+        out[i] = live.every(function (sp) {
+          return !o.fits[sp] && g.options.some(function (x) { return x.fits[sp]; });
+        });
+      });
+      return out;
+    }
+
     function renderQuestion() {
       var box = document.getElementById('question');
       box.innerHTML = '';
@@ -212,6 +229,7 @@
         if (g.check) wrap.appendChild(el('p', 'checknote', 'Unsure: ' + g.check));
         if (g.help) wrap.appendChild(el('p', 'help', g.help));
         var opts = el('div', 'opts');
+        var ruled = ruledOut(g);
         g.options.forEach(function (o, i) {
           var pic = thumb(q, g, o);
           var b = el('button', pic ? 'opt has-thumb' : 'opt');
@@ -219,6 +237,7 @@
           if (pic) { b.appendChild(pic); b.appendChild(txt); } else b.textContent = o.label;
           b.type = 'button';
           if (o.check) { txt.appendChild(checkTag()); txt.appendChild(el('span', 'checknote', 'Unsure: ' + o.check)); }
+          if (ruled[i]) { b.classList.add('ruled'); txt.appendChild(el('span', 'ruled-note', '✗ Conflicts with your other picks')); }
           b.setAttribute('aria-pressed', state.picks[g.id] === i ? 'true' : 'false');
           b.addEventListener('click', function () {
             if (state.picks[g.id] === i) delete state.picks[g.id]; else state.picks[g.id] = i;
@@ -245,14 +264,15 @@
     }
 
     // Score every species against the picks; nothing is removed, just ranked
-    function evaluate() {
-      var ids = Object.keys(state.picks);
+    function evaluate(picks) {
+      picks = picks || state.picks;
+      var ids = Object.keys(picks);
       return cfg.species.map(function (sp, order) {
         var why = [], yes = 0, some = 0, no = 0;
         var rule = cfg.stageRule && cfg.stageRule(sp, state.stage);
         if (rule) { no++; why.push({ k: 'n', t: rule }); }
         ids.forEach(function (id) {
-          var f = findGroup(id); var opt = f.g.options[state.picks[id]]; var fit = opt.fits[sp.id];
+          var f = findGroup(id); var opt = f.g.options[picks[id]]; var fit = opt.fits[sp.id];
           if (fit === 'yes') { yes++; why.push({ k: 'y', t: f.g.title + ': ' + opt.label.toLowerCase() }); }
           else if (fit === 'some') { some++; why.push({ k: 's', t: f.g.title + ': sometimes ' + opt.label.toLowerCase() }); }
           else if (!f.g.options.some(function (o) { return o.fits[sp.id]; })) {

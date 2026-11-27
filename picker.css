@@ -80,6 +80,9 @@
   .opt .thumb { width: 64px; height: 64px; border-radius: 8px; background: var(--bg); border: 1px solid var(--line); pointer-events: none; }
   .thumb .part { cursor: default; transition: none; }
   .thumb .part.dim { opacity: .3; }
+  .opt.ruled { opacity: .5; border-style: dashed; }
+  .opt.ruled[aria-pressed="true"] { opacity: 1; }
+  .ruled-note { display: block; font-size: 13px; font-weight: 600; color: var(--no); margin-top: 2px; }
   .flag { font-size: 12px; font-weight: 600; color: var(--some); background: var(--some-soft); border-radius: 999px; padding: 1px 7px; margin-left: 4px; }
   .unsure { display: inline-block; font-size: 11px; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; line-height: 1.5;
             color: #8a520c; background: #fbf1de; border: 1px dashed #d9a34a; border-radius: 999px; padding: 0 6px; margin-left: 6px;
