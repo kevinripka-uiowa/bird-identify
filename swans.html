@@ -1,0 +1,426 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light">
+<title>Trumpeter and Tundra Swans</title>
+<meta name="description" content="Telling Trumpeter from Tundra Swans in Iowa: call, eye and lores, forehead, bill, and young birds by plumage, bill and legs.">
+<style>
+  :root {
+    --bg: #f6f4ef;
+    --surface: #ffffff;
+    --ink: #22262b;
+    --muted: #5d646c;
+    --line: #dcd8cf;
+    --accent: #4a5563;
+    --accent-soft: #e8ebef;
+    --rust: #9a5a34;
+    --chip-common: #dfe9dc;   --chip-common-ink: #2f5129;
+    --chip-uncommon: #f2e7d2; --chip-uncommon-ink: #6b4b14;
+    --chip-regular: #e6e3f1;  --chip-regular-ink: #43386d;
+    --chip-casual: #ecdde6;   --chip-casual-ink: #6a2850;
+    --chip-acc: #f4dfd8;      --chip-acc-ink: #7a3322;
+    --bird-a: #bfc4ca; --bird-b: #cfd3d8; --bird-c: #dde0e3; --bird-d: #8e959d;
+    --bird-white: #fbfbf9; --bird-line: #4f565e;
+    --hi: #f3cf8a; --hi-line: #b8741a; --hi-soft: #fbf1de; --hi-ink: #8a520c;
+  }
+
+  * { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font: 16px/1.55 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  }
+  main { max-width: 1040px; margin: 0 auto; padding: 32px 16px 64px; }
+
+  header { margin-bottom: 28px; }
+  .kicker { font-size: 13px; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); margin: 0 0 6px; }
+  .kicker .home { display: inline-block; padding: 6px 10px 6px 0; margin: -6px 0; color: inherit; font-weight: 700; text-decoration: none; }
+  .kicker .home:hover { text-decoration: underline; }
+  h1 { font-size: clamp(28px, 5vw, 40px); line-height: 1.15; margin: 0 0 10px; }
+  .lede { font-size: 18px; color: var(--muted); max-width: 62ch; margin: 0; }
+
+  h2 { font-size: 24px; margin: 44px 0 12px; }
+  h3 { font-size: 19px; margin: 28px 0 10px; }
+  p { max-width: 70ch; }
+  em.sci { font-style: italic; color: var(--muted); font-weight: 400; }
+  .note { background: var(--accent-soft); border-radius: 10px; padding: 14px 16px; max-width: none; }
+
+  /* Cast list */
+  .cast { list-style: none; padding: 0; margin: 12px 0; display: grid; gap: 8px;
+          grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); }
+  .cast li { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 10px 14px; }
+  .cast strong { display: block; }
+  .cast small { display: block; color: var(--muted); font-size: 13px; margin-top: 4px; }
+  .chip { display: inline-block; font-size: 12px; font-weight: 600; padding: 1px 8px; border-radius: 999px; white-space: nowrap; margin-top: 4px; }
+  .chip-common   { background: var(--chip-common);   color: var(--chip-common-ink); }
+  .chip-uncommon { background: var(--chip-uncommon); color: var(--chip-uncommon-ink); }
+  .chip-regular  { background: var(--chip-regular);  color: var(--chip-regular-ink); }
+  .chip-casual   { background: var(--chip-casual);   color: var(--chip-casual-ink); }
+  .chip-acc      { background: var(--chip-acc);      color: var(--chip-acc-ink); }
+
+  /* Tabs */
+  .tabs { display: flex; gap: 6px; margin: 16px 0 8px; padding: 4px; background: var(--accent-soft);
+          border-radius: 12px; overflow-x: auto; }
+  .tab { flex: 1 0 auto; font: inherit; font-weight: 600; font-size: 15px; color: var(--muted); cursor: pointer;
+         background: none; border: 0; border-radius: 9px; padding: 10px 14px; white-space: nowrap; }
+  .tab[aria-selected="true"] { background: var(--surface); color: var(--ink); box-shadow: 0 1px 3px rgba(0,0,0,.15); }
+  .tab:focus-visible { outline: 2px solid var(--hi-line); outline-offset: 1px; }
+  .panel[hidden] { display: none; }
+  .panel > h3:first-child { margin-top: 20px; }
+
+  /* Checks */
+  .checks { list-style: none; padding: 0; margin: 16px 0; display: grid; gap: 12px;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); counter-reset: check; }
+  .checks li { position: relative; counter-increment: check; display: flex; }
+  .checks li::before { content: counter(check); position: absolute; left: 16px; top: 15px; z-index: 1; pointer-events: none;
+                       width: 28px; height: 28px; border-radius: 50%; background: var(--accent);
+                       color: var(--bg); font-weight: 700; display: grid; place-items: center; font-size: 15px; }
+  .check { flex: 1; text-align: left; font: inherit; color: inherit; cursor: pointer;
+           background: var(--surface); border: 1px solid var(--line); border-radius: 10px;
+           padding: 16px 16px 16px 56px; transition: border-color .15s, box-shadow .15s; }
+  .check:hover { border-color: var(--hi-line); }
+  .check:focus-visible { outline: 2px solid var(--hi-line); outline-offset: 2px; }
+  .check[aria-pressed="true"] { border-color: var(--hi-line); box-shadow: 0 0 0 2px var(--hi-line) inset; background: var(--hi-soft); }
+  .checks strong { display: block; margin-bottom: 4px; }
+
+  /* Diagram */
+  .diagram { margin: 16px 0; background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 12px 12px 10px; }
+  .diagram svg { display: block; width: 100%; height: auto; max-height: 340px; }
+  .diagram figcaption { font-size: 14px; color: var(--muted); padding: 4px 4px 0; }
+  .part { fill: var(--bird-white); stroke: var(--bird-line); stroke-width: 1.5; stroke-linejoin: round; }
+  /* Drawn as an adult: white, with black bill, lores and legs */
+  .part[data-part="body"], .part[data-part="neck"], .part[data-part="head"], .part[data-part="wing"], .part[data-part="tail"],
+  .part[data-part="fhead"], .part[data-part="fneck"] { fill: var(--bird-white); }
+  .part[data-part="bill"], .part[data-part="fbill"], .part[data-part="lore"], .part[data-part="flore"], .part[data-part="legs"] { fill: #3a3f44; }
+  .part.leg-line { stroke: #3a3f44; }
+  .pupil { fill: #fbfbf9; }
+  .side-label { fill: var(--muted); font-size: 13px; font-style: italic; }
+  .label line { stroke: var(--muted); stroke-width: 1; }
+  .label text { fill: var(--ink); font-size: 15px; font-weight: 600; }
+  /* When a check is selected, other parts become blank outlines (still opaque, so they hide what's beneath) */
+  svg.focus .part:not(.on) { fill: var(--surface); stroke: var(--muted); stroke-opacity: .55; }
+  svg.focus .label { opacity: .3; }
+  svg.focus .label.on { opacity: 1; }
+  svg.focus .part.on { fill: var(--hi); stroke: var(--hi-line); stroke-width: 2.5; }
+  svg.focus .label.on line { stroke: var(--hi-line); stroke-width: 2; }
+  svg.focus .label.on text { fill: var(--hi-ink); }
+
+  /* Tables */
+  .table-wrap { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; overflow: auto; max-height: 75vh; max-height: 75svh; -webkit-overflow-scrolling: touch; }
+  table { width: 100%; border-collapse: separate; border-spacing: 0; font-size: 15px; }
+  th, td { text-align: left; vertical-align: top; padding: 12px 14px; border-bottom: 1px solid var(--line); }
+  thead th { font-size: 13px; text-transform: uppercase; letter-spacing: .05em; color: var(--muted);
+             background: var(--accent-soft); font-weight: 600; }
+  thead th { position: sticky; top: 0; z-index: 2; }  /* header row stays put while the table scrolls */
+  tbody tr:last-child td, tbody tr:last-child th { border-bottom: 0; }
+  tbody th { font-weight: 700; min-width: 130px; }
+  tbody th em { display: block; }
+  tr.rarity th { color: var(--muted); }
+  td.clincher { font-weight: 600; }
+  .scroll-hint { display: none; font-size: 13px; color: var(--muted); margin: 0 0 6px; }
+
+  /* Pitfalls */
+  .pitfalls { padding: 0; list-style: none; display: grid; gap: 10px; }
+  .pitfalls li { background: var(--surface); border: 1px solid var(--line); border-left: 4px solid var(--rust);
+                 border-radius: 8px; padding: 12px 16px; }
+  .pitfalls strong { display: block; }
+
+  .sources { color: var(--muted); padding-left: 20px; }
+  .sources a { color: inherit; }
+  footer { margin-top: 40px; padding-top: 16px; border-top: 1px solid var(--line); color: var(--muted); font-size: 14px; }
+  footer a { color: inherit; }
+
+  /* Narrow screens */
+  @media (max-width: 760px) {
+    /* Tables scroll sideways with the first column frozen */
+    table { width: auto; min-width: 760px; font-size: 14px; }
+    th, td { padding: 10px 12px; }
+    td { min-width: 150px; }
+    thead th:first-child, tbody th {
+      position: sticky; left: 0; z-index: 1;
+      width: 108px; min-width: 108px; max-width: 108px;
+      border-right: 1px solid var(--line);
+      box-shadow: 4px 0 6px -4px rgba(0,0,0,.25);
+    }
+    thead th:first-child { background: var(--accent-soft); z-index: 3; }
+    tbody th { background: var(--surface); }
+    .scroll-hint { display: block; }
+
+    /* Keep the bird in view while tapping through the checks below it */
+    .diagram { position: sticky; top: 0; z-index: 4; margin-left: -8px; margin-right: -8px; padding: 8px;
+               box-shadow: 0 6px 12px -8px rgba(0,0,0,.25); }
+    .label text { font-size: 19px; }
+    .side-label { font-size: 16px; }
+    .diagram figcaption { font-size: 13px; }
+    .tab { font-size: 14px; padding: 9px 10px; }
+  }
+
+  @media print {
+    body { background: #fff; color: #000; }
+    .checks li, .table-wrap, .pitfalls li { break-inside: avoid; }
+    .panel[hidden] { display: block; }
+    .tabs { display: none; }
+    .table-wrap { max-height: none; overflow: visible; }
+  }
+  /* "check" markers: things not confirmed from a source */
+  .unsure { display: inline-block; font-size: 11px; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; line-height: 1.5;
+            color: #8a520c; background: #fbf1de; border: 1px dashed #d9a34a; border-radius: 999px; padding: 0 6px; margin-left: 4px;
+            vertical-align: 1px; white-space: nowrap; cursor: help; }
+  .to-check ul { padding-left: 20px; }
+  .to-check li { margin: 4px 0; }
+  .to-check li strong { margin-right: 4px; }
+  .checks-order { color: var(--muted); font-size: 14px; margin: -4px 0 16px; }
+</style>
+</head>
+<body>
+<main>
+  <header>
+    <p class="kicker"><a class="home" href="index.html">← Home</a> · Tricky birds · Iowa</p>
+    <h1>Trumpeter and Tundra Swans</h1>
+    <p class="lede">Both are big, white and black-billed, and in Iowa both turn up in fall, winter and spring. No single mark works on every bird, so stack several: voice, how the black skin meets the eye, the shape of the forehead and the yellow spot carry the most weight. Age the bird first, because young birds use different marks. Try the <a href="swans-picker.html">Swan Picker</a> to work through a bird in the field.</p>
+  </header>
+
+  <!-- ========================= CAST ========================= -->
+  <section>
+    <h2>Who to expect</h2>
+    <ul class="cast">
+      <li><strong>Trumpeter Swan</strong><span class="chip chip-common">Regular; nests; all year</span><small>Restored by the Iowa DNR from 1995 on, with 1,218 birds released through 2022. The DNR counted a record 158 nests in 2025. Pairs and families use marshes, ponds and prairie wetlands; many stay all winter on open water. Iowa birds often carry neck collars or wing tags.</small></li>
+      <li><strong>Tundra Swan</strong><span class="chip chip-regular">Regular; migrant</span><small>Passes through about March–April and late October–December<span class="unsure" title="Iowa Tundra Swan windows come from regional migration timing, not an Iowa date list.">check</span>, often in big, noisy flocks. About a quarter of the eastern population stops on the Upper Mississippi River in fall. Doesn’t summer in Iowa.</small></li>
+      <li><strong>Mute Swan</strong><span class="chip chip-casual">Feral; escapes</span><small>Orange bill with a black knob at the base, and an S-curved neck. Not covered here: the bill rules it out at a glance.</small></li>
+    </ul>
+  </section>
+
+  <!-- ========================= AGE ========================= -->
+  <section class="decoder">
+    <h2>Step 1: Age it, and listen</h2>
+    <p>Tap a check to see where to look.</p>
+    <div class="how">
+    <figure class="diagram" data-svg>
+        <figcaption>Schematic only, drawn as an adult. Left: side view. Right: the face head-on.</figcaption>
+      </figure>
+    <ol class="checks">
+        <li><button type="button" class="check" data-parts="body neck wing tail head fhead fneck" aria-pressed="false"><strong>All white, or gray?</strong>All white with a black bill: adult (use the adults tab). Gray-brown to patchy white, with pink on the bill: a young bird in its first fall through spring (use the young birds tab).</button></li>
+        <li><button type="button" class="check" data-parts="bill fbill" aria-pressed="false"><strong>Rule out Mute Swan</strong>An orange bill with a black knob is a Mute Swan. Both Trumpeter and Tundra have black bills as adults.</button></li>
+      </ol>
+    <p class="checks-order">Start with the color; the bill check just rules out a Mute Swan.</p>
+    </div>
+    <p class="note"><strong>Listen first.</strong> Voice is often the easiest mark, and young birds call like adults. Trumpeter: a deep, brassy honk, like a short trumpet toot, often in twos or threes. Tundra: a higher, softer “woo-woo” bugling, with crane-like clucking.</p>
+  </section>
+
+  <!-- ========================= TABS ========================= -->
+  <section>
+    <h2 id="step-2">Step 2: Identify it</h2>
+    <div class="tabs" role="tablist" aria-labelledby="step-2">
+      <button type="button" class="tab" role="tab" id="tab-adults" aria-controls="adults" aria-selected="true">Adults</button>
+      <button type="button" class="tab" role="tab" id="tab-young" aria-controls="young" aria-selected="false">Young birds</button>
+    </div>
+
+    <!-- ---------- Adults ---------- -->
+    <div class="panel decoder" role="tabpanel" id="adults" aria-labelledby="tab-adults">
+      <h3>Adults</h3>
+      <p>Both species are all white, sometimes with rusty staining on the head and neck, and both have black legs. Everything comes down to the face, the bill and the voice.</p>
+      <div class="how">
+      <figure class="diagram" data-svg>
+        <figcaption>Schematic only, drawn as an adult. Left: side view. Right: the face head-on.</figcaption>
+      </figure>
+      <ol class="checks">
+        <li><button type="button" class="check" data-parts="lore flore" aria-pressed="false"><strong>How the black meets the eye</strong>Eye set in a broad black band, hard to pick out: Trumpeter. Eye standing apart, joined to the bill by a thin black line or not at all: Tundra. Sibley says this is clearest head-on or from above, as the bird reaches down to feed.</button></li>
+        <li><button type="button" class="check" data-parts="fhead fbill" aria-pressed="false"><strong>Forehead</strong>Look straight at the face. Feathers meeting the bill in a sharp V pointing up the forehead: Trumpeter (every adult Trumpeter in the Arizona Birds study). A broad U or nearly flat line: Tundra. Some Tundras show a V, so a V alone isn’t proof.</button></li>
+        <li><button type="button" class="check" data-parts="lore" aria-pressed="false"><strong>Yellow spot</strong>Any yellow in front of the eye means Tundra. Most Tundras have at least a small spot; Sibley says about 1 in 10 has none and about 1 in 10 has a large one. A Trumpeter with yellow is very rare.</button></li>
+        <li><button type="button" class="check" data-parts="bill head" aria-pressed="false"><strong>Bill and head shape</strong>Long, heavy, straight-topped bill and a long, flat crown sloping into it, with a corner at the back (like a Canvasback): Trumpeter. Shorter bill with a slight dip where it meets the forehead, rounder head: Tundra. Posture changes both, so use them with other marks.</button></li>
+        <li><button type="button" class="check" data-parts="body neck" aria-pressed="false"><strong>Size</strong>Trumpeter is clearly bigger and moves slowly; Tundra is smaller and quicker. Only useful with the other species alongside: female Trumpeters and male Tundras overlap.</button></li>
+      </ol>
+      <p class="checks-order">Checks run from most to least useful.</p>
+      </div>
+      <p class="scroll-hint">Swipe the table sideways for more →</p>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th scope="col">Species</th><th scope="col">Voice</th><th scope="col">Eye and lores</th><th scope="col">Forehead</th><th scope="col">Bill and head</th><th scope="col">Clincher</th></tr></thead>
+          <tbody>
+            <tr><th scope="row">Trumpeter</th><td>Deep, brassy, trumpet-like honk</td><td>Broad black band; eye hard to see; no yellow</td><td>Sharp V</td><td>Long, heavy, straight-topped bill; long flat crown. Often a red “grin” line on the lower edge<span class="unsure" title="Sources differ: one calls it a Trumpeter mark, Sibley gives both species an orange-red grin line, and the Arizona Birds paper says some Tundras show it.">check</span></td><td class="clincher">Broad black around the eye and a V forehead</td></tr>
+            <tr><th scope="row">Tundra</th><td>Higher, softer “woo-woo” bugling</td><td>Eye stands apart; thin black line or none; usually a yellow spot</td><td>Broad U, sometimes a shallow V</td><td>Shorter bill with a slight dip; rounder head</td><td class="clincher">Yellow spot, or a separate eye</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <h3>Pitfalls</h3>
+      <ul class="pitfalls">
+        <li><strong>No yellow doesn’t mean Trumpeter.</strong>About 1 in 10 Tundras has no yellow spot. Check the eye and the forehead.</li>
+        <li><strong>A V forehead isn’t proof either.</strong>Some Tundras show a V. Trumpeters always do, so a U points firmly to Tundra.</li>
+        <li><strong>Size fools people.</strong>A lone swan has nothing to compare against, and the two species overlap.</li>
+        <li><strong>Lighting and angle.</strong>Side-on, the thin black line on a Tundra can merge with the eye. Wait for a head-on look.</li>
+      </ul>
+    </div>
+
+    <!-- ---------- Young ---------- -->
+    <div class="panel decoder" role="tabpanel" id="young" aria-labelledby="tab-young" hidden>
+      <h3>Young birds (first fall to spring)</h3>
+      <p>Judge the plumage by the date: both start gray-brown, but Tundras whiten much sooner. The forehead doesn’t help, because young Tundras often show a V, and young swans’ heads and bills look swollen, so shape doesn’t help yet.</p>
+      <div class="how">
+      <figure class="diagram" data-svg>
+        <figcaption>Schematic only, drawn as an adult for the parts.</figcaption>
+      </figure>
+      <ol class="checks">
+        <li><button type="button" class="check" data-parts="body neck wing tail head fneck fhead" aria-pressed="false"><strong>Plumage by date</strong>Dark, sooty gray-brown, often faintly scaly, and still all gray in midwinter: Trumpeter. Paler, silvery gray, with white patches on the back by mid-December to January: Tundra. Mostly white by late winter, with gray left on the head and neck: usually Tundra.<span class="unsure" title="Up to 13% of cygnets in the Rocky Mountain Trumpeter population are white; how often this happens in Iowa’s birds is unknown.">check</span></button></li>
+        <li><button type="button" class="check" data-parts="bill fbill lore" aria-pressed="false"><strong>Bill</strong>Black at the base and over the lores, pink in the middle: Trumpeter. Mostly pink, with black only at the tip and pink reaching the face: Tundra.<span class="unsure" title="Bill color varies a lot, even between young birds of the same species seen together.">check</span></button></li>
+        <li><button type="button" class="check" data-parts="legs" aria-pressed="false"><strong>Legs</strong>Young Tundras have black legs by about late December. Gray, olive or yellowish legs point to Trumpeter. Mud can make black legs look brown or pale.</button></li>
+        <li><button type="button" class="check" data-parts="lore flore" aria-pressed="false"><strong>In front of the eye</strong>A blurry whitish or yellowish spot: Tundra. Solid black lores: Trumpeter, though young Tundras can have them too.</button></li>
+      </ol>
+      <p class="checks-order">Checks run from most to least useful.</p>
+      </div>
+      <p class="scroll-hint">Swipe the table sideways for more →</p>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th scope="col">Species</th><th scope="col">Plumage (midwinter)</th><th scope="col">Bill</th><th scope="col">Legs</th><th scope="col">Clincher</th></tr></thead>
+          <tbody>
+            <tr><th scope="row">Trumpeter</th><td>Dark, sooty gray-brown; stays gray through the first winter</td><td>Black base and lores, pink middle</td><td>Gray, olive or yellowish; some black</td><td class="clincher">Dark gray body in January and pale legs</td></tr>
+            <tr><th scope="row">Tundra</th><td>Paler silvery gray; white patches from about mid-December, mostly white by late winter</td><td>Mostly pink, black tip; pink reaching the face</td><td>Black by about late December</td><td class="clincher">White patches in midwinter, or a pale spot before the eye</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <h3>Pitfalls</h3>
+      <ul class="pitfalls">
+        <li><strong>Bills vary.</strong>Young birds of the same species and age can have quite different bills. Weigh plumage and legs more.</li>
+        <li><strong>Young Trumpeters may still be growing.</strong>They may not reach full size until their second fall, so compare young birds with young birds.</li>
+        <li><strong>White young Trumpeters.</strong>A few Trumpeter cygnets are white; check the voice and the face before calling a white young bird a Tundra.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ========================= IOWA ========================= -->
+  <section>
+    <h2>Iowa timing</h2>
+    <ul>
+      <li><strong>Trumpeter:</strong> all year. Nests from about April; families stay together through the first winter. The 2025 midwinter survey counted over 4,700 swans.</li>
+      <li><strong>Tundra:</strong> spring about March–April; fall about late October–December<span class="unsure" title="Iowa Tundra Swan windows come from regional migration timing, not an Iowa date list.">check</span>. Most numerous along the Mississippi River; about 25% of the eastern population uses the Upper Mississippi in fall (USGS).</li>
+      <li><strong>May through September:</strong> a swan in Iowa is almost certainly a Trumpeter (or a Mute Swan).</li>
+    </ul>
+  </section>
+
+  <section class="to-check" id="to-check">
+    <h2>To check</h2>
+    <p>Anything tagged <span class="unsure" title="Example">check</span> couldn’t be confirmed from a source I could open, or sources disagree.</p>
+    <ul>
+      <li><strong>Tundra Swan dates in Iowa.</strong>The spring and fall windows come from regional migration timing, not an Iowa date list.</li>
+      <li><strong>The red “grin.”</strong>Sources disagree on whether it marks Trumpeter or shows on both.</li>
+      <li><strong>Young bird bills.</strong>Sources describe typical patterns but stress how much they vary.</li>
+      <li><strong>White young Trumpeters.</strong>The 13% figure is for the Rocky Mountain population; no Iowa figure.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>Sources</h2>
+    <ul class="sources">
+      <li>Deviche and Jenness, “Identification challenge: Trumpeter vs. Tundra Swan,” <a href="https://doi.org/10.65238/302.yzx">Arizona Birds 16:13–22 (2022)</a></li>
+      <li>David Sibley, <a href="https://sibleyguides.com/distinguishing-trumpeter-and-tundra-swans/">Distinguishing Trumpeter and Tundra Swans</a></li>
+      <li>Southern Wisconsin Bird Alliance, <a href="https://swibirds.org/blog/2021/1/31/tundra-or-trumpeter-your-guide-to-swan-id">Tundra or Trumpeter? Your guide to swan ID</a></li>
+      <li>Iowa DNR, <a href="https://iowadnr.gov/programs-services/iowas-wildlife/trumpeter-swans">Trumpeter Swans</a> and the <a href="https://www.iowadnr.gov/news-release/2025-12-30/icon-wetlands-iowas-trumpeter-swan-population-continues-grow">30 Dec 2025 news release</a></li>
+      <li>USGS, <a href="https://www.umesc.usgs.gov/documents/fact_sheets/swans.pdf">Tundra Swans on the Upper Mississippi</a></li>
+    </ul>
+  </section>
+
+  <footer><a href="index.html">← All bird pages</a> · <a href="swans-picker.html">Swan Picker</a> · Kevin Ripka · Nov 27, 2026</footer>
+</main>
+
+<!-- One schematic swan: side view on the left, the face head-on on the right -->
+<template id="swan-svg">
+  <svg viewBox="0 0 600 340" role="img">
+    <title>Schematic adult swan, side view and face head-on, with labeled parts: bill, eye and lores, head, plumage, legs and forehead</title>
+    <!-- side view, facing left -->
+    <path class="part leg-line" data-part="legs" d="M246,268 L242,312 M284,268 L288,312"/>
+    <path class="part" data-part="legs" d="M226,317 L242,310 L258,317 Z M272,317 L288,310 L304,317 Z"/>
+    <path class="part" data-part="tail" d="M372,196 L414,186 L404,210 L370,214 Z"/>
+    <path class="part" data-part="neck" d="M150,216 C146,178 124,142 116,98 L146,90 C152,124 178,160 220,184 Z"/>
+    <ellipse class="part" data-part="body" cx="268" cy="222" rx="116" ry="56"/>
+    <path class="part" data-part="wing" d="M178,196 C230,166 330,164 382,198 C350,228 250,236 196,226 Z"/>
+    <path class="part" data-part="head" d="M104,66 C108,54 124,50 136,54 C148,58 152,72 146,86 C140,98 120,102 106,94 Z"/>
+    <path class="part" data-part="bill" d="M105,64 L46,82 C40,84 40,92 46,93 L106,94 Z"/>
+    <path class="part" data-part="lore" d="M105,64 L116,66 L116,75 L106,80 Z"/>
+    <circle class="pupil" cx="118" cy="70" r="3"/>
+
+    <!-- head-on view -->
+    <path class="part" data-part="fneck" d="M494,150 L526,150 L532,252 L488,252 Z"/>
+    <ellipse class="part" data-part="fhead" cx="510" cy="118" rx="34" ry="38"/>
+    <path class="part" data-part="flore" d="M497,116 L484,108 L483,118 L498,132 Z M523,116 L536,108 L537,118 L522,132 Z"/>
+    <path class="part" data-part="fbill" d="M496,114 L524,114 L522,186 C518,196 502,196 498,186 Z"/>
+    <circle class="pupil" cx="485" cy="110" r="3"/><circle class="pupil" cx="535" cy="110" r="3"/>
+
+    <text class="side-label" x="300" y="334" text-anchor="middle">side</text>
+    <text class="side-label" x="510" y="272" text-anchor="middle">head-on</text>
+
+    <!-- labels -->
+    <g class="label" data-part="bill"><line x1="44" y1="120" x2="64" y2="92"/><text x="40" y="138" text-anchor="middle">Bill</text></g>
+    <g class="label" data-part="lore"><line x1="110" y1="30" x2="112" y2="66"/><text x="110" y="22" text-anchor="middle">Eye &amp; lores</text></g>
+    <g class="label" data-part="head"><line x1="196" y1="46" x2="148" y2="60"/><text x="200" y="50" text-anchor="start">Head shape</text></g>
+    <g class="label" data-part="body"><line x1="300" y1="140" x2="290" y2="180"/><text x="300" y="132" text-anchor="middle">Plumage</text></g>
+    <g class="label" data-part="legs"><line x1="200" y1="312" x2="242" y2="296"/><text x="196" y="318" text-anchor="end">Legs</text></g>
+    <g class="label" data-part="fhead"><line x1="510" y1="44" x2="510" y2="92"/><text x="510" y="36" text-anchor="middle">Forehead</text></g>
+    <g class="label" data-part="flore"><line x1="578" y1="80" x2="540" y2="106"/><text x="592" y="74" text-anchor="end">Lores</text></g>
+  </svg>
+</template>
+
+<script>
+  (function () {
+    var tpl = document.getElementById('swan-svg');
+
+    // Put a diagram in each figure and wire up that section's checks
+    document.querySelectorAll('.decoder').forEach(function (section) {
+      var fig = section.querySelector('figure[data-svg]');
+      var svg = tpl.content.firstElementChild.cloneNode(true);
+      fig.insertBefore(svg, fig.firstChild);
+      var caption = fig.querySelector('figcaption');
+      var defaultCaption = caption.textContent;
+      var buttons = section.querySelectorAll('.check');
+
+      function show(btn) {
+        var parts = btn ? btn.dataset.parts.split(' ') : [];
+        buttons.forEach(function (b) { b.setAttribute('aria-pressed', b === btn ? 'true' : 'false'); });
+        svg.classList.toggle('focus', !!btn);
+        svg.querySelectorAll('[data-part]').forEach(function (el) {
+          el.classList.toggle('on', parts.indexOf(el.dataset.part) !== -1);
+        });
+        caption.textContent = btn
+          ? 'Check: ' + btn.querySelector('strong').textContent + '. Tap it again to show all parts.'
+          : defaultCaption;
+      }
+
+      buttons.forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          show(btn.getAttribute('aria-pressed') === 'true' ? null : btn);
+        });
+      });
+    });
+
+    // Tabs; the URL hash (#adults, #young) remembers the choice
+    var tabs = Array.prototype.slice.call(document.querySelectorAll('.tab'));
+    function select(id, fromHash) {
+      var found = false;
+      tabs.forEach(function (t) {
+        var on = t.getAttribute('aria-controls') === id;
+        if (on) found = true;
+        t.setAttribute('aria-selected', on ? 'true' : 'false');
+        t.tabIndex = on ? 0 : -1;
+        document.getElementById(t.getAttribute('aria-controls')).hidden = !on;
+      });
+      if (found && !fromHash) history.replaceState(null, '', '#' + id);
+      return found;
+    }
+    tabs.forEach(function (t, i) {
+      t.addEventListener('click', function () { select(t.getAttribute('aria-controls')); });
+      t.addEventListener('keydown', function (e) {
+        var d = e.key === 'ArrowRight' ? 1 : e.key === 'ArrowLeft' ? -1 : 0;
+        if (!d) return;
+        var next = tabs[(i + d + tabs.length) % tabs.length];
+        next.focus(); next.click();
+      });
+    });
+    var start = location.hash.slice(1);
+    if (!start || !select(start, true)) select('adults', true);
+    window.addEventListener('hashchange', function () { select(location.hash.slice(1), true); });
+  })();
+</script>
+</body>
+</html>

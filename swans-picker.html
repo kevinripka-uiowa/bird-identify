@@ -1,0 +1,282 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light">
+<title>Swan Picker</title>
+<meta name="description" content="Tap parts of a white swan, pick what you see, and get Trumpeter or Tundra Swan, for adults and young birds.">
+<link rel="stylesheet" href="picker.css?v=4">
+<style>
+  .part[data-part="body"], .part[data-part="neck"], .part[data-part="head"], .part[data-part="fhead"], .part[data-part="fneck"] { fill: var(--bird-c); }
+  .part[data-part="wing"] { fill: var(--bird-b); }
+  .part[data-part="tail"] { fill: var(--bird-b); }
+  .part[data-part="bill"], .part[data-part="fbill"] { fill: var(--bird-d); }
+  .part[data-part="lore"], .part[data-part="flore"] { fill: var(--bird-a); }
+  :root { --c-black: #24282c; --c-white: #fbfbf9; --c-yellow: #e9c330; --c-red: #cf4630; --c-pink: #e99aa0; --c-pinkgray: #c9a3a3;
+          --c-sooty: #8b857e; --c-silver: #cfccc6; --c-imgray: #b5b0a9; --c-pale: #ede7dc; --c-olive: #9c9a6a; --c-dgray: #55595e; --c-spot: #efe9cf; }
+  .side-label { fill: var(--muted); font-size: 13px; font-style: italic; }
+  .opt .thumb { background: var(--surface); }
+  @media (max-width: 820px) { .side-label { font-size: 16px; } .label text { font-size: 16px; } }
+  .notes { margin-top: 20px; font-size: 15px; }
+  .notes ul { margin: 0; padding-left: 20px; }
+  .notes li + li { margin-top: 6px; }
+  .notes .src { color: var(--muted); font-size: 13px; margin: 12px 0 0; }
+  .notes a { color: inherit; }
+</style>
+</head>
+<body>
+<main>
+  <p class="kicker"><a class="home" href="index.html">← Home</a> · Tricky birds · Iowa</p>
+  <h1>Swan Picker</h1>
+  <p class="lede">Trumpeter or Tundra? Pick the age, then tap any part of the swan, or of its face head-on, and choose what you see. Answers that conflict with your other picks fade. Answers tagged <span class="unsure">check</span> aren’t confirmed or vary a lot. For the full write-up, see the <a href="swans.html">swan reference page</a>.</p>
+
+  <div class="layout">
+    <div class="stack">
+      <section class="card">
+        <div class="card-head"><h2>1 · Age</h2><button type="button" class="clear">↺ Start over</button></div>
+        <div class="seg" id="stages" role="group" aria-label="Age"></div>
+        <p class="stage-hint" id="stage-hint"></p>
+      </section>
+
+      <section class="card">
+        <h2>2 · Tap a part</h2>
+        <div id="diagram"></div>
+        <div class="parts" id="partchips" role="group" aria-label="Parts"></div>
+      </section>
+
+      <section class="card q" id="question" aria-live="polite"></section>
+
+      <section class="card">
+        <h2>Your picks</h2>
+        <div class="picks" id="picks"></div>
+      </section>
+    </div>
+
+    <section class="card results" id="results-card">
+      <div class="results-head">
+        <h2 id="results">Could be</h2>
+        <span class="count" id="count"></span>
+        <button type="button" class="clear">↺ Start over</button>
+      </div>
+      <ul class="res" id="res"></ul>
+    </section>
+  </div>
+
+  <section class="card notes" id="notes">
+    <h2>Notes and sources</h2>
+    <ul>
+      <li><strong>Use several marks.</strong> Every single mark has exceptions. Voice, the eye-to-bill connection and the yellow spot carry the most weight; size only works with the other species alongside.</li>
+      <li><strong>Young birds are harder.</strong> Bill color varies between young swans of the same species and age, and young Tundras can show a V forehead. Plumage by date and leg color help most.</li>
+      <li><strong>Iowa.</strong> Trumpeters were restored here from 1995 on; the DNR counted a record 158 nests in 2025, and over 4,700 swans were tallied in the 2025 midwinter survey. Tundras pass through in spring and fall, many along the Mississippi River. Mute Swans (orange bill with a black knob) are feral escapes.</li>
+    </ul>
+    <p class="src">Sources: Deviche and Jenness, “Identification challenge: Trumpeter vs. Tundra Swan,” <a href="https://doi.org/10.65238/302.yzx">Arizona Birds 16:13–22 (2022)</a>; David Sibley, <a href="https://sibleyguides.com/distinguishing-trumpeter-and-tundra-swans/">Distinguishing Trumpeter and Tundra Swans</a>; Southern Wisconsin Bird Alliance, <a href="https://swibirds.org/blog/2021/1/31/tundra-or-trumpeter-your-guide-to-swan-id">Tundra or Trumpeter?</a>; Iowa DNR, <a href="https://iowadnr.gov/programs-services/iowas-wildlife/trumpeter-swans">Trumpeter Swans</a> and the <a href="https://www.iowadnr.gov/news-release/2025-12-30/icon-wetlands-iowas-trumpeter-swan-population-continues-grow">30 Dec 2025 news release</a>; USGS, <a href="https://www.umesc.usgs.gov/documents/fact_sheets/swans.pdf">Tundra Swans on the Upper Mississippi</a>.</p>
+  </section>
+
+  <footer><a href="index.html">← All bird pages</a> · Full write-up on the <a href="swans.html">swan reference page</a>. Things tagged <span class="unsure">check</span> aren’t confirmed.</footer>
+</main>
+
+<div class="bar" id="bar"><span id="bar-text"></span><button type="button" class="clear">↺</button><a href="#results">See results ↓</a></div>
+
+<template id="bird-svg">
+  <svg viewBox="0 0 600 340" role="img" aria-label="Swan diagram, side view and face head-on: tap a part">
+    <!-- side view, facing left -->
+    <path class="part leg-line" data-part="legs" d="M246,268 L242,312 M284,268 L288,312"/>
+    <path class="part" data-part="legs" d="M226,317 L242,310 L258,317 Z M272,317 L288,310 L304,317 Z" style="fill:var(--bird-leg)"/>
+    <path class="part" data-part="tail" d="M372,196 L414,186 L404,210 L370,214 Z"/>
+    <path class="part" data-part="neck" d="M150,216 C146,178 124,142 116,98 L146,90 C152,124 178,160 220,184 Z"/>
+    <ellipse class="part" data-part="body" cx="268" cy="222" rx="116" ry="56"/>
+    <path class="part" data-part="wing" d="M178,196 C230,166 330,164 382,198 C350,228 250,236 196,226 Z"/>
+    <path class="part" data-part="head" d="M104,66 C108,54 124,50 136,54 C148,58 152,72 146,86 C140,98 120,102 106,94 Z"/>
+    <path class="part" data-part="bill" d="M105,64 L46,82 C40,84 40,92 46,93 L106,94 Z"/>
+    <path class="part" data-part="lore" d="M105,64 L116,66 L116,75 L106,80 Z"/>
+    <circle class="pupil" cx="118" cy="70" r="3"/>
+
+    <!-- head-on view -->
+    <path class="part" data-part="fneck" d="M494,150 L526,150 L532,252 L488,252 Z"/>
+    <ellipse class="part" data-part="fhead" cx="510" cy="118" rx="34" ry="38"/>
+    <path class="part" data-part="flore" d="M497,116 L484,108 L483,118 L498,132 Z M523,116 L536,108 L537,118 L522,132 Z"/>
+    <path class="part" data-part="fbill" d="M496,114 L524,114 L522,186 C518,196 502,196 498,186 Z"/>
+    <circle class="pupil" cx="485" cy="110" r="3"/><circle class="pupil" cx="535" cy="110" r="3"/>
+
+    <!-- overlays: hidden until a pick shows them -->
+    <g data-look="scales" style="fill:none;stroke:var(--c-pale);stroke-width:2;stroke-linecap:round">
+      <path d="M212,196 q8,-5 16,0 M236,190 q8,-5 16,0 M260,186 q8,-5 16,0 M284,185 q8,-5 16,0 M308,186 q8,-5 16,0 M332,190 q8,-5 16,0 M224,208 q8,-5 16,0 M248,203 q8,-5 16,0 M272,200 q8,-5 16,0 M296,200 q8,-5 16,0 M320,203 q8,-5 16,0 M344,207 q8,-5 16,0"/>
+    </g>
+    <g data-look="whitepatch" class="no-stroke" style="fill:var(--c-white)">
+      <ellipse cx="236" cy="188" rx="16" ry="6"/><ellipse cx="270" cy="181" rx="18" ry="6"/><ellipse cx="306" cy="182" rx="16" ry="6"/><ellipse cx="338" cy="190" rx="14" ry="5"/>
+    </g>
+    <g data-look="crownflat">
+      <path class="no-stroke" d="M104,66 L142,49 L153,64 L150,76 C150,64 146,58 136,54 C124,50 108,54 104,66 Z" style="fill:var(--c-white)"/>
+      <path d="M105,65 L142,49 L153,64 L150,76" style="fill:none"/>
+    </g>
+    <path data-look="eyepatch" class="no-stroke" d="M105,63 L118,64 C123,66 123,75 118,77 L106,82 Z" style="fill:var(--c-black)"/>
+    <path data-look="lorethin" d="M106,69 L115,70" style="fill:none;stroke:var(--c-black);stroke-width:2.4;stroke-linecap:round"/>
+    <g data-look="culdip">
+      <path class="no-stroke" d="M105,64 L46,82 Q74,82 105,64 Z" style="fill:var(--surface)"/>
+      <path d="M105,64 Q74,82 46,82" style="fill:none"/>
+    </g>
+    <path data-look="bbase" class="no-stroke" d="M105,64 L88,69.2 L88,93.7 L106,94 Z" style="fill:var(--c-black)"/>
+    <path data-look="btip" class="no-stroke" d="M60,77.7 L46,82 C40,84 40,92 46,93 L60,93.2 Z" style="fill:var(--c-black)"/>
+    <path data-look="grin" d="M104,91.6 L52,92" style="fill:none;stroke:var(--c-red);stroke-width:2.6;stroke-linecap:round"/>
+    <g data-look="yspot" class="no-stroke" style="fill:var(--c-yellow)">
+      <ellipse cx="110" cy="75" rx="4.5" ry="3.2"/><ellipse cx="492" cy="121" rx="3.4" ry="2.6"/><ellipse cx="528" cy="121" rx="3.4" ry="2.6"/>
+    </g>
+    <g data-look="pspot" class="no-stroke" style="fill:var(--c-spot);opacity:.9">
+      <ellipse cx="110" cy="75" rx="5" ry="3.6"/><ellipse cx="492" cy="121" rx="3.8" ry="3"/><ellipse cx="528" cy="121" rx="3.8" ry="3"/>
+    </g>
+    <path data-look="fv" class="no-stroke" d="M496,114.5 L510,92 L524,114.5 Z" style="fill:var(--c-black)"/>
+    <g data-look="fu">
+      <path class="no-stroke" d="M496,113.5 C500,128 520,128 524,113.5 Z" style="fill:var(--c-white)"/>
+      <path d="M496,114 C500,128 520,128 524,114" style="fill:none"/>
+    </g>
+    <path data-look="fwide" class="no-stroke" d="M497,114 L481,103 C476,107 477,116 483,119 L498,133 Z M523,114 L539,103 C544,107 543,116 537,119 L522,133 Z" style="fill:var(--c-black)"/>
+    <path data-look="fthin" d="M497,119 L489,112 M523,119 L531,112" style="fill:none;stroke:var(--c-black);stroke-width:2.2;stroke-linecap:round"/>
+
+    <text class="side-label" x="300" y="334" text-anchor="middle">side</text>
+    <text class="side-label" x="510" y="272" text-anchor="middle">head-on</text>
+
+    <!-- labels -->
+    <g class="label" data-q="bill"><line x1="44" y1="120" x2="64" y2="92"/><text x="40" y="138" text-anchor="middle">Bill</text></g>
+    <g class="label" data-q="lores"><line x1="110" y1="30" x2="112" y2="66"/><text x="110" y="22" text-anchor="middle">Eye &amp; lores</text></g>
+    <g class="label" data-q="head"><line x1="196" y1="46" x2="148" y2="60"/><text x="200" y="50" text-anchor="start">Head shape</text></g>
+    <g class="label" data-q="plumage"><line x1="300" y1="140" x2="290" y2="180"/><text x="300" y="132" text-anchor="middle">Plumage</text></g>
+    <g class="label" data-q="legs"><line x1="200" y1="312" x2="242" y2="296"/><text x="196" y="318" text-anchor="end">Legs</text></g>
+    <g class="label" data-q="forehead"><line x1="510" y1="44" x2="510" y2="92"/><text x="510" y="36" text-anchor="middle">Forehead</text></g>
+    <g class="label" data-q="lores"><line x1="578" y1="80" x2="540" y2="106"/><text x="592" y="74" text-anchor="end">Lores</text></g>
+  </svg>
+</template>
+
+<script src="picker.js?v=4"></script>
+<script>
+(function () {
+  var SPECIES = [
+    { id: 'tr', name: 'Trumpeter Swan' },
+    { id: 'tu', name: 'Tundra Swan' }
+  ];
+  var PART_TO_Q = { bill: 'bill', lore: 'lores', head: 'head', neck: 'plumage', body: 'plumage', wing: 'plumage', tail: 'plumage',
+                    legs: 'legs', fhead: 'forehead', fbill: 'forehead', flore: 'lores', fneck: 'plumage' };
+  var Q_ORDER = ['call', 'lores', 'forehead', 'bill', 'head', 'plumage', 'legs', 'size', 'date', 'where'];
+  var Q_NAMES = { call: 'Call', lores: 'Eye & lores', forehead: 'Forehead', bill: 'Bill', head: 'Head shape', plumage: 'Plumage',
+                  legs: 'Legs', size: 'Size', date: 'Date', where: 'Group & place' };
+
+  // ---------- Paint helpers ----------
+  function C(n) { return 'var(--c-' + n + ')'; }
+  function L() { var o = {}; [].forEach.call(arguments, function (a) { Object.keys(a).forEach(function (k) { o[k] = a[k]; }); }); return o; }
+  function paint(c) { var o = {}; ['body', 'neck', 'head', 'wing', 'tail', 'fhead', 'fneck'].forEach(function (p) { o[p] = C(c); }); return o; }
+  function bill(c) { return { bill: C(c), fbill: C(c) }; }
+  function legs(c) { return { legs: { fill: C(c), stroke: C(c) } }; }
+  function sized(s) { return { bill: { fill: C('black'), transform: 'scale(' + s + ')', transformOrigin: '100% 50%' } }; }
+  var BLACK_LORES = { lore: C('black'), flore: C('black') };
+
+  // ---------- Answers shared by both ages ----------
+  var CALL = [{ id: 'call', title: 'Call', help: 'Often the easiest way to tell them, and young birds call like adults.', options: [
+    { label: 'Deep, brassy honk, like a short trumpet toot, often 2 or 3 notes', fits: 'tr' },
+    { label: 'Higher, softer “woo-woo” bugling, with crane-like clucking', fits: 'tu' }
+  ]}];
+  var DATE = [{ id: 'date', title: 'When, in Iowa', help: 'Trumpeters nest across Iowa and many stay all winter. Tundras only pass through, about March–April and late October–December, and don’t summer here.',
+    check: 'Iowa Tundra Swan windows come from regional migration timing, not an Iowa date list.', options: [
+    { label: 'May through September', fits: 'tr' },
+    { label: 'October through April', fits: 'tr tu' }
+  ]}];
+  var WHERE = [{ id: 'flock', title: 'Group and place', options: [
+    { label: 'A big, noisy flock, often on the Mississippi River in fall', fits: 'tu ~tr' },
+    { label: 'A pair or a family group on a marsh, pond or prairie wetland', fits: 'tr ~tu' },
+    { label: 'A neck collar or wing tag', fits: 'tr ~tu', check: 'Iowa has released and collared many Trumpeters, but Tundras are also marked in research studies.' }
+  ]}];
+  function size(help) { return [{ id: 'size', title: 'Size, beside other swans', help: help, options: [
+    { label: 'Clearly bigger and heavier; slow, deliberate movements', fits: 'tr' },
+    { label: 'Clearly smaller and lighter; quicker, almost prancing', fits: 'tu' }
+  ]}]; }
+
+  // ---------- Adults ----------
+  var ADULT = {
+    call: CALL, date: DATE, where: WHERE,
+    lores: [
+      { id: 'eyelink', title: 'How the black meets the eye', help: 'Clearest head-on or from above, as the bird reaches down to feed.', options: [
+        { label: 'Eye sits in a broad black band and is hard to pick out', fits: 'tr ~tu', look: L(BLACK_LORES, { eyepatch: true, fwide: true }) },
+        { label: 'Eye stands apart, joined by a thin black line or not at all', fits: 'tu', look: { lore: C('white'), flore: C('white'), lorethin: true, fthin: true } }
+      ]},
+      { id: 'yellow', title: 'Yellow in front of the eye', help: 'Most Tundras have at least a small yellow spot; about 1 in 10 has none. A Trumpeter with yellow is very rare.', options: [
+        { label: 'A yellow spot, large or small', fits: 'tu', look: { yspot: true } },
+        { label: 'All black, no yellow', fits: 'tr ~tu', look: BLACK_LORES }
+      ]}
+    ],
+    forehead: [{ id: 'fore', title: 'Where the forehead feathers meet the bill', help: 'Look straight at the face. Some birds look in between.', options: [
+      { label: 'A sharp V, pointing up into the forehead', fits: 'tr ~tu', look: { fv: true } },
+      { label: 'A broad U, or nearly flat', fits: 'tu', look: { fu: true } }
+    ]}],
+    bill: [
+      { id: 'billsize', title: 'Bill against the head', help: 'Easiest with both species side by side.', options: [
+        { label: 'Long and heavy: a wedge about as long as the head', fits: 'tr ~tu', look: sized(1.1) },
+        { label: 'Shorter and lighter', fits: 'tu ~tr', look: sized(0.86) }
+      ]},
+      { id: 'culmen', title: 'Top line of the bill', help: 'In profile. The angle changes how it looks.', options: [
+        { label: 'Straight, running on into the forehead in one line', fits: 'tr ~tu', look: { bill: C('black') } },
+        { label: 'Slightly dipped, with a break where it meets the forehead', fits: 'tu', look: { culdip: true } }
+      ]},
+      { id: 'grin', title: 'Red line along the lower edge (the “grin”)', check: 'Sources differ: one calls it a Trumpeter mark, Sibley gives both species an orange-red grin line, and the Arizona Birds paper says some Tundras show it.', options: [
+        { label: 'Yes, a red or orange-red line', fits: 'tr ~tu', look: { grin: true } },
+        { label: 'No red showing', fits: 'tu ~tr', look: { bill: C('black') } }
+      ]}
+    ],
+    head: [{ id: 'shape', title: 'Head shape in profile', help: 'Changes with posture, so use it with other marks.', options: [
+      { label: 'Long, flat crown sloping straight into the bill, with a corner at the back (like a Canvasback)', fits: 'tr ~tu', look: { crownflat: true } },
+      { label: 'Rounder head and cheeks: a “baby face”', fits: 'tu ~tr', look: { head: C('white') } }
+    ]}],
+    plumage: { note: 'Adults of both are all white, and either can have rusty staining on the head and neck.' },
+    legs: { note: 'Adults of both have black legs and feet.' },
+    size: size('Only with the other species right alongside: female Trumpeters and male Tundras overlap.')
+  };
+
+  // ---------- Young birds (first fall to spring) ----------
+  var YOUNG = {
+    call: CALL, date: DATE, where: WHERE,
+    plumage: [{ id: 'plum', title: 'Body color', help: 'Judge it by the date. Both start gray-brown, but Tundras whiten much sooner.', options: [
+      { label: 'Dark, sooty gray-brown, often faintly scaly; still all gray in midwinter', fits: 'tr', look: L(paint('sooty'), { scales: true }) },
+      { label: 'Paler, silvery gray; white patches on the back by mid-December to January', fits: 'tu', look: L(paint('silver'), { whitepatch: true }) },
+      { label: 'Mostly white by late winter, with gray left on the head and neck', fits: 'tu ~tr', look: L(paint('white'), { head: C('imgray'), neck: C('imgray'), fhead: C('imgray'), fneck: C('imgray') }),
+        check: 'Some Trumpeter cygnets (up to 13% in the Rocky Mountain population) grow white feathers in their first year.' }
+    ]}],
+    bill: [{ id: 'ibill', title: 'Bill color', check: 'Varies a lot, even between young birds of the same species seen together.', options: [
+      { label: 'Black at the base and over the lores, pink in the middle', fits: 'tr ~tu', look: L(bill('pink'), BLACK_LORES, { bbase: true, btip: true }) },
+      { label: 'Mostly pink, black only at the tip; pink reaching the face', fits: 'tu', look: L(bill('pink'), { lore: C('pink'), flore: C('pink'), btip: true }) },
+      { label: 'Mostly black already', fits: 'tr tu', look: L(bill('black'), BLACK_LORES) }
+    ]}],
+    lores: [{ id: 'ispot', title: 'In front of the eye', options: [
+      { label: 'A blurry whitish or yellowish spot', fits: 'tu', look: { pspot: true } },
+      { label: 'Solid black lores', fits: 'tr ~tu', look: L(BLACK_LORES, { eyepatch: true, fwide: true }) }
+    ]}],
+    legs: [{ id: 'legs', title: 'Leg and foot color', help: 'Young Tundras have black legs by about late December. Watch for mud, which makes black legs look brown or pale.', options: [
+      { label: 'Black', fits: 'tu ~tr', look: legs('black') },
+      { label: 'Gray, olive or yellowish', fits: 'tr', look: legs('olive') }
+    ]}],
+    forehead: { note: 'Young Tundras often show a sharp V too, so the forehead doesn’t separate young birds.' },
+    head: { note: 'Young swans’ heads and bills look swollen, so shape and bill size don’t help yet.' },
+    size: size('Compare young birds with young birds: young Trumpeters may not reach full size until their second fall.')
+  };
+
+  Picker({
+    species: SPECIES,
+    stages: [
+      { id: 'adult', label: 'Adult', name: 'Adult', tab: 'adults',
+        qOrder: ['call', 'lores', 'forehead', 'bill', 'head', 'size', 'date', 'where', 'plumage', 'legs'],
+        hint: 'All white with a black bill.',
+        look: L(paint('white'), bill('black'), BLACK_LORES, legs('black')) },
+      { id: 'young', label: 'Young (gray)', name: 'Young bird', tab: 'young',
+        qOrder: ['plumage', 'bill', 'legs', 'lores', 'call', 'date', 'size', 'where', 'head', 'forehead'],
+        hint: 'Gray-brown to patchy white, with pink on the bill. First fall through spring.',
+        look: L(paint('imgray'), bill('pinkgray'), { lore: C('imgray'), flore: C('imgray') }, legs('dgray')) }
+    ],
+    defaultStage: 'adult',
+    // Close-up for each answer button: a square of the diagram around that part
+    thumbs: { eyelink: '474 84 72 72', yellow: '92 48 46 46', ispot: '92 48 46 46', forehead: '474 76 72 72',
+              bill: '35 41 76 76', head: '90 34 76 76', plumage: '40 20 400 400', legs: '214 250 104 104' },
+    partToQ: PART_TO_Q, qOrder: Q_ORDER, qNames: Q_NAMES,
+    data: { adult: ADULT, young: YOUNG },
+    ref: 'swans.html'
+  });
+})();
+</script>
+</body>
+</html>
