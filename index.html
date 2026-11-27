@@ -34,6 +34,15 @@
   .pages span { color: var(--muted); }
   .pages .proto { display: inline-block; font-size: 11px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase;
                   background: #fbf1de; color: #8a520c; border-radius: 999px; padding: 1px 8px; margin-left: 6px; vertical-align: 2px; }
+  /* Decoder tiles: square pictures, 2 across on phones, 3 on wider screens */
+  .tiles { list-style: none; padding: 0; margin: 0; display: grid; gap: 12px; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  @media (min-width: 600px) { .tiles { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+  .tiles a { display: flex; flex-direction: column; aspect-ratio: 1; text-decoration: none; color: inherit;
+             background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 10px 10px 12px; transition: border-color .15s; }
+  .tiles a:hover, .tiles a:focus-visible { border-color: var(--accent); outline: none; }
+  .tiles svg { flex: 1; min-height: 0; width: 100%; display: block; }
+  .tiles strong { display: block; font-size: 16px; line-height: 1.25; margin-top: 6px; }
+  .tiles strong::after { content: " →"; color: var(--accent); }
 </style>
 </head>
 <body>
@@ -45,65 +54,313 @@
   <h2>Decoders</h2>
   <p class="sub">Tap what you see and get a ranked list of what it could be.</p>
   <!-- Interactive decoders go here -->
-  <ul class="pages">
+  <ul class="tiles">
     <li>
-      <a href="gulls-picker.html">
-        <strong>White-headed Gull Picker</strong>
-        <span>White-headed gulls: pick the age, tap parts of the bird, choose what you see.</span>
+      <a href="swans-picker.html" aria-label="Swan Picker: Trumpeter or Tundra" title="Swan Picker: Trumpeter or Tundra">
+        <svg viewBox="38 -5 380 380" aria-hidden="true" focusable="false">
+    <path d="M246,268 L242,312 M284,268 L288,312" fill="rgb(36, 40, 44)" stroke="rgb(36, 40, 44)" stroke-width="5px" opacity="0.45" stroke-linecap="round" stroke-linejoin="miter"/>
+    <path d="M226,317 L242,310 L258,317 Z M272,317 L288,310 L304,317 Z" fill="rgb(36, 40, 44)" stroke="rgb(36, 40, 44)" stroke-width="1.5px" opacity="0.45" stroke-linecap="butt" stroke-linejoin="miter"/>
+    <path d="M372,196 L414,186 L404,210 L370,214 Z" fill="rgb(251, 251, 249)" stroke="rgb(79, 86, 94)" stroke-width="1.5px" opacity="0.45" stroke-linecap="butt" stroke-linejoin="miter"/>
+    <path d="M150,216 C146,178 124,142 116,98 L146,90 C152,124 178,160 220,184 Z" fill="rgb(251, 251, 249)" stroke="rgb(79, 86, 94)" stroke-width="1.5px" opacity="0.45" stroke-linecap="butt" stroke-linejoin="miter"/>
+    <ellipse cx="268" cy="222" rx="116" ry="56" fill="rgb(251, 251, 249)" stroke="rgb(79, 86, 94)" stroke-width="1.5px" opacity="0.45" stroke-linecap="butt" stroke-linejoin="miter"/>
+    <path d="M178,196 C230,166 330,164 382,198 C350,228 250,236 196,226 Z" fill="rgb(251, 251, 249)" stroke="rgb(79, 86, 94)" stroke-width="1.5px" opacity="0.45" stroke-linecap="butt" stroke-linejoin="miter"/>
+    <path d="M104,66 C108,54 124,50 136,54 C148,58 152,72 146,86 C140,98 120,102 106,94 Z" fill="rgb(251, 251, 249)" stroke="rgb(79, 86, 94)" stroke-width="1.5px" stroke-linecap="butt" stroke-linejoin="miter"/>
+    <path d="M105,64 L46,82 C40,84 40,92 46,93 L106,94 Z" fill="rgb(36, 40, 44)" stroke="rgb(79, 86, 94)" stroke-width="1.5px" stroke-linecap="butt" stroke-linejoin="miter"/>
+    <path d="M105,64 L116,66 L116,75 L106,80 Z" fill="rgb(36, 40, 44)" stroke="rgb(79, 86, 94)" stroke-width="1.5px" stroke-linecap="butt" stroke-linejoin="miter"/>
+    <circle cx="118" cy="70" r="3" fill="rgb(79, 86, 94)" stroke="none" stroke-width="1px" stroke-linecap="butt" stroke-linejoin="miter"/>
+  </svg>
+        <strong>Swans</strong>
       </a>
     </li>
     <li>
-      <a href="small-gulls-picker.html">
-        <strong>Small Gull Picker</strong>
-        <span>Small and hooded gulls: pick the age and season, then tap the wing, head, bill and tail.</span>
+      <a href="ducks-picker.html" aria-label="Dusky Duck Picker: Mottled, Mexican, American Black or Mallard" title="Dusky Duck Picker: Mottled, Mexican, American Black or Mallard">
+        <svg viewBox="30 -71 500 500" aria-hidden="true" focusable="false">
+    <path d="M292,238 L286,296 M274,300 L286,296 L298,302" fill="none" stroke="rgb(201, 167, 160)" stroke-width="5px" opacity="0.45" stroke-linecap="round" stroke-linejoin="miter"/>
+    <path d="M322,238 L326,292 M314,296 L326,292 L338,296" fill="none" stroke="rgb(201, 167, 160)" stroke-width="5px" opacity="0.45" stroke-linecap="round" stroke-linejoin="miter"/>
+    <path d="M444,150 L528,170 L446,178 Z" fill="rgb(207, 211, 216)" stroke="rgb(79, 86, 94)" stroke-width="1.5px" stroke-linecap="butt" stroke-linejoin="miter"/>
+    <path d="M446,178 L528,170 L448,196 Z" fill="rgb(221, 224, 227)" stroke="rgb(79, 86, 94)" stroke-width="1.5px" stroke-linecap="butt" stroke-linejoin="miter"/>
+    <path d="M150,196 C146,160 196,140 270,140 C350,140 420,146 460,166 C478,178 468,204 446,216 C400,240 310,252 240,246 C186,240 154,222 150,196 Z" fill="rgb(191, 196, 202)" stroke="rgb(79, 86, 94)" stroke-width="1.5px" stroke-linecap="butt" stroke-linejoin="miter"/>
+    <path d="M226,158 C290,136 390,138 462,164 C440,184 360,198 290,198 C258,194 236,178 226,158 Z" fill="rgb(207, 211, 216)" stroke="rgb(79, 86, 94)" stroke-width="1.5px" stroke-linecap="butt" stroke-linejoin="miter"/>
+    <path d="M318,178 L438,166 L446,177 L322,191 Z" fill="rgb(142, 149, 157)" stroke="rgb(79, 86, 94)" stroke-width="1.5px" stroke-linecap="butt" stroke-linejoin="miter"/>
+    <path d="M204,150 C190,138 176,122 168,108 C166,80 150,56 124,56 C98,56 84,72 84,90 C84,106 94,118 106,126 C122,136 140,154 152,178 C168,164 186,154 204,150 Z" fill="rgb(221, 224, 227)" stroke="rgb(79, 86, 94)" stroke-width="1.5px" stroke-linecap="butt" stroke-linejoin="miter"/>
+    <path d="M88,80 C70,82 50,88 36,95 C29,100 31,107 40,107 C58,107 74,106 92,104 Z" fill="rgb(191, 196, 202)" stroke="rgb(79, 86, 94)" stroke-width="1.5px" stroke-linecap="butt" stroke-linejoin="miter"/>
+    <circle cx="114" cy="84" r="3.5" fill="rgb(79, 86, 94)" stroke="none" stroke-width="1px" stroke-linecap="butt" stroke-linejoin="miter"/>
+  </svg>
+        <strong>Dusky Ducks</strong>
       </a>
     </li>
     <li>
-      <a href="dowitchers-picker.html">
-        <strong>Dowitcher Picker</strong>
-        <span>Short-billed or Long-billed: pick the plumage (or “not sure”), then call, date, tertials, scapulars and more.</span>
+      <a href="dowitchers-picker.html" aria-label="Dowitcher Picker: Short-billed or Long-billed" title="Dowitcher Picker: Short-billed or Long-billed">
+        <svg viewBox="94 -21 384 384" aria-hidden="true" focusable="false">
+        <defs>
+          <clipPath id="t-dowitchers-body-clip"><ellipse cx="260" cy="150" rx="95" ry="46"/></clipPath>
+        </defs>
+        <g transform="translate(80 10)">
+          <path d="M245,190 L240,228 L246,262 M232,264 L258,262 M275,190 L282,228 L276,262 M264,264 L290,262" fill="none" stroke="rgb(142, 149, 157)" stroke-width="3.5px" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M345,128 L392,138 L390,156 L345,160 Z" fill="rgb(191, 196, 202)" stroke="rgb(79, 86, 94)" stroke-width="1.5px" stroke-linecap="butt" stroke-linejoin="miter"/>
+          <ellipse cx="260" cy="150" rx="95" ry="46" fill="rgb(251, 251, 249)" stroke="rgb(79, 86, 94)" stroke-width="1.5px" opacity="0.45" stroke-linecap="butt" stroke-linejoin="miter"/>
+          <g clip-path="url(#t-dowitchers-body-clip)">
+            <ellipse cx="200" cy="162" rx="52" ry="46" fill="rgb(207, 211, 216)" stroke="rgb(79, 86, 94)" stroke-width="1.5px" opacity="0.45" stroke-linecap="butt" stroke-linejoin="miter"/>
+            <ellipse cx="270" cy="110" rx="112" ry="32" fill="rgb(191, 196, 202)" stroke="rgb(79, 86, 94)" stroke-width="1.5px" opacity="0.45" stroke-linecap="butt" stroke-linejoin="miter"/>
+          </g>
+          <path d="M135,128 C150,160 172,182 205,190 L232,124 C210,110 182,104 165,100 Z" fill="rgb(207, 211, 216)" stroke="rgb(79, 86, 94)" stroke-width="1.5px" opacity="0.45" stroke-linecap="butt" stroke-linejoin="miter"/>
+          <path d="M215,128 C265,118 325,124 372,142 C330,156 265,158 222,148 Z" fill="rgb(142, 149, 157)" stroke="rgb(79, 86, 94)" stroke-width="1.5px" stroke-linecap="butt" stroke-linejoin="miter"/>
+          <path d="M290,128 C318,124 345,132 368,143 C342,150 312,149 292,140 Z" fill="rgb(191, 196, 202)" stroke="rgb(79, 86, 94)" stroke-width="1.5px" opacity="0.45" stroke-linecap="butt" stroke-linejoin="miter"/>
+          <path d="M300,137 C325,135 350,141 372,148 C348,155 320,154 302,147 Z" fill="rgb(191, 196, 202)" stroke="rgb(79, 86, 94)" stroke-width="1.5px" opacity="0.45" stroke-linecap="butt" stroke-linejoin="miter"/>
+          <circle cx="150" cy="110" r="28" fill="rgb(251, 251, 249)" stroke="rgb(79, 86, 94)" stroke-width="1.5px" stroke-linecap="butt" stroke-linejoin="miter"/>
+          <path d="M128,104 L20,126 L20,129 L130,117 Z" fill="rgb(142, 149, 157)" stroke="rgb(79, 86, 94)" stroke-width="1.5px" stroke-linecap="butt" stroke-linejoin="miter"/>
+          <path d="M128,99 Q145,93 166,96" fill="none" stroke="rgb(251, 251, 249)" stroke-width="4px" stroke-linecap="round" stroke-linejoin="miter"/>
+          <circle cx="144" cy="106" r="3.5" fill="rgb(79, 86, 94)" stroke="none" stroke-width="1px" stroke-linecap="butt" stroke-linejoin="miter"/>
+          <path d="M112,70 Q106,78 112,86 M104,64 Q95,78 104,92 M96,58 Q84,78 96,98" fill="none" stroke="rgb(93, 100, 108)" stroke-width="2.5px" stroke-linecap="round" stroke-linejoin="miter"/>
+        </g>
+      </svg>
+        <strong>Dowitchers</strong>
       </a>
     </li>
     <li>
-      <a href="juncos-picker.html">
-        <strong>Junco Picker</strong>
-        <span>Dark-eyed Junco forms: tap the hood, flanks, back, wingbars and tail.</span>
+      <a href="small-gulls-picker.html" aria-label="Small Gull Picker: small and hooded gulls" title="Small Gull Picker: small and hooded gulls">
+        <svg viewBox="28 -102 544 544" aria-hidden="true" focusable="false">
+    <path d="M282,135 C220,118 140,110 72,126 L30,150 C85,162 160,172 220,178 L282,182 Z" fill="rgb(207, 211, 216)" stroke="rgb(79, 86, 94)" stroke-width="1.5px" stroke-linecap="butt" stroke-linejoin="miter"/>
+    <path d="M140,160 C175,166 225,173 282,176 L282,182 C225,180 170,174 132,168 Z" fill="rgb(191, 196, 202)" stroke="rgb(79, 86, 94)" stroke-width="1.5px" stroke-linecap="butt" stroke-linejoin="miter"/>
+    <path d="M118,121 L148,118 L282,156 L282,166 Z" fill="rgb(191, 196, 202)" stroke="rgb(79, 86, 94)" stroke-width="1.5px" stroke-linecap="butt" stroke-linejoin="miter"/>
+    <path d="M72,126 C95,120 112,118 125,118 L140,160 C110,156 70,154 30,150 Z" fill="rgb(142, 149, 157)" stroke="rgb(79, 86, 94)" stroke-width="1.5px" stroke-linecap="butt" stroke-linejoin="miter"/>
+    <g transform="translate(600 0) scale(-1 1)">
+      <path d="M282,135 C220,118 140,110 72,126 L30,150 C85,162 160,172 220,178 L282,182 Z" fill="rgb(221, 224, 227)" stroke="rgb(79, 86, 94)" stroke-width="1.5px" stroke-linecap="butt" stroke-linejoin="miter"/>
+      <path d="M72,126 C95,120 112,118 125,118 L140,160 C110,156 70,154 30,150 Z" fill="rgb(191, 196, 202)" stroke="rgb(79, 86, 94)" stroke-width="1.5px" stroke-linecap="butt" stroke-linejoin="miter"/>
+    </g>
+    <path d="M284,236 L316,236 L321,282 L279,282 Z" fill="rgb(251, 251, 249)" stroke="rgb(79, 86, 94)" stroke-width="1.5px" stroke-linecap="butt" stroke-linejoin="miter"/>
+    <path d="M280,268 L320,268 L321,282 L279,282 Z" fill="rgb(142, 149, 157)" stroke="rgb(79, 86, 94)" stroke-width="1.5px" stroke-linecap="butt" stroke-linejoin="miter"/>
+    <ellipse cx="300" cy="172" rx="22" ry="70" fill="rgb(251, 251, 249)" stroke="rgb(79, 86, 94)" stroke-width="1.5px" stroke-linecap="butt" stroke-linejoin="miter"/>
+    <circle cx="300" cy="100" r="20" fill="rgb(191, 196, 202)" stroke="rgb(79, 86, 94)" stroke-width="1.5px" stroke-linecap="butt" stroke-linejoin="miter"/>
+    <ellipse cx="283" cy="106" rx="4" ry="5" fill="rgb(142, 149, 157)" stroke="rgb(79, 86, 94)" stroke-width="1.5px" stroke-linecap="butt" stroke-linejoin="miter"/>
+    <ellipse cx="317" cy="106" rx="4" ry="5" fill="rgb(142, 149, 157)" stroke="rgb(79, 86, 94)" stroke-width="1.5px" stroke-linecap="butt" stroke-linejoin="miter"/>
+    <path d="M294,82 L300,58 L306,82 Z" fill="rgb(142, 149, 157)" stroke="rgb(79, 86, 94)" stroke-width="1.5px" stroke-linecap="butt" stroke-linejoin="miter"/>
+  </svg>
+        <strong>Small Gulls</strong>
       </a>
     </li>
     <li>
-      <a href="fall-warblers-picker.html">
-        <strong>Fall Bay-breasted, Blackpoll, and Pine Warbler Picker</strong>
-        <span>Bay-breasted, Blackpoll or Pine: tap the feet, back, tail, flanks and face.</span>
+      <a href="gulls-picker.html" aria-label="White-headed Gull Picker" title="White-headed Gull Picker">
+        <svg viewBox="143 -32 400 400" aria-hidden="true" focusable="false">
+    <g transform="translate(80 10)">
+      <path d="M240,196 L238,250 M270,196 L274,250" fill="rgb(201, 167, 160)" stroke="rgb(201, 167, 160)" stroke-width="5px" stroke-linecap="round" stroke-linejoin="miter"/>
+      <path d="M224,253 L238,248 L252,254 Z M260,253 L274,248 L288,254 Z" fill="rgb(201, 167, 160)" stroke="rgb(79, 86, 94)" stroke-width="1.5px" stroke-linecap="butt" stroke-linejoin="miter"/>
+      <path d="M335,142 L420,158 L418,172 L333,166 Z" fill="rgb(251, 251, 249)" stroke="rgb(79, 86, 94)" stroke-width="1.5px" opacity="0.45" stroke-linecap="butt" stroke-linejoin="miter"/>
+      <ellipse cx="250" cy="150" rx="100" ry="50" fill="rgb(251, 251, 249)" stroke="rgb(79, 86, 94)" stroke-width="1.5px" stroke-linecap="butt" stroke-linejoin="miter"/>
+      <path d="M118,108 C125,135 150,165 190,178 L212,112 C190,96 170,82 160,72 Z" fill="rgb(251, 251, 249)" stroke="rgb(79, 86, 94)" stroke-width="1.5px" stroke-linecap="butt" stroke-linejoin="miter"/>
+      <circle cx="145" cy="92" r="30" fill="rgb(251, 251, 249)" stroke="rgb(79, 86, 94)" stroke-width="1.5px" stroke-linecap="butt" stroke-linejoin="miter"/>
+      <path d="M185,118 C215,102 290,98 340,128 L336,142 C300,130 240,126 195,134 Z" fill="rgb(207, 211, 216)" stroke="rgb(79, 86, 94)" stroke-width="1.5px" stroke-linecap="butt" stroke-linejoin="miter"/>
+      <path d="M195,128 C250,116 320,120 360,136 C330,160 255,168 205,160 Z" fill="rgb(221, 224, 227)" stroke="rgb(79, 86, 94)" stroke-width="1.5px" stroke-linecap="butt" stroke-linejoin="miter"/>
+      <path d="M298,124 C328,121 352,128 368,138 C345,147 318,145 300,137 Z" fill="rgb(191, 196, 202)" stroke="rgb(79, 86, 94)" stroke-width="1.5px" stroke-linecap="butt" stroke-linejoin="miter"/>
+      <path d="M342,132 L462,156 L456,168 L338,152 Z" fill="rgb(142, 149, 157)" stroke="rgb(79, 86, 94)" stroke-width="1.5px" stroke-linecap="butt" stroke-linejoin="miter"/>
+      <path d="M120,84 L74,90 C66,91 63,96 66,99 L76,99 L86,105 L121,103 Z" fill="rgb(221, 224, 227)" stroke="rgb(79, 86, 94)" stroke-width="1.5px" stroke-linecap="butt" stroke-linejoin="miter"/>
+      <circle cx="136" cy="86" r="7" fill="rgb(251, 251, 249)" stroke="rgb(79, 86, 94)" stroke-width="1.5px" stroke-linecap="butt" stroke-linejoin="miter"/>
+      <circle cx="135.5" cy="86" r="2.6" fill="rgb(79, 86, 94)" stroke="none" stroke-width="1px" stroke-linecap="butt" stroke-linejoin="miter"/>
+    </g>
+  </svg>
+        <strong>White-headed Gulls</strong>
       </a>
     </li>
     <li>
-      <a href="orioles-picker.html">
-        <strong>Oriole Picker</strong>
-        <span>All the orioles of the contiguous US: pick adult male, dull with a bib, or dull with no black, then tap the belly, face, back and wings.</span>
+      <a href="terns-picker.html" aria-label="Tern Picker: Common, Forster’s or Arctic" title="Tern Picker: Common, Forster’s or Arctic">
+        <svg viewBox="22 -112 556 556" aria-hidden="true" focusable="false">
+    <path d="M286,128 L176,106 C146,116 86,150 24,186 C72,174 116,164 152,158 C205,158 248,160 286,162 Z" fill="rgb(188, 195, 202)" stroke="rgb(79, 86, 94)" stroke-width="1.5px" opacity="0.45" stroke-linecap="butt" stroke-linejoin="miter"/>
+    <path d="M152,158 C205,158 248,160 286,162 L286,154 C248,152 205,150 156,151 Z" fill="rgb(188, 195, 202)" stroke="rgb(79, 86, 94)" stroke-width="1.5px" opacity="0.45" stroke-linecap="butt" stroke-linejoin="miter"/>
+    <path d="M286,129 L177,107 L186,119 L286,140 Z" fill="rgb(188, 195, 202)" stroke="none" stroke-width="1.5px" opacity="0.45" stroke-linecap="butt" stroke-linejoin="miter"/>
+    <path d="M176,106 C146,116 86,150 24,186 C72,174 116,164 152,158 Z" fill="rgb(142, 149, 157)" stroke="rgb(79, 86, 94)" stroke-width="1.5px" stroke-linecap="butt" stroke-linejoin="miter"/>
+    <g transform="translate(600 0) scale(-1 1)">
+      <path d="M286,128 L176,106 C146,116 86,150 24,186 C72,174 116,164 152,158 C205,158 248,160 286,162 Z" fill="rgb(221, 224, 227)" stroke="rgb(79, 86, 94)" stroke-width="1.5px" stroke-linecap="butt" stroke-linejoin="miter"/>
+      <path d="M176,106 C146,116 86,150 24,186 C72,174 116,164 152,158 Z" fill="rgb(191, 196, 202)" stroke="rgb(79, 86, 94)" stroke-width="1.5px" stroke-linecap="butt" stroke-linejoin="miter"/>
+    </g>
+    <path d="M291,204 L309,204 L328,296 L300,252 L272,296 Z" fill="rgb(251, 251, 249)" stroke="rgb(79, 86, 94)" stroke-width="1.5px" stroke-linecap="butt" stroke-linejoin="miter"/>
+    <path d="M291,204 L272,296 L278,294 L294,206 Z" fill="rgb(191, 196, 202)" stroke="rgb(79, 86, 94)" stroke-width="1.5px" stroke-linecap="butt" stroke-linejoin="miter"/>
+    <path d="M309,204 L328,296 L322,294 L306,206 Z" fill="rgb(191, 196, 202)" stroke="rgb(79, 86, 94)" stroke-width="1.5px" stroke-linecap="butt" stroke-linejoin="miter"/>
+    <ellipse cx="300" cy="150" rx="15" ry="60" fill="rgb(251, 251, 249)" stroke="rgb(79, 86, 94)" stroke-width="1.5px" stroke-linecap="butt" stroke-linejoin="miter"/>
+    <circle cx="300" cy="86" r="14" fill="rgb(36, 40, 44)" stroke="rgb(79, 86, 94)" stroke-width="1.5px" stroke-linecap="butt" stroke-linejoin="miter"/>
+    <path d="M296,73 L300,36 L304,73 Z" fill="rgb(142, 149, 157)" stroke="rgb(79, 86, 94)" stroke-width="1.5px" stroke-linecap="butt" stroke-linejoin="miter"/>
+  </svg>
+        <strong>Terns</strong>
       </a>
     </li>
     <li>
-      <a href="terns-picker.html">
-        <strong>Tern Picker</strong>
-        <span>Common, Forster’s or Arctic: pick breeding, fall or juvenile, then tap the wingtip, underwing, head, bill and tail. The bird repaints to match.</span>
+      <a href="hawks-picker.html" aria-label="Iowa Hawk Picker: buteos, accipiters and harrier" title="Iowa Hawk Picker: buteos, accipiters and harrier">
+        <svg viewBox="260 -20 340 340" aria-hidden="true" focusable="false">
+    <g>
+      <path d="M420,178 L440,178 L456,246 L404,246 Z" fill="rgb(207, 211, 216)" stroke="rgb(79, 86, 94)" stroke-width="1.5px" stroke-linecap="butt" stroke-linejoin="miter"/>
+      <g>
+        <path d="M412,102 C380,92 330,90 292,96 L262,106 C274,132 326,160 412,160 Z" fill="rgb(221, 224, 227)" stroke="rgb(79, 86, 94)" stroke-width="1.5px" stroke-linecap="butt" stroke-linejoin="miter"/>
+        <path d="M412,102 C380,92 330,90 292,96 L302,116 C330,126 370,132 412,134 Z" fill="rgb(251, 251, 249)" stroke="rgb(79, 86, 94)" stroke-width="1.5px" stroke-linecap="butt" stroke-linejoin="miter"/>
+      </g>
+      <g transform="translate(860 0) scale(-1 1)">
+        <path d="M412,102 C380,92 330,90 292,96 L262,106 C274,132 326,160 412,160 Z" fill="rgb(221, 224, 227)" stroke="rgb(79, 86, 94)" stroke-width="1.5px" stroke-linecap="butt" stroke-linejoin="miter"/>
+        <path d="M412,102 C380,92 330,90 292,96 L302,116 C330,126 370,132 412,134 Z" fill="rgb(251, 251, 249)" stroke="rgb(79, 86, 94)" stroke-width="1.5px" stroke-linecap="butt" stroke-linejoin="miter"/>
+      </g>
+      <ellipse cx="430" cy="128" rx="19" ry="54" fill="rgb(251, 251, 249)" stroke="rgb(79, 86, 94)" stroke-width="1.5px" stroke-linecap="butt" stroke-linejoin="miter"/>
+      <circle cx="430" cy="70" r="15" fill="rgb(191, 196, 202)" stroke="rgb(79, 86, 94)" stroke-width="1.5px" stroke-linecap="butt" stroke-linejoin="miter"/>
+    </g>
+  </svg>
+        <strong>Iowa Hawks</strong>
       </a>
     </li>
     <li>
-      <a href="ducks-picker.html">
-        <strong>Dusky Duck Picker</strong>
-        <span>Mottled, Mexican, American Black or a female Mallard: tap the speculum, tail, bill and face. The bird repaints to match.</span>
+      <a href="shrikes-picker.html" aria-label="Shrike Picker: Loggerhead or Northern" title="Shrike Picker: Loggerhead or Northern">
+        <svg viewBox="46 30 326 326" aria-hidden="true" focusable="false">
+    <path d="M24,290 L384,274" fill="none" stroke="rgb(154, 127, 99)" stroke-width="8px" stroke-linecap="round" stroke-linejoin="miter"/>
+    <path d="M262,204 L366,294 L350,308 L246,220 Z" fill="rgb(38, 41, 44)" stroke="rgb(79, 86, 94)" stroke-width="1.5px" stroke-linecap="butt" stroke-linejoin="miter"/>
+    <path d="M184,248 L186,284 M206,246 L208,282" fill="none" stroke="rgb(58, 63, 68)" stroke-width="4px" stroke-linecap="round" stroke-linejoin="miter"/>
+    <ellipse cx="194" cy="198" rx="80" ry="54" fill="rgb(251, 251, 249)" stroke="rgb(79, 86, 94)" stroke-width="1.5px" stroke-linecap="butt" stroke-linejoin="miter"/>
+    <path d="M138,84 C178,98 230,140 276,192 C254,180 204,162 146,156 Z" fill="rgb(162, 169, 176)" stroke="rgb(79, 86, 94)" stroke-width="1.5px" stroke-linecap="butt" stroke-linejoin="miter"/>
+    <path d="M146,152 C198,146 254,166 292,220 C268,224 214,208 172,192 C156,184 148,170 146,152 Z" fill="rgb(38, 41, 44)" stroke="rgb(79, 86, 94)" stroke-width="1.5px" stroke-linecap="butt" stroke-linejoin="miter"/>
+    <path d="M232,186 L246,192 L242,200 L228,194 Z" fill="rgb(251, 251, 249)" stroke="rgb(79, 86, 94)" stroke-width="1.5px" stroke-linecap="butt" stroke-linejoin="miter"/>
+    <circle cx="122" cy="118" r="40" fill="rgb(162, 169, 176)" stroke="rgb(79, 86, 94)" stroke-width="1.5px" stroke-linecap="butt" stroke-linejoin="miter"/>
+    <path d="M84,124 L154,126 C158,142 148,156 128,159 C106,160 90,146 84,124 Z" fill="rgb(251, 251, 249)" stroke="rgb(79, 86, 94)" stroke-width="1.5px" stroke-linecap="butt" stroke-linejoin="miter"/>
+    <path d="M82,104 L148,106 C154,110 154,120 148,124 L84,124 Z" fill="rgb(38, 41, 44)" stroke="rgb(79, 86, 94)" stroke-width="1.5px" stroke-linecap="butt" stroke-linejoin="miter"/>
+    <path d="M83,105 L62,110 C55,111 52,114 52,118 C52,121 54,124 57,124 L58,120 L83,124 Z" fill="rgb(59, 63, 67)" stroke="rgb(79, 86, 94)" stroke-width="1.5px" stroke-linecap="butt" stroke-linejoin="miter"/>
+    <circle cx="108" cy="112" r="3.8" fill="rgb(22, 24, 26)" stroke="rgb(251, 251, 249)" stroke-width="1.2px" stroke-linecap="butt" stroke-linejoin="miter"/>
+  </svg>
+        <strong>Shrikes</strong>
       </a>
     </li>
     <li>
-      <a href="hawks-picker.html">
-        <strong>Iowa Hawk Picker</strong>
-        <span>Buteos, accipiters and harrier, plus the five Red-tailed forms and dark morphs: tap a perched or flying bird, with Iowa dates. The bird repaints to match.</span>
+      <a href="ravens-picker.html" aria-label="Raven Picker: Chihuahuan or Common, for Texas" title="Raven Picker: Chihuahuan or Common, for Texas">
+        <svg viewBox="17 -14 360 360" aria-hidden="true" focusable="false">
+    <path d="M150,272 C220,266 300,268 352,276" fill="none" stroke="rgb(185, 168, 143)" stroke-width="7px" stroke-linecap="round" stroke-linejoin="miter"/>
+    <path d="M292,190 L372,240 L366,250 L346,250 L286,214 Z" fill="rgb(43, 46, 51)" stroke="rgb(180, 186, 192)" stroke-width="1.5px" stroke-linecap="butt" stroke-linejoin="miter"/>
+    <path d="M198,206 L194,266 M222,210 L224,268" fill="none" stroke="rgb(43, 46, 51)" stroke-width="4px" stroke-linecap="round" stroke-linejoin="miter"/>
+    <path d="M112,124 C124,104 174,110 232,130 C272,146 298,172 300,198 C280,216 222,220 172,208 C132,198 106,162 112,124 Z" fill="rgb(43, 46, 51)" stroke="rgb(180, 186, 192)" stroke-width="1.5px" stroke-linecap="butt" stroke-linejoin="miter"/>
+    <path d="M104,104 C114,94 132,96 146,108 L150,138 C136,146 118,146 106,136 Z" fill="rgb(43, 46, 51)" stroke="rgb(180, 186, 192)" stroke-width="1.5px" stroke-linecap="butt" stroke-linejoin="miter"/>
+    <path d="M150,122 C200,120 262,142 302,172 L360,228 C320,220 262,200 212,184 C178,170 156,150 150,122 Z" fill="rgb(43, 46, 51)" stroke="rgb(180, 186, 192)" stroke-width="1.5px" stroke-linecap="butt" stroke-linejoin="miter"/>
+    <path d="M80,106 C86,120 98,128 112,130 L116,114 C104,114 94,110 86,104 Z" fill="rgb(43, 46, 51)" stroke="rgb(180, 186, 192)" stroke-width="1.5px" stroke-linecap="butt" stroke-linejoin="miter"/>
+    <path d="M76,84 C80,68 96,62 110,64 C126,66 136,80 134,96 C132,110 120,118 106,116 C94,114 84,110 78,104 Z" fill="rgb(43, 46, 51)" stroke="rgb(180, 186, 192)" stroke-width="1.5px" stroke-linecap="butt" stroke-linejoin="miter"/>
+    <path d="M80,80 C60,80 38,86 22,100 C38,101 58,104 80,110 Z" fill="rgb(43, 46, 51)" stroke="rgb(180, 186, 192)" stroke-width="1.5px" stroke-linecap="butt" stroke-linejoin="miter"/>
+    <circle cx="98" cy="84" r="3" fill="rgb(201, 206, 211)" stroke="none" stroke-width="1px" stroke-linecap="butt" stroke-linejoin="miter"/>
+  </svg>
+        <strong>Ravens</strong>
       </a>
     </li>
     <li>
-      <a href="swans-picker.html">
-        <strong>Swan Picker</strong>
-        <span>Trumpeter or Tundra: pick adult or young, then tap the eye and lores, forehead, bill, plumage and legs, with Iowa dates. The bird repaints to match.</span>
+      <a href="swallows-picker.html" aria-label="Swallow Picker: Iowa’s swallows" title="Swallow Picker: Iowa’s swallows">
+        <svg viewBox="22 -44 416 416" aria-hidden="true" focusable="false">
+    <path d="M219,196 L241,196 L248,262 L230,252 L212,262 Z" fill="rgb(58, 63, 71)" stroke="rgb(79, 86, 94)" stroke-width="1.5px" stroke-linecap="butt" stroke-linejoin="miter"/>
+    <path d="M206,112 C175,100 140,94 118,96 C90,108 56,136 28,176 C80,158 150,156 206,150 Z" fill="rgb(198, 201, 205)" stroke="rgb(79, 86, 94)" stroke-width="1.5px" stroke-linecap="butt" stroke-linejoin="miter"/>
+    <path d="M254,112 C285,100 320,94 342,96 C370,108 404,136 432,176 C380,158 310,156 254,150 Z" fill="rgb(198, 201, 205)" stroke="rgb(79, 86, 94)" stroke-width="1.5px" stroke-linecap="butt" stroke-linejoin="miter"/>
+    <ellipse cx="230" cy="150" rx="26" ry="72" fill="rgb(251, 251, 249)" stroke="rgb(79, 86, 94)" stroke-width="1.5px" stroke-linecap="butt" stroke-linejoin="miter"/>
+    <path d="M210.5,106 Q230,112 249.5,106 Q254,118 255,132 Q230,139 205,132 Q206,118 210.5,106 Z" fill="rgb(251, 251, 249)" stroke="rgb(79, 86, 94)" stroke-width="1.5px" stroke-linecap="butt" stroke-linejoin="miter"/>
+    <path d="M224,69 L230,56 L236,69 Z" fill="rgb(79, 86, 94)" stroke="none" stroke-width="1px" stroke-linecap="butt" stroke-linejoin="miter"/>
+    <circle cx="230" cy="84" r="18" fill="rgb(86, 94, 104)" stroke="rgb(79, 86, 94)" stroke-width="1.5px" stroke-linecap="butt" stroke-linejoin="miter"/>
+    <path d="M215,90 Q230,80 245,90 L249,106 Q230,112 211,106 Z" fill="rgb(251, 251, 249)" stroke="rgb(79, 86, 94)" stroke-width="1.5px" stroke-linecap="butt" stroke-linejoin="miter"/>
+  </svg>
+        <strong>Swallows</strong>
+      </a>
+    </li>
+    <li>
+      <a href="juncos-picker.html" aria-label="Junco Picker: Dark-eyed Junco forms" title="Junco Picker: Dark-eyed Junco forms">
+        <svg viewBox="170 -20 396 396" aria-hidden="true" focusable="false">
+        <defs>
+          <clipPath id="t-juncos-body-clip"><ellipse cx="245" cy="165" rx="105" ry="58"/></clipPath>
+        </defs>
+        <g transform="translate(110 10)">
+          <path d="M318,150 L450,172 L446,198 L316,182 Z" fill="rgb(191, 196, 202)" stroke="rgb(79, 86, 94)" stroke-width="1.5px" stroke-linecap="butt" stroke-linejoin="miter"/>
+          <path d="M318,174 L448,188 L446,198 L316,182 Z" fill="rgb(251, 251, 249)" stroke="rgb(79, 86, 94)" stroke-width="1.5px" stroke-linecap="butt" stroke-linejoin="miter"/>
+          <ellipse cx="245" cy="165" rx="105" ry="58" fill="rgb(251, 251, 249)" stroke="rgb(79, 86, 94)" stroke-width="1.5px" stroke-linecap="butt" stroke-linejoin="miter"/>
+          <g clip-path="url(#t-juncos-body-clip)">
+            <ellipse cx="250" cy="116" rx="118" ry="40" fill="rgb(207, 211, 216)" stroke="rgb(79, 86, 94)" stroke-width="1.5px" stroke-linecap="butt" stroke-linejoin="miter"/>
+            <ellipse cx="240" cy="230" rx="88" ry="36" fill="rgb(251, 251, 249)" stroke="rgb(79, 86, 94)" stroke-width="1.5px" stroke-linecap="butt" stroke-linejoin="miter"/>
+          </g>
+          <path d="M200,130 C240,118 300,126 350,152 C322,170 260,173 210,160 Z" fill="rgb(191, 196, 202)" stroke="rgb(79, 86, 94)" stroke-width="1.5px" stroke-linecap="butt" stroke-linejoin="miter"/>
+          <path d="M222,138 Q256,146 292,142" fill="none" stroke="rgb(251, 251, 249)" stroke-width="4px" stroke-linecap="round" stroke-linejoin="miter"/>
+          <path d="M230,151 Q264,160 306,154" fill="none" stroke="rgb(251, 251, 249)" stroke-width="4px" stroke-linecap="round" stroke-linejoin="miter"/>
+          <path d="M150,70 C110,65 85,95 88,120 C90,160 125,205 182,212 C190,186 193,150 195,120 C190,95 175,72 150,70 Z" fill="rgb(191, 196, 202)" stroke="rgb(79, 86, 94)" stroke-width="1.5px" stroke-linecap="butt" stroke-linejoin="miter"/>
+          <path d="M182,212 C190,186 193,150 195,120" fill="none" stroke="rgb(79, 86, 94)" stroke-width="2px" stroke-linecap="butt" stroke-linejoin="miter" stroke-dasharray="5px, 4px"/>
+          <ellipse cx="102" cy="109" rx="9" ry="5" fill="rgb(142, 149, 157)" stroke="rgb(79, 86, 94)" stroke-width="1.5px" stroke-linecap="butt" stroke-linejoin="miter"/>
+          <path d="M93,106 L66,116 L93,124 Z" fill="rgb(232, 196, 184)" stroke="rgb(79, 86, 94)" stroke-width="1.5px" stroke-linecap="butt" stroke-linejoin="miter"/>
+          <circle cx="116" cy="101" r="4.5" fill="rgb(79, 86, 94)" stroke="none" stroke-width="1px" stroke-linecap="butt" stroke-linejoin="miter"/>
+        </g>
+      </svg>
+        <strong>Juncos</strong>
+      </a>
+    </li>
+    <li>
+      <a href="orioles-picker.html" aria-label="Oriole Picker: orioles of the US" title="Oriole Picker: orioles of the US">
+        <svg viewBox="138 -55 394 394" aria-hidden="true" focusable="false">
+  <defs><clipPath id="t-orioles-body-clip"><ellipse cx="245" cy="150" rx="92" ry="46"/></clipPath></defs>
+  <g transform="translate(60 4)">
+    <line x1="150" y1="250" x2="390" y2="262" fill="rgb(0, 0, 0)" stroke="rgb(220, 216, 207)" stroke-width="6px" stroke-linecap="round" stroke-linejoin="miter"/>
+    <path d="M318,150 L466,196 L458,216 L314,178 Z" fill="rgb(155, 154, 82)" stroke="rgb(79, 86, 94)" stroke-width="1.5px" stroke-linecap="butt" stroke-linejoin="miter"/>
+    <path d="M236,186 L232,224 L238,252 M266,188 L270,226 L264,254 M226,253 L250,254 M254,256 L278,256" fill="none" stroke="rgb(107, 113, 120)" stroke-width="3px" stroke-linecap="round" stroke-linejoin="round"/>
+    <ellipse cx="245" cy="150" rx="92" ry="46" fill="rgb(214, 208, 101)" stroke="rgb(79, 86, 94)" stroke-width="1.5px" stroke-linecap="butt" stroke-linejoin="miter"/>
+    <g clip-path="url(#t-orioles-body-clip)">
+      <ellipse cx="190" cy="156" rx="56" ry="46" fill="rgb(214, 208, 101)" stroke="rgb(79, 86, 94)" stroke-width="1.5px" opacity="0.45" stroke-linecap="butt" stroke-linejoin="miter"/>
+      <ellipse cx="262" cy="182" rx="58" ry="18" fill="rgb(214, 208, 101)" stroke="rgb(79, 86, 94)" stroke-width="1.5px" stroke-linecap="butt" stroke-linejoin="miter"/>
+      <ellipse cx="250" cy="108" rx="110" ry="30" fill="rgb(155, 154, 82)" stroke="rgb(79, 86, 94)" stroke-width="1.5px" stroke-linecap="butt" stroke-linejoin="miter"/>
+    </g>
+    <path d="M318,166 C335,170 352,178 366,190 C348,194 330,192 314,184 Z" fill="rgb(214, 208, 101)" stroke="rgb(79, 86, 94)" stroke-width="1.5px" stroke-linecap="butt" stroke-linejoin="miter"/>
+    <path d="M196,124 C240,110 300,114 340,134 C316,154 258,160 208,150 Z" fill="rgb(94, 98, 94)" stroke="rgb(79, 86, 94)" stroke-width="1.5px" stroke-linecap="butt" stroke-linejoin="miter"/>
+    <ellipse cx="216" cy="127" rx="18" ry="7" fill="rgb(94, 98, 94)" stroke="rgb(79, 86, 94)" stroke-width="1.5px" opacity="0.45" stroke-linecap="butt" stroke-linejoin="miter"/>
+    <path d="M224,135 Q248,141 272,136" fill="none" stroke="rgb(251, 251, 249)" stroke-width="4px" stroke-linecap="round" stroke-linejoin="miter"/>
+    <path d="M226,145 Q254,152 288,146" fill="none" stroke="rgb(251, 251, 249)" stroke-width="4px" stroke-linecap="round" stroke-linejoin="miter"/>
+    <path d="M276,128 C300,124 322,130 340,140 C322,150 298,150 280,144 Z" fill="rgb(94, 98, 94)" stroke="rgb(79, 86, 94)" stroke-width="1.5px" stroke-linecap="butt" stroke-linejoin="miter"/>
+    <path d="M330,134 L404,166 L398,174 L324,150 Z" fill="rgb(94, 98, 94)" stroke="rgb(79, 86, 94)" stroke-width="1.5px" stroke-linecap="butt" stroke-linejoin="miter"/>
+    <path d="M126,100 C126,128 148,152 186,160 L204,120 C186,110 166,100 152,92 Z" fill="rgb(214, 208, 101)" stroke="rgb(79, 86, 94)" stroke-width="1.5px" opacity="0.45" stroke-linecap="butt" stroke-linejoin="miter"/>
+    <circle cx="150" cy="90" r="30" fill="rgb(214, 208, 101)" stroke="rgb(79, 86, 94)" stroke-width="1.5px" stroke-linecap="butt" stroke-linejoin="miter"/>
+    <path d="M124,96 C124,112 136,124 156,126 C164,124 170,118 172,112 C156,112 140,106 128,94 Z" fill="rgb(214, 208, 101)" stroke="rgb(79, 86, 94)" stroke-width="1.5px" stroke-linecap="butt" stroke-linejoin="miter"/>
+    <ellipse cx="160" cy="98" rx="12" ry="8" fill="rgb(214, 208, 101)" stroke="rgb(79, 86, 94)" stroke-width="1.5px" stroke-linecap="butt" stroke-linejoin="miter"/>
+    <path d="M124,84 L84,95 L124,100 Z" fill="rgb(124, 133, 140)" stroke="rgb(79, 86, 94)" stroke-width="1.5px" stroke-linecap="butt" stroke-linejoin="miter"/>
+    <path d="M122,88 L160,86" fill="none" stroke="rgb(155, 154, 82)" stroke-width="2.5px" stroke-linecap="round" stroke-linejoin="miter"/>
+    <circle cx="140" cy="87" r="3.6" fill="rgb(79, 86, 94)" stroke="none" stroke-width="1px" stroke-linecap="butt" stroke-linejoin="miter"/>
+    <circle cx="140" cy="87" r="3.6" fill="rgb(79, 86, 94)" stroke="none" stroke-width="1px" stroke-linecap="butt" stroke-linejoin="miter"/>
+  </g>
+</svg>
+        <strong>Orioles</strong>
+      </a>
+    </li>
+    <li>
+      <a href="blackbirds-picker.html" aria-label="Blackbird Picker: Iowa’s blackbirds, grackles and cowbird" title="Blackbird Picker: Iowa’s blackbirds, grackles and cowbird">
+        <svg viewBox="23 13 335 335" aria-hidden="true" focusable="false">
+    <line x1="112" y1="290" x2="300" y2="290" fill="rgb(0, 0, 0)" stroke="rgb(168, 149, 124)" stroke-width="7px" stroke-linecap="round" stroke-linejoin="miter"/>
+    <path d="M280,198 L352,262 L338,276 L268,212 Z" fill="rgb(31, 34, 38)" stroke="rgb(79, 86, 94)" stroke-width="1.5px" stroke-linecap="butt" stroke-linejoin="miter"/>
+    <path d="M184,222 L176,286 M208,226 L206,286 M164,288 L176,284 L190,288 M194,288 L206,284 L220,288" fill="none" stroke="rgb(31, 34, 38)" stroke-width="4px" stroke-linecap="round" stroke-linejoin="miter"/>
+    <path d="M88,126 C122,106 196,110 250,138 C292,160 310,196 292,214 C268,236 196,230 146,204 C106,184 82,152 88,126 Z" fill="rgb(31, 34, 38)" stroke="rgb(79, 86, 94)" stroke-width="1.5px" stroke-linecap="butt" stroke-linejoin="miter"/>
+    <path d="M146,138 C196,124 256,142 300,186 C312,200 316,214 308,222 C280,214 220,196 178,176 C160,166 148,152 146,138 Z" fill="rgb(31, 34, 38)" stroke="rgb(79, 86, 94)" stroke-width="1.5px" stroke-linecap="butt" stroke-linejoin="miter"/>
+    <path d="M146,138 C168,130 192,130 212,138 C206,154 188,164 168,166 C156,158 148,148 146,138 Z" fill="rgb(31, 34, 38)" stroke="rgb(79, 86, 94)" stroke-width="1.5px" stroke-linecap="butt" stroke-linejoin="miter"/>
+    <path d="M74,104 C74,82 94,70 116,72 C138,74 150,92 146,112 C142,128 124,136 106,134 C88,132 74,122 74,104 Z" fill="rgb(31, 34, 38)" stroke="rgb(79, 86, 94)" stroke-width="1.5px" stroke-linecap="butt" stroke-linejoin="miter"/>
+    <path d="M78,95 L30,106 C28,107 28,109 30,110 L78,116 Z" fill="rgb(31, 34, 38)" stroke="rgb(79, 86, 94)" stroke-width="1.5px" stroke-linecap="butt" stroke-linejoin="miter"/>
+    <circle cx="98" cy="98" r="5.5" fill="rgb(191, 196, 202)" stroke="rgb(79, 86, 94)" stroke-width="1.5px" stroke-linecap="butt" stroke-linejoin="miter"/>
+    <circle cx="98" cy="98" r="2" fill="rgb(79, 86, 94)" stroke="none" stroke-width="1px" stroke-linecap="butt" stroke-linejoin="miter"/>
+  </svg>
+        <strong>Blackbirds</strong>
+      </a>
+    </li>
+    <li>
+      <a href="fall-warblers-picker.html" aria-label="Fall Warbler Picker: Bay-breasted, Blackpoll or Pine" title="Fall Warbler Picker: Bay-breasted, Blackpoll or Pine">
+        <svg viewBox="160 -15 356 356" aria-hidden="true" focusable="false">
+  <defs><clipPath id="t-fall-warblers-body-clip"><ellipse cx="245" cy="150" rx="92" ry="46"/></clipPath></defs>
+  <g transform="translate(70 4)">
+    <line x1="150" y1="250" x2="390" y2="262" fill="rgb(0, 0, 0)" stroke="rgb(220, 216, 207)" stroke-width="6px" stroke-linecap="round" stroke-linejoin="miter"/>
+    <path d="M318,150 L440,190 L434,206 L314,176 Z" fill="rgb(142, 149, 157)" stroke="rgb(79, 86, 94)" stroke-width="1.5px" stroke-linecap="butt" stroke-linejoin="miter"/>
+    <path d="M236,186 L232,224 L238,252 M266,188 L270,226 L264,254" fill="none" stroke="rgb(107, 113, 120)" stroke-width="3px" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M226,253 L250,254 M254,256 L278,256" fill="none" stroke="rgb(107, 113, 120)" stroke-width="3px" stroke-linecap="round" stroke-linejoin="round"/>
+    <ellipse cx="245" cy="150" rx="92" ry="46" fill="rgb(251, 251, 249)" stroke="rgb(79, 86, 94)" stroke-width="1.5px" stroke-linecap="butt" stroke-linejoin="miter"/>
+    <g clip-path="url(#t-fall-warblers-body-clip)">
+      <ellipse cx="190" cy="156" rx="56" ry="46" fill="rgb(221, 224, 227)" stroke="rgb(79, 86, 94)" stroke-width="1.5px" stroke-linecap="butt" stroke-linejoin="miter"/>
+      <ellipse cx="262" cy="182" rx="58" ry="18" fill="rgb(221, 224, 227)" stroke="rgb(79, 86, 94)" stroke-width="1.5px" stroke-linecap="butt" stroke-linejoin="miter"/>
+      <ellipse cx="250" cy="108" rx="110" ry="30" fill="rgb(207, 211, 216)" stroke="rgb(79, 86, 94)" stroke-width="1.5px" stroke-linecap="butt" stroke-linejoin="miter"/>
+    </g>
+    <path d="M318,166 C335,170 352,176 364,186 C348,192 330,190 314,182 Z" fill="rgb(251, 251, 249)" stroke="rgb(79, 86, 94)" stroke-width="1.5px" stroke-linecap="butt" stroke-linejoin="miter"/>
+    <path d="M196,124 C240,110 300,114 340,134 C316,154 258,160 208,150 Z" fill="rgb(191, 196, 202)" stroke="rgb(79, 86, 94)" stroke-width="1.5px" stroke-linecap="butt" stroke-linejoin="miter"/>
+    <path d="M214,130 Q240,138 268,134" fill="none" stroke="rgb(251, 251, 249)" stroke-width="4px" stroke-linecap="round" stroke-linejoin="miter"/>
+    <path d="M222,142 Q252,150 286,145" fill="none" stroke="rgb(251, 251, 249)" stroke-width="4px" stroke-linecap="round" stroke-linejoin="miter"/>
+    <path d="M276,128 C300,124 322,130 340,140 C322,150 298,150 280,144 Z" fill="rgb(191, 196, 202)" stroke="rgb(79, 86, 94)" stroke-width="1.5px" stroke-linecap="butt" stroke-linejoin="miter"/>
+    <path d="M330,134 L404,166 L398,174 L324,150 Z" fill="rgb(142, 149, 157)" stroke="rgb(79, 86, 94)" stroke-width="1.5px" stroke-linecap="butt" stroke-linejoin="miter"/>
+    <path d="M126,100 C126,128 148,152 186,160 L204,120 C186,110 166,100 152,92 Z" fill="rgb(221, 224, 227)" stroke="rgb(79, 86, 94)" stroke-width="1.5px" stroke-linecap="butt" stroke-linejoin="miter"/>
+    <circle cx="150" cy="92" r="30" fill="rgb(207, 211, 216)" stroke="rgb(79, 86, 94)" stroke-width="1.5px" stroke-linecap="butt" stroke-linejoin="miter"/>
+    <ellipse cx="158" cy="102" rx="13" ry="9" fill="rgb(191, 196, 202)" stroke="rgb(79, 86, 94)" stroke-width="1.5px" stroke-linecap="butt" stroke-linejoin="miter"/>
+    <path d="M124,88 L96,95 L124,101 Z" fill="rgb(142, 149, 157)" stroke="rgb(79, 86, 94)" stroke-width="1.5px" stroke-linecap="butt" stroke-linejoin="miter"/>
+    <path d="M124,90 L160,88" fill="none" stroke="rgb(79, 86, 94)" stroke-width="2.5px" stroke-linecap="round" stroke-linejoin="miter"/>
+    <circle cx="140" cy="89" r="3.6" fill="rgb(79, 86, 94)" stroke="none" stroke-width="1px" stroke-linecap="butt" stroke-linejoin="miter"/>
+  </g>
+</svg>
+        <strong>Fall Bay-breasted, Blackpoll, Pine</strong>
       </a>
     </li>
   </ul>
@@ -113,45 +370,9 @@
   <!-- Reference pages go here -->
   <ul class="pages">
     <li>
-      <a href="juncos.html">
-        <strong>Dark-eyed Juncos</strong>
-        <span>Slate-colored, Cassiar, Oregon, Pink-sided, White-winged and Gray-headed: three checks, a comparison table and common pitfalls.</span>
-      </a>
-    </li>
-    <li>
-      <a href="dowitchers.html">
-        <strong>Dowitchers</strong>
-        <span>Short-billed vs. Long-billed: call, juvenile tertials and breeding breast sides, plus Iowa timing.</span>
-      </a>
-    </li>
-    <li>
-      <a href="gulls.html">
-        <strong>White-headed gulls</strong>
-        <span>Age it first, then identify it for its cycle: Ring-billed, Herring, Lesser and Great Black-backed, Iceland, Glaucous, California, plus rarities Short-billed and Slaty-backed.</span>
-      </a>
-    </li>
-    <li>
-      <a href="small-gulls.html">
-        <strong>Small and hooded gulls</strong>
-        <span>Franklin’s, Bonaparte’s and Laughing, plus Little, Black-headed, Sabine’s, Ross’s and Black-legged Kittiwake: age it, then read the wing.</span>
-      </a>
-    </li>
-    <li>
-      <a href="fall-warblers.html">
-        <strong>Fall Bay-breasted, Blackpoll, and Pine Warblers</strong>
-        <span>Feet, back and tail length first, then flanks, undertail and face, plus Iowa timing.</span>
-      </a>
-    </li>
-    <li>
-      <a href="orioles.html">
-        <strong>Orioles of the US</strong>
-        <span>Baltimore, Orchard, Bullock’s, Hooded, Scott’s, Audubon’s and Altamira, with females and young birds first: rough range maps, tables, Iowa records and pitfalls.</span>
-      </a>
-    </li>
-    <li>
-      <a href="terns.html">
-        <strong>Terns: Common, Forster’s and Arctic</strong>
-        <span>Wingtip, underwing trailing edge, tail and head pattern for breeding adults, fall adults and juveniles, plus Iowa’s Arctic Tern records.</span>
+      <a href="swans.html">
+        <strong>Trumpeter and Tundra Swans</strong>
+        <span>Voice, the eye and lores, the forehead and the yellow spot for adults; plumage by date, bill and legs for young birds, plus Iowa status.</span>
       </a>
     </li>
     <li>
@@ -161,15 +382,75 @@
       </a>
     </li>
     <li>
+      <a href="dowitchers.html">
+        <strong>Dowitchers</strong>
+        <span>Short-billed vs. Long-billed: call, juvenile tertials and breeding breast sides, plus Iowa timing.</span>
+      </a>
+    </li>
+    <li>
+      <a href="small-gulls.html">
+        <strong>Small and hooded gulls</strong>
+        <span>Franklin’s, Bonaparte’s and Laughing, plus Little, Black-headed, Sabine’s, Ross’s and Black-legged Kittiwake: age it, then read the wing.</span>
+      </a>
+    </li>
+    <li>
+      <a href="gulls.html">
+        <strong>White-headed gulls</strong>
+        <span>Age it first, then identify it for its cycle: Ring-billed, Herring, Lesser and Great Black-backed, Iceland, Glaucous, California, plus rarities Short-billed and Slaty-backed.</span>
+      </a>
+    </li>
+    <li>
+      <a href="terns.html">
+        <strong>Terns: Common, Forster’s and Arctic</strong>
+        <span>Wingtip, underwing trailing edge, tail and head pattern for breeding adults, fall adults and juveniles, plus Iowa’s Arctic Tern records.</span>
+      </a>
+    </li>
+    <li>
       <a href="hawks.html">
         <strong>Iowa Hawks</strong>
         <span>Shape first, then the five Red-tailed forms, other buteos, accipiters and harrier, and dark morphs, with Iowa hawkwatch timing.</span>
       </a>
     </li>
     <li>
-      <a href="swans.html">
-        <strong>Trumpeter and Tundra Swans</strong>
-        <span>Voice, the eye and lores, the forehead and the yellow spot for adults; plumage by date, bill and legs for young birds, plus Iowa status.</span>
+      <a href="shrikes.html">
+        <strong>Loggerhead and Northern Shrikes</strong>
+        <span>Date and age first, then the mask, the eye, the bill, the barring and tail flicking for adults and young birds, plus Iowa timing.</span>
+      </a>
+    </li>
+    <li>
+      <a href="ravens.html">
+        <strong>Chihuahuan and Common Ravens</strong>
+        <span>For Texas: rule out crows, then white neck feathers and nasal bristles up close, and place, voice and flocks at a distance.</span>
+      </a>
+    </li>
+    <li>
+      <a href="swallows.html">
+        <strong>Swallows of Iowa</strong>
+        <span>Tail shapes at a glance, then throat, breast band, rump and flight for adults and juveniles, plus Iowa timing and the Chimney Swift look-alike.</span>
+      </a>
+    </li>
+    <li>
+      <a href="juncos.html">
+        <strong>Dark-eyed Juncos</strong>
+        <span>Slate-colored, Cassiar, Oregon, Pink-sided, White-winged and Gray-headed: three checks, a comparison table and common pitfalls.</span>
+      </a>
+    </li>
+    <li>
+      <a href="orioles.html">
+        <strong>Orioles of the US</strong>
+        <span>Baltimore, Orchard, Bullock’s, Hooded, Scott’s, Audubon’s and Altamira, with females and young birds first: rough range maps, tables, Iowa records and pitfalls.</span>
+      </a>
+    </li>
+    <li>
+      <a href="blackbirds.html">
+        <strong>Blackbirds of Iowa</strong>
+        <span>Eye, bill and tail first, then black males, brown females and young, and rusty fall–winter birds: tables, pitfalls and Iowa dates for Rusty and Brewer’s.</span>
+      </a>
+    </li>
+    <li>
+      <a href="fall-warblers.html">
+        <strong>Fall Bay-breasted, Blackpoll, and Pine Warblers</strong>
+        <span>Feet, back and tail length first, then flanks, undertail and face, plus Iowa timing.</span>
       </a>
     </li>
   </ul>

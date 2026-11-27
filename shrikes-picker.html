@@ -1,0 +1,298 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light">
+<title>Shrike Picker</title>
+<meta name="description" content="Tap parts of a perched or flying shrike, pick what you see, and get Loggerhead or Northern Shrike, for adults and young birds, with Iowa dates.">
+<link rel="stylesheet" href="picker.css?v=4">
+<style>
+  .part[data-part="breast"] { fill: var(--bird-white); }
+  .part[data-part="head"], .part[data-part="back"], .part[data-part="fback"], .part[data-part="fhead"], .part[data-part="rump"] { fill: var(--bird-a); }
+  .part[data-part="wing"], .part[data-part="fwing"], .part[data-part="tail"], .part[data-part="ftail"], .part[data-part="mask"], .part[data-part="bill"], .part[data-part="fbill"] { fill: var(--bird-d); }
+  .part[data-part="wpatch"], .part[data-part="fpatch"] { fill: var(--bird-white); }
+  :root { --c-black: #26292c; --c-white: #fbfbf9; --c-gray: #868d95; --c-mgray: #a2a9b0; --c-pgray: #c3c8cd; --c-rumpw: #e6e8ea;
+          --c-horn: #cdbfa6; --c-brown: #a08d78; --c-brgray: #a7a199; --c-buff: #e0cfac; --c-bar: #8a9198; --c-brbar: #8b7660;
+          --c-smudge: #7d6e60; --c-cream: #f2eee6; --c-dark: #3b3f43; }
+  .side-label { fill: var(--muted); font-size: 13px; font-style: italic; }
+  .opt .thumb { background: var(--surface); }
+  @media (max-width: 820px) { .side-label { font-size: 16px; } .label text { font-size: 16px; } }
+  .notes { margin-top: 20px; font-size: 15px; }
+  .notes ul { margin: 0; padding-left: 20px; }
+  .notes li + li { margin-top: 6px; }
+  .notes .src { color: var(--muted); font-size: 13px; margin: 12px 0 0; }
+  .notes a { color: inherit; }
+</style>
+</head>
+<body>
+<main>
+  <p class="kicker"><a class="home" href="index.html">← Home</a> · Tricky birds · Iowa</p>
+  <h1>Shrike Picker</h1>
+  <p class="lede">Loggerhead or Northern? Pick the age, then tap any part of the perched or flying shrike and choose what you see. The bird repaints to match, and answers that conflict with your other picks fade. Answers tagged <span class="unsure">check</span> aren’t confirmed or vary a lot. For the full write-up, see the <a href="shrikes.html">shrike reference page</a>.</p>
+
+  <div class="layout">
+    <div class="stack">
+      <section class="card">
+        <div class="card-head"><h2>1 · Age</h2><button type="button" class="clear">↺ Start over</button></div>
+        <div class="seg" id="stages" role="group" aria-label="Age"></div>
+        <p class="stage-hint" id="stage-hint"></p>
+      </section>
+
+      <section class="card">
+        <h2>2 · Tap a part</h2>
+        <div id="diagram"></div>
+        <div class="parts" id="partchips" role="group" aria-label="Parts"></div>
+      </section>
+
+      <section class="card q" id="question" aria-live="polite"></section>
+
+      <section class="card">
+        <h2>Your picks</h2>
+        <div class="picks" id="picks"></div>
+      </section>
+    </div>
+
+    <section class="card results" id="results-card">
+      <div class="results-head">
+        <h2 id="results">Could be</h2>
+        <span class="count" id="count"></span>
+        <button type="button" class="clear">↺ Start over</button>
+      </div>
+      <ul class="res" id="res"></ul>
+    </section>
+  </div>
+
+  <section class="card notes" id="notes">
+    <h2>Notes and sources</h2>
+    <ul>
+      <li><strong>Use several marks.</strong> Every mark has exceptions. James rates five most useful: tail flicking, breast barring, a pale base to the lower mandible, black or white on the forehead over the bill, and white behind the eye above the mask. A white crescent under the eye also points to Northern.</li>
+      <li><strong>Watch the season.</strong> Both can show some barring and a pale bill base in fall and early winter, and by late winter both can lose the barring and darken the bill.</li>
+      <li><strong>Iowa.</strong> Loggerhead nests in scattered grassland, pasture and hedgerow country and is listed as a Species of Greatest Conservation Need and of special concern. Northern Shrike is a winter visitor; Iowa’s extreme dates run from 1 October to 13 April.</li>
+    </ul>
+    <p class="src">Sources: R. D. James, “Field Identification of Shrikes,” <a href="https://sora.unm.edu/sites/default/files/18-21%20OB%20Vol1%231%20Apr1983.pdf">Ontario Birds 1:18–21 (1983)</a>; Nemecek and Mutchler, “Comments on Winter Shrike Identification in Missouri,” <a href="https://mobirds.org/Library/2019_Shrikes.pdf">The Bluebird (2019)</a>; Sharon Stiteler, <a href="https://www.audubon.org/magazine/learn-tell-northern-shrike-loggerhead-shrike">Learn to Tell a Northern Shrike From a Loggerhead Shrike</a> (Audubon); Iowa Ornithologists’ Union <a href="https://iowabirds.org/Birds/Checklist.aspx">checklist</a> and <a href="https://iowabirds.org/Birds/Docs/Early_Late.pdf">early and late dates</a>; Iowa DNR, <a href="https://www.iowadnr.gov/Conservation/Iowas-Wildlife/Iowa-Wildlife-Action-Plan">Iowa Wildlife Action Plan (2025)</a>.</p>
+  </section>
+
+  <footer><a href="index.html">← All bird pages</a> · Full write-up on the <a href="shrikes.html">shrike reference page</a>. Things tagged <span class="unsure">check</span> aren’t confirmed.</footer>
+</main>
+
+<div class="bar" id="bar"><span id="bar-text"></span><button type="button" class="clear">↺</button><a href="#results">See results ↓</a></div>
+
+<template id="bird-svg">
+  <svg viewBox="0 0 600 360" role="img" aria-label="Shrike diagram, perched side view and flying from above: tap a part">
+    <!-- perched, facing left -->
+    <path d="M24,290 L384,274" style="fill:none;stroke:#9a7f63;stroke-width:8;stroke-linecap:round"/>
+    <path class="part" data-part="tail" d="M262,204 L366,294 L350,308 L246,220 Z"/>
+    <path d="M184,248 L186,284 M206,246 L208,282" style="fill:none;stroke:#3a3f44;stroke-width:4;stroke-linecap:round"/>
+    <ellipse class="part" data-part="breast" cx="194" cy="198" rx="80" ry="54"/>
+    <g data-look="bars" style="fill:none;stroke:var(--c-bar);stroke-width:2;stroke-linecap:round">
+      <path d="M130,182 q6,-4 12,0 t12,0 t12,0 t12,0 M126,194 q6,-4 12,0 t12,0 t12,0 t12,0 t12,0 M128,206 q6,-4 12,0 t12,0 t12,0 t12,0 t12,0 t12,0 M134,218 q6,-4 12,0 t12,0 t12,0 t12,0 t12,0 t12,0 M144,230 q6,-4 12,0 t12,0 t12,0 t12,0 t12,0 M158,242 q6,-4 12,0 t12,0 t12,0 t12,0"/>
+    </g>
+    <g data-look="barsfaint" style="fill:none;stroke:var(--c-bar);stroke-width:1.4;stroke-linecap:round;opacity:.55">
+      <path d="M132,188 q6,-3 12,0 t12,0 t12,0 M130,204 q6,-3 12,0 t12,0 t12,0 t12,0 M138,220 q6,-3 12,0 t12,0 t12,0"/>
+    </g>
+    <path class="part" data-part="back" d="M138,84 C178,98 230,140 276,192 C254,180 204,162 146,156 Z"/>
+    <path class="part" data-part="wing" d="M146,152 C198,146 254,166 292,220 C268,224 214,208 172,192 C156,184 148,170 146,152 Z"/>
+    <path class="part" data-part="wpatch" d="M232,186 L246,192 L242,200 L228,194 Z"/>
+    <g data-look="buffcov" class="no-stroke" style="fill:var(--c-buff)">
+      <ellipse cx="172" cy="166" rx="7" ry="3"/><ellipse cx="190" cy="171" rx="7" ry="3"/><ellipse cx="208" cy="177" rx="7" ry="3"/><ellipse cx="166" cy="178" rx="6" ry="2.6"/><ellipse cx="184" cy="184" rx="6" ry="2.6"/>
+    </g>
+    <circle class="part" data-part="head" cx="122" cy="118" r="40"/>
+    <path class="part" data-part="breast" d="M84,124 L154,126 C158,142 148,156 128,159 C106,160 90,146 84,124 Z"/>
+    <g data-look="throatbars" style="fill:none;stroke:var(--c-brbar);stroke-width:1.8;stroke-linecap:round">
+      <path d="M94,132 q5,-3 10,0 t10,0 t10,0 t10,0 t10,0 M98,141 q5,-3 10,0 t10,0 t10,0 t10,0 M106,150 q5,-3 10,0 t10,0 t10,0"/>
+    </g>
+    <path class="part" data-part="mask" d="M82,104 L148,106 C154,110 154,120 148,124 L84,124 Z"/>
+    <path class="part" data-part="bill" d="M83,105 L62,110 C55,111 52,114 52,118 C52,121 54,124 57,124 L58,120 L83,124 Z"/>
+
+    <!-- flying, seen from above -->
+    <path class="part" data-part="fwing" d="M484,140 L414,128 C402,130 396,140 400,150 L420,158 L484,176 Z M506,140 L576,128 C588,130 594,140 590,150 L570,158 L506,176 Z"/>
+    <path class="part" data-part="fpatch" d="M430,133 L446,136 L446,162 L430,157 Z M560,133 L544,136 L544,162 L560,157 Z"/>
+    <path class="part" data-part="ftail" d="M487,200 L503,200 L509,270 L481,270 Z"/>
+    <path d="M483,268 L488,203 M507,268 L502,203" style="fill:none;stroke:#fbfbf9;stroke-width:2.5;pointer-events:none"/>
+    <ellipse class="part" data-part="fback" cx="495" cy="160" rx="15" ry="34"/>
+    <ellipse class="part" data-part="rump" cx="495" cy="196" rx="12" ry="9"/>
+    <circle class="part" data-part="fhead" cx="495" cy="116" r="13"/>
+    <path class="part" data-part="fbill" d="M491,104 L495,94 L499,104 Z"/>
+
+    <!-- overlays: hidden until a pick shows them -->
+    <g data-look="patchbig" class="no-stroke" style="fill:var(--c-white)">
+      <path d="M424,131 L452,137 L452,166 L424,156 Z M566,131 L538,137 L538,166 L566,156 Z"/>
+    </g>
+    <g data-look="patchsmall" class="no-stroke" style="fill:var(--c-black)">
+      <path d="M429,132 L447,135 L447,149 L429,146 Z M561,132 L543,135 L543,149 L561,146 Z"/>
+    </g>
+    <path data-look="maskwide" class="no-stroke" d="M82,99 L150,100 C159,106 159,124 150,129 L84,128 Z" style="fill:var(--c-black)"/>
+    <g data-look="masknarrow" class="no-stroke" style="fill:var(--c-white)">
+      <path d="M83,103 C104,98 136,98 157,102 L158,110 L83,110 Z"/>
+    </g>
+    <path data-look="bridge" class="no-stroke" d="M78,99 C84,94 92,94 97,98 L97,106 L80,106 Z" style="fill:var(--c-black)"/>
+    <g data-look="palelore" class="no-stroke">
+      <ellipse cx="92" cy="114" rx="6" ry="5" style="fill:var(--c-pgray)"/>
+      <path d="M80,101 C84,97 92,97 97,101 L97,104 L80,104 Z" style="fill:var(--c-white)"/>
+    </g>
+    <path data-look="crescent" class="no-stroke" d="M100,118 C104,124 112,124 116,118 L116,121 C112,129 104,129 100,121 Z" style="fill:var(--c-white)"/>
+    <path data-look="smudge" class="no-stroke" d="M82,104 L148,106 C154,110 154,120 148,124 L84,124 Z" style="fill:var(--c-smudge)"/>
+    <path data-look="hookbig" class="no-stroke" d="M62,110 C50,110 44,116 45,127 C48,122 52,120 58,120 Z" style="fill:var(--c-black)"/>
+    <path data-look="billpale" class="no-stroke" d="M83,116 L66,118 L66,123 L83,124 Z" style="fill:var(--c-horn)"/>
+
+    <circle cx="108" cy="112" r="3.8" style="fill:#16181a;stroke:#fbfbf9;stroke-width:1.2;pointer-events:none"/>
+
+    <text class="side-label" x="200" y="330" text-anchor="middle">perched</text>
+    <text class="side-label" x="495" y="296" text-anchor="middle">flying, from above</text>
+
+    <!-- labels -->
+    <g class="label" data-q="mask"><line x1="110" y1="44" x2="114" y2="104"/><text x="110" y="36" text-anchor="middle">Mask</text></g>
+    <g class="label" data-q="bill"><line x1="40" y1="150" x2="54" y2="124"/><text x="36" y="168" text-anchor="middle">Bill</text></g>
+    <g class="label" data-q="upper"><line x1="214" y1="80" x2="190" y2="118"/><text x="214" y="72" text-anchor="middle">Back &amp; crown</text></g>
+    <g class="label" data-q="breast"><line x1="130" y1="300" x2="150" y2="232"/><text x="124" y="318" text-anchor="middle">Breast</text></g>
+    <g class="label" data-q="wing"><line x1="300" y1="160" x2="246" y2="192"/><text x="302" y="156" text-anchor="start">Wing</text></g>
+    <g class="label" data-q="tail"><line x1="380" y1="250" x2="330" y2="270"/><text x="384" y="248" text-anchor="start">Tail</text></g>
+    <g class="label" data-q="wing"><line x1="420" y1="72" x2="436" y2="134"/><text x="420" y="64" text-anchor="middle">Wing patch</text></g>
+    <g class="label" data-q="rump"><line x1="560" y1="214" x2="507" y2="198"/><text x="594" y="232" text-anchor="end">Rump</text></g>
+  </svg>
+</template>
+
+<script src="picker.js?v=4"></script>
+<script>
+(function () {
+  var SPECIES = [
+    { id: 'lo', name: 'Loggerhead Shrike' },
+    { id: 'no', name: 'Northern Shrike' }
+  ];
+  var PART_TO_Q = { mask: 'mask', bill: 'bill', fbill: 'bill', breast: 'breast', head: 'mask', back: 'upper', fback: 'upper',
+                    wing: 'wing', wpatch: 'wing', fwing: 'wing', fpatch: 'wing', rump: 'rump', tail: 'tail', ftail: 'shape', fhead: 'shape' };
+  var Q_ORDER = ['mask', 'bill', 'breast', 'tail', 'upper', 'shape', 'rump', 'wing', 'date'];
+  var Q_NAMES = { mask: 'Mask & face', bill: 'Bill', breast: 'Breast', tail: 'Tail', upper: 'Back & crown', shape: 'Shape', rump: 'Rump',
+                  wing: 'Wing', date: 'Date' };
+
+  // ---------- Paint helpers ----------
+  function C(n) { return 'var(--c-' + n + ')'; }
+  function L() { var o = {}; [].forEach.call(arguments, function (a) { Object.keys(a).forEach(function (k) { o[k] = a[k]; }); }); return o; }
+  function upper(c) { return { head: C(c), back: C(c), fback: C(c), fhead: C(c) }; }
+  var DARK = { wing: C('black'), fwing: C('black'), tail: C('black'), ftail: C('black') };
+  // Shape answers show the whole bird, not just the tail
+  var SOLID = {}; ['head', 'back', 'breast', 'wing', 'wpatch', 'mask', 'bill'].forEach(function (p) { SOLID[p] = { opacity: '1' }; });
+  function billLen(s) { return { bill: { transform: 'scale(' + s + ')', transformOrigin: '100% 50%' } }; }
+
+  // ---------- Adults ----------
+  var ADULT = {
+    mask: [
+      { id: 'maskw', title: 'The mask and the eye', help: 'Look at the top edge of the mask, just above the eye.', options: [
+        { label: 'Broad mask that encloses the whole eye; little white above it, mostly in front of the eye, so the rear of the mask blends into the crown', fits: 'lo ~no', look: { maskwide: true } },
+        { label: 'Narrow mask; the top of the eye bulges above it; white above the mask mostly behind the eye, contrasting with the gray crown', fits: 'no ~lo', look: { masknarrow: true } }
+      ]},
+      { id: 'crescent', title: 'Just below the eye', help: 'Loggerheads never show white under the eye.', options: [
+        { label: 'A white crescent or eyering under the eye', fits: 'no', look: { masknarrow: true, crescent: true } },
+        { label: 'Black right up to the eye', fits: 'lo ~no', look: { maskwide: true } }
+      ]},
+      { id: 'overbill', title: 'Over the base of the bill', help: 'Needs a close look: on some Loggerheads the black here is tiny and hard to tell from the bill, and some Northerns have a little.', options: [
+        { label: 'Black joins across the forehead above the bill', fits: 'lo ~no', look: { bridge: true } },
+        { label: 'No black there: the forehead looks white, with pale lores', fits: 'no ~lo', look: { palelore: true } }
+      ]}
+    ],
+    bill: [
+      { id: 'billshape', title: 'Bill length and hook', help: 'Hard at a distance, and hook length varies in both.', options: [
+        { label: 'Short, thick and stubby, with a small hook', fits: 'lo ~no', look: billLen(0.85) },
+        { label: 'Longer and slimmer, with a strong hook', fits: 'no ~lo', look: { hookbig: true } }
+      ]},
+      { id: 'billbase', title: 'Bill color', help: 'One of the best marks. A few Loggerheads, probably young birds, keep a pale base; both can have all-dark bills by spring.', options: [
+        { label: 'All black', fits: 'lo ~no', look: { bill: C('black') } },
+        { label: 'Pale base to the lower mandible', fits: 'no ~lo', look: { billpale: true } }
+      ]}
+    ],
+    breast: [{ id: 'bars', title: 'Barring on the breast', help: 'By late winter, either can lose its barring.', options: [
+      { label: 'Clean, very pale gray-white, no bars', fits: 'lo ~no', look: { breast: C('white') } },
+      { label: 'A few faint, nearly straight gray bars on the sides of the breast, seen only close up', fits: 'lo no', look: { barsfaint: true } },
+      { label: 'Dark, wavy bars over most of the breast and belly', fits: 'no', look: { bars: true } }
+    ]}],
+    tail: [{ id: 'flick', title: 'While perched', help: 'Visible from a long way off. James asks whether the rule has exceptions.', options: [
+      { label: 'Repeatedly flicks its tail up', fits: 'no', look: { tail: { transform: 'rotate(-24deg)', transformOrigin: '0% 0%' } } },
+      { label: 'Holds its tail stiff and still', fits: 'lo ~no', look: { tail: C('black') } }
+    ]}],
+    upper: [{ id: 'contrast', title: 'Back and crown', help: 'Loggerhead is darker gray, but that’s only useful with both together. Bright sun can make any shrike look pale, and Great Plains Loggerheads are paler.', check: 'Sources differ on the crown: the Missouri review says Loggerhead’s crown is darkest; James found the head no darker than the back in Ontario.', options: [
+      { label: 'Darker gray, contrasting with the pale breast', fits: 'lo ~no', look: upper('gray') },
+      { label: 'Paler, silvery gray, with less contrast', fits: 'no ~lo', look: upper('pgray') }
+    ]}],
+    shape: [{ id: 'shape', title: 'Shape and size', help: 'Northern is nearly robin-sized; Loggerhead is somewhat smaller, but size only works with both together. Profiles overlap too.', options: [
+      { label: 'Big, blocky head on a slim body; tail not especially long', fits: 'lo ~no', look: L(SOLID, { head: { opacity: '1', transform: 'scale(1.08)', transformOrigin: '60% 70%' } }) },
+      { label: 'Rounder, puffed-up body; head in proportion; longer tail', fits: 'no ~lo', look: L(SOLID, { tail: { transform: 'scale(1.16)', transformOrigin: '0% 0%' }, ftail: { transform: 'scale(1.1,1.16)', transformOrigin: '50% 0%' } }) }
+    ]}],
+    rump: [{ id: 'rump', title: 'Rump color', help: 'Seen in flight or when the wings droop. Great Plains Loggerheads can show white above the tail.', options: [
+      { label: 'Gray, like the back', fits: 'lo ~no', look: { rump: C('mgray') } },
+      { label: 'Whitish, paler than the back', fits: 'no ~lo', look: { rump: C('rumpw') } }
+    ]}],
+    wing: [{ id: 'patch', title: 'White patch on the spread wing', check: 'Only one source compares the patch, and it compares adult Loggerheads with young Northerns.', options: [
+      { label: 'Large, bold white “handkerchief”', fits: 'lo ~no', look: { patchbig: true } },
+      { label: 'Smaller white patch', fits: 'no ~lo', look: { patchsmall: true } }
+    ]}],
+    date: [{ id: 'date', title: 'When, in Iowa', help: 'Northern Shrike’s Iowa extremes are 1 October and 13 April. Loggerheads nest here and mostly leave for the winter.', check: 'How many Loggerheads stay the winter in Iowa, and where, isn’t confirmed.', options: [
+      { label: 'May through September', fits: 'lo' },
+      { label: 'October–November or March–April', fits: 'lo no' },
+      { label: 'December through February', fits: 'no ~lo' }
+    ]}]
+  };
+
+  // ---------- Young birds ----------
+  var YOUNG = {
+    date: [{ id: 'idate', title: 'When, in Iowa', help: 'Young Loggerheads molt out of juvenile plumage by the end of summer and then look like adults. Young Northerns keep theirs most of the winter, so a brownish shrike outside summer is a Northern.', options: [
+      { label: 'June through August', fits: 'lo' },
+      { label: 'September through April', fits: 'no' }
+    ]}],
+    breast: [
+      { id: 'ithroat', title: 'Throat', help: 'The quickest check on a young bird.', options: [
+        { label: 'Bars run up over the throat to the bill', fits: 'no', look: { breast: C('cream'), throatbars: true, bars: { stroke: C('brbar') } } },
+        { label: 'Clean white, unbarred throat', fits: 'lo', look: { barsfaint: true } }
+      ]},
+      { id: 'ibars', title: 'Breast', options: [
+        { label: 'Light brown wash, with heavy wavy bars', fits: 'no', look: { breast: C('cream'), bars: { stroke: C('brbar') } } },
+        { label: 'Pale gray-white with fine, faint gray bars', fits: 'lo ~no', look: { barsfaint: true } }
+      ]}
+    ],
+    upper: [{ id: 'icolor', title: 'Overall color above', help: 'Young Northerns look more brown than gray; young Loggerheads look grayer.', options: [
+      { label: 'Brownish', fits: 'no', look: upper('brown') },
+      { label: 'Gray, maybe with a faint brown tinge', fits: 'lo ~no', look: upper('mgray') }
+    ]}],
+    mask: [{ id: 'imask', title: 'The mask', options: [
+      { label: 'Dark and broad, already like an adult’s', fits: 'lo', look: { maskwide: true } },
+      { label: 'A faint brownish smudge, barely visible', fits: 'no', look: { smudge: true } }
+    ]}],
+    wing: [{ id: 'cov', title: 'Wing coverts (folded wing)', check: 'Young Loggerheads keep buff-edged coverts until a year old, but adult Northerns can show light covert edges too; how young Northerns compare isn’t confirmed.', options: [
+      { label: 'Buff or pale tips on the coverts', fits: 'lo ~no', look: { buffcov: true } },
+      { label: 'Plain black coverts', fits: 'no', look: { wing: C('black') } }
+    ]}],
+    bill: [{ id: 'ibill', title: 'Bill color', help: 'Some young Loggerheads also have a pale base into late fall and winter.', options: [
+      { label: 'Pale base to the lower mandible', fits: 'no lo', look: { billpale: true } },
+      { label: 'All dark', fits: 'lo ~no', look: { bill: C('black') } }
+    ]}],
+    tail: ADULT.tail,
+    shape: ADULT.shape,
+    rump: ADULT.rump
+  };
+
+  Picker({
+    species: SPECIES,
+    stages: [
+      { id: 'adult', label: 'Adult', name: 'Adult', tab: 'adults',
+        qOrder: ['mask', 'bill', 'breast', 'tail', 'upper', 'shape', 'rump', 'wing', 'date'],
+        hint: 'Clean gray, black and white, with a solid black mask.',
+        look: L(upper('mgray'), DARK, { breast: C('white'), mask: C('black'), bill: C('dark'), fbill: C('dark'), rump: C('mgray'), wpatch: C('white'), fpatch: C('white') }) },
+      { id: 'young', label: 'Young (brownish or barred)', name: 'Young bird', tab: 'young',
+        qOrder: ['date', 'breast', 'upper', 'mask', 'tail', 'wing', 'bill', 'shape', 'rump'],
+        hint: 'Brown-tinged or barred below, often with a paler mask. Juvenile Loggerheads in summer only; first-winter Northerns from October to spring.',
+        look: L(upper('brgray'), DARK, { breast: C('cream'), mask: C('dark'), bill: C('dark'), fbill: C('dark'), rump: C('brgray'), wpatch: C('white'), fpatch: C('white'), barsfaint: true }) }
+    ],
+    defaultStage: 'adult',
+    // Close-up for each answer button: a square of the diagram around that part
+    thumbs: { ithroat: '70 90 110 110', flick: '196 120 190 190', maskw: '44 66 112 112', crescent: '44 66 112 112', overbill: '50 76 76 76', imask: '44 66 112 112',
+              billshape: '38 84 60 60', billbase: '38 84 60 60', ibill: '38 84 60 60',
+              breast: '110 140 150 150', upper: '60 60 240 240', shape: '20 60 360 360',
+              rump: '455 156 80 80', patch: '396 84 198 198', cov: '140 130 120 120' },
+    partToQ: PART_TO_Q, qOrder: Q_ORDER, qNames: Q_NAMES,
+    data: { adult: ADULT, young: YOUNG },
+    ref: 'shrikes.html'
+  });
+})();
+</script>
+</body>
+</html>

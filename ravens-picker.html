@@ -1,0 +1,220 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light">
+<title>Raven Picker</title>
+<meta name="description" content="Tap parts of a perched or flying raven, pick what you see, and get Chihuahuan Raven, Common Raven or American Crow, for Texas.">
+<link rel="stylesheet" href="picker.css?v=4">
+<style>
+  :root { --c-black: #2b2e33; --c-white: #fbfbf9; --c-bristle: #858c94; --c-hackle: #b4bac0; --c-gray: #8e959d; }
+  /* Black birds: dark parts with light outlines so the shapes still read */
+  .part { fill: var(--c-black); stroke: var(--c-hackle); }
+  .part.leg-line { stroke: var(--c-black); stroke-width: 4; }
+  .pupil { fill: #c9ced3; }
+  .branch { fill: none; stroke: #b9a88f; stroke-width: 7; stroke-linecap: round; }
+  .side-label { fill: var(--muted); font-size: 13px; font-style: italic; }
+  .opt .thumb { background: var(--surface); }
+  @media (max-width: 820px) { .side-label { font-size: 16px; } .label text { font-size: 17px; } }
+  .notes { margin-top: 20px; font-size: 15px; }
+  .notes ul { margin: 0; padding-left: 20px; }
+  .notes li + li { margin-top: 6px; }
+  .notes .src { color: var(--muted); font-size: 13px; margin: 12px 0 0; }
+  .notes a { color: inherit; }
+</style>
+</head>
+<body>
+<main>
+  <p class="kicker"><a class="home" href="index.html">← Home</a> · Tricky birds · Texas</p>
+  <h1>Raven Picker</h1>
+  <p class="lede">Chihuahuan Raven, Common Raven or just an American Crow? Tap any part of the perched or flying bird and choose what you see. Status and places are for <strong>Texas</strong>, not Iowa. Many ravens are best left as “raven sp.”, and that’s a correct ID. Answers that conflict with your other picks fade. Answers tagged <span class="unsure">check</span> aren’t confirmed yet. For the full write-up, see the <a href="ravens.html">raven reference page</a>.</p>
+
+  <div class="layout">
+    <div class="stack">
+      <section class="card">
+        <div class="card-head"><h2>1 · Tap a part</h2><button type="button" class="clear">↺ Start over</button></div>
+        <div id="diagram"></div>
+        <div class="parts" id="partchips" role="group" aria-label="Parts"></div>
+      </section>
+
+      <section class="card q" id="question" aria-live="polite"></section>
+
+      <section class="card">
+        <h2>Your picks</h2>
+        <div class="picks" id="picks"></div>
+      </section>
+    </div>
+
+    <section class="card results" id="results-card">
+      <div class="results-head">
+        <h2 id="results">Could be</h2>
+        <span class="count" id="count"></span>
+        <button type="button" class="clear">↺ Start over</button>
+      </div>
+      <ul class="res" id="res"></ul>
+    </section>
+  </div>
+
+  <section class="card notes" id="notes">
+    <h2>Notes and sources</h2>
+    <ul>
+      <li><strong>Only two marks are close to certain.</strong> White feather bases on the neck (Chihuahuan) and nasal bristles reaching more than halfway along the bill (Chihuahuan) both need a close look. Voice, size and place only shift the odds.</li>
+      <li><strong>Crow or raven first.</strong> A fan-shaped tail, a “caw”, steady rowing flight and a slimmer bill all point to American Crow.</li>
+      <li><strong>Texas.</strong> Both ravens live here all year. Common Ravens hold to the mountains and canyons of the Trans-Pecos and the cliffs of the Edwards Plateau; Chihuahuan Ravens use flatter, drier country from the Panhandle through west Texas to the South Texas brush. They overlap in places such as Big Bend and the Edwards Plateau.</li>
+    </ul>
+    <p class="src">Sources: All About Birds, <a href="https://www.allaboutbirds.org/guide/Chihuahuan_Raven/species-compare">Chihuahuan Raven compared</a>; Audubon, <a href="https://www.audubon.org/field-guide/bird/chihuahuan-raven">Chihuahuan Raven</a> and <a href="https://www.audubon.org/magazine/how-tell-raven-crow">How to tell a raven from a crow</a>; Pieplow and Spencer, <a href="https://www.journal.westernfieldornithologists.org/index.php/westernbirds/article/view/865">nasal bristle length in Common and Chihuahuan Ravens</a> (Western Birds); Nathan Pieplow, <a href="https://earbirding.com/blog/?p=4736">Common vs. Chihuahuan Ravens</a> (voice); <a href="https://txtbba.tamu.edu/?p=750">Texas Breeding Bird Atlas: Chihuahuan Raven</a>; <a href="https://tpwmagazine.com/archive/2007/nov/ed_4/">Texas Parks &amp; Wildlife magazine</a>; <a href="https://ebird.org/species/chirav">eBird</a>.</p>
+  </section>
+
+  <footer><a href="index.html">← All bird pages</a> · Full write-up on the <a href="ravens.html">raven reference page</a>. Things tagged <span class="unsure">check</span> aren’t confirmed.</footer>
+</main>
+
+<div class="bar" id="bar"><span id="bar-text"></span><button type="button" class="clear">↺</button><a href="#results">See results ↓</a></div>
+
+
+<template id="bird-svg">
+  <svg viewBox="0 0 600 340" role="img" aria-label="Raven diagram, perched and flying overhead: tap a part">
+    <!-- perched, facing left -->
+    <path class="branch" d="M150,272 C220,266 300,268 352,276" />
+    <path class="part" data-part="tail" d="M292,190 L372,240 L366,250 L346,250 L286,214 Z"/>
+    <path class="part leg-line" data-part="legs" d="M198,206 L194,266 M222,210 L224,268"/>
+    <path class="part" data-part="body" d="M112,124 C124,104 174,110 232,130 C272,146 298,172 300,198 C280,216 222,220 172,208 C132,198 106,162 112,124 Z"/>
+    <path class="part" data-part="neck" d="M104,104 C114,94 132,96 146,108 L150,138 C136,146 118,146 106,136 Z"/>
+    <path class="part" data-part="wing" d="M150,122 C200,120 262,142 302,172 L360,228 C320,220 262,200 212,184 C178,170 156,150 150,122 Z"/>
+    <path class="part" data-part="throat" d="M80,106 C86,120 98,128 112,130 L116,114 C104,114 94,110 86,104 Z"/>
+    <path class="part" data-part="head" d="M76,84 C80,68 96,62 110,64 C126,66 136,80 134,96 C132,110 120,118 106,116 C94,114 84,110 78,104 Z"/>
+    <path class="part" data-part="bill" d="M80,80 C60,80 38,86 22,100 C38,101 58,104 80,110 Z"/>
+    <circle class="pupil" cx="98" cy="84" r="3"/>
+
+    <!-- flying overhead, from below -->
+    <path class="part" data-part="ftail" d="M462,212 L478,212 L494,262 L470,284 L446,262 Z"/>
+    <path class="part" data-part="fwing" d="M458,146 L456,132 C420,122 380,124 346,136 L352,144 L345,150 L356,155 L350,161 L364,164 C396,172 430,178 458,190 Z M482,146 L484,132 C520,122 560,124 594,136 L588,144 L595,150 L584,155 L590,161 L576,164 C544,172 510,178 482,190 Z"/>
+    <ellipse class="part" data-part="fbody" cx="470" cy="172" rx="16" ry="48"/>
+    <circle class="part" data-part="fhead" cx="470" cy="116" r="15"/>
+    <path class="part" data-part="fbill" d="M463,104 L470,80 L477,104 Z"/>
+
+    <!-- overlays: hidden until a pick shows them -->
+    <g data-look="brlong" style="fill:var(--c-bristle);stroke:var(--c-hackle);stroke-width:1">
+      <path d="M80,81 C66,81 54,83 46,87 C54,91 66,94 80,97 Z"/>
+      <path d="M78,85 L54,87 M78,89 L56,90 M78,93 L62,93" style="fill:none"/>
+    </g>
+    <g data-look="brshort" style="fill:var(--c-bristle);stroke:var(--c-hackle);stroke-width:1">
+      <path d="M80,81 C74,81 69,82 64,84 C68,88 73,92 80,95 Z"/>
+      <path d="M78,85 L67,86 M78,89 L68,89 M78,92 L71,92" style="fill:none"/>
+    </g>
+    <path data-look="hackles" d="M82,108 L84,128 L90,120 L94,138 L100,124 L106,140 L110,126 L117,138 L118,116 Z" style="fill:var(--c-black);stroke:var(--c-hackle);stroke-width:1.2;stroke-linejoin:round"/>
+    <path data-look="smooth" d="M80,106 C86,120 98,128 112,130" style="fill:none;stroke:var(--c-hackle);stroke-width:1.5"/>
+    <g data-look="whitebase" style="fill:none;stroke:var(--c-white);stroke-width:3;stroke-linecap:round">
+      <path d="M112,112 l6,-4 M120,120 l7,-4 M114,126 l7,-3 M126,130 l7,-4 M118,136 l7,-3 M132,138 l6,-4 M124,142 l7,-3 M136,104 l6,-4 M128,108 l6,-3"/>
+    </g>
+    <g data-look="graybase" style="fill:none;stroke:var(--c-gray);stroke-width:2;stroke-linecap:round">
+      <path d="M114,116 l6,-3 M124,124 l6,-3 M116,132 l6,-3 M130,134 l6,-3 M124,142 l6,-3"/>
+    </g>
+    <path data-look="tailslight" d="M462,212 L478,212 L490,264 L470,276 L450,264 Z" style="fill:var(--c-black);stroke:var(--c-hackle)"/>
+    <path data-look="tailfan" d="M462,212 L478,212 L492,258 C484,266 456,266 448,258 Z" style="fill:var(--c-black);stroke:var(--c-hackle)"/>
+    <path data-look="crowwing" d="M458,146 C434,132 404,128 378,132 L376,141 L369,147 L378,153 L372,160 L384,166 C412,176 436,182 458,190 Z M482,146 C506,132 536,128 562,132 L564,141 L571,147 L562,153 L568,160 L556,166 C528,176 504,182 482,190 Z" style="fill:var(--c-black);stroke:var(--c-hackle)"/>
+    <path data-look="crowbill" d="M465,104 L470,88 L475,104 Z" style="fill:var(--c-black);stroke:var(--c-hackle)"/>
+
+    <text class="side-label" x="190" y="300" text-anchor="middle">perched</text>
+    <text class="side-label" x="470" y="312" text-anchor="middle">flying, from below</text>
+
+    <!-- labels -->
+    <g class="label" data-q="bill"><line x1="40" y1="60" x2="58" y2="86"/><text x="36" y="52" text-anchor="middle">Bill</text></g>
+    <g class="label" data-q="throat"><line x1="66" y1="160" x2="92" y2="122"/><text x="62" y="178" text-anchor="middle">Throat</text></g>
+    <g class="label" data-q="neck"><line x1="150" y1="64" x2="132" y2="104"/><text x="156" y="58" text-anchor="middle">Neck</text></g>
+    <g class="label" data-q="size"><line x1="230" y1="100" x2="214" y2="134"/><text x="236" y="92" text-anchor="middle">Size</text></g>
+    <g class="label" data-q="tail"><line x1="536" y1="264" x2="490" y2="256"/><text x="540" y="270" text-anchor="start">Tail</text></g>
+    <g class="label" data-q="wings"><line x1="560" y1="96" x2="548" y2="136"/><text x="560" y="88" text-anchor="middle">Wings</text></g>
+  </svg>
+</template>
+
+<script src="picker.js?v=4"></script>
+<script>
+(function () {
+  var SPECIES = [
+    { id: 'cr', name: 'Common Raven' },
+    { id: 'ch', name: 'Chihuahuan Raven' },
+    { id: 'ac', name: 'American Crow' }
+  ];
+  var PART_TO_Q = { bill: 'bill', head: 'bill', fbill: 'bill', fhead: 'bill', throat: 'throat', neck: 'neck',
+                    body: 'size', fbody: 'size', wing: 'wings', fwing: 'wings', tail: 'tail', ftail: 'tail' };
+  var Q_ORDER = ['neck', 'bill', 'voice', 'where', 'tail', 'throat', 'wings', 'size', 'group'];
+  var Q_NAMES = { neck: 'Neck feathers', bill: 'Bill', voice: 'Voice', where: 'Where in Texas', tail: 'Tail', throat: 'Throat',
+                  wings: 'Wings & flight', size: 'Size', group: 'Flock size' };
+  function sized(s) { return { bill: { transform: 'scale(' + s + ')', transformOrigin: '100% 50%' },
+                               fbill: { transform: 'scale(' + s + ')', transformOrigin: '50% 100%' } }; }
+  var HIDE = { opacity: 0 };
+
+  var ALL = {
+    neck: [{ id: 'bases', title: 'Feather bases on the neck', help: 'Only visible when wind ruffles the neck or the bird preens or puffs up. Watch a while.', options: [
+      { label: 'White bases flash through the black', fits: 'ch', look: { whitebase: true },
+        check: 'A Colorado birder notes Common Ravens rarely show a few white throat feathers.' },
+      { label: 'Gray bases, no white, even when ruffled', fits: 'cr ac ~ch', look: { graybase: true } }
+    ]}],
+    bill: [
+      { id: 'bristles', title: 'Nasal bristles (feathers over the base of the bill)', help: 'Needs a close side view or a good photo.', check: 'The halfway rule is from field guides and other summaries; a Western Birds specimen study measured it, but I couldn’t read its results.', options: [
+        { label: 'Reach more than halfway along the top of the bill', fits: 'ch', look: { brlong: true } },
+        { label: 'Reach less than halfway', fits: 'cr ac', look: { brshort: true } }
+      ]},
+      { id: 'billsize', title: 'Bill size and shape', options: [
+        { label: 'Massive and deep, with a strongly curved top', fits: 'cr ~ch', look: sized(1.08) },
+        { label: 'Heavy but a little shorter and slimmer', fits: 'ch ~cr', look: sized(0.9) },
+        { label: 'Fairly slim and straight: a crow bill', fits: 'ac', look: { bill: { transform: 'scale(0.75, 0.7)', transformOrigin: '100% 50%' }, fbill: HIDE, crowbill: true } }
+      ]}
+    ],
+    voice: [{ id: 'voice', title: 'Call', help: 'Ravens of both kinds give many calls, so use the usual one.', options: [
+      { label: 'Deep, rolling, resonant croak (“gronk”), sometimes gurgling or bell-like', fits: 'cr ~ch' },
+      { label: 'Higher, harsher croak, a little crow-like', fits: 'ch ~cr', check: 'Calls are usually described as higher-pitched, but Pieplow notes Common Raven calls span the same range, so pitch alone isn’t reliable.' },
+      { label: 'Clear, familiar “caw”', fits: 'ac' }
+    ]}],
+    where: [{ id: 'where', title: 'Where in Texas', help: 'Both ravens live here all year.', check: 'Ranges summarised from the Texas Breeding Bird Atlas and TPWD; I couldn’t open the full range maps.', options: [
+      { label: 'Mountains, canyons and cliffs: Trans-Pecos ranges, Big Bend, the Edwards Plateau', fits: 'cr ~ch ~ac' },
+      { label: 'Flat, open desert grassland, brush or farmland: Panhandle, west Texas lowlands, South Texas brush, along the Rio Grande', fits: 'ch ~cr ~ac' },
+      { label: 'Towns, woods and farmland of east or central Texas', fits: 'ac' }
+    ]}],
+    tail: [{ id: 'tailshape', title: 'Tail shape, best in flight', help: 'Middle feathers longest makes a wedge. Spread or worn tails change shape.', options: [
+      { label: 'Long and strongly wedge-shaped, like a diamond', fits: 'cr ~ch', look: { ftail: {} } },
+      { label: 'Wedge-shaped but shorter and blunter', fits: 'ch ~cr', look: { ftail: HIDE, tailslight: true },
+        check: 'One source says Common’s tail is more wedge-shaped; others describe both as wedge-shaped. Not a reliable separator.' },
+      { label: 'Rounded or square, fan-like', fits: 'ac', look: { ftail: HIDE, tailfan: true } }
+    ]}],
+    throat: [{ id: 'hackles', title: 'Throat feathers', help: 'Easiest when the bird calls or puffs up.', options: [
+      { label: 'Long, shaggy “beard” of pointed feathers', fits: 'cr ~ch', look: { hackles: true } },
+      { label: 'Fairly smooth throat', fits: 'ch ac', look: { smooth: true },
+        check: 'Chihuahuan has throat hackles too, just shorter; how well this separates them isn’t documented in what I could read.' }
+    ]}],
+    wings: [
+      { id: 'wingshape', title: 'Wing shape overhead', options: [
+        { label: 'Long wings with a long, narrow, fingered hand', fits: 'cr ch', look: { fwing: {} } },
+        { label: 'Shorter, broader, blunter wings', fits: 'ac', look: { fwing: HIDE, crowwing: true } }
+      ]},
+      { id: 'flight', title: 'How it flies', options: [
+        { label: 'Soars and glides on flat wings, sometimes tumbles or rolls', fits: 'cr ch ~ac' },
+        { label: 'Low over open ground, with strong, shallow wingbeats', fits: 'ch ~cr ~ac' },
+        { label: 'Steady rowing flaps, rarely soars', fits: 'ac ~ch' }
+      ]}
+    ],
+    size: [{ id: 'size', title: 'Size', help: 'Best beside another bird. Common Raven 56–69 cm long, Chihuahuan 46–52 cm, American Crow about 40–50 cm.', options: [
+      { label: 'Big: about a Red-tailed Hawk', fits: 'cr ~ch' },
+      { label: 'Medium: a bit bigger than a crow', fits: 'ch ~cr ~ac' },
+      { label: 'Crow-sized', fits: 'ac ~ch' }
+    ]}],
+    group: [{ id: 'group', title: 'How many', help: 'Chihuahuan Ravens gather in big flocks after nesting; Common Ravens mostly keep to pairs, though they flock at dumps.', options: [
+      { label: 'A flock of dozens or hundreds, especially in winter', fits: 'ch ac ~cr' },
+      { label: 'One or two birds', fits: 'cr ch ac' }
+    ]}]
+  };
+
+  Picker({
+    species: SPECIES,
+    stages: null,
+    // Close-up for each answer button: a square of the diagram around that part
+    thumbs: { bases: '92 86 70 70', bristles: '16 56 72 72', billsize: '12 50 80 80', tailshape: '428 202 84 84', hackles: '66 88 66 66', wingshape: '340 50 260 260' },
+    partToQ: PART_TO_Q, qOrder: Q_ORDER, qNames: Q_NAMES,
+    data: { all: ALL },
+    ref: 'ravens.html'
+  });
+})();
+</script>
+</body>
+</html>

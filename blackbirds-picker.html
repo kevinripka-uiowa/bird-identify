@@ -1,0 +1,360 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light">
+<title>Blackbird Picker</title>
+<meta name="description" content="Tap parts of a blackbird, pick what you see, and sort Iowa’s Red-winged, Rusty and Brewer’s Blackbirds, Common and Great-tailed Grackles and Brown-headed Cowbird.">
+<link rel="stylesheet" href="picker.css?v=4">
+<style>
+  .part[data-part="body"], .part[data-part="head"], .part[data-part="fbody"], .part[data-part="fhead"] { fill: var(--bird-c); }
+  .part[data-part="wing"], .part[data-part="fwing"], .part[data-part="shoulder"] { fill: var(--bird-b); }
+  .part[data-part="tail"], .part[data-part="ftail"] { fill: var(--bird-a); }
+  .part[data-part="bill"], .part[data-part="fbill"] { fill: var(--bird-d); }
+  .part[data-part="eye"] { fill: var(--bird-a); }
+  .part.leg-line { stroke: var(--bird-d); stroke-width: 4; }
+  .perch { stroke: #a8957c; stroke-width: 7; stroke-linecap: round; }
+  :root { --c-black: #1f2226; --c-dull: #2e2f32; --c-purple: #4b3b6e; --c-green: #24423b; --c-blue: #2f4482; --c-bronze: #5d4b2f;
+          --c-violet: #3b3d80; --c-brownhead: #70503a; --c-graybrown: #8d8276; --c-brgray: #757069; --c-slate: #5d626a; --c-brown: #6f5741;
+          --c-streak: #3b2d22; --c-tawny: #a88a64; --c-buff: #dcc092; --c-rust: #b5622a; --c-pale: #efe7d6; --c-red: #d1352b;
+          --c-yellow: #edc33a; --c-peach: #d8a089; --c-paleeye: #f3e27c; --c-dslate: #3d4046; --c-dkbrown: #3a302a; --c-dbrown: #4a3d33;
+          --c-ridge: #9aa3ad; }
+  .side-label { fill: var(--muted); font-size: 13px; font-style: italic; }
+  .opt .thumb { background: var(--surface); }
+  @media (max-width: 820px) { .side-label { font-size: 16px; } .label text { font-size: 16px; } }
+  .notes { margin-top: 20px; font-size: 15px; }
+  .notes ul { margin: 0; padding-left: 20px; }
+  .notes li + li { margin-top: 6px; }
+  .notes .src { color: var(--muted); font-size: 13px; margin: 12px 0 0; }
+  .notes a { color: inherit; }
+</style>
+</head>
+<body>
+<main>
+  <p class="kicker"><a class="home" href="index.html">← Home</a> · Tricky birds · Iowa</p>
+  <h1>Blackbird Picker</h1>
+  <p class="lede">Red-winged, Rusty or Brewer’s Blackbird, Common or Great-tailed Grackle, or Brown-headed Cowbird? Pick the plumage, then tap a part of the perched bird, or of the bird flying, and choose what you see. Answers that conflict with your other picks fade. Answers tagged <span class="unsure">check</span> aren’t confirmed or vary a lot. For the full write-up, see the <a href="blackbirds.html">blackbird reference page</a>.</p>
+
+  <div class="layout">
+    <div class="stack">
+      <section class="card">
+        <div class="card-head"><h2>1 · Plumage</h2><button type="button" class="clear">↺ Start over</button></div>
+        <div class="seg" id="stages" role="group" aria-label="Plumage"></div>
+        <p class="stage-hint" id="stage-hint"></p>
+      </section>
+
+      <section class="card">
+        <h2>2 · Tap a part</h2>
+        <div id="diagram"></div>
+        <div class="parts" id="partchips" role="group" aria-label="Parts"></div>
+      </section>
+
+      <section class="card q" id="question" aria-live="polite"></section>
+
+      <section class="card">
+        <h2>Your picks</h2>
+        <div class="picks" id="picks"></div>
+      </section>
+    </div>
+
+    <section class="card results" id="results-card">
+      <div class="results-head">
+        <h2 id="results">Could be</h2>
+        <span class="count" id="count"></span>
+        <button type="button" class="clear">↺ Start over</button>
+      </div>
+      <ul class="res" id="res"></ul>
+    </section>
+  </div>
+
+  <section class="card notes" id="notes">
+    <h2>Notes and sources</h2>
+    <ul>
+      <li><strong>Eye, bill and tail first.</strong> A pale eye rules out Red-winged and cowbird; a cone bill means cowbird; a long, keeled tail means a grackle. Gloss only shows in good light.</li>
+      <li><strong>Rusty vs. Brewer’s is the hard pair.</strong> In fall and winter, Rusty is edged rusty all over and Brewer’s is not. In spring, look at the female’s eye (pale on Rusty, usually dark on Brewer’s) and the male’s gloss (purple head on Brewer’s, dull on Rusty). Neither nests in Iowa.</li>
+      <li><strong>Iowa.</strong> All six are regular. Red-winged, Common Grackle, cowbird and Great-tailed Grackle nest here; Great-tailed first nested in 1983 in Fremont County and has spread since. Rusty and Brewer’s are migrants, with extreme dates of 6 Sep–29 Apr (Rusty) and 26 Sep–11 May (Brewer’s). European Starling (short tail, yellow or spotted bill) and Yellow-headed Blackbird are the usual look-alikes.</li>
+    </ul>
+    <p class="src">Sources: Cornell Lab, All About Birds species comparisons for <a href="https://www.allaboutbirds.org/guide/Rusty_Blackbird/species-compare">Rusty</a>, <a href="https://www.allaboutbirds.org/guide/Brewers_Blackbird/species-compare">Brewer’s</a>, <a href="https://www.allaboutbirds.org/guide/Red-winged_Blackbird/species-compare">Red-winged</a>, <a href="https://www.allaboutbirds.org/guide/Great-tailed_Grackle/species-compare">Great-tailed Grackle</a>, <a href="https://www.allaboutbirds.org/guide/Common_Grackle/species-compare">Common Grackle</a> and <a href="https://www.allaboutbirds.org/guide/Brown-headed_Cowbird/species-compare">Brown-headed Cowbird</a>; USGS Patuxent ID pages for <a href="https://www.mbr-pwrc.usgs.gov/id/framlst/account/h5090id.html">Rusty</a> and <a href="https://www.mbr-pwrc.usgs.gov/id/framlst/account/h5100id.html">Brewer’s</a>; Iowa Ornithologists’ Union <a href="https://iowabirds.org/Birds/Checklist.aspx">checklist</a> and <a href="https://iowabirds.org/Birds/Docs/Early_Late.pdf">early and late dates</a>; Silcock, <a href="https://dr.lib.iastate.edu/entities/publication/eead8985-e760-4b16-8c83-3ea475a67e45">Great-tailed Grackle range expansion</a>.</p>
+  </section>
+
+  <footer><a href="index.html">← All bird pages</a> · Full write-up on the <a href="blackbirds.html">blackbird reference page</a>. Things tagged <span class="unsure">check</span> aren’t confirmed.</footer>
+</main>
+
+<div class="bar" id="bar"><span id="bar-text"></span><button type="button" class="clear">↺</button><a href="#results">See results ↓</a></div>
+
+<template id="bird-svg">
+  <svg viewBox="0 0 640 360" role="img" aria-label="Blackbird diagram, perched and flying from above: tap a part">
+    <!-- perched, facing left -->
+    <line class="perch" x1="112" y1="290" x2="300" y2="290"/>
+    <path class="part" data-part="tail" d="M280,198 L352,262 L338,276 L268,212 Z"/>
+    <path class="part leg-line" data-part="legs" d="M184,222 L176,286 M208,226 L206,286 M164,288 L176,284 L190,288 M194,288 L206,284 L220,288"/>
+    <path class="part" data-part="body" d="M88,126 C122,106 196,110 250,138 C292,160 310,196 292,214 C268,236 196,230 146,204 C106,184 82,152 88,126 Z"/>
+    <path class="part" data-part="wing" d="M146,138 C196,124 256,142 300,186 C312,200 316,214 308,222 C280,214 220,196 178,176 C160,166 148,152 146,138 Z"/>
+    <path class="part" data-part="shoulder" d="M146,138 C168,130 192,130 212,138 C206,154 188,164 168,166 C156,158 148,148 146,138 Z"/>
+    <path class="part" data-part="head" d="M74,104 C74,82 94,70 116,72 C138,74 150,92 146,112 C142,128 124,136 106,134 C88,132 74,122 74,104 Z"/>
+    <g data-look="bhead" style="fill:var(--c-brownhead)">
+      <path d="M74,104 C74,82 94,70 116,72 C138,74 150,92 146,112 C142,128 124,136 106,134 C88,132 74,122 74,104 Z"/>
+    </g>
+    <path data-look="hcol" style="fill:var(--c-black)" d="M74,104 C74,82 94,70 116,72 C138,74 150,92 146,112 C142,128 124,136 106,134 C88,132 74,122 74,104 Z"/>
+    <path class="part" data-part="bill" d="M78,95 L30,106 C28,107 28,109 30,110 L78,116 Z"/>
+    <circle class="part" data-part="eye" cx="98" cy="98" r="5.5"/>
+    <circle class="pupil" cx="98" cy="98" r="2"/>
+
+    <!-- flying, seen from above -->
+    <path class="part" data-part="ftail" d="M530,186 L550,186 L560,240 L520,240 Z"/>
+    <path class="part" data-part="fwing" d="M528,124 C504,108 476,104 456,114 L462,128 C482,142 508,154 528,160 Z M552,124 C576,108 604,104 624,114 L618,128 C598,142 572,154 552,160 Z"/>
+    <ellipse class="part" data-part="fbody" cx="540" cy="146" rx="16" ry="44"/>
+    <circle class="part" data-part="fhead" cx="540" cy="96" r="14"/>
+    <circle data-look="fbhead" cx="540" cy="96" r="14" style="fill:var(--c-brownhead)"/>
+    <circle data-look="fhcol" cx="540" cy="96" r="14" style="fill:var(--c-black)"/>
+    <path class="part" data-part="fbill" d="M535,84 L540,64 L545,84 Z"/>
+
+    <!-- overlays: hidden until a pick shows them -->
+    <g data-look="streaks" style="fill:none;stroke:var(--c-streak);stroke-width:2.4;stroke-linecap:round">
+      <path d="M96,150 l4,8 M110,146 l4,9 M104,164 l4,9 M120,160 l4,9 M114,178 l4,9 M130,174 l4,9 M128,192 l4,9 M144,188 l4,9 M144,204 l4,8 M160,200 l4,9 M160,214 l3,6 M176,210 l3,7 M196,216 l3,6"/>
+    </g>
+    <g data-look="fstreaks" style="fill:none;stroke:var(--c-streak);stroke-width:1.4;stroke-linecap:round;opacity:.55">
+      <path d="M128,190 l3,7 M144,198 l3,7 M160,206 l3,7 M176,212 l3,6 M150,214 l3,6"/>
+    </g>
+    <path data-look="throat" class="no-stroke" d="M80,118 C86,126 100,134 116,134 C104,142 88,140 80,130 Z" style="fill:var(--c-pale)"/>
+    <path data-look="buffthroat" class="no-stroke" d="M80,118 C86,126 100,134 116,134 C128,140 132,156 120,166 C100,160 84,146 80,130 Z" style="fill:var(--c-buff)"/>
+    <ellipse data-look="mask" class="no-stroke" cx="100" cy="100" rx="17" ry="9" style="fill:var(--c-dkbrown);opacity:.85"/>
+    <path data-look="brow" d="M84,90 C96,84 116,82 132,88" style="fill:none;stroke:var(--c-pale);stroke-width:4;stroke-linecap:round"/>
+    <path data-look="browbuff" d="M84,90 C96,84 116,82 132,88" style="fill:none;stroke:var(--c-buff);stroke-width:4;stroke-linecap:round"/>
+    <g data-look="rusty" class="no-stroke">
+      <path d="M78,96 C80,80 96,72 116,72 C134,74 146,86 146,100 C130,90 104,86 78,96 Z" style="fill:var(--c-rust)"/>
+      <path d="M92,140 C108,138 132,146 146,160 C150,176 140,188 128,190 C110,180 96,164 92,140 Z" style="fill:var(--c-rust);opacity:.85"/>
+      <path d="M166,146 q8,-6 16,0 M190,146 q8,-6 16,0 M214,150 q8,-6 16,0 M178,160 q8,-6 16,0 M202,164 q8,-6 16,0 M226,166 q8,-6 16,0 M250,172 q8,-6 16,0 M214,180 q8,-6 16,0 M238,186 q8,-6 16,0 M262,190 q8,-6 16,0" style="fill:none;stroke:var(--c-rust);stroke-width:3;stroke-linecap:round"/>
+      <path d="M532,108 q8,-5 16,0 M530,124 q10,-6 20,0 M530,140 q10,-6 20,0 M532,156 q8,-5 16,0" style="fill:none;stroke:var(--c-rust);stroke-width:3;stroke-linecap:round"/>
+    </g>
+    <g data-look="buffedges" style="fill:none;stroke:var(--c-buff);stroke-width:2.4;stroke-linecap:round">
+      <path d="M100,134 q7,-5 14,0 M108,150 q7,-5 14,0 M122,166 q7,-5 14,0 M138,182 q7,-5 14,0 M178,160 q8,-6 16,0 M202,164 q8,-6 16,0 M226,170 q8,-6 16,0 M214,182 q8,-6 16,0 M238,188 q8,-6 16,0 M98,80 q7,-5 14,0 M116,80 q7,-5 14,0"/>
+    </g>
+    <g data-look="scaly" style="fill:none;stroke:var(--c-pale);stroke-width:2.2;stroke-linecap:round">
+      <path d="M166,146 q8,-6 16,0 M190,146 q8,-6 16,0 M214,150 q8,-6 16,0 M178,160 q8,-6 16,0 M202,164 q8,-6 16,0 M226,166 q8,-6 16,0 M250,172 q8,-6 16,0 M214,180 q8,-6 16,0 M238,186 q8,-6 16,0 M262,190 q8,-6 16,0 M276,200 q8,-6 16,0"/>
+    </g>
+    <g data-look="rusttert" style="fill:none;stroke:var(--c-rust);stroke-width:3.2;stroke-linecap:round">
+      <path d="M232,176 C252,182 272,192 290,206 M222,186 C244,192 264,202 282,214"/>
+    </g>
+    <g data-look="epaulet">
+      <path class="no-stroke" d="M150,140 C170,133 192,133 208,140 C202,150 188,156 172,157 C160,152 152,146 150,140 Z" style="fill:var(--c-red)"/>
+      <path d="M154,150 C166,160 186,160 204,148" style="fill:none;stroke:var(--c-yellow);stroke-width:4;stroke-linecap:round"/>
+    </g>
+    <path data-look="yband" d="M154,150 C166,160 186,160 204,148" style="fill:none;stroke:var(--c-yellow);stroke-width:4;stroke-linecap:round"/>
+    <g data-look="fepaulet" class="no-stroke" style="fill:var(--c-red)">
+      <path d="M526,122 C514,116 502,116 494,122 C502,132 516,134 526,134 Z M554,122 C566,116 578,116 586,122 C578,132 564,134 554,134 Z"/>
+      <path d="M494,124 C502,134 516,136 526,136 M586,124 C578,134 564,136 554,136" style="fill:none;stroke:var(--c-yellow);stroke-width:3"/>
+    </g>
+    <g data-look="keel" style="fill:none;stroke-linecap:round">
+      <path d="M280,198 L352,262 L338,276 L268,212 Z" style="stroke:none"/>
+      <path d="M272,208 L346,270" style="stroke:var(--c-ridge);stroke-width:3"/>
+    </g>
+    <g data-look="fkeel" style="fill:none;stroke-linecap:round">
+      <path d="M530,186 L550,186 L560,240 L520,240 Z" style="stroke:none"/>
+      <path d="M531,190 L540,238 L549,190" style="stroke:var(--c-ridge);stroke-width:3"/>
+    </g>
+
+    <text class="side-label" x="196" y="326" text-anchor="middle">perched</text>
+    <text class="side-label" x="540" y="326" text-anchor="middle">flying, from above</text>
+
+    <!-- labels -->
+    <g class="label" data-q="bill"><line x1="40" y1="132" x2="48" y2="110"/><text x="40" y="150" text-anchor="middle">Bill</text></g>
+    <g class="label" data-q="eye"><line x1="98" y1="52" x2="98" y2="91"/><text x="98" y="44" text-anchor="middle">Eye</text></g>
+    <g class="label" data-q="head"><line x1="168" y1="64" x2="140" y2="86"/><text x="172" y="62" text-anchor="start">Head</text></g>
+    <g class="label" data-q="shoulder"><line x1="214" y1="104" x2="184" y2="140"/><text x="218" y="102" text-anchor="start">Shoulder</text></g>
+    <g class="label" data-q="plumage"><line x1="236" y1="252" x2="226" y2="214"/><text x="236" y="270" text-anchor="middle">Plumage</text></g>
+    <g class="label" data-q="tail"><line x1="392" y1="238" x2="330" y2="250"/><text x="396" y="242" text-anchor="start">Tail</text></g>
+    <g class="label" data-q="where"><line x1="150" y1="300" x2="174" y2="286"/><text x="146" y="308" text-anchor="end">Gait</text></g>
+    <g class="label" data-q="shoulder"><line x1="500" y1="70" x2="512" y2="118"/><text x="500" y="62" text-anchor="middle">Shoulder</text></g>
+    <g class="label" data-q="tail"><line x1="598" y1="212" x2="556" y2="220"/><text x="602" y="216" text-anchor="start">Tail</text></g>
+  </svg>
+</template>
+
+<script src="picker.js?v=4"></script>
+<script>
+(function () {
+  var SPECIES = [
+    { id: 'rw', name: 'Red-winged Blackbird' },
+    { id: 'cg', name: 'Common Grackle' },
+    { id: 'cb', name: 'Brown-headed Cowbird' },
+    { id: 'br', name: 'Brewer’s Blackbird' },
+    { id: 'ru', name: 'Rusty Blackbird' },
+    { id: 'gt', name: 'Great-tailed Grackle' }
+  ];
+  var PART_TO_Q = { bill: 'bill', fbill: 'bill', eye: 'eye', head: 'head', fhead: 'head', body: 'plumage', wing: 'plumage', fbody: 'plumage',
+                    shoulder: 'shoulder', fwing: 'shoulder', tail: 'tail', ftail: 'tail', legs: 'where' };
+  var Q_ORDER = ['plumage', 'eye', 'bill', 'tail', 'head', 'shoulder', 'size', 'voice', 'where', 'date'];
+  var Q_NAMES = { plumage: 'Plumage', eye: 'Eye', bill: 'Bill', tail: 'Tail', head: 'Head gloss', shoulder: 'Shoulder', size: 'Size',
+                  voice: 'Voice', where: 'Gait & habitat', date: 'Date' };
+
+  // ---------- Paint helpers ----------
+  function C(n) { return 'var(--c-' + n + ')'; }
+  function L() { var o = {}; [].forEach.call(arguments, function (a) { Object.keys(a).forEach(function (k) { o[k] = a[k]; }); }); return o; }
+  function paint(c, wingc) {
+    var o = {}; ['body', 'head', 'tail', 'fbody', 'fhead', 'ftail'].forEach(function (p) { o[p] = C(c); });
+    ['wing', 'shoulder', 'fwing'].forEach(function (p) { o[p] = C(wingc || c); });
+    return o;
+  }
+  function pp(c, wingc) { return L(paint(c, wingc), { hcol: C(c), fhcol: C(c) }); }
+  function gloss(head, body) { return L(paint(body), { head: C(head), fhead: C(head), hcol: C(head), fhcol: C(head) }); }
+  function tail(s, keel) {
+    var t = { transform: 'scale(' + s + ')', transformOrigin: '0% 0%' }, f = { transform: 'scale(1,' + s + ')', transformOrigin: '50% 0%' };
+    var o = { tail: t, ftail: f };
+    if (keel) { o.keel = t; o.fkeel = f; }
+    return o;
+  }
+  var CONE = { bill: { transform: 'scale(.7,1.3)', transformOrigin: '100% 50%' }, fbill: { transform: 'scale(1.5,.7)', transformOrigin: '50% 100%' } };
+  var SLIM = { bill: { transform: 'scale(1,.85)', transformOrigin: '100% 50%' } };
+  var HEAVY = { bill: { transform: 'scale(1.3,1.25)', transformOrigin: '100% 50%' }, fbill: { transform: 'scale(1.3,1.3)', transformOrigin: '50% 100%' } };
+  var PALE = { eye: C('paleeye') }, DARK = { eye: C('black') };
+
+  // ---------- Shared groups ----------
+  function eyeGroup(pale, dark, help) { return [{ id: 'eye', title: 'Eye color', help: help, options: [
+    { label: 'Pale yellow to whitish', fits: pale, look: PALE },
+    { label: 'Dark', fits: dark, look: DARK }
+  ]}]; }
+  var BILL = [{ id: 'bill', title: 'Bill shape', options: [
+    { label: 'Short, thick and cone-shaped, like a finch’s', fits: 'cb', look: CONE },
+    { label: 'Medium, slim and sharply pointed', fits: 'rw ru br', look: SLIM },
+    { label: 'Long and heavy, slightly curved', fits: 'cg gt', look: HEAVY }
+  ]}];
+  function tailGroup(cg, gt) { return [{ id: 'tail', title: 'Tail', help: 'Grackles fold the tail into a V, like the keel of a boat; it shows best in flight.', options: [
+    { label: 'Short to medium, flat, square or slightly rounded', fits: 'rw ru br cb', look: tail(1) },
+    { label: 'Long, wedge-shaped, often held in a shallow V', fits: cg, look: tail(1.45, true) },
+    { label: 'Very long, nearly as long as the body, in a deep V', fits: gt, look: tail(1.9, true) }
+  ]}]; }
+  var HEADGLOSS = function (extraDull) { return [{ id: 'gloss', title: 'Head color and gloss', help: 'Gloss shows only in good light; in shade they all look black.', options: [
+    { label: 'Brown head on a glossy black body', fits: 'cb', look: L(paint('black'), { bhead: true, fbhead: true }) },
+    { label: 'Purple-glossed head, greenish body', fits: 'br', look: gloss('purple', 'green') },
+    { label: 'Glossy blue-purple head set off from a bronze body', fits: 'cg', look: gloss('blue', 'bronze') },
+    { label: 'Glossy violet-blue all over', fits: 'gt', look: pp('violet') },
+    { label: 'Dull black, with little or no gloss', fits: extraDull, look: pp('dull') }
+  ]}]; };
+  function shoulderGroup(none) { return [{ id: 'epaulet', title: 'Shoulder patch', help: 'A perched male can hide the red and show only the yellow edge.', options: [
+    { label: 'Red patch with a yellow lower edge', fits: 'rw', look: { epaulet: true, fepaulet: true } },
+    { label: 'Only a yellow or buff stripe', fits: 'rw', look: { yband: true } },
+    { label: 'No patch at all', fits: none, look: { shoulder: C('dull') } }
+  ]}]; }
+  var SIZE_HELP = 'Rough lengths: cowbird 16–22 cm, Red-winged 17–23, Rusty and Brewer’s 21–25, Common Grackle 28–34, Great-tailed 38–46 (females smaller).';
+  var SIZE_CHECK = 'Lengths from standard field guides, not checked against a source page.';
+  function size(small, robin, big, huge) { return [{ id: 'size', title: 'Size', help: SIZE_HELP, check: SIZE_CHECK, options: [
+    { label: 'Smaller than a robin; stocky and short-tailed', fits: small },
+    { label: 'About robin-sized', fits: robin },
+    { label: 'Bigger than a robin, with a long tail', fits: big },
+    { label: 'Much bigger, nearly crow length, mostly tail', fits: huge }
+  ]}]; }
+  var SONG = [{ id: 'song', title: 'Song', options: [
+    { label: 'A gurgling “conk-la-ree!” from a cattail or fence', fits: 'rw' },
+    { label: 'Liquid gurgles ending in a thin, high whistle: “glug-glug-gleee”', fits: 'cb' },
+    { label: 'A creaky “kush-a-lee,” like a rusty hinge', fits: 'ru', check: 'Rusty and Brewer’s songs are both squeaky; descriptions vary between guides.' },
+    { label: 'A short, wheezy squeak: “ksh-eee”', fits: 'br', check: 'Rusty and Brewer’s songs are both squeaky; descriptions vary between guides.' },
+    { label: 'A harsh, squeaky “readle-eak,” like a rusty gate', fits: 'cg' },
+    { label: 'Loud, varied whistles, clacks and a machine-gun rattle', fits: 'gt' }
+  ]}];
+  var CALL = [{ id: 'call', title: 'Call note', help: 'Use calls only as support.', check: 'Call descriptions vary between guides.', options: [
+    { label: 'A dry, chattering rattle', fits: 'cb ~rw' },
+    { label: 'A low, hard “chuck” or “check”', fits: 'rw ru br cg ~gt' },
+    { label: 'A loud, sharp “clack”', fits: 'gt ~cg' }
+  ]}];
+  var WHERE = [
+    { id: 'habitat', title: 'Where it is', options: [
+      { label: 'Wet woods, swamps and flooded bottoms, flipping wet leaves', fits: 'ru ~rw' },
+      { label: 'Cattail marshes and wet roadside ditches', fits: 'rw gt ~cg' },
+      { label: 'Plowed fields, pastures, feedlots and short grass', fits: 'br cb rw cg ~ru ~gt' },
+      { label: 'Towns, lawns and parking lots', fits: 'cg gt ~cb ~rw ~br' }
+    ]},
+    { id: 'gait', title: 'On the ground', check: 'From general field-guide descriptions of behavior; individuals vary.', options: [
+      { label: 'Walks with the tail cocked up, often near cattle or horses', fits: 'cb ~br' },
+      { label: 'Walks with a long stride, bobbing the head', fits: 'br cg gt ~ru' },
+      { label: 'Mostly perched up, singing from a cattail or wire', fits: 'rw ~gt' }
+    ]}
+  ];
+  var DATE = [{ id: 'date', title: 'When, in Iowa', help: 'Rusty and Brewer’s don’t nest in Iowa: extreme dates run 6 Sep–29 Apr for Rusty and 26 Sep–11 May for Brewer’s. The other four nest here.', options: [
+    { label: 'June through August', fits: 'rw cb cg gt' },
+    { label: 'March–May or September–November', fits: 'rw ru br cg gt cb' },
+    { label: 'December–February', fits: 'ru ~rw ~cg ~br ~cb ~gt', check: 'A few of each winter in Iowa, mostly in the south and east; no Iowa source I could open gives numbers.' }
+  ]}];
+
+  // ---------- Black male ----------
+  var MALE = {
+    eye: eyeGroup('ru br cg gt', 'rw cb', 'In good light. Young males of the pale-eyed species can have dark eyes into the fall.'),
+    bill: BILL, tail: tailGroup('cg', 'gt'), head: HEADGLOSS('ru rw ~br'), shoulder: shoulderGroup('ru br cg gt cb'),
+    plumage: [{ id: 'mplum', title: 'Overall', help: 'For fully edged fall birds, try the Fall & winter plumage.', options: [
+      { label: 'All black', fits: 'rw ru br cg gt', look: L(paint('black'), { hcol: true, fhcol: true }) },
+      { label: 'Black body with a brown head', fits: 'cb', look: L(paint('black'), { bhead: true, fbhead: true }) },
+      { label: 'Black with a few rusty or buff edges left (early spring)', fits: 'ru ~br ~rw', look: L(paint('black'), { rusty: true, hcol: true, fhcol: true }) }
+    ]}],
+    size: size('cb ~rw', 'rw ru br', 'cg', 'gt'), voice: SONG, where: WHERE, date: DATE
+  };
+
+  // ---------- Brown or gray: females and young, spring and summer ----------
+  var FEMALE = {
+    plumage: [{ id: 'fplum', title: 'Body color and pattern', options: [
+      { label: 'Dark brown and heavily streaked below, with a pale eyebrow, like a big sparrow', fits: 'rw', look: L(pp('brown'), { streaks: true, brow: true }) },
+      { label: 'Plain gray-brown, with a paler throat and faint streaks on the belly', fits: 'cb', look: L(pp('graybrown'), { fstreaks: true, throat: true }) },
+      { label: 'Gray-brown, with scaly pale edges above and streaks below (juvenile, summer)', fits: 'cb', look: L(pp('graybrown'), { scaly: true, fstreaks: true }) },
+      { label: 'Plain gray-brown, darkest around the eye, no rust', fits: 'br', look: L(pp('brgray'), { mask: true }) },
+      { label: 'Plain slate gray (spring)', fits: 'ru', look: pp('slate') },
+      { label: 'Brown, with a pale buff throat and breast and darker wings', fits: 'gt', look: L(pp('tawny', 'dbrown'), { buffthroat: true, head: C('tawny') }) },
+      { label: 'Dull blackish brown, a little glossy', fits: 'cg', look: pp('dkbrown') }
+    ]}],
+    eye: eyeGroup('ru cg gt ~br', 'br rw cb ~ru', 'Female Brewer’s usually have dark eyes but sometimes pale ones. Young Rusty have dark eyes briefly in summer.'),
+    bill: BILL, tail: tailGroup('cg ~gt', 'gt'),
+    shoulder: [{ id: 'fshoulder', title: 'Shoulder', options: [
+      { label: 'A faint pinkish or buff wash', fits: '~rw', look: { shoulder: C('peach') } },
+      { label: 'No color on the shoulder', fits: 'rw ru br cg gt cb', look: { shoulder: C('brown') } }
+    ]}],
+    head: { note: 'Females show little or no colored gloss; use the body color instead.' },
+    size: size('cb ~rw', 'rw ru br', 'cg gt', ''), voice: CALL, where: WHERE, date: DATE
+  };
+
+  // ---------- Fall and winter, both sexes ----------
+  var WINTER = {
+    plumage: [
+      { id: 'edges', title: 'Feather edges', help: 'Fresh fall feathers have tips that wear off by spring.', options: [
+        { label: 'Rich rusty edges on the back, crown and breast; buff eyebrow and dark mask', fits: 'ru', look: L(pp('slate'), { rusty: true, browbuff: true, mask: true }) },
+        { label: 'Black, with buff or brown edges and a red shoulder', fits: 'rw', look: L(paint('black'), { hcol: true, fhcol: true, buffedges: true, epaulet: true, fepaulet: true }) },
+        { label: 'Dark brown and heavily streaked, with a pale eyebrow', fits: 'rw', look: L(pp('brown'), { streaks: true, brow: true }) },
+        { label: 'Plain gray-brown, with no rusty edges', fits: 'br cb', look: pp('brgray') },
+        { label: 'Glossy black, with little or no edging', fits: 'br cg gt cb', look: L(paint('black'), { hcol: true, fhcol: true }) },
+        { label: 'Brown, with a pale buff throat and breast', fits: 'gt', look: L(pp('tawny', 'dbrown'), { buffthroat: true }) }
+      ]},
+      { id: 'tert', title: 'Tertials (the inner feathers on the folded wing)', check: 'Standard field-guide mark (Brewer’s tertials are always plain); not confirmed from a source I could open.', options: [
+        { label: 'Edged rusty', fits: 'ru', look: { rusttert: true } },
+        { label: 'Plain, with no rusty edges', fits: 'br cg gt cb ~rw', look: { wing: {} } }
+      ]}
+    ],
+    eye: eyeGroup('ru br cg gt', 'rw cb br', 'Male Brewer’s have pale eyes, females usually dark.'),
+    bill: BILL, tail: tailGroup('cg ~gt', 'gt'), head: HEADGLOSS('ru rw br'), shoulder: shoulderGroup('ru br cg gt cb ~rw'),
+    size: size('cb ~rw', 'rw ru br', 'cg ~gt', 'gt'), voice: CALL, where: WHERE, date: DATE
+  };
+
+  Picker({
+    species: SPECIES,
+    stages: [
+      { id: 'male', label: 'Black male', name: 'Black male', tab: 'male',
+        qOrder: ['shoulder', 'eye', 'bill', 'tail', 'head', 'voice', 'size', 'where', 'date', 'plumage'],
+        hint: 'Spring and summer adult males: all black, or black with a brown head.',
+        look: L(paint('black'), { bill: C('black'), fbill: C('black'), legs: { stroke: C('black') } }) },
+      { id: 'female', label: 'Brown or gray', name: 'Brown or gray bird', tab: 'female',
+        qOrder: ['plumage', 'eye', 'bill', 'tail', 'size', 'shoulder', 'where', 'voice', 'date', 'head'],
+        hint: 'Females and young birds, spring and summer.',
+        look: L(pp('graybrown'), { bill: C('dslate'), fbill: C('dslate'), legs: { stroke: C('dslate') } }) },
+      { id: 'winter', label: 'Fall & winter', name: 'Fall–winter bird', tab: 'winter',
+        qOrder: ['plumage', 'eye', 'tail', 'bill', 'shoulder', 'head', 'size', 'where', 'date', 'voice'],
+        hint: 'About October to March, both sexes: fresh feathers have rusty or buff tips.',
+        look: L(paint('dslate'), { bill: C('black'), fbill: C('black'), legs: { stroke: C('black') } }) }
+    ],
+    defaultStage: 'male',
+    // Close-up for each answer button: a square of the diagram around that part
+    thumbs: { eye: '74 76 48 48', bill: '6 62 80 80', gloss: '50 58 110 110', epaulet: '134 103 90 90', fshoulder: '134 103 90 90',
+              tail: '480 178 120 120', fplum: '20 26 340 340', mplum: '20 26 340 340', edges: '20 26 340 340', tert: '200 140 130 130' },
+    partToQ: PART_TO_Q, qOrder: Q_ORDER, qNames: Q_NAMES,
+    data: { male: MALE, female: FEMALE, winter: WINTER },
+    ref: 'blackbirds.html'
+  });
+})();
+</script>
+</body>
+</html>

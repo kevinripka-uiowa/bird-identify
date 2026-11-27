@@ -1,0 +1,495 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light">
+<title>Swallows of Iowa</title>
+<meta name="description" content="Iowa’s six swallows in flight and perched: tail shapes, throat and breast patterns, rumps and flight style, for adults and juveniles, with Iowa timing.">
+<style>
+  :root {
+    --bg: #f6f4ef;
+    --surface: #ffffff;
+    --ink: #22262b;
+    --muted: #5d646c;
+    --line: #dcd8cf;
+    --accent: #4a5563;
+    --accent-soft: #e8ebef;
+    --rust: #9a5a34;
+    --chip-common: #dfe9dc;   --chip-common-ink: #2f5129;
+    --chip-uncommon: #f2e7d2; --chip-uncommon-ink: #6b4b14;
+    --chip-regular: #e6e3f1;  --chip-regular-ink: #43386d;
+    --chip-casual: #ecdde6;   --chip-casual-ink: #6a2850;
+    --chip-acc: #f4dfd8;      --chip-acc-ink: #7a3322;
+    --bird-a: #bfc4ca; --bird-b: #cfd3d8; --bird-c: #dde0e3; --bird-d: #8e959d;
+    --bird-white: #fbfbf9; --bird-line: #4f565e;
+    --hi: #f3cf8a; --hi-line: #b8741a; --hi-soft: #fbf1de; --hi-ink: #8a520c;
+  }
+
+  * { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font: 16px/1.55 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  }
+  main { max-width: 1040px; margin: 0 auto; padding: 32px 16px 64px; }
+
+  header { margin-bottom: 28px; }
+  .kicker { font-size: 13px; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); margin: 0 0 6px; }
+  .kicker .home { display: inline-block; padding: 6px 10px 6px 0; margin: -6px 0; color: inherit; font-weight: 700; text-decoration: none; }
+  .kicker .home:hover { text-decoration: underline; }
+  h1 { font-size: clamp(28px, 5vw, 40px); line-height: 1.15; margin: 0 0 10px; }
+  .lede { font-size: 18px; color: var(--muted); max-width: 62ch; margin: 0; }
+
+  h2 { font-size: 24px; margin: 44px 0 12px; }
+  h3 { font-size: 19px; margin: 28px 0 10px; }
+  p { max-width: 70ch; }
+  em.sci { font-style: italic; color: var(--muted); font-weight: 400; }
+  .note { background: var(--accent-soft); border-radius: 10px; padding: 14px 16px; max-width: none; }
+
+  /* Cast list */
+  .cast { list-style: none; padding: 0; margin: 12px 0; display: grid; gap: 8px;
+          grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); }
+  .cast li { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 10px 14px; }
+  .cast strong { display: block; }
+  .cast small { display: block; color: var(--muted); font-size: 13px; margin-top: 4px; }
+  .chip { display: inline-block; font-size: 12px; font-weight: 600; padding: 1px 8px; border-radius: 999px; white-space: nowrap; margin-top: 4px; }
+  .chip-common   { background: var(--chip-common);   color: var(--chip-common-ink); }
+  .chip-uncommon { background: var(--chip-uncommon); color: var(--chip-uncommon-ink); }
+  .chip-regular  { background: var(--chip-regular);  color: var(--chip-regular-ink); }
+  .chip-casual   { background: var(--chip-casual);   color: var(--chip-casual-ink); }
+  .chip-acc      { background: var(--chip-acc);      color: var(--chip-acc-ink); }
+
+  /* Tabs */
+  .tabs { display: flex; gap: 6px; margin: 16px 0 8px; padding: 4px; background: var(--accent-soft);
+          border-radius: 12px; overflow-x: auto; }
+  .tab { flex: 1 0 auto; font: inherit; font-weight: 600; font-size: 15px; color: var(--muted); cursor: pointer;
+         background: none; border: 0; border-radius: 9px; padding: 10px 14px; white-space: nowrap; }
+  .tab[aria-selected="true"] { background: var(--surface); color: var(--ink); box-shadow: 0 1px 3px rgba(0,0,0,.15); }
+  .tab:focus-visible { outline: 2px solid var(--hi-line); outline-offset: 1px; }
+  .panel[hidden] { display: none; }
+  .panel > h3:first-child { margin-top: 20px; }
+
+  /* Checks */
+  .checks { list-style: none; padding: 0; margin: 16px 0; display: grid; gap: 12px;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); counter-reset: check; }
+  .checks li { position: relative; counter-increment: check; display: flex; }
+  .checks li::before { content: counter(check); position: absolute; left: 16px; top: 15px; z-index: 1; pointer-events: none;
+                       width: 28px; height: 28px; border-radius: 50%; background: var(--accent);
+                       color: var(--bg); font-weight: 700; display: grid; place-items: center; font-size: 15px; }
+  .check { flex: 1; text-align: left; font: inherit; color: inherit; cursor: pointer;
+           background: var(--surface); border: 1px solid var(--line); border-radius: 10px;
+           padding: 16px 16px 16px 56px; transition: border-color .15s, box-shadow .15s; }
+  .check:hover { border-color: var(--hi-line); }
+  .check:focus-visible { outline: 2px solid var(--hi-line); outline-offset: 2px; }
+  .check[aria-pressed="true"] { border-color: var(--hi-line); box-shadow: 0 0 0 2px var(--hi-line) inset; background: var(--hi-soft); }
+  .checks strong { display: block; margin-bottom: 4px; }
+
+  /* Diagram */
+  .diagram { margin: 16px 0; background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 12px 12px 10px; }
+  .diagram svg { display: block; width: 100%; height: auto; max-height: 340px; }
+  .diagram figcaption { font-size: 14px; color: var(--muted); padding: 4px 4px 0; }
+  .part { fill: var(--bird-white); stroke: var(--bird-line); stroke-width: 1.5; stroke-linejoin: round; }
+  /* Drawn as a plain swallow: dark above, white below */
+  .part[data-part="fbelly"], .part[data-part="fbreast"], .part[data-part="fthroat"], .part[data-part="pbody"], .part[data-part="pthroat"] { fill: var(--bird-white); }
+  .part[data-part="underwing"] { fill: #c6c9cd; }
+  .part[data-part="fhead"], .part[data-part="phead"], .part[data-part="pfore"], .part[data-part="pback"], .part[data-part="prump"] { fill: #4a5568; }
+  .part[data-part="pwing"], .part[data-part="ftail"], .part[data-part="stail"], .part[data-part="ptail"] { fill: #3a3f47; }
+  .tails { margin: 16px 0; background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 12px; }
+  .tails svg { display: block; width: 100%; max-width: 560px; height: auto; margin: 0 auto; }
+  .tails figcaption { font-size: 14px; color: var(--muted); padding: 4px 4px 0; }
+  .tails .tl { fill: #3a3f47; stroke: var(--bird-line); stroke-width: 1.5; }
+  .tails .stub { fill: var(--bird-white); stroke: var(--bird-line); stroke-width: 1.5; }
+  .tails .nm { fill: var(--ink); font-size: 15px; font-weight: 700; }
+  .tails .ds { fill: var(--muted); font-size: 12.5px; }
+  .side-label { fill: var(--muted); font-size: 13px; font-style: italic; }
+  .label line { stroke: var(--muted); stroke-width: 1; }
+  .label text { fill: var(--ink); font-size: 15px; font-weight: 600; }
+  /* When a check is selected, other parts become blank outlines (still opaque, so they hide what's beneath) */
+  svg.focus .part:not(.on) { fill: var(--surface); stroke: var(--muted); stroke-opacity: .55; }
+  svg.focus .label { opacity: .3; }
+  svg.focus .label.on { opacity: 1; }
+  svg.focus .part.on { fill: var(--hi); stroke: var(--hi-line); stroke-width: 2.5; }
+  svg.focus .label.on line { stroke: var(--hi-line); stroke-width: 2; }
+  svg.focus .label.on text { fill: var(--hi-ink); }
+
+  /* Tables */
+  .table-wrap { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; overflow: auto; max-height: 75vh; max-height: 75svh; -webkit-overflow-scrolling: touch; }
+  table { width: 100%; border-collapse: separate; border-spacing: 0; font-size: 15px; }
+  th, td { text-align: left; vertical-align: top; padding: 12px 14px; border-bottom: 1px solid var(--line); }
+  thead th { font-size: 13px; text-transform: uppercase; letter-spacing: .05em; color: var(--muted);
+             background: var(--accent-soft); font-weight: 600; }
+  thead th { position: sticky; top: 0; z-index: 2; }  /* header row stays put while the table scrolls */
+  tbody tr:last-child td, tbody tr:last-child th { border-bottom: 0; }
+  tbody th { font-weight: 700; min-width: 130px; }
+  tbody th em { display: block; }
+  tr.rarity th { color: var(--muted); }
+  td.clincher { font-weight: 600; }
+  .scroll-hint { display: none; font-size: 13px; color: var(--muted); margin: 0 0 6px; }
+
+  /* Pitfalls */
+  .pitfalls { padding: 0; list-style: none; display: grid; gap: 10px; }
+  .pitfalls li { background: var(--surface); border: 1px solid var(--line); border-left: 4px solid var(--rust);
+                 border-radius: 8px; padding: 12px 16px; }
+  .pitfalls strong { display: block; }
+
+  .sources { color: var(--muted); padding-left: 20px; }
+  .sources a { color: inherit; }
+  footer { margin-top: 40px; padding-top: 16px; border-top: 1px solid var(--line); color: var(--muted); font-size: 14px; }
+  footer a { color: inherit; }
+
+  /* Narrow screens */
+  @media (max-width: 760px) {
+    /* Tables scroll sideways with the first column frozen */
+    table { width: auto; min-width: 760px; font-size: 14px; }
+    th, td { padding: 10px 12px; }
+    td { min-width: 150px; }
+    thead th:first-child, tbody th {
+      position: sticky; left: 0; z-index: 1;
+      width: 108px; min-width: 108px; max-width: 108px;
+      border-right: 1px solid var(--line);
+      box-shadow: 4px 0 6px -4px rgba(0,0,0,.25);
+    }
+    thead th:first-child { background: var(--accent-soft); z-index: 3; }
+    tbody th { background: var(--surface); }
+    .scroll-hint { display: block; }
+
+    /* Keep the bird in view while tapping through the checks below it */
+    .diagram { position: sticky; top: 0; z-index: 4; margin-left: -8px; margin-right: -8px; padding: 8px;
+               box-shadow: 0 6px 12px -8px rgba(0,0,0,.25); }
+    .label text { font-size: 19px; }
+    .side-label { font-size: 16px; }
+    .diagram figcaption { font-size: 13px; }
+    .tab { font-size: 14px; padding: 9px 10px; }
+  }
+
+  @media print {
+    body { background: #fff; color: #000; }
+    .checks li, .table-wrap, .pitfalls li { break-inside: avoid; }
+    .panel[hidden] { display: block; }
+    .tabs { display: none; }
+    .table-wrap { max-height: none; overflow: visible; }
+  }
+  /* "check" markers: things not confirmed from a source */
+  .unsure { display: inline-block; font-size: 11px; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; line-height: 1.5;
+            color: #8a520c; background: #fbf1de; border: 1px dashed #d9a34a; border-radius: 999px; padding: 0 6px; margin-left: 4px;
+            vertical-align: 1px; white-space: nowrap; cursor: help; }
+  .to-check ul { padding-left: 20px; }
+  .to-check li { margin: 4px 0; }
+  .to-check li strong { margin-right: 4px; }
+  .checks-order { color: var(--muted); font-size: 14px; margin: -4px 0 16px; }
+</style>
+</head>
+<body>
+<main>
+  <header>
+    <p class="kicker"><a class="home" href="index.html">← Home</a> · Tricky birds · Iowa</p>
+    <h1>Swallows of Iowa</h1>
+    <p class="lede">Six swallows nest in Iowa, and most of the time you see them overhead for a second or two. Learn the tail shapes first, then look for contrast rather than color: a dark throat, a dark band, a pale rump. Age matters in late summer, when brown juveniles fill the wires. Try the <a href="swallows-picker.html">Swallow Picker</a> to work through a bird in the field.</p>
+  </header>
+
+  <!-- ========================= CAST ========================= -->
+  <section>
+    <h2>Who to expect</h2>
+    <p>Status codes follow the Iowa Ornithologists’ Union checklist. All six swallows are regular and nest here.</p>
+    <ul class="cast">
+      <li><strong>Barn Swallow</strong><span class="chip chip-common">Regular; nests</span><small>Farms, bridges and open country statewide. Builds an open mud cup inside barns and sheds.</small></li>
+      <li><strong>Tree Swallow</strong><span class="chip chip-common">Regular; nests</span><small>The first back in spring (mid-March) and the last to leave; thousands gather at reservoirs in September and October. Nest boxes and tree holes near water.</small></li>
+      <li><strong>Cliff Swallow</strong><span class="chip chip-common">Regular; nests</span><small>Colonies of gourd-shaped mud nests under bridges, dams and eaves.</small></li>
+      <li><strong>Purple Martin</strong><span class="chip chip-uncommon">Regular; nests</span><small>Nests almost only in martin houses and gourds. Gathers in big late-summer roosts.</small></li>
+      <li><strong>Northern Rough-winged Swallow</strong><span class="chip chip-uncommon">Regular; nests</span><small>Pairs nest singly in holes in banks, pipes and bridges, often along rivers and creeks.</small></li>
+      <li><strong>Bank Swallow</strong><span class="chip chip-uncommon">Regular; nests</span><small>Colonies of burrows in sand and gravel pits and river cutbanks.</small></li>
+      <li><strong>Chimney Swift</strong><span class="chip chip-regular">Look-alike</span><small>Not a swallow. A sooty “flying cigar” with a stubby tail and stiff, flickering wingbeats, chittering overhead in towns; it never perches on wires.</small></li>
+      <li><strong>Cave and Violet-green Swallows</strong><span class="chip chip-acc">Accidental</span><small>Cave Swallow has one accepted Iowa record. Both would need full documentation.</small></li>
+    </ul>
+  </section>
+
+  <!-- ========================= TAILS ========================= -->
+  <section>
+    <h2>Tail shapes at a glance</h2>
+    <p>The quickest mark on a flying swallow, and the one to learn first. Most of the time the tail is held closed.<span class="unsure" title="Sources differ: Chicago Bird Alliance calls Tree’s tail moderately forked; All About Birds calls it squared or slightly notched. Rough-winged is called square-tipped by All About Birds and notched by iNaturalist.">check</span></p>
+    <figure class="tails">
+      <svg viewBox="0 0 360 330" role="img"><title>Closed tails from below: Barn with long streamers, Purple Martin with pointed outer feathers, Tree with a clear fork, Bank with a shallow notch, Rough-winged square to notched, Cliff square</title>
+    <path class="tl" d="M51,14 L69,14 L76,50 L95,126 L87,128 L68,70 L60,56 L52,70 L33,128 L25,126 L44,50 Z"/>
+    <path class="stub" d="M39,6 Q45,34 60,42 Q75,34 81,6 Z"/>
+    <text class="nm" x="60" y="140" text-anchor="middle">Barn</text>
+    <text class="ds" x="60" y="157" text-anchor="middle">Long streamers</text>
+    <path class="tl" d="M169,14 L191,14 L207,98 L180,62 L153,98 Z"/>
+    <path class="stub" d="M159,6 Q165,34 180,42 Q195,34 201,6 Z"/>
+    <text class="nm" x="180" y="140" text-anchor="middle">Purple Martin</text>
+    <text class="ds" x="180" y="157" text-anchor="middle">Pointed outer feathers</text>
+    <path class="tl" d="M289,14 L311,14 L322,86 L300,62 L278,86 Z"/>
+    <path class="stub" d="M279,6 Q285,34 300,42 Q315,34 321,6 Z"/>
+    <text class="nm" x="300" y="140" text-anchor="middle">Tree</text>
+    <text class="ds" x="300" y="157" text-anchor="middle">A clear fork</text>
+    <path class="tl" d="M49,182 L71,182 L78,248 L60,238 L42,248 Z"/>
+    <path class="stub" d="M39,174 Q45,202 60,210 Q75,202 81,174 Z"/>
+    <text class="nm" x="60" y="308" text-anchor="middle">Bank</text>
+    <text class="ds" x="60" y="325" text-anchor="middle">Shallow notch</text>
+    <path class="tl" d="M169,182 L191,182 L195,244 L165,244 Z"/>
+    <path class="stub" d="M159,174 Q165,202 180,210 Q195,202 201,174 Z"/>
+    <text class="nm" x="180" y="308" text-anchor="middle">Rough-winged</text>
+    <text class="ds" x="180" y="325" text-anchor="middle">Square to notched</text>
+    <path class="tl" d="M289,182 L311,182 L315,244 L285,244 Z"/>
+    <path class="stub" d="M279,174 Q285,202 300,210 Q315,202 321,174 Z"/>
+    <text class="nm" x="300" y="308" text-anchor="middle">Cliff</text>
+    <text class="ds" x="300" y="325" text-anchor="middle">Square</text>
+      </svg>
+      <figcaption>Closed tails from below, drawn to one scale (the birds aren’t). Spread tails lose their fork, so wait for the tail to close.</figcaption>
+    </figure>
+  </section>
+
+  <!-- ========================= AGE ========================= -->
+  <section class="decoder">
+    <h2>Step 1: Is it a swallow, and how old?</h2>
+    <p>Tap a check to see where to look.</p>
+    <div class="how">
+    <figure class="diagram" data-svg>
+        <figcaption>Schematic only. Big bird: flying overhead, from below. Top right: perched. Bottom right: the tail spread.</figcaption>
+      </figure>
+    <ol class="checks">
+        <li><button type="button" class="check" data-parts="underwing ftail" aria-pressed="false"><strong>Swallow or swift</strong>Swallows have flexible, bent wings, a notched or forked tail and fluid wingbeats, and they perch on wires. Chimney Swift has stiff, curved wings, a stubby tail and quick, flickering wingbeats, and never perches in the open.</button></li>
+        <li><button type="button" class="check" data-parts="fthroat fbreast pback" aria-pressed="false"><strong>Adult or juvenile</strong>Adults have clean, contrasting patterns and glossy upperparts. Juveniles, from June into fall, are duller and browner, with blurry patterns and shorter tails. Use the matching tab.</button></li>
+      </ol>
+    <p class="checks-order">Start with the shape; age decides which tab to use.</p>
+    </div>
+    <p class="note"><strong>Watch one bird for a while.</strong> Flight style varies from bird to bird. Compare it with a swallow you already know, and wait for it to bank so you can see the back and rump.</p>
+  </section>
+
+  <!-- ========================= TABS ========================= -->
+  <section>
+    <h2 id="step-2">Step 2: Identify it</h2>
+    <div class="tabs" role="tablist" aria-labelledby="step-2">
+      <button type="button" class="tab" role="tab" id="tab-adults" aria-controls="adults" aria-selected="true">Adults</button>
+      <button type="button" class="tab" role="tab" id="tab-juveniles" aria-controls="juveniles" aria-selected="false">Juveniles</button>
+    </div>
+
+    <!-- ---------- Adults ---------- -->
+    <div class="panel decoder" role="tabpanel" id="adults" aria-labelledby="tab-adults">
+      <h3>Adults</h3>
+      <p>Barn, adult male Purple Martin and Tree are distinctive. Bank, Cliff, Rough-winged and female-type martins take more care: look for the contrast between the throat and the chest.</p>
+      <div class="how">
+      <figure class="diagram" data-svg>
+        <figcaption>Schematic only. Big bird: flying overhead, from below. Top right: perched. Bottom right: the tail spread.</figcaption>
+      </figure>
+      <ol class="checks">
+        <li><button type="button" class="check" data-parts="ftail stail ptail" aria-pressed="false"><strong>Tail</strong>Long, thin streamers: Barn. Forked with long, pointed outer feathers on a big, gliding bird: Purple Martin. A clear fork: Tree. A shallow notch: Bank. Square: Cliff and Rough-winged.<span class="unsure" title="Sources differ: Chicago Bird Alliance calls Tree’s tail moderately forked; All About Birds calls it squared or slightly notched. Rough-winged is called square-tipped by All About Birds and notched by iNaturalist.">check</span></button></li>
+        <li><button type="button" class="check" data-parts="fthroat fbreast" aria-pressed="false"><strong>Throat and breast</strong>Clean white throat above a sharp brown band: Bank. Dark throat sharply set off from a pale chest, so the bird looks black and white from below: Cliff. Dusky throat blending into the chest, with no strong contrast: Rough-winged or a female-type martin. Rusty throat: Barn. All white below: Tree. All dark: adult male martin.</button></li>
+        <li><button type="button" class="check" data-parts="prump pback" aria-pressed="false"><strong>Rump and back</strong>Pale buff rump on a dark back: Cliff (wait for it to bank). Glossy blue-green back with a small white notch behind each wing: Tree. Plain brown: Rough-winged, a little paler than Bank. Bank’s rump is paler than its back.</button></li>
+        <li><button type="button" class="check" data-parts="underwing fbelly" aria-pressed="false"><strong>Shape and flight</strong>Biggest, with broad-based, tapered wings; glides a lot with slow wingbeats: Purple Martin. Smallest and thinnest, with a long rear end and quick, bouncing, fluttery wingbeats: Bank. Steady, with slower wingbeats and fewer turns: Tree. Fast, low and swooping: Barn.<span class="unsure" title="Barn, Cliff and Rough-winged flight styles come from general field-guide descriptions, not a source I could open.">check</span></button></li>
+        <li><button type="button" class="check" data-parts="pfore phead" aria-pressed="false"><strong>Face, perched</strong>Pale cream forehead and dark chestnut cheeks: Cliff. Rusty forehead and throat: Barn. Glossy cap and cheeks with a crisp edge to a white throat: Tree. Plain brown: Bank and Rough-winged.</button></li>
+      </ol>
+      <p class="checks-order">Checks run from most to least useful.</p>
+      </div>
+      <p class="scroll-hint">Swipe the table sideways for more →</p>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th scope="col">Species</th><th scope="col">Tail</th><th scope="col">Throat and breast</th><th scope="col">Above</th><th scope="col">Shape and flight</th><th scope="col">Clincher</th></tr></thead>
+          <tbody>
+            <tr><th scope="row">Barn</th><td>Deep fork, long streamers; white spots show when spread</td><td>Rusty throat; buff to orange below</td><td>Glossy steel-blue</td><td>Long, slender wings; fast, low and swooping</td><td class="clincher">Streamers</td></tr>
+            <tr><th scope="row">Purple Martin (adult male)</th><td>Forked; long, pointed outer feathers</td><td>All glossy blue-black</td><td>Glossy purple-black</td><td>Biggest; broad-based wings; glides with slow beats</td><td class="clincher">All dark</td></tr>
+            <tr><th scope="row">Purple Martin (female and young)</th><td>As adult male</td><td>Dusky throat; variably pale, grayish below</td><td>Dark, duller</td><td>As adult male</td><td class="clincher">Size, shape and gliding flight</td></tr>
+            <tr><th scope="row">Tree</th><td>A clear fork<span class="unsure" title="Sources differ: Chicago Bird Alliance calls Tree’s tail moderately forked; All About Birds calls it squared or slightly notched. Rough-winged is called square-tipped by All About Birds and notched by iNaturalist.">check</span></td><td>All clean white, sharply set off</td><td>Glossy blue-green; white notch behind the wing</td><td>Steady, slower wingbeats</td><td class="clincher">White below, glossy above</td></tr>
+            <tr><th scope="row">Cliff</th><td>Square</td><td>Dark throat, pale chest: black and white from below</td><td>Dark, with a pale buff rump</td><td>Circles and glides near colonies</td><td class="clincher">Pale rump</td></tr>
+            <tr><th scope="row">Bank</th><td>Shallow notch</td><td>White throat, sharp brown band</td><td>Brown; rump paler</td><td>Smallest, thin; quick, bouncing wingbeats</td><td class="clincher">Breast band</td></tr>
+            <tr><th scope="row">Northern Rough-winged</th><td>Square to slightly notched<span class="unsure" title="Sources differ: Chicago Bird Alliance calls Tree’s tail moderately forked; All About Birds calls it squared or slightly notched. Rough-winged is called square-tipped by All About Birds and notched by iNaturalist.">check</span></td><td>Dusky throat blending into the chest; no band</td><td>Plain brown, paler than Bank</td><td>Steady; often low over water</td><td class="clincher">No marks at all</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <h3>Pitfalls</h3>
+      <ul class="pitfalls">
+        <li><strong>Barn Swallows can look pale below.</strong>Some adults are pale buff, not orange. Use the streamers.</li>
+        <li><strong>Cliff vs. Rough-winged from below.</strong>Both have square tails and dark throats. Cliff’s throat ends sharply against a pale chest; Rough-winged’s blends in. Then wait for Cliff’s pale rump.</li>
+        <li><strong>Female martins vs. smaller swallows.</strong>Their patterns are like Rough-winged or Cliff. Size, the pointed outer tail feathers and the gliding flight give them away.</li>
+        <li><strong>Molting tails.</strong>In late summer, adults molt and streamers can be short or missing.</li>
+      </ul>
+    </div>
+
+    <!-- ---------- Juveniles ---------- -->
+    <div class="panel decoder" role="tabpanel" id="juveniles" aria-labelledby="tab-juveniles" hidden>
+      <h3>Juveniles (June into fall)</h3>
+      <p>Young birds are duller and browner, with blurry patterns and shorter tails. The biggest trap is a brown young Tree Swallow, which can look like a Bank or Rough-winged.<span class="unsure" title="Juvenile marks other than Barn Swallow’s short streamers and the young Tree Swallow’s blurry band come from general field-guide knowledge.">check</span></p>
+      <div class="how">
+      <figure class="diagram" data-svg>
+        <figcaption>Schematic only. Big bird: flying overhead, from below. Top right: perched. Bottom right: the tail spread.</figcaption>
+      </figure>
+      <ol class="checks">
+        <li><button type="button" class="check" data-parts="fbreast fthroat" aria-pressed="false"><strong>Breast band</strong>A sharp, solid brown band: Bank. A blurry gray-brown wash or a partial band on a clean white throat and belly: young Tree. A dusky throat and breast with no band: Rough-winged or a young martin.</button></li>
+        <li><button type="button" class="check" data-parts="ftail stail" aria-pressed="false"><strong>Tail</strong>Forked, but the outer feathers only a little longer: young Barn. Square: Cliff and Rough-winged. Other young birds have shallow forks or notches.</button></li>
+        <li><button type="button" class="check" data-parts="pback pwing" aria-pressed="false"><strong>Back and wings</strong>Brown or gray-brown, without gloss: young Tree, Bank, Rough-winged and martin. Dull blue-black: young Barn and Cliff. Cinnamon feather edges forming wing bars: young Rough-winged.<span class="unsure" title="Standard field-guide mark for young Rough-winged; not confirmed from a source I could open.">check</span></button></li>
+        <li><button type="button" class="check" data-parts="prump" aria-pressed="false"><strong>Rump</strong>A pale rump still marks a young Cliff, though duller than an adult’s.</button></li>
+        <li><button type="button" class="check" data-parts="fthroat" aria-pressed="false"><strong>Throat</strong>Pale rusty-buff: young Barn. White: young Tree and Bank. Dusky: Rough-winged and young martin.</button></li>
+      </ol>
+      <p class="checks-order">Checks run from most to least useful.</p>
+      </div>
+      <p class="scroll-hint">Swipe the table sideways for more →</p>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th scope="col">Species</th><th scope="col">Tail</th><th scope="col">Below</th><th scope="col">Above</th><th scope="col">Clincher</th></tr></thead>
+          <tbody>
+            <tr><th scope="row">Barn</th><td>Forked, short streamers</td><td>Pale rusty-buff throat; buffy below</td><td>Dull blue-black</td><td class="clincher">Fork and buffy throat</td></tr>
+            <tr><th scope="row">Tree</th><td>Shallow fork</td><td>White, with a blurry gray-brown wash or partial band</td><td>Gray-brown, no gloss</td><td class="clincher">Blurry band on clean white</td></tr>
+            <tr><th scope="row">Bank</th><td>Shallow notch</td><td>White throat, sharp brown band</td><td>Brown, with pale feather edges</td><td class="clincher">Sharp band</td></tr>
+            <tr><th scope="row">Northern Rough-winged</th><td>Square to notched</td><td>Dusky throat and breast</td><td>Brown, with cinnamon wing bars<span class="unsure" title="Standard field-guide mark for young Rough-winged; not confirmed from a source I could open.">check</span></td><td class="clincher">Cinnamon wing bars</td></tr>
+            <tr><th scope="row">Cliff</th><td>Square</td><td>Variably dark, mottled throat</td><td>Dull, with a pale rump</td><td class="clincher">Pale rump</td></tr>
+            <tr><th scope="row">Purple Martin</th><td>Forked, pointed outer feathers</td><td>Dusky gray throat and breast, whitish belly</td><td>Gray-brown</td><td class="clincher">Size and gliding flight</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <h3>Pitfalls</h3>
+      <ul class="pitfalls">
+        <li><strong>Young Tree vs. Bank.</strong>A Tree’s band is weak and blurry; a Bank’s is solid and dark. Tree is also bigger, with a back that doesn’t contrast with its rump.</li>
+        <li><strong>Young Barn without streamers.</strong>The fork is still deeper than any other swallow’s, and the throat is rusty-buff.</li>
+        <li><strong>Mixed flocks on wires.</strong>Late-summer flocks mix every species and age. Compare birds side by side: Bank is obviously the smallest.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ========================= IOWA ========================= -->
+  <section>
+    <h2>Iowa timing</h2>
+    <p>Rough windows<span class="unsure" title="From one year of Iowa Bird Life reports (2005) plus general timing; eBird bar charts and Kent and Dinsmore’s medians couldn’t be opened.">check</span>, with dates from the 2005 Iowa Bird Life field reports:</p>
+    <ul>
+      <li><strong>Tree Swallow:</strong> mid-March to October. First 16 Mar 2005 (ties the second-earliest record); 7,000 at Saylorville Reservoir on 11 Sep; last 30 Oct.</li>
+      <li><strong>Purple Martin:</strong> early April to about mid-September. First 2 Apr 2005; 1,062 roosting at Jester Park, Polk County, in late August.</li>
+      <li><strong>Northern Rough-winged Swallow:</strong> April to August. First 9 Apr 2005; last reported 13 Aug.</li>
+      <li><strong>Bank Swallow:</strong> mid-April to August. First 19 Apr 2005; 1,500 along the Des Moines River on 7 Aug; last reported 13 Aug.</li>
+      <li><strong>Cliff Swallow:</strong> mid-April to early October. First 19 Apr 2005; last 9 Oct.</li>
+      <li><strong>Barn Swallow:</strong> April to October. First 10 Apr 2005; 2,346 passed Saylorville in two hours on 1 Oct; last 28 Oct.</li>
+    </ul>
+  </section>
+
+  <section class="to-check" id="to-check">
+    <h2>To check</h2>
+    <p>Anything tagged <span class="unsure" title="Example">check</span> couldn’t be confirmed from a source I could open, or sources disagree.</p>
+    <ul>
+      <li><strong>Tree and Rough-winged tail shapes.</strong>Sources disagree on how forked Tree’s tail is and whether Rough-winged’s is square or notched.</li>
+      <li><strong>Flight styles.</strong>Purple Martin, Tree and Bank come from the Chicago Bird Alliance guide; Barn, Cliff and Rough-winged from general field guides.</li>
+      <li><strong>Juveniles.</strong>Apart from young Barn’s short streamers and young Tree’s blurry band, juvenile marks come from general field-guide knowledge.</li>
+      <li><strong>Iowa dates.</strong>Only one year of field reports was checked; eBird bar charts and Kent and Dinsmore’s median dates couldn’t be opened.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>Sources</h2>
+    <ul class="sources">
+      <li>Woody Goss, Chicago Bird Alliance: <a href="https://www.chicagoaudubon.org/blog/2023/6/22/identifying-adult-swallows-in-flight">Identification of Swallows in Flight</a> (2023)</li>
+      <li>USGS Patuxent bird ID accounts: <a href="https://www.mbr-pwrc.usgs.gov/id/framlst/account/h6110id.html">Purple Martin</a>, <a href="https://www.mbr-pwrc.usgs.gov/id/framlst/account/h6140id.html">Tree</a>, <a href="https://www.mbr-pwrc.usgs.gov/id/framlst/account/h6170id.html">Northern Rough-winged</a>, <a href="https://www.mbr-pwrc.usgs.gov/id/framlst/account/h6160id.html">Bank</a>, <a href="https://www.mbr-pwrc.usgs.gov/id/htmid/h6120id.html">Cliff</a>, <a href="https://www.mbr-pwrc.usgs.gov/id/framlst/account/h6130id.html">Barn</a>, <a href="https://www.mbr-pwrc.usgs.gov/id/htmid/h4230id.html">Chimney Swift</a></li>
+      <li>All About Birds species comparisons: <a href="https://www.allaboutbirds.org/guide/Northern_Rough-winged_Swallow/species-compare/">Northern Rough-winged</a>, <a href="https://www.allaboutbirds.org/guide/Bank_Swallow/species-compare">Bank</a>, <a href="https://www.allaboutbirds.org/guide/Purple_Martin/species-compare">Purple Martin</a></li>
+      <li><a href="https://iowabirds.org/Birds/Checklist.aspx">Iowa Ornithologists’ Union checklist</a> and <a href="https://iowabirds.org/Birds/ReviewList.aspx">review list</a></li>
+      <li>Iowa Bird Life field reports: <a href="https://iowabirds.org/Library/Journals/2000-2009%20Vol.%2070-79/2005-Vol%2075/IBL-75-3.pdf">spring 2005</a> and <a href="https://iowabirds.org/Library/Journals/2000-2009%20Vol.%2070-79/2006-Vol%2076/IBL-76-1.pdf">fall 2005</a></li>
+    </ul>
+  </section>
+
+  <footer><a href="index.html">← All bird pages</a> · <a href="swallows-picker.html">Swallow Picker</a> · Kevin Ripka · Nov 27, 2026</footer>
+</main>
+
+<!-- One schematic swallow: flying overhead from below, perched, and the tail spread -->
+<template id="swallow-svg">
+  <svg viewBox="0 0 600 360" role="img">
+    <title>Schematic swallow flying overhead seen from below, with a perched swallow and a spread tail, labeled: throat, breast, belly, wings, tail, face, back and rump</title>
+    <!-- flying, seen from below (large) -->
+    <path class="part" data-part="ftail" d="M219,196 L241,196 L248,262 L230,252 L212,262 Z"/>
+    <path class="part" data-part="underwing" d="M206,112 C175,100 140,94 118,96 C90,108 56,136 28,176 C80,158 150,156 206,150 Z"/>
+    <path class="part" data-part="underwing" d="M254,112 C285,100 320,94 342,96 C370,108 404,136 432,176 C380,158 310,156 254,150 Z"/>
+    <ellipse class="part" data-part="fbelly" cx="230" cy="150" rx="26" ry="72"/>
+    <path class="part" data-part="fbreast" d="M210.5,106 Q230,112 249.5,106 Q254,118 255,132 Q230,139 205,132 Q206,118 210.5,106 Z"/>
+    <path class="pupil" d="M224,69 L230,56 L236,69 Z"/>
+    <circle class="part" data-part="fhead" cx="230" cy="84" r="18"/>
+    <path class="part" data-part="fthroat" d="M215,90 Q230,80 245,90 L249,106 Q230,112 211,106 Z"/>
+
+    <!-- tail spread, from below (inset) -->
+    <path class="part" data-part="stail" d="M516,262 L534,262 L578,318 Q525,334 472,318 Z"/>
+
+    <!-- perched, side view facing left (inset) -->
+    <path class="part" data-part="ptail" d="M533.2,85.6 L578.8,107.2 L571.6,114.4 L528.4,95.2 Z"/>
+    <ellipse class="part" data-part="pbody" cx="485.2" cy="83.2" rx="55.2" ry="22.8"/>
+    <path class="part" data-part="pback" d="M431.2,78.4 C446.8,61.6 511.6,56.8 539.2,76 L535.6,80.8 C502,76 463.6,76 431.2,83.2 Z"/>
+    <path class="part" data-part="pwing" d="M451.6,73.6 C487.6,68.8 550,78.4 598,104.8 C550,95.2 502,95.2 456.4,88 Z"/>
+    <path class="part" data-part="prump" d="M517.6,65.2 C529.6,66.4 538,71.2 541.6,76 L535.6,82 C529.6,78.4 523.6,76 515.2,74.8 Z"/>
+    <path class="pupil" d="M424,61.6 L410.8,64.6 L424,67.6 Z"/>
+    <circle class="part" data-part="phead" cx="439.6" cy="64" r="18"/>
+    <path class="part" data-part="pfore" d="M422.8,59.2 Q424,49.6 432.4,47.2 L436,53.2 Q430,54.4 426.4,62.8 Z"/>
+    <path class="part" data-part="pthroat" d="M424,68.8 Q430,83.2 444.4,82 L449.2,73.6 Q436,73.6 426.4,62.8 Z"/>
+    <circle class="pupil" cx="432.4" cy="60.4" r="2.4"/>
+
+    <text class="side-label" x="230" y="346" text-anchor="middle">flying, from below</text>
+    <text class="side-label" x="505" y="142" text-anchor="middle">perched</text>
+    <text class="side-label" x="525" y="356" text-anchor="middle">tail spread</text>
+
+    <!-- labels -->
+    <g class="label" data-part="fthroat"><line x1="166" y1="48" x2="218" y2="94"/><text x="162" y="46" text-anchor="end">Throat</text></g>
+    <g class="label" data-part="fbreast"><line x1="300" y1="56" x2="250" y2="116"/><text x="304" y="52" text-anchor="start">Breast</text></g>
+    <g class="label" data-part="underwing"><line x1="80" y1="98" x2="98" y2="128"/><text x="80" y="92" text-anchor="middle">Wings</text></g>
+    <g class="label" data-part="fbelly"><line x1="132" y1="222" x2="210" y2="180"/><text x="128" y="228" text-anchor="end">Belly</text></g>
+    <g class="label" data-part="ftail"><line x1="318" y1="266" x2="250" y2="252"/><text x="322" y="270" text-anchor="start">Tail</text></g>
+    <g class="label" data-part="phead"><line x1="420" y1="28" x2="428" y2="52"/><text x="418" y="22" text-anchor="middle">Face</text></g>
+    <g class="label" data-part="pback"><line x1="486" y1="28" x2="486" y2="62"/><text x="486" y="22" text-anchor="middle">Back</text></g>
+    <g class="label" data-part="prump"><line x1="552" y1="28" x2="532" y2="66"/><text x="556" y="22" text-anchor="middle">Rump</text></g>
+  </svg>
+</template>
+
+<script>
+  (function () {
+    var tpl = document.getElementById('swallow-svg');
+
+    // Put a diagram in each figure and wire up that section's checks
+    document.querySelectorAll('.decoder').forEach(function (section) {
+      var fig = section.querySelector('figure[data-svg]');
+      var svg = tpl.content.firstElementChild.cloneNode(true);
+      fig.insertBefore(svg, fig.firstChild);
+      var caption = fig.querySelector('figcaption');
+      var defaultCaption = caption.textContent;
+      var buttons = section.querySelectorAll('.check');
+
+      function show(btn) {
+        var parts = btn ? btn.dataset.parts.split(' ') : [];
+        buttons.forEach(function (b) { b.setAttribute('aria-pressed', b === btn ? 'true' : 'false'); });
+        svg.classList.toggle('focus', !!btn);
+        svg.querySelectorAll('[data-part]').forEach(function (el) {
+          el.classList.toggle('on', parts.indexOf(el.dataset.part) !== -1);
+        });
+        caption.textContent = btn
+          ? 'Check: ' + btn.querySelector('strong').textContent + '. Tap it again to show all parts.'
+          : defaultCaption;
+      }
+
+      buttons.forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          show(btn.getAttribute('aria-pressed') === 'true' ? null : btn);
+        });
+      });
+    });
+
+    // Tabs; the URL hash (#adults, #juveniles) remembers the choice
+    var tabs = Array.prototype.slice.call(document.querySelectorAll('.tab'));
+    function select(id, fromHash) {
+      var found = false;
+      tabs.forEach(function (t) {
+        var on = t.getAttribute('aria-controls') === id;
+        if (on) found = true;
+        t.setAttribute('aria-selected', on ? 'true' : 'false');
+        t.tabIndex = on ? 0 : -1;
+        document.getElementById(t.getAttribute('aria-controls')).hidden = !on;
+      });
+      if (found && !fromHash) history.replaceState(null, '', '#' + id);
+      return found;
+    }
+    tabs.forEach(function (t, i) {
+      t.addEventListener('click', function () { select(t.getAttribute('aria-controls')); });
+      t.addEventListener('keydown', function (e) {
+        var d = e.key === 'ArrowRight' ? 1 : e.key === 'ArrowLeft' ? -1 : 0;
+        if (!d) return;
+        var next = tabs[(i + d + tabs.length) % tabs.length];
+        next.focus(); next.click();
+      });
+    });
+    var start = location.hash.slice(1);
+    if (!start || !select(start, true)) select('adults', true);
+    window.addEventListener('hashchange', function () { select(location.hash.slice(1), true); });
+  })();
+</script>
+</body>
+</html>
