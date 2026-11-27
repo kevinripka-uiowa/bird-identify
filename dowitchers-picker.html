@@ -96,6 +96,8 @@
           <g class="label" data-q="call"><line x1="52" y1="48" x2="92" y2="62"/><text x="38" y="44" text-anchor="middle">Call</text></g>
           <g class="label" data-q="bill"><line x1="25" y1="150" x2="45" y2="124"/><text x="20" y="168" text-anchor="middle">Bill</text></g>
           
+          <g class="label" data-q="face"><line x1="176" y1="58" x2="156" y2="94"/><text x="180" y="54" text-anchor="middle">Face</text></g>
+          <g class="label" data-q="legs"><line x1="206" y1="266" x2="240" y2="244"/><text x="202" y="276" text-anchor="end">Legs</text></g>
           <g class="label" data-q="scapulars"><line x1="280" y1="70" x2="276" y2="106"/><text x="280" y="62" text-anchor="middle">Scapulars</text></g>
           <g class="label" data-q="tertials"><line x1="380" y1="100" x2="345" y2="135"/><text x="384" y="96" text-anchor="start">Tertials</text></g>
           <g class="label" data-q="tail"><line x1="412" y1="160" x2="390" y2="150"/><text x="416" y="168" text-anchor="start">Tail</text></g>
@@ -115,11 +117,12 @@
     { id: 'lb', name: 'Long-billed Dowitcher' }
   ];
   var PART_TO_Q = { call: 'call', bill: 'bill', scapulars: 'scapulars', tertials: 'tertials', tail: 'tail',
-                    breast: 'breast', belly: 'belly', wing: 'wing' };
-  var Q_ORDER = ['call', 'date', 'tertials', 'scapulars', 'breast', 'belly', 'wing', 'tail', 'bill'];
+                    breast: 'breast', belly: 'belly', wing: 'wing', supercilium: 'face', head: 'face', legs: 'legs' };
+  var Q_ORDER = ['call', 'date', 'tertials', 'scapulars', 'breast', 'belly', 'wing', 'face', 'bill', 'tail', 'legs'];
   var Q_NAMES = { call: 'Call', date: 'Date', tertials: 'Tertials', scapulars: 'Scapulars', breast: 'Breast',
-                  belly: 'Belly', wing: 'Wing', tail: 'Tail', bill: 'Bill and shape' };
+                  belly: 'Belly', wing: 'Wing', tail: 'Tail', bill: 'Bill and shape', face: 'Face', legs: 'Legs' };
 
+  var COV = 'Sources disagree: Goss (2024) says Long-billed coverts often look Short-billed-like; Lee and Birch (2006) say the coverts show the same difference as the lower scapulars.';
   var TIMING = 'Based on Iowa Birds (1984) plus Illinois and Michigan; current Iowa eBird data couldn’t be checked.';
   var CALL = [{ id: 'call', title: 'Call', help: 'The best clue at any age and season.', options: [
     { label: 'Mellow, hollow tu-tu-tu, usually in a quick series', fits: 'sb' },
@@ -134,10 +137,31 @@
     { label: 'Extend just past the tertials', fits: 'sb' },
     { label: 'Hidden under the tertials', fits: 'lb' }
   ]};
-  var BILL = [{ id: 'bill', title: 'Bill and shape', help: 'Support only: bill lengths overlap a lot.', options: [
-    { label: 'Very long bill', fits: 'lb' },
-    { label: 'Hunched, as if it “swallowed a grapefruit”', fits: '~lb' },
-    { label: 'Slimmer, with a flatter back', fits: '~sb' }
+  var BILL = [
+    { id: 'billshape', title: 'Bill shape (resting bird)', help: 'Both can bend the bill tip while feeding, so judge it at rest.', options: [
+      { label: 'Droops gently in the outer third', fits: 'sb ~lb' },
+      { label: 'Straight most of its length', fits: 'lb ~sb' }
+    ]},
+    { id: 'bill', title: 'Bill length and body', help: 'Support only: bill lengths overlap a lot.', options: [
+      { label: 'Very long bill', fits: 'lb' },
+      { label: 'Hunched, as if it “swallowed a grapefruit”', fits: '~lb' },
+      { label: 'Dip in the lower back, tapered rear, slightly cocked tail', fits: '~lb' },
+      { label: 'Slimmer, with a flatter back and a fuller rear', fits: '~sb' }
+    ]}
+  ];
+  var FACE = [
+    { id: 'loral', title: 'Eye and bill line (straight side view)', help: 'Lee and Birch (2006) found this holds at every age, but it overlaps and changes with posture. Combine it with other marks.', options: [
+      { label: 'Eye set higher: a wider angle from the bill line up to the eye', fits: 'sb ~lb' },
+      { label: 'Eye set lower: a narrow, sharp angle', fits: 'lb ~sb' }
+    ]},
+    { id: 'super', title: 'Supercilium and forehead', options: [
+      { label: 'Arched and flared in front; steep forehead', fits: '~sb' },
+      { label: 'Straighter and thinner; flatter forehead', fits: '~lb' }
+    ]}
+  ];
+  var LEGS = [{ id: 'legs', title: 'Legs (mixed flock)', help: 'Mostly useful side by side.', options: [
+    { label: 'Longer-legged; wades a little deeper', fits: '~lb' },
+    { label: 'Shorter-legged; feeds closer to shore', fits: '~sb' }
   ]}];
   var NOTE_TERT = { note: 'The tertial pattern is the juvenile check. On adults it isn’t used.' };
 
@@ -149,7 +173,7 @@
     ]}],
     tertials: [{ id: 'tert', title: 'Tertials', options: [
       { label: 'Dark, with bold buff bars, loops or “tiger stripes” inside', fits: 'sb' },
-      { label: 'Plain gray-brown, with only a thin pale or rusty edge', fits: 'lb' }
+      { label: 'Dark gray with narrow buff edges; inner markings dull or none', fits: 'lb' }
     ]}],
     scapulars: [{ id: 'scap', title: 'Scapulars', options: [
       { label: 'Dark, with buff internal markings like the tertials', fits: '~sb' },
@@ -160,9 +184,17 @@
       { label: 'Grayer and plainer', fits: 'lb' }
     ]}],
     belly: { note: 'Juveniles of both are pale below; use the tertials and breast instead.' },
-    wing: [WINGTIPS],
+    wing: [{ id: 'gcov', title: 'Greater coverts', options: [
+      { label: 'Strongly patterned', fits: 'sb' },
+      { label: 'Plain, uniform gray', fits: 'lb' }
+    ]}, WINGTIPS],
+    face: FACE.concat([{ id: 'crown', title: 'Crown', options: [
+      { label: 'Dark brown, contrasting with the white supercilium', fits: 'sb' },
+      { label: 'Grayer, with less contrast', fits: 'lb' }
+    ]}]),
     tail: TAIL,
-    bill: BILL
+    bill: BILL,
+    legs: LEGS
   };
 
   var SPRING = {
@@ -173,13 +205,14 @@
     ]}],
     tertials: NOTE_TERT,
     scapulars: [{ id: 'scap', title: 'Scapulars (not the wing coverts)', help: 'Works on fresh April–May birds.', options: [
-      { label: 'Broad buff to orange edges join the pale tips: “closed loops”', fits: 'sb' },
-      { label: 'Mostly white tips cut off by black at the sides: “open”', fits: 'lb' }
+      { label: 'Broad buff to orange edges join the pale tips: V-shaped “closed loops”', fits: 'sb' },
+      { label: 'Mostly white tips cut off by black at the sides: squared-off, “open”, white-barred look', fits: 'lb' }
     ]}],
     breast: [
       { id: 'sides', title: 'Breast sides', help: 'The least reliable of the breeding marks.', options: [
         { label: 'Round spots', fits: 'sb ~lb' },
-        { label: 'Bars', fits: 'lb ~sb' }
+        { label: 'Black bars with white fringes', fits: 'lb ~sb' },
+        { label: 'Plain orange, few or no marks', fits: 'sb ~lb' }
       ]},
       { id: 'foreneck', title: 'Foreneck', options: [
         { label: 'Lightly spotted or clean', fits: 'sb' },
@@ -195,10 +228,16 @@
         { label: 'White patch at the base of the leading edge, often a pale line through the coverts', fits: 'lb' },
         { label: 'Wing base darker and evenly marked', fits: 'sb' }
       ]},
+      { id: 'cov', title: 'Wing coverts', check: COV, options: [
+        { label: 'V-shaped pale tips running into buff edges', fits: 'sb ~lb' },
+        { label: 'Squared-off white tips with black below', fits: 'lb' }
+      ]},
       WINGTIPS
     ],
+    face: FACE,
     tail: TAIL,
-    bill: BILL
+    bill: BILL,
+    legs: LEGS
   };
 
   var WORN = {
@@ -209,15 +248,43 @@
       { label: 'October to November', fits: 'lb' }
     ]}],
     tertials: NOTE_TERT,
-    scapulars: { note: 'Worn adults lose the fine scapular markings, and gray-brown worn feathers can mimic the other species. Lean on voice and date.' },
-    breast: [{ id: 'breast', title: 'Breast (gray nonbreeding birds)', help: 'Very hard to separate without voice.', options: [
-      { label: 'Paler, more speckled', fits: '~sb' },
-      { label: 'Darker, evenly gray', fits: '~lb' }
-    ]}],
+    scapulars: [
+      { id: 'wornscap', title: 'Worn scapulars (faded orange birds)', help: 'The pale edges wear off, but the shape of the black centers stays.', options: [
+        { label: 'Black centers come to deep points', fits: 'sb' },
+        { label: 'Black centers squarish or blunt', fits: 'lb' }
+      ]},
+      { id: 'back', title: 'Back from a distance', options: [
+        { label: 'Lighter-backed', fits: '~sb' },
+        { label: 'Very dark-backed', fits: '~lb' }
+      ]}
+    ],
+    breast: [
+      { id: 'chest', title: 'Chest (gray birds)', help: 'Very hard to separate without voice; combine these.', options: [
+        { label: 'Small gray spots or streaks, paler; blends into the belly', fits: 'sb' },
+        { label: 'Smooth, darker gray wash, sharply cut off from the white belly', fits: 'lb' }
+      ]},
+      { id: 'chin', title: 'Chin (gray birds)', options: [
+        { label: 'Pale, whitish chin', fits: '~sb' },
+        { label: 'Gray wash runs up to the chin', fits: '~lb' }
+      ]},
+      { id: 'flanks', title: 'Sides and flanks (gray birds)', options: [
+        { label: 'Sparse pale gray spots or chevrons', fits: 'sb' },
+        { label: 'Dusky gray wash or vertical bars', fits: 'lb' }
+      ]},
+      { id: 'wornsides', title: 'Breast sides (faded orange birds)', options: [
+        { label: 'Some round spots left', fits: 'sb' },
+        { label: 'Clear, deep reddish', fits: '~lb' }
+      ]}
+    ],
     belly: { note: 'Faded and patchy by late summer, so it won’t separate them.' },
-    wing: [WINGTIPS],
+    wing: [{ id: 'graycov', title: 'Wing coverts (gray birds)', options: [
+      { label: 'Paler, with lighter edges', fits: '~sb' },
+      { label: 'Dark, with brown fringes', fits: '~lb' }
+    ]}, WINGTIPS],
+    face: FACE,
     tail: TAIL,
-    bill: BILL
+    bill: BILL,
+    legs: LEGS
   };
 
   var UNSURE = {
@@ -234,8 +301,10 @@
     breast: { note: 'Pick a plumage first to use the breast.' },
     belly: { note: 'Pick a plumage first to use the belly.' },
     wing: [WINGTIPS],
+    face: FACE,
     tail: TAIL,
-    bill: BILL
+    bill: BILL,
+    legs: LEGS
   };
 
   Picker({
@@ -244,7 +313,7 @@
       { id: 'juv',    label: 'Juvenile',     name: 'Juvenile',          hint: 'Crisp, fresh, neatly patterned feathers, buffy or gray below with no orange. Mid-August to November.' },
       { id: 'spring', label: 'Breeding',     name: 'Breeding adult',    hint: 'Fresh, bright orange below with crisp patterns. April–May.' },
       { id: 'worn',   label: 'Worn or gray', name: 'Worn or gray adult', hint: 'Faded, patchy orange (July–Sept) or plain gray nonbreeding.' },
-      { id: 'unsure', label: 'Not sure',     name: 'Any plumage',       hint: 'Only call, date, wingtips, tail and bill.' }
+      { id: 'unsure', label: 'Not sure',     name: 'Any plumage',       hint: 'Only marks that work at any age: call, date, face, bill, wingtips, tail and legs.' }
     ],
     defaultStage: 'unsure',
     partToQ: PART_TO_Q, qOrder: Q_ORDER, qNames: Q_NAMES,
