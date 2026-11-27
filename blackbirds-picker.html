@@ -6,7 +6,7 @@
 <meta name="color-scheme" content="light">
 <title>Blackbird Picker</title>
 <meta name="description" content="Tap parts of a blackbird, pick what you see, and sort Iowa’s Red-winged, Rusty and Brewer’s Blackbirds, Common and Great-tailed Grackles and Brown-headed Cowbird.">
-<link rel="stylesheet" href="picker.css?v=4">
+<link rel="stylesheet" href="picker.css?v=5">
 <style>
   .part[data-part="body"], .part[data-part="head"], .part[data-part="fbody"], .part[data-part="fhead"] { fill: var(--bird-c); }
   .part[data-part="wing"], .part[data-part="fwing"], .part[data-part="shoulder"] { fill: var(--bird-b); }
@@ -171,7 +171,7 @@
   </svg>
 </template>
 
-<script src="picker.js?v=4"></script>
+<script src="picker.js?v=5"></script>
 <script>
 (function () {
   var SPECIES = [
@@ -331,6 +331,7 @@
   };
 
   Picker({
+    showBird: true,
     species: SPECIES,
     stages: [
       { id: 'male', label: 'Black male', name: 'Black male', tab: 'male',

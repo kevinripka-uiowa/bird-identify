@@ -6,7 +6,7 @@
 <meta name="color-scheme" content="light">
 <title>Accipiter Picker</title>
 <meta name="description" content="Tap parts of a flying or perched accipiter, pick what you see, and sort Sharp-shinned, Cooper’s and American Goshawk, juveniles first.">
-<link rel="stylesheet" href="picker.css?v=4">
+<link rel="stylesheet" href="picker.css?v=5">
 <style>
   .part[data-part="breast"], .part[data-part="belly"], .part[data-part="fbody"], .part[data-part="fvent"], .part[data-part="vent"] { fill: var(--bird-white); }
   .part[data-part="back"], .part[data-part="head"], .part[data-part="fhead"] { fill: var(--bird-a); }
@@ -15,8 +15,8 @@
   .part[data-part="flight"] { fill: var(--bird-c); }
   .part[data-part="underwing"] { fill: var(--bird-white); }
   .part.leg-line { stroke: #d9b54a; }
-  svg [data-look="fwing"], svg [data-look="ftailg"] { stroke-width: 1.5; }
-  svg [data-look="fwing"] .part, svg [data-look="ftailg"] .part { pointer-events: auto; }
+  svg [data-look^="fwing"], svg [data-look="ftailg"] { stroke-width: 1.5; }
+  svg [data-look^="fwing"] .part, svg [data-look="ftailg"] .part { pointer-events: auto; }
   :root { --c-black: #24282c; --c-white: #fbfbf9; --c-dark: #3d2c20; --c-brown: #7a5434; --c-rufous: #b6582c;
           --c-buff: #e3c08e; --c-pale: #f2ece1; --c-gray: #7f8890; --c-slate: #4e5860; --c-graybrown: #8a7864;
           --c-yellow: #e2bd2a; --c-red: #b5231e; --c-tailgray: #a8a39a; }
@@ -91,6 +91,12 @@
     <defs>
       <clipPath id="acc-round"><path d="M270,170 H330 L318.6,282 C319,306 308,318 300,318 C292,318 281,306 281.4,282 Z"/></clipPath>
       <clipPath id="acc-square"><path d="M270,170 H330 L320.8,321 L300,315 L279.2,321 Z"/></clipPath>
+      <clipPath id="acc-w-std"><path d="M278,98 C248,94 228,92 204,92 C174,92 184,96 129,106.6 A5.8,5.8 0 0 0 121.8,114 L133.7,123.2 L111,108.4 A7.5,7.5 0 0 0 105,120.7 L119.1,125.9 L96.8,120.3 A8.6,8.6 0 0 0 94.6,135.9 L109.7,136.7 L94.7,138.1 A8.6,8.6 0 0 0 97.4,153.6 L119.4,147.2 L105.6,153 A7.5,7.5 0 0 0 112,165 L134.2,149.4 L122.6,159 A5.8,5.8 0 0 0 130,166.2 C150,204 232,190 278,182 Z"/></clipPath>
+      <clipPath id="acc-l-std"><path d="M278,98 C248,94 228,92 204,92 C180,93 174,104 164,112 C192,134 240,140 278,138 Z"/></clipPath>
+      <clipPath id="acc-w-ssh"><path d="M278,104 C248,100 238,80 214,80 C184,80 196,86 144.2,111.9 A5,5 0 0 0 137.1,116.7 L146.2,127.3 L127.8,108.8 A6.7,6.7 0 0 0 120.4,118.2 L132.3,125.7 L112.6,116 A7.8,7.8 0 0 0 107.8,129.3 L121.3,132.9 L107.4,131.2 A7.8,7.8 0 0 0 106.9,145.3 L128.8,143.6 L115,146.1 A6.7,6.7 0 0 0 118.3,157.6 L142.3,147.3 L129.9,153.8 A5,5 0 0 0 134.7,160.9 C160,198 238,182 278,176 Z"/></clipPath>
+      <clipPath id="acc-l-ssh"><path d="M278,104 C248,100 238,80 214,80 C190,81 186,98 176,106 C202,128 244,138 278,138 Z"/></clipPath>
+      <clipPath id="acc-w-gos"><path d="M278,96 C248,92 220,90 196,90 C166,90 176,94 118.1,105.5 A6,6 0 0 0 111.1,113.8 L123.5,122.2 L99.9,108.9 A7.6,7.6 0 0 0 94.5,121.7 L108.8,126.4 L86.3,121.7 A8.6,8.6 0 0 0 84.7,137.6 L99.7,138 L84.8,139.8 A8.6,8.6 0 0 0 87.8,155.4 L109.8,148.8 L96,154.7 A7.6,7.6 0 0 0 102.5,167 L124.8,151.7 L113.2,161.2 A6,6 0 0 0 120.8,168.8 C146,224 234,206 278,186 Z"/></clipPath>
+      <clipPath id="acc-l-gos"><path d="M278,96 C248,92 220,90 196,90 C172,91 166,102 156,110 C188,134 240,142 278,139 Z"/></clipPath>
     </defs>
     <!-- FLYING, seen from below (large) -->
     <g class="fly">
@@ -103,17 +109,44 @@
         <path data-look="edge-rd" d="M281.4,282 C281,306 292,318 300,318 C308,318 319,306 318.6,282" style="fill:none"/>
         <path data-look="edge-sq" d="M279.6,320.5 L300,315 L320.4,320.5" style="fill:none"/>
       </g>
+      <!-- Cooper’s / default: straight out, a flying cross wings -->
       <g data-look="fwing">
-        <path class="part" data-part="flight" d="M280,100 C240,94 200,90 170,90 C130,92 100,100 86,114 C80,124 86,138 104,148 C130,164 160,174 200,176 C240,176 266,172 280,166 Z"/>
-        <path class="part" data-part="underwing" d="M280,100 C240,94 200,90 170,90 C130,92 100,100 86,114 C110,118 140,120 170,122 C210,126 250,130 280,132 Z"/>
-        <path data-look="wbars" d="M98,140 H278 M116,152 H278 M146,164 H276" style="fill:none;stroke:var(--bird-line);stroke-width:2;stroke-dasharray:9 7;opacity:.45"/>
-        <g data-look="uwspots" class="no-stroke" style="fill:var(--c-brown)"><circle cx="130" cy="104" r="2.6"/><circle cx="160" cy="100" r="2.6"/><circle cx="190" cy="100" r="2.6"/><circle cx="220" cy="102" r="2.6"/><circle cx="250" cy="106" r="2.6"/><circle cx="145" cy="114" r="2.6"/><circle cx="176" cy="112" r="2.6"/><circle cx="206" cy="114" r="2.6"/><circle cx="236" cy="117" r="2.6"/><circle cx="264" cy="120" r="2.6"/><circle cx="110" cy="110" r="2.6"/></g>
+        <path class="part" data-part="flight" d="M278,98 C248,94 228,92 204,92 C174,92 184,96 129,106.6 A5.8,5.8 0 0 0 121.8,114 L133.7,123.2 L111,108.4 A7.5,7.5 0 0 0 105,120.7 L119.1,125.9 L96.8,120.3 A8.6,8.6 0 0 0 94.6,135.9 L109.7,136.7 L94.7,138.1 A8.6,8.6 0 0 0 97.4,153.6 L119.4,147.2 L105.6,153 A7.5,7.5 0 0 0 112,165 L134.2,149.4 L122.6,159 A5.8,5.8 0 0 0 130,166.2 C150,204 232,190 278,182 Z"/>
+        <path class="part" data-part="underwing" d="M278,98 C248,94 228,92 204,92 C180,93 174,104 164,112 C192,134 240,140 278,138 Z"/>
+        <g clip-path="url(#acc-w-std)"><path data-look="wbars" d="M50,146 H280 M50,160 H280 M50,174 H280 M50,188 H280 M50,202 H280 M50,216 H280" style="fill:none;stroke:var(--bird-line);stroke-width:2;stroke-dasharray:9 7;opacity:.45"/></g>
+        <g clip-path="url(#acc-l-std)"><g data-look="uwspots" class="no-stroke" style="fill:var(--c-brown)"><circle cx="151" cy="84" r="2.6"/><circle cx="173" cy="84" r="2.6"/><circle cx="195" cy="84" r="2.6"/><circle cx="217" cy="84" r="2.6"/><circle cx="239" cy="84" r="2.6"/><circle cx="261" cy="84" r="2.6"/><circle cx="283" cy="84" r="2.6"/><circle cx="140" cy="96" r="2.6"/><circle cx="162" cy="96" r="2.6"/><circle cx="184" cy="96" r="2.6"/><circle cx="206" cy="96" r="2.6"/><circle cx="228" cy="96" r="2.6"/><circle cx="250" cy="96" r="2.6"/><circle cx="272" cy="96" r="2.6"/><circle cx="151" cy="108" r="2.6"/><circle cx="173" cy="108" r="2.6"/><circle cx="195" cy="108" r="2.6"/><circle cx="217" cy="108" r="2.6"/><circle cx="239" cy="108" r="2.6"/><circle cx="261" cy="108" r="2.6"/><circle cx="283" cy="108" r="2.6"/><circle cx="140" cy="120" r="2.6"/><circle cx="162" cy="120" r="2.6"/><circle cx="184" cy="120" r="2.6"/><circle cx="206" cy="120" r="2.6"/><circle cx="228" cy="120" r="2.6"/><circle cx="250" cy="120" r="2.6"/><circle cx="272" cy="120" r="2.6"/><circle cx="151" cy="132" r="2.6"/><circle cx="173" cy="132" r="2.6"/><circle cx="195" cy="132" r="2.6"/><circle cx="217" cy="132" r="2.6"/><circle cx="239" cy="132" r="2.6"/><circle cx="261" cy="132" r="2.6"/><circle cx="283" cy="132" r="2.6"/></g></g>
       </g>
       <g transform="translate(600 0) scale(-1 1)"><g data-look="fwing">
-        <path class="part" data-part="flight" d="M280,100 C240,94 200,90 170,90 C130,92 100,100 86,114 C80,124 86,138 104,148 C130,164 160,174 200,176 C240,176 266,172 280,166 Z"/>
-        <path class="part" data-part="underwing" d="M280,100 C240,94 200,90 170,90 C130,92 100,100 86,114 C110,118 140,120 170,122 C210,126 250,130 280,132 Z"/>
-        <path data-look="wbars" d="M98,140 H278 M116,152 H278 M146,164 H276" style="fill:none;stroke:var(--bird-line);stroke-width:2;stroke-dasharray:9 7;opacity:.45"/>
-        <g data-look="uwspots" class="no-stroke" style="fill:var(--c-brown)"><circle cx="130" cy="104" r="2.6"/><circle cx="160" cy="100" r="2.6"/><circle cx="190" cy="100" r="2.6"/><circle cx="220" cy="102" r="2.6"/><circle cx="250" cy="106" r="2.6"/><circle cx="145" cy="114" r="2.6"/><circle cx="176" cy="112" r="2.6"/><circle cx="206" cy="114" r="2.6"/><circle cx="236" cy="117" r="2.6"/><circle cx="264" cy="120" r="2.6"/><circle cx="110" cy="110" r="2.6"/></g>
+        <path class="part" data-part="flight" d="M278,98 C248,94 228,92 204,92 C174,92 184,96 129,106.6 A5.8,5.8 0 0 0 121.8,114 L133.7,123.2 L111,108.4 A7.5,7.5 0 0 0 105,120.7 L119.1,125.9 L96.8,120.3 A8.6,8.6 0 0 0 94.6,135.9 L109.7,136.7 L94.7,138.1 A8.6,8.6 0 0 0 97.4,153.6 L119.4,147.2 L105.6,153 A7.5,7.5 0 0 0 112,165 L134.2,149.4 L122.6,159 A5.8,5.8 0 0 0 130,166.2 C150,204 232,190 278,182 Z"/>
+        <path class="part" data-part="underwing" d="M278,98 C248,94 228,92 204,92 C180,93 174,104 164,112 C192,134 240,140 278,138 Z"/>
+        <g clip-path="url(#acc-w-std)"><path data-look="wbars" d="M50,146 H280 M50,160 H280 M50,174 H280 M50,188 H280 M50,202 H280 M50,216 H280" style="fill:none;stroke:var(--bird-line);stroke-width:2;stroke-dasharray:9 7;opacity:.45"/></g>
+        <g clip-path="url(#acc-l-std)"><g data-look="uwspots" class="no-stroke" style="fill:var(--c-brown)"><circle cx="151" cy="84" r="2.6"/><circle cx="173" cy="84" r="2.6"/><circle cx="195" cy="84" r="2.6"/><circle cx="217" cy="84" r="2.6"/><circle cx="239" cy="84" r="2.6"/><circle cx="261" cy="84" r="2.6"/><circle cx="283" cy="84" r="2.6"/><circle cx="140" cy="96" r="2.6"/><circle cx="162" cy="96" r="2.6"/><circle cx="184" cy="96" r="2.6"/><circle cx="206" cy="96" r="2.6"/><circle cx="228" cy="96" r="2.6"/><circle cx="250" cy="96" r="2.6"/><circle cx="272" cy="96" r="2.6"/><circle cx="151" cy="108" r="2.6"/><circle cx="173" cy="108" r="2.6"/><circle cx="195" cy="108" r="2.6"/><circle cx="217" cy="108" r="2.6"/><circle cx="239" cy="108" r="2.6"/><circle cx="261" cy="108" r="2.6"/><circle cx="283" cy="108" r="2.6"/><circle cx="140" cy="120" r="2.6"/><circle cx="162" cy="120" r="2.6"/><circle cx="184" cy="120" r="2.6"/><circle cx="206" cy="120" r="2.6"/><circle cx="228" cy="120" r="2.6"/><circle cx="250" cy="120" r="2.6"/><circle cx="272" cy="120" r="2.6"/><circle cx="151" cy="132" r="2.6"/><circle cx="173" cy="132" r="2.6"/><circle cx="195" cy="132" r="2.6"/><circle cx="217" cy="132" r="2.6"/><circle cx="239" cy="132" r="2.6"/><circle cx="261" cy="132" r="2.6"/><circle cx="283" cy="132" r="2.6"/></g></g>
+      </g></g>
+      <!-- Sharp-shinned: wrists pushed forward, hand swept back wings -->
+      <g data-look="fwing-ssh">
+        <path class="part" data-part="flight" d="M278,104 C248,100 238,80 214,80 C184,80 196,86 144.2,111.9 A5,5 0 0 0 137.1,116.7 L146.2,127.3 L127.8,108.8 A6.7,6.7 0 0 0 120.4,118.2 L132.3,125.7 L112.6,116 A7.8,7.8 0 0 0 107.8,129.3 L121.3,132.9 L107.4,131.2 A7.8,7.8 0 0 0 106.9,145.3 L128.8,143.6 L115,146.1 A6.7,6.7 0 0 0 118.3,157.6 L142.3,147.3 L129.9,153.8 A5,5 0 0 0 134.7,160.9 C160,198 238,182 278,176 Z"/>
+        <path class="part" data-part="underwing" d="M278,104 C248,100 238,80 214,80 C190,81 186,98 176,106 C202,128 244,138 278,138 Z"/>
+        <g clip-path="url(#acc-w-ssh)"><path data-look="wbars" d="M50,146 H280 M50,160 H280 M50,174 H280 M50,188 H280 M50,202 H280 M50,216 H280" style="fill:none;stroke:var(--bird-line);stroke-width:2;stroke-dasharray:9 7;opacity:.45"/></g>
+        <g clip-path="url(#acc-l-ssh)"><g data-look="uwspots" class="no-stroke" style="fill:var(--c-brown)"><circle cx="151" cy="84" r="2.6"/><circle cx="173" cy="84" r="2.6"/><circle cx="195" cy="84" r="2.6"/><circle cx="217" cy="84" r="2.6"/><circle cx="239" cy="84" r="2.6"/><circle cx="261" cy="84" r="2.6"/><circle cx="283" cy="84" r="2.6"/><circle cx="140" cy="96" r="2.6"/><circle cx="162" cy="96" r="2.6"/><circle cx="184" cy="96" r="2.6"/><circle cx="206" cy="96" r="2.6"/><circle cx="228" cy="96" r="2.6"/><circle cx="250" cy="96" r="2.6"/><circle cx="272" cy="96" r="2.6"/><circle cx="151" cy="108" r="2.6"/><circle cx="173" cy="108" r="2.6"/><circle cx="195" cy="108" r="2.6"/><circle cx="217" cy="108" r="2.6"/><circle cx="239" cy="108" r="2.6"/><circle cx="261" cy="108" r="2.6"/><circle cx="283" cy="108" r="2.6"/><circle cx="140" cy="120" r="2.6"/><circle cx="162" cy="120" r="2.6"/><circle cx="184" cy="120" r="2.6"/><circle cx="206" cy="120" r="2.6"/><circle cx="228" cy="120" r="2.6"/><circle cx="250" cy="120" r="2.6"/><circle cx="272" cy="120" r="2.6"/><circle cx="151" cy="132" r="2.6"/><circle cx="173" cy="132" r="2.6"/><circle cx="195" cy="132" r="2.6"/><circle cx="217" cy="132" r="2.6"/><circle cx="239" cy="132" r="2.6"/><circle cx="261" cy="132" r="2.6"/><circle cx="283" cy="132" r="2.6"/></g></g>
+      </g>
+      <g transform="translate(600 0) scale(-1 1)"><g data-look="fwing-ssh">
+        <path class="part" data-part="flight" d="M278,104 C248,100 238,80 214,80 C184,80 196,86 144.2,111.9 A5,5 0 0 0 137.1,116.7 L146.2,127.3 L127.8,108.8 A6.7,6.7 0 0 0 120.4,118.2 L132.3,125.7 L112.6,116 A7.8,7.8 0 0 0 107.8,129.3 L121.3,132.9 L107.4,131.2 A7.8,7.8 0 0 0 106.9,145.3 L128.8,143.6 L115,146.1 A6.7,6.7 0 0 0 118.3,157.6 L142.3,147.3 L129.9,153.8 A5,5 0 0 0 134.7,160.9 C160,198 238,182 278,176 Z"/>
+        <path class="part" data-part="underwing" d="M278,104 C248,100 238,80 214,80 C190,81 186,98 176,106 C202,128 244,138 278,138 Z"/>
+        <g clip-path="url(#acc-w-ssh)"><path data-look="wbars" d="M50,146 H280 M50,160 H280 M50,174 H280 M50,188 H280 M50,202 H280 M50,216 H280" style="fill:none;stroke:var(--bird-line);stroke-width:2;stroke-dasharray:9 7;opacity:.45"/></g>
+        <g clip-path="url(#acc-l-ssh)"><g data-look="uwspots" class="no-stroke" style="fill:var(--c-brown)"><circle cx="151" cy="84" r="2.6"/><circle cx="173" cy="84" r="2.6"/><circle cx="195" cy="84" r="2.6"/><circle cx="217" cy="84" r="2.6"/><circle cx="239" cy="84" r="2.6"/><circle cx="261" cy="84" r="2.6"/><circle cx="283" cy="84" r="2.6"/><circle cx="140" cy="96" r="2.6"/><circle cx="162" cy="96" r="2.6"/><circle cx="184" cy="96" r="2.6"/><circle cx="206" cy="96" r="2.6"/><circle cx="228" cy="96" r="2.6"/><circle cx="250" cy="96" r="2.6"/><circle cx="272" cy="96" r="2.6"/><circle cx="151" cy="108" r="2.6"/><circle cx="173" cy="108" r="2.6"/><circle cx="195" cy="108" r="2.6"/><circle cx="217" cy="108" r="2.6"/><circle cx="239" cy="108" r="2.6"/><circle cx="261" cy="108" r="2.6"/><circle cx="283" cy="108" r="2.6"/><circle cx="140" cy="120" r="2.6"/><circle cx="162" cy="120" r="2.6"/><circle cx="184" cy="120" r="2.6"/><circle cx="206" cy="120" r="2.6"/><circle cx="228" cy="120" r="2.6"/><circle cx="250" cy="120" r="2.6"/><circle cx="272" cy="120" r="2.6"/><circle cx="151" cy="132" r="2.6"/><circle cx="173" cy="132" r="2.6"/><circle cx="195" cy="132" r="2.6"/><circle cx="217" cy="132" r="2.6"/><circle cx="239" cy="132" r="2.6"/><circle cx="261" cy="132" r="2.6"/><circle cx="283" cy="132" r="2.6"/></g></g>
+      </g></g>
+      <!-- Goshawk: long, broad, bulging secondaries wings -->
+      <g data-look="fwing-gos">
+        <path class="part" data-part="flight" d="M278,96 C248,92 220,90 196,90 C166,90 176,94 118.1,105.5 A6,6 0 0 0 111.1,113.8 L123.5,122.2 L99.9,108.9 A7.6,7.6 0 0 0 94.5,121.7 L108.8,126.4 L86.3,121.7 A8.6,8.6 0 0 0 84.7,137.6 L99.7,138 L84.8,139.8 A8.6,8.6 0 0 0 87.8,155.4 L109.8,148.8 L96,154.7 A7.6,7.6 0 0 0 102.5,167 L124.8,151.7 L113.2,161.2 A6,6 0 0 0 120.8,168.8 C146,224 234,206 278,186 Z"/>
+        <path class="part" data-part="underwing" d="M278,96 C248,92 220,90 196,90 C172,91 166,102 156,110 C188,134 240,142 278,139 Z"/>
+        <g clip-path="url(#acc-w-gos)"><path data-look="wbars" d="M50,146 H280 M50,160 H280 M50,174 H280 M50,188 H280 M50,202 H280 M50,216 H280" style="fill:none;stroke:var(--bird-line);stroke-width:2;stroke-dasharray:9 7;opacity:.45"/></g>
+        <g clip-path="url(#acc-l-gos)"><g data-look="uwspots" class="no-stroke" style="fill:var(--c-brown)"><circle cx="151" cy="84" r="2.6"/><circle cx="173" cy="84" r="2.6"/><circle cx="195" cy="84" r="2.6"/><circle cx="217" cy="84" r="2.6"/><circle cx="239" cy="84" r="2.6"/><circle cx="261" cy="84" r="2.6"/><circle cx="283" cy="84" r="2.6"/><circle cx="140" cy="96" r="2.6"/><circle cx="162" cy="96" r="2.6"/><circle cx="184" cy="96" r="2.6"/><circle cx="206" cy="96" r="2.6"/><circle cx="228" cy="96" r="2.6"/><circle cx="250" cy="96" r="2.6"/><circle cx="272" cy="96" r="2.6"/><circle cx="151" cy="108" r="2.6"/><circle cx="173" cy="108" r="2.6"/><circle cx="195" cy="108" r="2.6"/><circle cx="217" cy="108" r="2.6"/><circle cx="239" cy="108" r="2.6"/><circle cx="261" cy="108" r="2.6"/><circle cx="283" cy="108" r="2.6"/><circle cx="140" cy="120" r="2.6"/><circle cx="162" cy="120" r="2.6"/><circle cx="184" cy="120" r="2.6"/><circle cx="206" cy="120" r="2.6"/><circle cx="228" cy="120" r="2.6"/><circle cx="250" cy="120" r="2.6"/><circle cx="272" cy="120" r="2.6"/><circle cx="151" cy="132" r="2.6"/><circle cx="173" cy="132" r="2.6"/><circle cx="195" cy="132" r="2.6"/><circle cx="217" cy="132" r="2.6"/><circle cx="239" cy="132" r="2.6"/><circle cx="261" cy="132" r="2.6"/><circle cx="283" cy="132" r="2.6"/></g></g>
+      </g>
+      <g transform="translate(600 0) scale(-1 1)"><g data-look="fwing-gos">
+        <path class="part" data-part="flight" d="M278,96 C248,92 220,90 196,90 C166,90 176,94 118.1,105.5 A6,6 0 0 0 111.1,113.8 L123.5,122.2 L99.9,108.9 A7.6,7.6 0 0 0 94.5,121.7 L108.8,126.4 L86.3,121.7 A8.6,8.6 0 0 0 84.7,137.6 L99.7,138 L84.8,139.8 A8.6,8.6 0 0 0 87.8,155.4 L109.8,148.8 L96,154.7 A7.6,7.6 0 0 0 102.5,167 L124.8,151.7 L113.2,161.2 A6,6 0 0 0 120.8,168.8 C146,224 234,206 278,186 Z"/>
+        <path class="part" data-part="underwing" d="M278,96 C248,92 220,90 196,90 C172,91 166,102 156,110 C188,134 240,142 278,139 Z"/>
+        <g clip-path="url(#acc-w-gos)"><path data-look="wbars" d="M50,146 H280 M50,160 H280 M50,174 H280 M50,188 H280 M50,202 H280 M50,216 H280" style="fill:none;stroke:var(--bird-line);stroke-width:2;stroke-dasharray:9 7;opacity:.45"/></g>
+        <g clip-path="url(#acc-l-gos)"><g data-look="uwspots" class="no-stroke" style="fill:var(--c-brown)"><circle cx="151" cy="84" r="2.6"/><circle cx="173" cy="84" r="2.6"/><circle cx="195" cy="84" r="2.6"/><circle cx="217" cy="84" r="2.6"/><circle cx="239" cy="84" r="2.6"/><circle cx="261" cy="84" r="2.6"/><circle cx="283" cy="84" r="2.6"/><circle cx="140" cy="96" r="2.6"/><circle cx="162" cy="96" r="2.6"/><circle cx="184" cy="96" r="2.6"/><circle cx="206" cy="96" r="2.6"/><circle cx="228" cy="96" r="2.6"/><circle cx="250" cy="96" r="2.6"/><circle cx="272" cy="96" r="2.6"/><circle cx="151" cy="108" r="2.6"/><circle cx="173" cy="108" r="2.6"/><circle cx="195" cy="108" r="2.6"/><circle cx="217" cy="108" r="2.6"/><circle cx="239" cy="108" r="2.6"/><circle cx="261" cy="108" r="2.6"/><circle cx="283" cy="108" r="2.6"/><circle cx="140" cy="120" r="2.6"/><circle cx="162" cy="120" r="2.6"/><circle cx="184" cy="120" r="2.6"/><circle cx="206" cy="120" r="2.6"/><circle cx="228" cy="120" r="2.6"/><circle cx="250" cy="120" r="2.6"/><circle cx="272" cy="120" r="2.6"/><circle cx="151" cy="132" r="2.6"/><circle cx="173" cy="132" r="2.6"/><circle cx="195" cy="132" r="2.6"/><circle cx="217" cy="132" r="2.6"/><circle cx="239" cy="132" r="2.6"/><circle cx="261" cy="132" r="2.6"/><circle cx="283" cy="132" r="2.6"/></g></g>
       </g></g>
       <ellipse class="part" data-part="fbody" cx="300" cy="130" rx="24" ry="58"/>
       <g data-look="fstreaks-up" style="fill:none;stroke:var(--c-dark);stroke-width:3;stroke-linecap:round">
@@ -180,16 +213,12 @@
   </svg>
 </template>
 
-<script src="picker.js?v=4"></script>
+<script src="picker.js?v=5"></script>
 <script>
 (function () {
   function C(n) { return 'var(--c-' + n + ')'; }
   function mix() { var o = {}; for (var i = 0; i < arguments.length; i++) for (var k in arguments[i]) o[k] = arguments[i][k]; return o; }
-  // Both wings pivot at the shoulder; the tail and its markings scale from the tail base
-  function wingT(t) {
-    var s = { transformBox: 'view-box', transformOrigin: '280px 132px', transform: t };
-    return { fwing: s };
-  }
+  // Each wing shape is its own drawing (fwing, fwing-ssh, fwing-gos); the tail and its markings scale from the tail base
   function tailT(t) {
     var s = { transformBox: 'view-box', transformOrigin: '300px 182px', transform: t };
     return { ftailg: s };
@@ -226,11 +255,11 @@
     ]},
     { id: 'wing', title: 'Wing shape', options: [
       { label: 'Wrists pushed forward, wings look scrunched; short, compact body', fits: 'ssh',
-        look: mix(wingT('rotate(5deg) scaleX(.9)'), tailT('scaleY(.9)')) },
+        look: mix({ fwing: { display: 'none' }, 'fwing-ssh': true }, tailT('scaleY(.9)')) },
       { label: 'Straight front edge, wings held straight out; long, slim body and tail', fits: 'coh',
         look: tailT('scaleY(1.08)') },
       { label: 'Long, broad wings with a bulging inner wing and tapered hand; bulky chest', fits: 'gos',
-        look: mix(wingT('scale(1.08, 1.22)'), tailT('scale(1.3, 1.04)'), { fbody: { transform: 'scaleX(1.3)', transformOrigin: '50% 50%' } }) }
+        look: mix({ fwing: { display: 'none' }, 'fwing-gos': true }, tailT('scale(1.3, 1.04)'), { fbody: { transform: 'scaleX(1.25)', transformOrigin: '50% 50%' } }) }
     ]}
   ];
   var TAIL_ANY = [
@@ -347,6 +376,7 @@
 
   var BASE = { fwing: true, ftailg: true, wbars: true };
   Picker({
+    showBird: true,
     species: SPECIES,
     stages: [
       { id: 'juv', label: 'Juvenile', name: 'Juvenile (first year)', tab: 'young',
@@ -366,7 +396,7 @@
         qOrder: ['shape', 'tail', 'flight', 'head', 'legs', 'size', 'date'] }
     ],
     defaultStage: 'juv',
-    thumbs: {"proj": "180 0 240 240", "wing": "70 -60 460 460", "undertail": "264 150 72 72", "underparts": "472 200 100 100", "head": "486 176 46 46", "back": "498 206 80 80", "legs": "488 286 48 48", "tip": "262 258 76 76", "white": "262 258 76 76", "bands": "250 205 100 100"},
+    thumbs: {"proj": "180 0 240 240", "wing": "56 -70 488 488", "undertail": "264 150 72 72", "underparts": "472 200 100 100", "head": "486 176 46 46", "back": "498 206 80 80", "legs": "488 286 48 48", "tip": "262 258 76 76", "white": "262 258 76 76", "bands": "250 205 100 100"},
     partToQ: PART_TO_Q, qOrder: Q_ORDER, qNames: Q_NAMES,
     data: { juv: JUV, ad: AD, any: ANY },
     ref: 'accipiters.html'

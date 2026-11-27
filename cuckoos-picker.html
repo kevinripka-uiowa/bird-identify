@@ -6,7 +6,7 @@
 <meta name="color-scheme" content="light">
 <title>Cuckoo Picker</title>
 <meta name="description" content="Yellow-billed or Black-billed Cuckoo: tap the wing, undertail, bill or eye-ring of a flying or perched cuckoo, pick what you see, even when you missed the bill.">
-<link rel="stylesheet" href="picker.css?v=4">
+<link rel="stylesheet" href="picker.css?v=5">
 <style>
   .part[data-part="fbody"], .part[data-part="fhead"], .part[data-part="fwing"], .part[data-part="pbelly"], .part[data-part="pthroat"] { fill: var(--bird-white); }
   .part[data-part="pback"], .part[data-part="phead"], .part[data-part="pwing"], .part[data-part="ptail"] { fill: var(--bird-a); }
@@ -143,7 +143,7 @@
   </svg>
 </template>
 
-<script src="picker.js?v=4"></script>
+<script src="picker.js?v=5"></script>
 <script>
 (function () {
   var SPECIES = [
@@ -245,6 +245,7 @@
   };
 
   Picker({
+    showBird: true,
     species: SPECIES,
     stages: [
       { id: 'adult', label: 'Adult', name: 'Adult', tab: 'adults',

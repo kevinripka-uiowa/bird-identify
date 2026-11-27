@@ -66,7 +66,7 @@
   .diagram figcaption { font-size: 14px; color: var(--muted); padding: 4px 4px 0; }
   .part { fill: var(--bird-c); stroke: var(--bird-line); stroke-width: 1.5; }
   .part[data-part="back"]      { fill: var(--bird-b); }
-  .part[data-part="head"]      { fill: var(--bird-b); }
+  .part[data-part="head"], .part[data-part="nape"] { fill: var(--bird-b); }
   .part[data-part="wing"]      { fill: var(--bird-a); }
   .part[data-part="tertials"]  { fill: var(--bird-a); }
   .part[data-part="primaries"] { fill: var(--bird-d); }
@@ -234,6 +234,7 @@
     <path class="part" data-part="primaries" d="M330,134 L404,166 L398,174 L324,150 Z"/>
     <!-- head -->
     <path class="part" data-part="sides" d="M126,100 C126,128 148,152 186,160 L204,120 C186,110 166,100 152,92 Z"/>
+    <path class="part" data-part="nape" d="M150,60 C170,60 186,70 198,84 C208,96 222,104 242,105 L204,124 C186,112 168,104 150,96 Z"/>
     <circle class="part" data-part="head" cx="150" cy="90" r="30"/>
     <path class="part" data-part="throat" d="M124,96 C124,112 136,124 156,126 C164,124 170,118 172,112 C156,112 140,106 128,94 Z"/>
     <ellipse class="part" data-part="ear" cx="160" cy="98" rx="12" ry="8"/>

@@ -415,6 +415,9 @@
 <!-- One schematic hawk: perched on the left, flying overhead (from below) on the right -->
 <template id="hawk-svg">
   <svg viewBox="0 0 600 360" role="img">
+    <defs>
+      <clipPath id="hw-std"><path d="M413,98 C387,94 362,92 340,92 C316,92 322,94 292,101.6 A5.5,5.5 0 0 0 284.8,107.7 L298.1,119.7 L277.6,103.6 A6.7,6.7 0 0 0 271.6,113.9 L288.3,120.8 L267.3,114.1 A7.3,7.3 0 0 0 265,127.1 L287,128 L269,128.8 A6.7,6.7 0 0 0 271.1,140.6 L295.9,132.4 L279.2,139.2 A5.5,5.5 0 0 0 283.9,147.3 C324,190 382,184 413,174 Z"/></clipPath>
+    </defs>
     <title>Schematic hawk, perched and flying from below, with labeled parts: head, belly, back, folded wingtips, tail, legs, underwing, flight feathers and tail from below</title>
     <!-- PERCHED, side view facing left -->
     <path d="M40,268 L250,262" style="stroke:var(--muted);stroke-width:6;stroke-linecap:round;fill:none;opacity:.5"/>
@@ -433,14 +436,15 @@
     <!-- FLYING, seen from below -->
     <g class="fly">
       <path class="part" data-part="ftail" d="M420,178 L440,178 L456,246 L404,246 Z"/>
+      <!-- Buteo (default): broad wings, bulging secondaries, rounded hand with 5 fingers -->
       <g>
-        <path class="part" data-part="flight" d="M412,102 C380,92 330,90 292,96 L262,106 C274,132 326,160 412,160 Z"/>
-        <path class="part" data-part="underwing" d="M412,102 C380,92 330,90 292,96 L302,116 C330,126 370,132 412,134 Z"/>
+        <path class="part" data-part="flight" d="M413,98 C387,94 362,92 340,92 C316,92 322,94 292,101.6 A5.5,5.5 0 0 0 284.8,107.7 L298.1,119.7 L277.6,103.6 A6.7,6.7 0 0 0 271.6,113.9 L288.3,120.8 L267.3,114.1 A7.3,7.3 0 0 0 265,127.1 L287,128 L269,128.8 A6.7,6.7 0 0 0 271.1,140.6 L295.9,132.4 L279.2,139.2 A5.5,5.5 0 0 0 283.9,147.3 C324,190 382,184 413,174 Z"/>
+        <path class="part" data-part="underwing" d="M413,98 C387,94 362,92 340,92 C320,93 326,104 318,110 C346,124 388,130 413,134 Z"/>
       </g>
-      <g transform="translate(860 0) scale(-1 1)">
-        <path class="part" data-part="flight" d="M412,102 C380,92 330,90 292,96 L262,106 C274,132 326,160 412,160 Z"/>
-        <path class="part" data-part="underwing" d="M412,102 C380,92 330,90 292,96 L302,116 C330,126 370,132 412,134 Z"/>
-      </g>
+      <g transform="translate(860 0) scale(-1 1)"><g>
+        <path class="part" data-part="flight" d="M413,98 C387,94 362,92 340,92 C316,92 322,94 292,101.6 A5.5,5.5 0 0 0 284.8,107.7 L298.1,119.7 L277.6,103.6 A6.7,6.7 0 0 0 271.6,113.9 L288.3,120.8 L267.3,114.1 A7.3,7.3 0 0 0 265,127.1 L287,128 L269,128.8 A6.7,6.7 0 0 0 271.1,140.6 L295.9,132.4 L279.2,139.2 A5.5,5.5 0 0 0 283.9,147.3 C324,190 382,184 413,174 Z"/>
+        <path class="part" data-part="underwing" d="M413,98 C387,94 362,92 340,92 C320,93 326,104 318,110 C346,124 388,130 413,134 Z"/>
+      </g></g>
       <ellipse class="part" data-part="fbody" cx="430" cy="128" rx="19" ry="54"/>
       <circle class="part" data-part="fhead" cx="430" cy="70" r="15"/>
     </g>

@@ -6,7 +6,7 @@
 <meta name="color-scheme" content="light">
 <title>Small Gull Picker</title>
 <meta name="description" content="Tap parts of a small or hooded gull, pick what you see, and get a ranked list of Iowa’s small gulls.">
-<link rel="stylesheet" href="picker.css?v=4">
+<link rel="stylesheet" href="picker.css?v=5">
 <style>
   .part[data-part="upperwing"]     { fill: var(--bird-b); }
   .part[data-part="carpal"]        { fill: var(--bird-a); }
@@ -171,7 +171,7 @@
   </svg>
 </template>
 
-<script src="picker.js?v=4"></script>
+<script src="picker.js?v=5"></script>
 <script>
 (function () {
   var SPECIES = [
@@ -338,6 +338,7 @@
   });
 
   Picker({
+    showBird: true,
     species: SPECIES,
     stages: [
       { id: 'first',  label: '1st cycle',     name: '1st cycle',          tab: 'first',  hint: 'A dark bar or “W” on the inner wing, or a black tail band. A brown-backed bird in July–September is a juvenile: use this.' },

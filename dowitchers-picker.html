@@ -6,7 +6,7 @@
 <meta name="color-scheme" content="light">
 <title>Dowitcher Picker</title>
 <meta name="description" content="Tap parts of a dowitcher, pick what you see, and see whether it fits Short-billed or Long-billed.">
-<link rel="stylesheet" href="picker.css?v=4">
+<link rel="stylesheet" href="picker.css?v=5">
 <style>
   :root { --bird-leg: #8e959d; }
   :root { --c-black: #24282c; --c-dark: #3b3631; --c-dbrown: #4e3b2c; --c-gbrown: #6f6a63; --c-buff: #dcb97f; --c-orange: #d8854a;
@@ -150,7 +150,7 @@
       </svg>
 </template>
 
-<script src="picker.js?v=4"></script>
+<script src="picker.js?v=5"></script>
 <script>
 (function () {
   var SPECIES = [
@@ -431,6 +431,7 @@
   });
 
   Picker({
+    showBird: true,
     species: SPECIES,
     stages: [
       { id: 'juv',    label: 'Juvenile', qOrder: ['call', 'tertials', 'scapulars', 'wing', 'breast', 'face', 'date', 'bill', 'tail', 'legs'],     name: 'Juvenile',          look: STAGE_LOOK.juv, hint: 'Crisp, fresh, neatly patterned feathers, buffy or gray below with no orange. Mid-August to November.' },

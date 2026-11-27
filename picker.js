@@ -167,7 +167,7 @@
       var painted = renderLooks();
       svg.querySelectorAll('[data-part]').forEach(function (p) {
         var q = qOfPart(p.dataset.part);
-        p.classList.toggle('answered', !!q && qAnswered(q) && !painted[q]);
+        p.classList.toggle('answered', !!q && qAnswered(q) && !painted[q] && !state.showing);
         p.classList.toggle('current', !!q && state.current === q);
         p.classList.toggle('na', !!q && !groupsFor(q));
       });
@@ -241,6 +241,7 @@
           b.setAttribute('aria-pressed', state.picks[g.id] === i ? 'true' : 'false');
           b.addEventListener('click', function () {
             if (state.picks[g.id] === i) delete state.picks[g.id]; else state.picks[g.id] = i;
+            state.showing = null;
             render();
           });
           opts.appendChild(b);
@@ -254,11 +255,22 @@
       var ids = Object.keys(state.picks);
       var lead = hasStages ? stageObj().name : '';
       box.appendChild(el('span', 'count', ids.length ? (lead ? lead + ':' : '') : (lead ? lead + ' · ' : '') + 'nothing picked yet'));
+      if (state.showing) {
+        var sp = cfg.species.filter(function (x) { return x.id === state.showing; })[0];
+        var note = el('p', 'showing-note', 'Showing a typical ' + sp.name + '. Change any pick to keep going from here.');
+        if (state.saved) {
+          var back = el('button', 'back-picks', '↩ Back to your picks');
+          back.type = 'button';
+          back.addEventListener('click', function () { state.picks = state.saved; state.saved = null; state.showing = null; render(); });
+          note.appendChild(back);
+        }
+        box.appendChild(note);
+      }
       ids.forEach(function (id) {
         var f = findGroup(id); if (!f) return;
         var b = el('button', 'pick', f.g.title + ': ' + f.g.options[state.picks[id]].label);
         b.type = 'button'; b.title = 'Remove this pick';
-        b.addEventListener('click', function () { delete state.picks[id]; render(); });
+        b.addEventListener('click', function () { delete state.picks[id]; state.showing = null; render(); });
         box.appendChild(b);
       });
     }
@@ -292,6 +304,7 @@
 
     function renderResults() {
       var list = document.getElementById('res'); list.innerHTML = '';
+      list.classList.toggle('showing-mode', !!state.showing);
       var rows = evaluate(), n = Object.keys(state.picks).length;
       var fitting = rows.filter(function (r) { return r.no === 0; });
       document.getElementById('count').textContent = n ? fitting.length + ' of ' + rows.length + ' fit' : 'Pick something to narrow it down';
@@ -313,6 +326,13 @@
           r.why.forEach(function (w) { ul.appendChild(el('li', w.k, w.t)); });
           li.appendChild(ul);
         }
+        if (cfg.showBird) {
+          if (state.showing === r.sp.id) li.classList.add('showing');
+          var sb = el('button', 'show-bird', state.showing === r.sp.id ? 'Shown in the diagram' : 'Show this bird ↑');
+          sb.type = 'button';
+          sb.addEventListener('click', function () { showBird(r.sp.id); });
+          li.appendChild(sb);
+        }
         if (cfg.ref) { var a = el('a', null, 'Details on the reference page →'); a.href = cfg.ref + tab; li.appendChild(a); }
         list.appendChild(li);
       });
@@ -322,8 +342,30 @@
         : 'Tap a part of the bird to start';
     }
 
+    // Show a bird: replace the picks with its usual answer to every drawable question (opt-in: cfg.showBird).
+    // For each group, the first answer the species "usually" shows wins; groups without pictures are skipped.
+    function showBird(id) {
+      if (!state.showing && Object.keys(state.picks).length) state.saved = state.picks;
+      var picks = {}, d = DATA[state.stage] || {};
+      var st = hasStages ? stageObj() : null, order = (st && st.qOrder) || cfg.qOrder;
+      order.concat(Object.keys(d)).forEach(function (q) {
+        var gs = Array.isArray(d[q]) ? d[q] : [];
+        gs.forEach(function (g) {
+          if (g.id in picks || !g.options.some(function (o) { return o.look; })) return;
+          // Answers marked morph: true (a dark morph, say) are used only when the bird has no other usual answer;
+          // with no usual answer at all, a "sometimes" one fills in
+          for (var pass = 0; pass < 3 && !(g.id in picks); pass++)
+            for (var i = 0; i < g.options.length; i++) {
+              var o = g.options[i], fit = o.fits[id];
+              if (pass < 2 ? (fit === 'yes' && (pass || !o.morph)) : (fit === 'some' && !o.morph)) { picks[g.id] = i; break; }
+            }
+        });
+      });
+      state.picks = picks; state.showing = id; state.current = null; render();
+      document.getElementById('diagram').scrollIntoView({ block: 'center', behavior: 'smooth' });
+    }
     function startOver() {
-      state.picks = {}; state.current = null; render();
+      state.picks = {}; state.current = null; state.showing = null; state.saved = null; render();
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
     document.querySelectorAll('.clear').forEach(function (b) {

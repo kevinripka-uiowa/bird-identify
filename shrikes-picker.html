@@ -6,7 +6,7 @@
 <meta name="color-scheme" content="light">
 <title>Shrike Picker</title>
 <meta name="description" content="Tap parts of a perched or flying shrike, pick what you see, and get Loggerhead or Northern Shrike, for adults and young birds, with Iowa dates.">
-<link rel="stylesheet" href="picker.css?v=4">
+<link rel="stylesheet" href="picker.css?v=5">
 <style>
   .part[data-part="breast"] { fill: var(--bird-white); }
   .part[data-part="head"], .part[data-part="back"], .part[data-part="fback"], .part[data-part="fhead"], .part[data-part="rump"] { fill: var(--bird-a); }
@@ -153,7 +153,7 @@
   </svg>
 </template>
 
-<script src="picker.js?v=4"></script>
+<script src="picker.js?v=5"></script>
 <script>
 (function () {
   var SPECIES = [
@@ -271,6 +271,7 @@
   };
 
   Picker({
+    showBird: true,
     species: SPECIES,
     stages: [
       { id: 'adult', label: 'Adult', name: 'Adult', tab: 'adults',

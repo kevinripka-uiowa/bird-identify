@@ -6,14 +6,14 @@
 <meta name="color-scheme" content="light">
 <title>Fall Bay-breasted, Blackpoll, and Pine Warbler Picker</title>
 <meta name="description" content="Tap parts of a fall warbler, pick what you see, and sort Bay-breasted, Blackpoll and Pine.">
-<link rel="stylesheet" href="picker.css?v=4">
+<link rel="stylesheet" href="picker.css?v=5">
 <style>
   :root { --bird-leg: #6b7178;
           --c-black: #24282c; --c-dark: #3d4248; --c-white: #fbfbf9; --c-gray: #a9b0b6; --c-pale: #dfe3e6;
           --c-lemon: #ece27a; --c-byellow: #e8dc9e; --c-ywash: #efe8bd; --c-buff: #efe1bd; --c-buffbelly: #f4eedb;
           --c-graybrown: #bdb2a2; --c-yg: #b3c15a; --c-olive: #9da186; --c-pineolive: #a8ae7a; --c-cheek: #7d8063;
           --c-bay: #a5583a; --c-pink: #e7b2a4; --c-billyellow: #e3c55a; --c-legyellow: #e0b93a; --c-legdark: #43474d; }
-  .part[data-part="back"]      { fill: var(--bird-b); }
+  .part[data-part="back"], .part[data-part="nape"] { fill: var(--bird-b); }
   .part[data-part="head"]      { fill: var(--bird-b); }
   .part[data-part="wing"]      { fill: var(--bird-a); }
   .part[data-part="tertials"]  { fill: var(--bird-a); }
@@ -94,6 +94,7 @@
     <path class="part" data-part="primaries" d="M330,134 L404,166 L398,174 L324,150 Z"/>
     <!-- head -->
     <path class="part" data-part="sides" d="M126,100 C126,128 148,152 186,160 L204,120 C186,110 166,100 152,92 Z"/>
+    <path class="part" data-part="nape" d="M150,62 C170,62 186,72 198,86 C208,98 222,106 242,107 L204,126 C186,114 168,106 150,98 Z"/>
     <circle class="part" data-part="head" cx="150" cy="92" r="30"/>
     <ellipse class="part" data-part="ear" cx="158" cy="102" rx="13" ry="9"/>
     <path class="part" data-part="bill" d="M124,88 L96,95 L124,101 Z"/>
@@ -122,7 +123,7 @@
 </svg>
 </template>
 
-<script src="picker.js?v=4"></script>
+<script src="picker.js?v=5"></script>
 <script>
 (function () {
   var SPECIES = [
@@ -130,7 +131,7 @@
     { id: 'bp', name: 'Blackpoll' },
     { id: 'pi', name: 'Pine', rare: 'Rare migrant' }
   ];
-  var PART_TO_Q = { legs: 'legs', feet: 'legs', back: 'back', tail: 'tail', undertail: 'undertail', flanks: 'flanks',
+  var PART_TO_Q = { legs: 'legs', feet: 'legs', back: 'back', nape: 'back', tail: 'tail', undertail: 'undertail', flanks: 'flanks',
                     sides: 'breast', belly: 'breast', face: 'face', head: 'face', ear: 'face', bill: 'bill',
                     wing: 'wingbars', wingbars: 'wingbars', tertials: 'wingbars', primaries: 'wingtip' };
   var Q_ORDER = ['legs', 'back', 'tail', 'flanks', 'undertail', 'breast', 'face', 'bill', 'wingbars', 'wingtip', 'date'];
@@ -214,9 +215,9 @@
     'Dark legs and dark feet (soles seen)': legs('legdark', 'legdark'),
     'Dark legs; couldn’t see the soles': legs('legdark', { stroke: C('legdark'), opacity: '.3' }),
     'Streaked': { backstreaks: true },
-    'Plain, unstreaked': { back: C('pineolive') },
-    'Bright yellow-green, with a pale buffy patch on the side of the neck': { back: C('yg'), neckpatch: true },
-    'Grayer olive': { back: C('olive') },
+    'Plain, unstreaked': { back: C('pineolive'), nape: C('pineolive'), head: C('pineolive'), ear: C('pineolive') },
+    'Bright yellow-green, with a pale buffy patch on the side of the neck': { back: C('yg'), nape: C('yg'), head: C('yg'), ear: C('yg'), neckpatch: true },
+    'Grayer olive': { back: C('olive'), nape: C('olive'), head: C('olive'), ear: C('olive') },
     'Short, stubby tail past long coverts': { tail: grow(.75, '0% 50%'), undertail: grow(1.25, '0% 50%') },
     'Long tail past short coverts': { tail: grow(1.1, '0% 50%'), undertail: grow(.7, '0% 50%') },
     'Bay, chestnut or warm brown wash': { flanks: C('bay') },
@@ -248,6 +249,7 @@
   });
 
   Picker({
+    showBird: true,
     species: SPECIES,
     stages: null,
     partToQ: PART_TO_Q, qOrder: Q_ORDER, qNames: Q_NAMES,

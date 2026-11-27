@@ -63,7 +63,7 @@
   .diagram svg { display: block; width: 100%; height: auto; max-height: 340px; }
   .diagram figcaption { font-size: 14px; color: var(--muted); padding: 4px 4px 0; }
   .part { fill: var(--bird-c); stroke: var(--bird-line); stroke-width: 1.5; }
-  .part[data-part="back"]      { fill: var(--bird-b); }
+  .part[data-part="back"], .part[data-part="nape"] { fill: var(--bird-b); }
   .part[data-part="head"]      { fill: var(--bird-b); }
   .part[data-part="wing"]      { fill: var(--bird-a); }
   .part[data-part="tertials"]  { fill: var(--bird-a); }
@@ -194,6 +194,7 @@
     <path class="part" data-part="primaries" d="M330,134 L404,166 L398,174 L324,150 Z"/>
     <!-- head -->
     <path class="part" data-part="sides" d="M126,100 C126,128 148,152 186,160 L204,120 C186,110 166,100 152,92 Z"/>
+    <path class="part" data-part="nape" d="M150,62 C170,62 186,72 198,86 C208,98 222,106 242,107 L204,126 C186,114 168,106 150,98 Z"/>
     <circle class="part" data-part="head" cx="150" cy="92" r="30"/>
     <ellipse class="part" data-part="ear" cx="158" cy="102" rx="13" ry="9"/>
     <path class="part" data-part="bill" d="M124,88 L96,95 L124,101 Z"/>

@@ -133,6 +133,14 @@
   .seg { flex-wrap: wrap; }
   .seg button { min-width: 0; }
   .res a { color: inherit; font-size: 13px; }
+  .show-bird { display: block; font: inherit; font-size: 13px; font-weight: 700; color: var(--hi-ink); background: var(--hi-soft);
+               border: 1px solid var(--hi-line); border-radius: 999px; padding: 4px 12px; margin: 8px 0 4px; cursor: pointer; }
+  .res li.showing { box-shadow: 0 0 0 2px var(--hi-line); }
+  .res.showing-mode li.out { opacity: 1; }   /* showing one bird: keep the others at full strength */
+  .res li.showing .show-bird { background: var(--hi); cursor: default; }
+  .showing-note { flex-basis: 100%; margin: 0 0 4px; font-size: 14px; color: var(--muted); }
+  .back-picks { font: inherit; font-size: 13px; font-weight: 700; color: var(--accent); background: none; border: 0;
+                text-decoration: underline; cursor: pointer; padding: 2px 0 2px 8px; }
 
   /* Phone */
   .bar { display: none; }

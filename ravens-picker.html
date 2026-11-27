@@ -6,7 +6,7 @@
 <meta name="color-scheme" content="light">
 <title>Raven Picker</title>
 <meta name="description" content="Tap parts of a perched or flying raven, pick what you see, and get Chihuahuan Raven, Common Raven or American Crow, for Texas.">
-<link rel="stylesheet" href="picker.css?v=4">
+<link rel="stylesheet" href="picker.css?v=5">
 <style>
   :root { --c-black: #2b2e33; --c-white: #fbfbf9; --c-bristle: #858c94; --c-hackle: #b4bac0; --c-gray: #8e959d; }
   /* Black birds: dark parts with light outlines so the shapes still read */
@@ -128,7 +128,7 @@
   </svg>
 </template>
 
-<script src="picker.js?v=4"></script>
+<script src="picker.js?v=5"></script>
 <script>
 (function () {
   var SPECIES = [
@@ -206,6 +206,7 @@
   };
 
   Picker({
+    showBird: true,
     species: SPECIES,
     stages: null,
     // Close-up for each answer button: a square of the diagram around that part

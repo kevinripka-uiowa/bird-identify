@@ -6,7 +6,7 @@
 <meta name="color-scheme" content="light">
 <title>Gull Picker</title>
 <meta name="description" content="Tap parts of a gull, pick what you see, and get a ranked list of Iowa's white-headed gulls.">
-<link rel="stylesheet" href="picker.css?v=4">
+<link rel="stylesheet" href="picker.css?v=5">
 <style>
   .part[data-part="mantle"] { fill: var(--bird-b); }
   .part[data-part="coverts"] { fill: var(--bird-c); }
@@ -144,7 +144,7 @@
   </svg>
 </template>
 
-<script src="picker.js?v=4"></script>
+<script src="picker.js?v=5"></script>
 <script>
 (function () {
   // ---------- Species ----------
@@ -405,6 +405,7 @@
 
 
   Picker({
+    showBird: true,
     species: SPECIES,
     stages: [
       { id: 'first',  label: '1st cycle', name: '1st cycle', tab: 'first', look: STAGE_LOOK.first },

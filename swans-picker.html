@@ -6,7 +6,7 @@
 <meta name="color-scheme" content="light">
 <title>Swan Picker</title>
 <meta name="description" content="Tap parts of a white swan, pick what you see, and get Trumpeter or Tundra Swan, for adults and young birds.">
-<link rel="stylesheet" href="picker.css?v=4">
+<link rel="stylesheet" href="picker.css?v=5">
 <style>
   .part[data-part="body"], .part[data-part="neck"], .part[data-part="head"], .part[data-part="fhead"], .part[data-part="fneck"] { fill: var(--bird-c); }
   .part[data-part="wing"] { fill: var(--bird-b); }
@@ -147,7 +147,7 @@
   </svg>
 </template>
 
-<script src="picker.js?v=4"></script>
+<script src="picker.js?v=5"></script>
 <script>
 (function () {
   var SPECIES = [
@@ -257,6 +257,7 @@
   };
 
   Picker({
+    showBird: true,
     species: SPECIES,
     stages: [
       { id: 'adult', label: 'Adult', name: 'Adult', tab: 'adults',

@@ -6,7 +6,7 @@
 <meta name="color-scheme" content="light">
 <title>Buteos &amp; Harrier Picker</title>
 <meta name="description" content="Tap parts of a perched or flying hawk, pick what you see, and get a ranked list of Iowa’s buteos, including the Red-tailed forms, and Northern Harrier.">
-<link rel="stylesheet" href="picker.css?v=4">
+<link rel="stylesheet" href="picker.css?v=5">
 <style>
   .part[data-part="breast"], .part[data-part="belly"], .part[data-part="fbody"] { fill: var(--bird-white); }
   .part[data-part="back"]      { fill: var(--bird-a); }
@@ -14,6 +14,9 @@
   .part[data-part="head"], .part[data-part="fhead"] { fill: var(--bird-a); }
   .part[data-part="beak"]      { fill: var(--bird-d); }
   .part[data-part="tail"], .part[data-part="ftail"] { fill: var(--bird-b); }
+  svg [data-look="hwing"] { display: inline; }
+  svg [data-look^="hwing"] { stroke-width: 1.5; }
+  svg [data-look^="hwing"] .part { pointer-events: auto; }
   .part[data-part="flight"]    { fill: var(--bird-c); }
   .part[data-part="underwing"] { fill: var(--bird-white); }
   .part.leg-line { stroke: #d9b54a; }
@@ -88,6 +91,12 @@
 
 <template id="bird-svg">
   <svg viewBox="0 0 600 360" role="img" aria-label="Diagram: tap a part">
+    <defs>
+      <clipPath id="hw-std"><path d="M413,98 C387,94 362,92 340,92 C316,92 322,94 292,101.6 A5.5,5.5 0 0 0 284.8,107.7 L298.1,119.7 L277.6,103.6 A6.7,6.7 0 0 0 271.6,113.9 L288.3,120.8 L267.3,114.1 A7.3,7.3 0 0 0 265,127.1 L287,128 L269,128.8 A6.7,6.7 0 0 0 271.1,140.6 L295.9,132.4 L279.2,139.2 A5.5,5.5 0 0 0 283.9,147.3 C324,190 382,184 413,174 Z"/></clipPath>
+      <clipPath id="hw-noh"><path d="M413,102 C387,98 368,96 346,96 C322,96 324,98 279.7,108.5 A2.7,2.7 0 0 0 277.2,111.8 L289.5,118.7 L269.7,108.6 A3.7,3.7 0 0 0 267.6,114.4 L281.2,117.7 L263.5,114.4 A4.2,4.2 0 0 0 263,121.5 L281,120.8 L267.1,122.2 A3.7,3.7 0 0 0 268.4,128.2 L289.3,121 L276.2,126 A2.7,2.7 0 0 0 278.2,129.7 C318,150 378,152 413,150 Z"/></clipPath>
+      <clipPath id="hw-swh"><path d="M413,98 C387,94 362,92 340,92 C316,92 318,96 271.6,106.3 A4,4 0 0 0 268.5,112.2 L284.3,118.5 L262.2,111 A4.7,4.7 0 0 0 260.4,119.1 L277.4,120.8 L260.4,120.2 A4.7,4.7 0 0 0 260.9,128.4 L283.9,124.2 L267.3,128.1 A4,4 0 0 0 269.6,134.4 C318,164 376,170 413,164 Z"/></clipPath>
+      <clipPath id="hw-bwh"><path d="M413,100 C387,96 376,94 354,94 C330,94 340,98 311.7,106.6 A4.2,4.2 0 0 0 307,111.8 L318.5,119.8 L301.1,109.2 A5.1,5.1 0 0 0 297.6,117.2 L310.9,121.4 L297.2,118.4 A5.1,5.1 0 0 0 296.3,127.1 L316.7,126.6 L302.7,127.8 A4.2,4.2 0 0 0 304.2,134.6 C346,170 386,170 413,166 Z"/></clipPath>
+    </defs>
     <!-- PERCHED, side view facing left -->
     <path d="M40,268 L250,262" style="stroke:var(--muted);stroke-width:6;stroke-linecap:round;fill:none;opacity:.5"/>
     <path class="part" data-part="tail" d="M150,226 L186,226 L210,334 L174,340 Z"/>
@@ -105,14 +114,98 @@
     <!-- FLYING, seen from below -->
     <g class="fly">
       <path class="part" data-part="ftail" d="M420,178 L440,178 L456,246 L404,246 Z"/>
-      <g>
-        <path class="part" data-part="flight" d="M412,102 C380,92 330,90 292,96 L262,106 C274,132 326,160 412,160 Z"/>
-        <path class="part" data-part="underwing" d="M412,102 C380,92 330,90 292,96 L302,116 C330,126 370,132 412,134 Z"/>
+      <!-- Buteo (default): broad wings, bulging secondaries, rounded hand with 5 fingers -->
+      <g data-look="hwing">
+        <path class="part" data-part="flight" d="M413,98 C387,94 362,92 340,92 C316,92 322,94 292,101.6 A5.5,5.5 0 0 0 284.8,107.7 L298.1,119.7 L277.6,103.6 A6.7,6.7 0 0 0 271.6,113.9 L288.3,120.8 L267.3,114.1 A7.3,7.3 0 0 0 265,127.1 L287,128 L269,128.8 A6.7,6.7 0 0 0 271.1,140.6 L295.9,132.4 L279.2,139.2 A5.5,5.5 0 0 0 283.9,147.3 C324,190 382,184 413,174 Z"/>
+        <path class="part" data-part="underwing" d="M413,98 C387,94 362,92 340,92 C320,93 326,104 318,110 C346,124 388,130 413,134 Z"/>
+        <g clip-path="url(#hw-std)">
+          <path data-look="tips" class="no-stroke" d="M286.8,69.7 A62,62 0 0 0 268.1,175.5 L295.1,143.3 A20,20 0 0 1 301.2,109.2 Z" style="fill:var(--c-dark)"/>
+          <path data-look="trailing" d="M283.9,147.3 C324,190 382,184 413,174" style="fill:none;stroke:var(--c-dark);stroke-width:10"/>
+          <path data-look="patagial" d="M413,98 C387,94 362,92 340,92" style="fill:none;stroke:var(--c-dark);stroke-width:13"/>
+        </g>
+        <ellipse data-look="carpal" class="no-stroke" cx="336" cy="104" rx="11" ry="7" style="fill:var(--c-dark)"/>
+        <path data-look="window" d="M294.1,120 A16,16 0 0 0 294.1,136" style="fill:none;stroke:var(--c-white);stroke-width:6;stroke-linecap:round"/>
       </g>
-      <g transform="translate(860 0) scale(-1 1)">
-        <path class="part" data-part="flight" d="M412,102 C380,92 330,90 292,96 L262,106 C274,132 326,160 412,160 Z"/>
-        <path class="part" data-part="underwing" d="M412,102 C380,92 330,90 292,96 L302,116 C330,126 370,132 412,134 Z"/>
+      <g transform="translate(860 0) scale(-1 1)"><g data-look="hwing">
+        <path class="part" data-part="flight" d="M413,98 C387,94 362,92 340,92 C316,92 322,94 292,101.6 A5.5,5.5 0 0 0 284.8,107.7 L298.1,119.7 L277.6,103.6 A6.7,6.7 0 0 0 271.6,113.9 L288.3,120.8 L267.3,114.1 A7.3,7.3 0 0 0 265,127.1 L287,128 L269,128.8 A6.7,6.7 0 0 0 271.1,140.6 L295.9,132.4 L279.2,139.2 A5.5,5.5 0 0 0 283.9,147.3 C324,190 382,184 413,174 Z"/>
+        <path class="part" data-part="underwing" d="M413,98 C387,94 362,92 340,92 C320,93 326,104 318,110 C346,124 388,130 413,134 Z"/>
+        <g clip-path="url(#hw-std)">
+          <path data-look="tips" class="no-stroke" d="M286.8,69.7 A62,62 0 0 0 268.1,175.5 L295.1,143.3 A20,20 0 0 1 301.2,109.2 Z" style="fill:var(--c-dark)"/>
+          <path data-look="trailing" d="M283.9,147.3 C324,190 382,184 413,174" style="fill:none;stroke:var(--c-dark);stroke-width:10"/>
+          <path data-look="patagial" d="M413,98 C387,94 362,92 340,92" style="fill:none;stroke:var(--c-dark);stroke-width:13"/>
+        </g>
+        <ellipse data-look="carpal" class="no-stroke" cx="336" cy="104" rx="11" ry="7" style="fill:var(--c-dark)"/>
+        <path data-look="window" d="M294.1,120 A16,16 0 0 0 294.1,136" style="fill:none;stroke:var(--c-white);stroke-width:6;stroke-linecap:round"/>
+      </g></g>
+      <!-- Northern Harrier: long, narrow wings -->
+      <g data-look="hwing-noh">
+        <path class="part" data-part="flight" d="M413,102 C387,98 368,96 346,96 C322,96 324,98 279.7,108.5 A2.7,2.7 0 0 0 277.2,111.8 L289.5,118.7 L269.7,108.6 A3.7,3.7 0 0 0 267.6,114.4 L281.2,117.7 L263.5,114.4 A4.2,4.2 0 0 0 263,121.5 L281,120.8 L267.1,122.2 A3.7,3.7 0 0 0 268.4,128.2 L289.3,121 L276.2,126 A2.7,2.7 0 0 0 278.2,129.7 C318,150 378,152 413,150 Z"/>
+        <path class="part" data-part="underwing" d="M413,102 C387,98 368,96 346,96 C326,97 314,102 306,108 C336,118 386,124 413,124 Z"/>
+        <g clip-path="url(#hw-noh)">
+          <path data-look="tips" class="no-stroke" d="M262.4,82.2 A48,48 0 0 0 257.5,153.3 L284.8,126.9 A10,10 0 0 1 285.8,112.1 Z" style="fill:var(--c-dark)"/>
+          <path data-look="trailing" d="M278.2,129.7 C318,150 378,152 413,150" style="fill:none;stroke:var(--c-dark);stroke-width:10"/>
+          <path data-look="patagial" d="M413,102 C387,98 368,96 346,96" style="fill:none;stroke:var(--c-dark);stroke-width:13"/>
+        </g>
+        <ellipse data-look="carpal" class="no-stroke" cx="342" cy="108" rx="11" ry="7" style="fill:var(--c-dark)"/>
+        <path data-look="window" d="M286.4,117.9 A6,6 0 0 0 286.7,122.8" style="fill:none;stroke:var(--c-white);stroke-width:6;stroke-linecap:round"/>
       </g>
+      <g transform="translate(860 0) scale(-1 1)"><g data-look="hwing-noh">
+        <path class="part" data-part="flight" d="M413,102 C387,98 368,96 346,96 C322,96 324,98 279.7,108.5 A2.7,2.7 0 0 0 277.2,111.8 L289.5,118.7 L269.7,108.6 A3.7,3.7 0 0 0 267.6,114.4 L281.2,117.7 L263.5,114.4 A4.2,4.2 0 0 0 263,121.5 L281,120.8 L267.1,122.2 A3.7,3.7 0 0 0 268.4,128.2 L289.3,121 L276.2,126 A2.7,2.7 0 0 0 278.2,129.7 C318,150 378,152 413,150 Z"/>
+        <path class="part" data-part="underwing" d="M413,102 C387,98 368,96 346,96 C326,97 314,102 306,108 C336,118 386,124 413,124 Z"/>
+        <g clip-path="url(#hw-noh)">
+          <path data-look="tips" class="no-stroke" d="M262.4,82.2 A48,48 0 0 0 257.5,153.3 L284.8,126.9 A10,10 0 0 1 285.8,112.1 Z" style="fill:var(--c-dark)"/>
+          <path data-look="trailing" d="M278.2,129.7 C318,150 378,152 413,150" style="fill:none;stroke:var(--c-dark);stroke-width:10"/>
+          <path data-look="patagial" d="M413,102 C387,98 368,96 346,96" style="fill:none;stroke:var(--c-dark);stroke-width:13"/>
+        </g>
+        <ellipse data-look="carpal" class="no-stroke" cx="342" cy="108" rx="11" ry="7" style="fill:var(--c-dark)"/>
+        <path data-look="window" d="M286.4,117.9 A6,6 0 0 0 286.7,122.8" style="fill:none;stroke:var(--c-white);stroke-width:6;stroke-linecap:round"/>
+      </g></g>
+      <!-- Swainson’s: long, narrow, pointed wings -->
+      <g data-look="hwing-swh">
+        <path class="part" data-part="flight" d="M413,98 C387,94 362,92 340,92 C316,92 318,96 271.6,106.3 A4,4 0 0 0 268.5,112.2 L284.3,118.5 L262.2,111 A4.7,4.7 0 0 0 260.4,119.1 L277.4,120.8 L260.4,120.2 A4.7,4.7 0 0 0 260.9,128.4 L283.9,124.2 L267.3,128.1 A4,4 0 0 0 269.6,134.4 C318,164 376,170 413,164 Z"/>
+        <path class="part" data-part="underwing" d="M413,98 C387,94 362,92 340,92 C320,93 314,104 306,110 C338,122 386,128 413,129 Z"/>
+        <g clip-path="url(#hw-swh)">
+          <path data-look="tips" class="no-stroke" d="M255.2,84.5 A54,54 0 0 0 250.3,153.7 L283.5,129.6 A13,13 0 0 1 284.6,113 Z" style="fill:var(--c-dark)"/>
+          <path data-look="trailing" d="M269.6,134.4 C318,164 376,170 413,164" style="fill:none;stroke:var(--c-dark);stroke-width:10"/>
+          <path data-look="patagial" d="M413,98 C387,94 362,92 340,92" style="fill:none;stroke:var(--c-dark);stroke-width:13"/>
+        </g>
+        <ellipse data-look="carpal" class="no-stroke" cx="336" cy="104" rx="11" ry="7" style="fill:var(--c-dark)"/>
+        <path data-look="window" d="M285.2,120.1 A9,9 0 0 0 285.5,125.1" style="fill:none;stroke:var(--c-white);stroke-width:6;stroke-linecap:round"/>
+      </g>
+      <g transform="translate(860 0) scale(-1 1)"><g data-look="hwing-swh">
+        <path class="part" data-part="flight" d="M413,98 C387,94 362,92 340,92 C316,92 318,96 271.6,106.3 A4,4 0 0 0 268.5,112.2 L284.3,118.5 L262.2,111 A4.7,4.7 0 0 0 260.4,119.1 L277.4,120.8 L260.4,120.2 A4.7,4.7 0 0 0 260.9,128.4 L283.9,124.2 L267.3,128.1 A4,4 0 0 0 269.6,134.4 C318,164 376,170 413,164 Z"/>
+        <path class="part" data-part="underwing" d="M413,98 C387,94 362,92 340,92 C320,93 314,104 306,110 C338,122 386,128 413,129 Z"/>
+        <g clip-path="url(#hw-swh)">
+          <path data-look="tips" class="no-stroke" d="M255.2,84.5 A54,54 0 0 0 250.3,153.7 L283.5,129.6 A13,13 0 0 1 284.6,113 Z" style="fill:var(--c-dark)"/>
+          <path data-look="trailing" d="M269.6,134.4 C318,164 376,170 413,164" style="fill:none;stroke:var(--c-dark);stroke-width:10"/>
+          <path data-look="patagial" d="M413,98 C387,94 362,92 340,92" style="fill:none;stroke:var(--c-dark);stroke-width:13"/>
+        </g>
+        <ellipse data-look="carpal" class="no-stroke" cx="336" cy="104" rx="11" ry="7" style="fill:var(--c-dark)"/>
+        <path data-look="window" d="M285.2,120.1 A9,9 0 0 0 285.5,125.1" style="fill:none;stroke:var(--c-white);stroke-width:6;stroke-linecap:round"/>
+      </g></g>
+      <!-- Broad-winged: small and stocky, pointed tips -->
+      <g data-look="hwing-bwh">
+        <path class="part" data-part="flight" d="M413,100 C387,96 376,94 354,94 C330,94 340,98 311.7,106.6 A4.2,4.2 0 0 0 307,111.8 L318.5,119.8 L301.1,109.2 A5.1,5.1 0 0 0 297.6,117.2 L310.9,121.4 L297.2,118.4 A5.1,5.1 0 0 0 296.3,127.1 L316.7,126.6 L302.7,127.8 A4.2,4.2 0 0 0 304.2,134.6 C346,170 386,170 413,166 Z"/>
+        <path class="part" data-part="underwing" d="M413,100 C387,96 376,94 354,94 C334,95 344,106 336,112 C360,122 394,128 413,131 Z"/>
+        <g clip-path="url(#hw-bwh)">
+          <path data-look="tips" class="no-stroke" d="M302,81 A52,52 0 0 0 283,152 L315.9,133 A14,14 0 0 1 321,113.9 Z" style="fill:var(--c-dark)"/>
+          <path data-look="trailing" d="M304.2,134.6 C346,170 386,170 413,166" style="fill:none;stroke:var(--c-dark);stroke-width:10"/>
+          <path data-look="patagial" d="M413,100 C387,96 376,94 354,94" style="fill:none;stroke:var(--c-dark);stroke-width:13"/>
+        </g>
+        <ellipse data-look="carpal" class="no-stroke" cx="350" cy="106" rx="11" ry="7" style="fill:var(--c-dark)"/>
+        <path data-look="window" d="M318.9,121.9 A10,10 0 0 0 318.2,128.1" style="fill:none;stroke:var(--c-white);stroke-width:6;stroke-linecap:round"/>
+      </g>
+      <g transform="translate(860 0) scale(-1 1)"><g data-look="hwing-bwh">
+        <path class="part" data-part="flight" d="M413,100 C387,96 376,94 354,94 C330,94 340,98 311.7,106.6 A4.2,4.2 0 0 0 307,111.8 L318.5,119.8 L301.1,109.2 A5.1,5.1 0 0 0 297.6,117.2 L310.9,121.4 L297.2,118.4 A5.1,5.1 0 0 0 296.3,127.1 L316.7,126.6 L302.7,127.8 A4.2,4.2 0 0 0 304.2,134.6 C346,170 386,170 413,166 Z"/>
+        <path class="part" data-part="underwing" d="M413,100 C387,96 376,94 354,94 C334,95 344,106 336,112 C360,122 394,128 413,131 Z"/>
+        <g clip-path="url(#hw-bwh)">
+          <path data-look="tips" class="no-stroke" d="M302,81 A52,52 0 0 0 283,152 L315.9,133 A14,14 0 0 1 321,113.9 Z" style="fill:var(--c-dark)"/>
+          <path data-look="trailing" d="M304.2,134.6 C346,170 386,170 413,166" style="fill:none;stroke:var(--c-dark);stroke-width:10"/>
+          <path data-look="patagial" d="M413,100 C387,96 376,94 354,94" style="fill:none;stroke:var(--c-dark);stroke-width:13"/>
+        </g>
+        <ellipse data-look="carpal" class="no-stroke" cx="350" cy="106" rx="11" ry="7" style="fill:var(--c-dark)"/>
+        <path data-look="window" d="M318.9,121.9 A10,10 0 0 0 318.2,128.1" style="fill:none;stroke:var(--c-white);stroke-width:6;stroke-linecap:round"/>
+      </g></g>
       <ellipse class="part" data-part="fbody" cx="430" cy="128" rx="19" ry="54"/>
       <circle class="part" data-part="fhead" cx="430" cy="70" r="15"/>
     </g>
@@ -154,18 +247,6 @@
       <rect x="114" y="236" width="12" height="26" rx="4"/><rect x="141" y="236" width="12" height="25" rx="4"/>
     </g>
     <g class="fly-ov">
-      <path data-look="patagial" class="no-stroke" d="M412,103 C384,95 352,93 326,95 L330,104 C358,103 388,106 412,111 Z" style="fill:var(--c-dark)"/>
-      <ellipse data-look="carpal" class="no-stroke" cx="304" cy="106" rx="13" ry="8" style="fill:var(--c-dark)"/>
-      <path data-look="tips" class="no-stroke" d="M292,96 L262,106 C268,118 278,126 290,132 C292,120 294,108 292,96 Z" style="fill:var(--c-dark)"/>
-      <path data-look="trailing" d="M262,106 C274,132 326,160 412,160" style="fill:none;stroke:var(--c-dark);stroke-width:5"/>
-      <path data-look="window" d="M300,116 C304,126 310,134 318,140" style="fill:none;stroke:var(--c-white);stroke-width:6;stroke-linecap:round"/>
-      <g transform="translate(860 0) scale(-1 1)">
-      <path data-look="patagial" class="no-stroke" d="M412,103 C384,95 352,93 326,95 L330,104 C358,103 388,106 412,111 Z" style="fill:var(--c-dark)"/>
-      <ellipse data-look="carpal" class="no-stroke" cx="304" cy="106" rx="13" ry="8" style="fill:var(--c-dark)"/>
-      <path data-look="tips" class="no-stroke" d="M292,96 L262,106 C268,118 278,126 290,132 C292,120 294,108 292,96 Z" style="fill:var(--c-dark)"/>
-      <path data-look="trailing" d="M262,106 C274,132 326,160 412,160" style="fill:none;stroke:var(--c-dark);stroke-width:5"/>
-      <path data-look="window" d="M300,116 C304,126 310,134 318,140" style="fill:none;stroke:var(--c-white);stroke-width:6;stroke-linecap:round"/>
-      </g>
       <g data-look="fbellyband" class="no-stroke" style="fill:var(--c-dark)"><ellipse cx="420" cy="140" rx="6" ry="9"/><ellipse cx="430" cy="143" rx="6" ry="9"/><ellipse cx="440" cy="140" rx="6" ry="9"/></g>
       <g data-look="fbib" class="no-stroke" style="fill:var(--c-brown)"><path d="M412,96 C414,84 446,84 448,96 C449,108 446,116 430,118 C414,116 411,108 412,96 Z"/></g>
       <g data-look="fbands-thin" style="fill:none;stroke:var(--c-dark);stroke-width:2">
@@ -193,16 +274,13 @@
   </svg>
 </template>
 
-<script src="picker.js?v=4"></script>
+<script src="picker.js?v=5"></script>
 <script>
 (function () {
   function C(n) { return 'var(--c-' + n + ')'; }
   function mix() { var o = {}; for (var i = 0; i < arguments.length; i++) for (var k in arguments[i]) o[k] = arguments[i][k]; return o; }
-  // Wing reshaping: scale both wings from the body
-  function wingT(t) {
-    var s = { transformBox: 'view-box', transformOrigin: '412px 128px', transform: t };
-    return { flight: s, underwing: s, tips: s, patagial: s, carpal: s, trailing: s, window: s };
-  }
+  // Each wing shape is its own drawing (hwing = buteo, hwing-noh, hwing-swh, hwing-bwh); a shape answer swaps them
+  function wingShape(k) { var o = { hwing: { display: 'none' } }; o['hwing-' + k] = true; return o; }
   function tails(fly, perch) {
     return { ftail: { transform: 'scaleY(' + fly + ')', transformOrigin: '50% 0' },
              tail: { transform: 'scaleY(' + perch + ')', transformOrigin: '50% 0' } };
@@ -237,11 +315,11 @@
   // ---------- Any age ----------
   var SHAPE = [
     { id: 'sil', title: 'Shape in flight', help: 'Short, rounded wings and a long, narrow tail? That’s an accipiter: use the Accipiter Picker.', options: [
-      { label: 'Broad wings and a short, fanned tail (a buteo)', fits: RT + ' rsh bwh swh rlh fh', look: {} },
       { label: 'Long, narrow wings and a long tail, flying low', fits: 'noh',
-        look: mix(wingT('scale(1.05, .78)'), tails(1.4, 1.07)) },
-      { label: 'Long, narrow, pointed wings', fits: 'swh ~rlh ~fh', look: wingT('scale(1.1, .85)') },
-      { label: 'Small and stocky, with pointed wingtips', fits: 'bwh', look: wingT('scaleX(.82)') }
+        look: mix(wingShape('noh'), tails(1.4, 1.07)) },
+      { label: 'Long, narrow, pointed wings', fits: 'swh ~rlh ~fh', look: wingShape('swh') },
+      { label: 'Small and stocky, with pointed wingtips', fits: 'bwh', look: wingShape('bwh') },
+      { label: 'Broad wings and a short, fanned tail (a buteo)', fits: RT + ' rsh bwh swh rlh fh', look: {} }
     ]},
     { id: 'style', title: 'How it flies', options: [
       { label: 'Hovers in place over open fields for long spells', fits: 'rlh ~rte ~rtn ~rtk ~rtw ~rth ~swh ~fh' },
@@ -294,9 +372,9 @@
     underwing: [PATAGIAL, CARPAL,
       { id: 'tone', title: 'Wing linings vs. flight feathers', options: [
         { label: 'White linings, dark gray flight feathers (two-toned)', fits: 'swh', look: { underwing: C('white'), flight: C('dflight') } },
-        { label: 'Dark linings, pale silvery flight feathers (dark birds)', fits: 'rtw rth rlh fh ~bwh ~swh', look: { underwing: C('dark'), flight: C('flight') } },
+        { label: 'Dark linings, pale silvery flight feathers (dark birds)', morph: true, fits: 'rtw rth rlh fh ~bwh ~swh', look: { underwing: C('dark'), flight: C('flight') } },
         { label: 'Rufous linings', fits: 'rsh ~rtw ~fh ~swh', look: { underwing: C('rufous'), flight: C('flight') } },
-        { label: 'Pale all over', fits: 'rte rtn rtk bwh rlh fh noh', look: { underwing: C('white'), flight: C('flight') } }
+        { label: 'Pale all over', fits: 'rte rtn rtk rtw bwh rlh fh noh', look: { underwing: C('white'), flight: C('flight') } }
       ]},
       { id: 'trail', title: 'Rear edge of the wing', options: [
         { label: 'Bold black rear edge and wingtips', fits: 'bwh rte rtn rtw rth rlh ~noh ~swh', look: { trailing: true, tips: true } },
@@ -327,7 +405,7 @@
       { id: 'color', title: 'Overall color below', help: 'Several hawks have dark and rufous morphs as well as light ones.', options: [
         { label: 'Light: white to buff', fits: 'rte rtn rtk rtw rlh fh swh noh ~rth ~bwh', look: body('pale') },
         { label: 'Rufous or orange-barred', fits: 'rsh bwh ~rtw ~swh ~fh', look: body('pink') },
-        { label: 'Dark brown to blackish all over (dark morph)', fits: 'rtw rth swh rlh fh ~bwh',
+        { label: 'Dark brown to blackish all over (dark morph)', morph: true, fits: 'rtw rth swh rlh fh ~bwh',
           look: mix(body('dark'), { head: C('dark'), fhead: C('dark') }) },
       ]},
       { id: 'pattern', title: 'Pattern below', options: [
@@ -367,9 +445,9 @@
     underwing: [PATAGIAL, CARPAL,
       { id: 'tone', title: 'Wing linings vs. flight feathers', options: [
         { label: 'Pale linings, darker flight feathers', fits: 'swh noh', look: { underwing: C('pale'), flight: C('dflight') } },
-        { label: 'Dark linings, paler flight feathers (dark birds)', fits: 'rtw rth rlh fh ~swh ~bwh', look: { underwing: C('dark'), flight: C('flight') } },
+        { label: 'Dark linings, paler flight feathers (dark birds)', morph: true, fits: 'rtw rth rlh fh ~swh ~bwh', look: { underwing: C('dark'), flight: C('flight') } },
         { label: 'Buffy-rufous wash on the linings', fits: 'rsh ~swh', look: { underwing: C('buff'), flight: C('flight') } },
-        { label: 'Pale all over', fits: 'rte rtn rtk bwh rlh fh', look: { underwing: C('white'), flight: C('flight') } }
+        { label: 'Pale all over', fits: 'rte rtn rtk rtw bwh rlh fh', look: { underwing: C('white'), flight: C('flight') } }
       ]},
       { id: 'window', title: 'Pale patches near the wingtips (best backlit)', options: [
         { label: 'Pale crescents (“commas”)', fits: 'rsh', look: { window: true } },
@@ -396,7 +474,7 @@
       { id: 'color', title: 'Overall color below', options: [
         { label: 'Whitish to buff', fits: 'rte rtn rtk rtw rsh bwh swh rlh fh ~rth', look: body('pale') },
         { label: 'Rich rufous-orange', fits: 'noh ~swh', look: body('buff') },
-        { label: 'Dark brown (dark morph)', fits: 'rtw rth swh rlh fh ~bwh', look: mix(body('dark'), { head: C('dark'), fhead: C('dark') }) }
+        { label: 'Dark brown (dark morph)', morph: true, fits: 'rtw rth swh rlh fh ~bwh', look: mix(body('dark'), { head: C('dark'), fhead: C('dark') }) }
       ]},
       { id: 'pattern', title: 'Pattern below', options: [
         { label: 'Streaky band across the belly', fits: 'rte rtn rtw ~rtk ~rth', look: { bellyband: true, fbellyband: true } },
@@ -437,6 +515,7 @@
   };
 
   Picker({
+    showBird: true,
     species: SPECIES,
     stages: [
       { id: 'any', label: 'Not sure', name: 'Any age',

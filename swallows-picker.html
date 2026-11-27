@@ -6,7 +6,7 @@
 <meta name="color-scheme" content="light">
 <title>Swallow Picker</title>
 <meta name="description" content="Tap the tail, throat, breast or rump of a flying or perched swallow, pick what you see, and get which of Iowa’s six swallows it is, for adults and juveniles.">
-<link rel="stylesheet" href="picker.css?v=4">
+<link rel="stylesheet" href="picker.css?v=5">
 <style>
   .part[data-part="fbelly"], .part[data-part="fbreast"], .part[data-part="fthroat"], .part[data-part="pbody"], .part[data-part="pthroat"] { fill: var(--bird-white); }
   .part[data-part="underwing"] { fill: var(--bird-c); }
@@ -136,7 +136,7 @@
   </svg>
 </template>
 
-<script src="picker.js?v=4"></script>
+<script src="picker.js?v=5"></script>
 <script>
 (function () {
   var SPECIES = [
@@ -307,6 +307,7 @@
   };
 
   Picker({
+    showBird: true,
     species: SPECIES,
     stages: [
       { id: 'adult', label: 'Adult', name: 'Adult', tab: 'adults',
