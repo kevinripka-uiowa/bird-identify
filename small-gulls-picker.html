@@ -6,7 +6,7 @@
 <meta name="color-scheme" content="light">
 <title>Small Gull Picker</title>
 <meta name="description" content="Tap parts of a small or hooded gull, pick what you see, and get a ranked list of Iowa’s small gulls.">
-<link rel="stylesheet" href="picker.css?v=2">
+<link rel="stylesheet" href="picker.css?v=3">
 <style>
   .part[data-part="upperwing"]     { fill: var(--bird-b); }
   .part[data-part="carpal"]        { fill: var(--bird-a); }
@@ -171,7 +171,7 @@
   </svg>
 </template>
 
-<script src="picker.js"></script>
+<script src="picker.js?v=2"></script>
 <script>
 (function () {
   var SPECIES = [
@@ -345,6 +345,9 @@
       { id: 'fall',   label: 'Adult, fall',   name: 'Adult, fall–winter',   tab: 'fall',   look: ADULT, hint: 'Clean gray inner wing, white tail, and no hood (except Sabine’s). In Iowa, usually August–November.' }
     ],
     defaultStage: 'first',
+    // Close-up for each answer button: a square of the diagram around that part
+    thumbs: { upperwing: '28 50 256 256', underwing: '316 50 256 256', head: '270 70 60 60', bill: '280 52 40 40', tail: '270 228 60 60',
+              body: '34 314 100 100' },
     partToQ: PART_TO_Q, qOrder: Q_ORDER, qNames: Q_NAMES,
     data: { first: FIRST, spring: SPRING, fall: FALL },
     ref: 'small-gulls.html',

@@ -6,9 +6,13 @@
 <meta name="color-scheme" content="light">
 <title>Fall Bay-breasted, Blackpoll, and Pine Warbler Picker</title>
 <meta name="description" content="Tap parts of a fall warbler, pick what you see, and sort Bay-breasted, Blackpoll and Pine.">
-<link rel="stylesheet" href="picker.css?v=2">
+<link rel="stylesheet" href="picker.css?v=3">
 <style>
-  :root { --bird-leg: #6b7178; }
+  :root { --bird-leg: #6b7178;
+          --c-black: #24282c; --c-dark: #3d4248; --c-white: #fbfbf9; --c-gray: #a9b0b6; --c-pale: #dfe3e6;
+          --c-lemon: #ece27a; --c-byellow: #e8dc9e; --c-ywash: #efe8bd; --c-buff: #efe1bd; --c-buffbelly: #f4eedb;
+          --c-graybrown: #bdb2a2; --c-yg: #b3c15a; --c-olive: #9da186; --c-pineolive: #a8ae7a; --c-cheek: #7d8063;
+          --c-bay: #a5583a; --c-pink: #e7b2a4; --c-billyellow: #e3c55a; --c-legyellow: #e0b93a; --c-legdark: #43474d; }
   .part[data-part="back"]      { fill: var(--bird-b); }
   .part[data-part="head"]      { fill: var(--bird-b); }
   .part[data-part="wing"]      { fill: var(--bird-a); }
@@ -96,6 +100,13 @@
     <path class="part stroke-only" data-part="face" d="M124,90 L160,88"/>
     <circle class="eye" cx="140" cy="89" r="3.6"/>
 
+    <!-- overlays: hidden until a pick shows them -->
+    <path data-look="backstreaks" d="M200,116 l9,3 M216,110 l10,3 M236,107 l10,3 M258,106 l10,3 M280,108 l10,3 M300,112 l10,3 M318,119 l8,3" style="fill:none;stroke:var(--c-dark);stroke-width:2.6;stroke-linecap:round"/>
+    <ellipse data-look="neckpatch" class="no-stroke" cx="184" cy="116" rx="12" ry="8" style="fill:var(--c-buff)"/>
+    <path data-look="bstreaks" d="M150,128 l-3,9 M164,134 l-3,9 M178,138 l-3,9 M156,146 l-3,9 M170,150 l-3,9 M186,150 l-3,9 M146,114 l-3,8" style="fill:none;stroke:var(--c-graybrown);stroke-width:2.4;stroke-linecap:round;opacity:.9"/>
+    <circle data-look="supra" class="no-stroke" cx="128" cy="82" r="4" style="fill:var(--c-lemon)"/>
+    <path data-look="billbase" class="no-stroke" d="M124,88 L112,91 L112,98 L124,101 Z"/>
+
     <!-- labels -->
     <g class="label" data-q="bill"><line x1="60" y1="120" x2="104" y2="97"/><text x="56" y="136" text-anchor="middle">Bill</text></g>
     <g class="label" data-q="face"><line x1="112" y1="40" x2="140" y2="86"/><text x="108" y="32" text-anchor="middle">Face</text></g>
@@ -111,7 +122,7 @@
 </svg>
 </template>
 
-<script src="picker.js"></script>
+<script src="picker.js?v=2"></script>
 <script>
 (function () {
   var SPECIES = [
@@ -192,11 +203,59 @@
     ]}]
   };
 
+  // ---------- Looks: repaint the bird, and a close-up on each answer button ----------
+  function C(n) { return 'var(--c-' + n + ')'; }
+  function L() { var o = {}; [].forEach.call(arguments, function (a) { Object.keys(a).forEach(function (k) { o[k] = a[k]; }); }); return o; }
+  function legs(leg, foot) { return { legs: { stroke: C(leg) }, feet: typeof foot === 'object' ? foot : { stroke: C(foot) } }; }
+  function grow(s, origin) { return { transform: 'scale(' + s + ')', transformOrigin: origin }; }
+  var LOOKS = {
+    'Yellow or yellow-orange legs': legs('legyellow', 'legyellow'),
+    'Dark legs with yellowish soles': legs('legdark', 'legyellow'),
+    'Dark legs and dark feet (soles seen)': legs('legdark', 'legdark'),
+    'Dark legs; couldn’t see the soles': legs('legdark', { stroke: C('legdark'), opacity: '.3' }),
+    'Streaked': { backstreaks: true },
+    'Plain, unstreaked': { back: C('pineolive') },
+    'Bright yellow-green, with a pale buffy patch on the side of the neck': { back: C('yg'), neckpatch: true },
+    'Grayer olive': { back: C('olive') },
+    'Short, stubby tail past long coverts': { tail: grow(.75, '0% 50%'), undertail: grow(1.25, '0% 50%') },
+    'Long tail past short coverts': { tail: grow(1.1, '0% 50%'), undertail: grow(.7, '0% 50%') },
+    'Bay, chestnut or warm brown wash': { flanks: C('bay') },
+    'Yellowish wash or plain': { flanks: C('ywash') },
+    'Buff, cream or yellowish': { undertail: C('buff') },
+    'Pure white': { undertail: C('white') },
+    'Fine, blurry streaks': { bstreaks: true },
+    'Clean, unstreaked': {},
+    'Lemon-yellow upper breast against a white belly': { sides: C('lemon'), belly: C('white') },
+    'Buffy-yellow, blending into the belly': { sides: C('byellow'), belly: C('buffbelly') },
+    'Gray-brown with little or no yellow': { sides: C('graybrown'), belly: C('white') },
+    'Thin, distinct eyeline through the eye': { face: { stroke: C('black'), strokeWidth: '3' } },
+    'Faint or short eyeline': { face: { stroke: C('gray'), transform: 'scale(.6, 1)', transformOrigin: '0% 50%' } },
+    'Bright spot above the lores; dark cheek against a pale throat; little eyeline behind the eye':
+      { face: { opacity: '.2' }, supra: true, ear: C('cheek'), sides: C('buffbelly') },
+    'Stout and thick': { bill: { fill: C('dark'), transform: 'scale(1.1, 1.5)', transformOrigin: '100% 50%' } },
+    'Small, with a pinkish base': { bill: { fill: C('dark'), transform: 'scale(.85)', transformOrigin: '100% 50%' }, billbase: C('pink') },
+    'Small, with a yellowish base': { bill: { fill: C('dark'), transform: 'scale(.85)', transformOrigin: '100% 50%' }, billbase: C('billyellow') },
+    'Thick white bars on very dark coverts': { wing: C('black'), tertials: C('black'), wingbars: { strokeWidth: '6' } },
+    'Thinner white bars, still high-contrast': { wing: C('dark'), tertials: C('dark'), wingbars: { strokeWidth: '3' } },
+    'White bars on gray: low contrast': { wing: C('gray'), tertials: C('gray'), wingbars: { stroke: C('pale'), strokeWidth: '3.5' } },
+    'Long': { primaries: grow(1.15, '0% 0%') },
+    'Shorter': { primaries: grow(.7, '0% 0%') }
+  };
+  Object.keys(ALL).forEach(function (q) {
+    if (Array.isArray(ALL[q])) ALL[q].forEach(function (g) { g.options.forEach(function (o) {
+      if (LOOKS[o.label]) o.look = LOOKS[o.label]; else if (q !== 'date') console.warn('No look for', o.label);
+    }); });
+  });
+
   Picker({
     species: SPECIES,
     stages: null,
     partToQ: PART_TO_Q, qOrder: Q_ORDER, qNames: Q_NAMES,
     data: { all: ALL },
+    // Close-up for each answer button: a square of the diagram around that part
+    thumbs: { legs: '286 186 76 76', backstreak: '244 82 80 80', backcolor: '244 82 80 80', tail: '380 120 130 130',
+              flanks: '272 128 120 120', utc: '376 150 66 66', streaks: '190 100 110 110', breastcolor: '190 100 110 110',
+              face: '170 58 72 72', bill: '156 76 48 48', wingbars: '275 85 110 110', wingtip: '350 96 120 120' },
     ref: 'fall-warblers.html'
   });
 })();

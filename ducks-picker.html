@@ -6,7 +6,7 @@
 <meta name="color-scheme" content="light">
 <title>Dusky Duck Picker</title>
 <meta name="description" content="Tap parts of a brown duck, pick what you see, and get a ranked list: Mottled, Mexican, American Black or female Mallard.">
-<link rel="stylesheet" href="picker.css?v=2">
+<link rel="stylesheet" href="picker.css?v=3">
 <style>
   .part[data-part="body"]        { fill: var(--bird-a); }
   .part[data-part="wing"]        { fill: var(--bird-b); }
@@ -147,7 +147,7 @@
   </svg>
 </template>
 
-<script src="picker.js"></script>
+<script src="picker.js?v=2"></script>
 <script>
 (function () {
   function C(n) { return 'var(--c-' + n + ')'; }
@@ -277,6 +277,9 @@
       { id: 'm', label: 'Male', qOrder: ['speculum', 'tail', 'where', 'head', 'body', 'bill', 'underwing', 'legs'], name: 'Male', hint: 'Bill yellow to olive. A brown male Mallard is in eclipse, about June–September.' }
     ],
     defaultStage: 'any',
+    // Close-up for each answer button: a square of the diagram around that part
+    thumbs: { bill: '24 56 76 76', gape: '62 76 46 46', face: '82 48 132 132', contrast: '40 30 260 260', speculum: '334 142 80 80',
+              tail: '440 132 96 96', body: '160 50 300 300', underwing: '430 0 124 124' },
     partToQ: PART_TO_Q, qOrder: Q_ORDER, qNames: Q_NAMES,
     data: { any: data('any'), f: data('f'), m: data('m') },
     ref: 'ducks.html'

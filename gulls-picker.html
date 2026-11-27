@@ -6,7 +6,7 @@
 <meta name="color-scheme" content="light">
 <title>Gull Picker</title>
 <meta name="description" content="Tap parts of a gull, pick what you see, and get a ranked list of Iowa's white-headed gulls.">
-<link rel="stylesheet" href="picker.css?v=2">
+<link rel="stylesheet" href="picker.css?v=3">
 <style>
   .part[data-part="mantle"] { fill: var(--bird-b); }
   .part[data-part="coverts"] { fill: var(--bird-c); }
@@ -144,7 +144,7 @@
   </svg>
 </template>
 
-<script src="picker.js"></script>
+<script src="picker.js?v=2"></script>
 <script>
 (function () {
   // ---------- Species ----------
@@ -415,6 +415,9 @@
     defaultStage: 'adult',
     partToQ: PART_TO_Q, qOrder: Q_ORDER, qNames: Q_NAMES,
     data: DATA,
+    // Close-up for each answer button: a square of the diagram around that part
+    thumbs: { back: '264 60 186 186', wingtip: '470 126 76 76', bill: '136 70 70 70', eye: '196 76 40 40',
+              orbital: '196 76 40 40', head: '186 60 92 92', legs: '301 200 70 70', tail: '280 400 40 40' },
     ref: 'gulls.html',
     stageRule: function (sp, stage) {
       return stage === 'third' && sp.cycles === 3 ? 'Adult by its 3rd cycle: try the Adult age' : null;

@@ -76,6 +76,10 @@
          background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 9px 12px; }
   .opt:hover { border-color: var(--hi-line); }
   .opt[aria-pressed="true"] { border-color: var(--hi-line); background: var(--hi-soft); box-shadow: 0 0 0 1px var(--hi-line) inset; font-weight: 600; }
+  .opt.has-thumb { display: grid; grid-template-columns: 64px minmax(0, 1fr); gap: 12px; align-items: center; padding: 6px 12px 6px 6px; }
+  .opt .thumb { width: 64px; height: 64px; border-radius: 8px; background: var(--bg); border: 1px solid var(--line); pointer-events: none; }
+  .thumb .part { cursor: default; transition: none; }
+  .thumb .part.dim { opacity: .3; }
   .flag { font-size: 12px; font-weight: 600; color: var(--some); background: var(--some-soft); border-radius: 999px; padding: 1px 7px; margin-left: 4px; }
   .unsure { display: inline-block; font-size: 11px; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; line-height: 1.5;
             color: #8a520c; background: #fbf1de; border: 1px dashed #d9a34a; border-radius: 999px; padding: 0 6px; margin-left: 6px;

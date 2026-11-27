@@ -6,9 +6,19 @@
 <meta name="color-scheme" content="light">
 <title>Oriole Picker</title>
 <meta name="description" content="Tap parts of an oriole, pick what you see, and sort the orioles of the contiguous US, including females and young birds.">
-<link rel="stylesheet" href="picker.css?v=2">
+<link rel="stylesheet" href="picker.css?v=3">
 <style>
   :root { --bird-leg: #6b7178; }
+  :root { --c-black: #24282c; --c-white: #fbfbf9; --c-orange: #ef8423; --c-yorange: #f4a83c; --c-yellow: #f1cd36;
+          --c-yellow2: #ecc548; --c-gyellow: #d6d065; --c-dyellow: #d9c860; --c-olive: #9b9a52; --c-yolive: #b9b14e;
+          --c-oliveb: #84784a; --c-gray: #a6aaac; --c-lgray: #cfd1cf; --c-ggreen: #a8ae88; --c-chest: #8d3a22;
+          --c-pale: #efeee6; --c-buff: #dcc48e; --c-dwing: #5e625e; --c-bgray: #7c858c; }
+  /* In close-ups the head pattern is the point, so the head and throat never fade */
+  .thumb .part.dim[data-part="head"], .thumb .part.dim[data-part="throat"], .thumb .part.dim[data-part="ear"] { opacity: 1; }
+  .part[data-part="cbody"] { fill: var(--bird-c); }
+  .part[data-part="chead"] { fill: var(--bird-b); }
+  .part[data-part="cwing"] { fill: var(--bird-a); }
+  .part[data-part="ctail"], .part[data-part="cbill"] { fill: var(--bird-d); }
   .part[data-part="back"]      { fill: var(--bird-b); }
   .part[data-part="head"]      { fill: var(--bird-b); }
   .part[data-part="wing"]      { fill: var(--bird-a); }
@@ -103,6 +113,30 @@
     <path class="part stroke-only" data-part="face" d="M122,88 L160,86"/>
     <circle class="eye" cx="140" cy="87" r="3.6"/>
 
+    <!-- overlays: hidden until a pick shows them -->
+    <path data-look="bars" d="M166,108 l8,-1 M178,108 l8,-1 M190,108 l8,-1 M202,108 l8,-1 M214,108 l8,-1 M226,108 l8,-1 M238,108 l8,-1 M250,108 l8,-1 M262,108 l8,-1 M274,108 l8,-1 M286,108 l8,-1 M298,108 l8,-1 M310,108 l8,-1 M322,108 l8,-1 M162,115 l8,-1 M174,115 l8,-1 M186,115 l8,-1 M198,115 l8,-1" style="fill:none;stroke:var(--c-buff);stroke-width:2.2;stroke-linecap:round"/>
+    <path data-look="streaks" d="M168,105 l2,6 M180,105 l2,6 M192,105 l2,6 M204,105 l2,6 M216,105 l2,6 M228,105 l2,6 M240,105 l2,6 M252,105 l2,6 M264,105 l2,6 M276,105 l2,6 M288,105 l2,6 M300,105 l2,6 M312,105 l2,6 M324,105 l2,6 M162,113 l2,6 M174,113 l2,6 M186,113 l2,6 M198,113 l2,6" style="fill:none;stroke:var(--c-black);stroke-width:2.4;stroke-linecap:round"/>
+    <path data-look="patch" class="no-stroke" d="M200,126 C230,116 268,118 296,128 C276,142 236,146 210,140 Z" style="fill:var(--c-white)"/>
+    <path data-look="bar1" d="M224,135 Q248,141 272,136" style="fill:none;stroke:var(--c-white);stroke-linecap:round;stroke-width:4"/>
+    <path data-look="bar1b" d="M224,135 Q248,141 272,136" style="fill:none;stroke:var(--c-white);stroke-linecap:round;stroke-width:6.5"/>
+    <path data-look="bar1thin" d="M224,135 Q248,141 272,136" style="fill:none;stroke:var(--c-white);stroke-linecap:round;stroke-width:2"/>
+    <path data-look="bar2" d="M226,145 Q254,152 288,146" style="fill:none;stroke:var(--c-white);stroke-linecap:round;stroke-width:4"/>
+    <path data-look="bar2b" d="M226,145 Q254,152 288,146" style="fill:none;stroke:var(--c-white);stroke-linecap:round;stroke-width:6.5"/>
+    <path data-look="bar2thin" d="M226,145 Q254,152 288,146" style="fill:none;stroke:var(--c-white);stroke-linecap:round;stroke-width:2"/>
+    <path data-look="edges" d="M284,134 C304,132 322,136 336,142 M282,140 C300,146 318,146 334,144 M336,146 L398,170" style="fill:none;stroke:var(--c-white);stroke-linecap:round;stroke-width:1.6"/>
+    <path data-look="outertail" class="no-stroke" d="M315,170 L461,206 L458,216 L314,178 Z" style="fill:var(--c-orange)"/>
+    <path data-look="tailbase" class="no-stroke" d="M318,150 L380,169 L377,195 L314,178 Z" style="fill:var(--c-yellow)"/>
+    <path data-look="upbreast" class="no-stroke" d="M126,104 C130,126 150,146 182,154 L196,124 C176,124 160,120 150,110 Z" style="fill:var(--c-black)"/>
+    <g data-look="spots" class="no-stroke" style="fill:var(--c-black)"><circle cx="168" cy="140" r="3"/><circle cx="180" cy="146" r="3"/><circle cx="176" cy="133" r="3"/><circle cx="190" cy="151" r="3"/><circle cx="186" cy="138" r="3"/><circle cx="196" cy="142" r="3"/></g>
+    <g data-look="ragged" class="no-stroke" style="fill:var(--c-black)"><ellipse cx="150" cy="127" rx="8" ry="5"/><ellipse cx="164" cy="131" rx="6" ry="4"/><ellipse cx="138" cy="122" rx="5" ry="4"/><ellipse cx="174" cy="125" rx="5" ry="3"/><ellipse cx="158" cy="138" rx="5" ry="3"/></g>
+    <path data-look="crown" class="no-stroke" d="M120,88 A30,30 0 0 1 180,86 C164,78 136,76 120,88 Z" style="fill:var(--c-black)"/>
+    <path data-look="mask" class="no-stroke" d="M124,82 C136,74 156,78 172,92 C170,106 154,112 138,106 L124,100 Z" style="fill:var(--c-black)"/>
+    <path data-look="lores" class="no-stroke" d="M123,83 L137,83 C139,90 137,96 131,100 L123,100 Z" style="fill:var(--c-black)"/>
+    <g data-look="mottle" class="no-stroke" style="fill:var(--c-black);opacity:.85"><ellipse cx="142" cy="76" rx="5" ry="3"/><ellipse cx="160" cy="82" rx="4" ry="3"/><ellipse cx="130" cy="104" rx="6" ry="4"/><ellipse cx="150" cy="113" rx="5" ry="3"/><ellipse cx="166" cy="107" rx="4" ry="3"/><ellipse cx="138" cy="118" rx="5" ry="3"/><ellipse cx="156" cy="96" rx="3" ry="2"/></g>
+    <g data-look="flecks" class="no-stroke" style="fill:var(--c-black)"><circle cx="148" cy="93" r="1.6"/><circle cx="156" cy="97" r="1.6"/><circle cx="163" cy="91" r="1.6"/><circle cx="146" cy="101" r="1.6"/><circle cx="168" cy="99" r="1.6"/><circle cx="154" cy="104" r="1.6"/></g>
+    <g data-look="tflecks" class="no-stroke" style="fill:var(--c-black)"><circle cx="136" cy="110" r="1.6"/><circle cx="144" cy="116" r="1.6"/><circle cx="152" cy="112" r="1.6"/><circle cx="140" cy="104" r="1.6"/><circle cx="158" cy="118" r="1.6"/><circle cx="148" cy="121" r="1.6"/></g>
+    <circle class="eye" cx="140" cy="87" r="3.6"/>
+
     <!-- labels -->
     <g class="label" data-q="head"><line x1="170" y1="38" x2="158" y2="62"/><text x="176" y="30" text-anchor="middle">Head</text></g>
     <g class="label" data-q="face"><line x1="92" y1="62" x2="138" y2="86"/><text x="80" y="56" text-anchor="middle">Face</text></g>
@@ -115,10 +149,20 @@
     <g class="label" data-q="breast"><line x1="160" y1="222" x2="180" y2="186"/><text x="150" y="238" text-anchor="middle">Breast</text></g>
     <g class="label" data-q="belly"><line x1="310" y1="232" x2="290" y2="196"/><text x="318" y="250" text-anchor="middle">Belly</text></g>
   </g>
+  <!-- off-canvas copy for the "Overall color" close-ups; not shown on the main diagram -->
+  <g transform="translate(60 400)">
+    <path class="part" data-part="ctail" d="M318,150 L466,196 L458,216 L314,178 Z"/>
+    <ellipse class="part" data-part="cbody" cx="245" cy="150" rx="92" ry="46"/>
+    <path class="part" data-part="cbody" d="M126,100 C126,128 148,152 186,160 L204,120 C186,110 166,100 152,92 Z"/>
+    <path class="part" data-part="cwing" d="M196,124 C240,110 300,114 340,134 C316,154 258,160 208,150 Z"/>
+    <path class="part" data-part="cwing" d="M330,134 L404,166 L398,174 L324,150 Z"/>
+    <circle class="part" data-part="chead" cx="150" cy="90" r="30"/>
+    <path class="part" data-part="cbill" d="M124,84 L84,95 L124,100 Z"/>
+  </g>
 </svg>
 </template>
 
-<script src="picker.js"></script>
+<script src="picker.js?v=2"></script>
 <script>
 (function () {
   var SPECIES = [
@@ -142,7 +186,8 @@
   ];
   var PART_TO_Q = { head: 'head', face: 'face', ear: 'face', throat: 'throat', bill: 'bill', back: 'back',
                     shoulder: 'shoulder', wing: 'wing', wingbars: 'wing', tertials: 'wing', primaries: 'wing',
-                    tail: 'tail', sides: 'breast', belly: 'belly', flanks: 'belly', undertail: 'belly' };
+                    tail: 'tail', sides: 'breast', belly: 'belly', flanks: 'belly', undertail: 'belly',
+                    cbody: 'color', chead: 'color', cwing: 'color', ctail: 'color', cbill: 'color' };
   var Q_ORDER = ['where', 'color', 'size', 'head', 'face', 'throat', 'back', 'wing', 'shoulder', 'breast', 'belly', 'tail', 'bill', 'call'];
   var Q_NAMES = { where: 'Where', color: 'Overall color', size: 'Size & shape', head: 'Head', face: 'Face', throat: 'Throat',
                   back: 'Back', wing: 'Wing', shoulder: 'Shoulder', breast: 'Breast', belly: 'Belly', tail: 'Tail', bill: 'Bill', call: 'Call' };
@@ -320,12 +365,172 @@
     }
   };
 
+  // ---------- Looks: repaint the bird, and the close-ups on the answer buttons ----------
+  function C(n) { return 'var(--c-' + n + ')'; }
+  function L() { var o = {}; [].forEach.call(arguments, function (a) { Object.keys(a).forEach(function (k) { o[k] = a[k]; }); }); return o; }
+  function body(c) { return { belly: C(c), sides: C(c), flanks: C(c), undertail: C(c), cbody: C(c) }; }
+  function lower(c) { return { belly: C(c), flanks: C(c), undertail: C(c) }; }
+  function head(c) { return { head: C(c), ear: C(c), chead: C(c) }; }
+  function wing(c) { return { wing: C(c), tertials: C(c), primaries: C(c), cwing: C(c) }; }
+  function tail(c) { return { tail: C(c), ctail: C(c) }; }
+  function bars(c) { return { wingbars: { stroke: C(c) } }; }
+  var EYELINE = { face: { stroke: C('black'), strokeWidth: '5' } }, NOLINE = { face: { stroke: 'transparent' } };
+  var HOOD = { head: C('black'), ear: C('black'), throat: C('black'), chead: C('black'), upbreast: true };
+  function billShape(tr) { return { bill: { transform: tr, transformOrigin: '100% 50%' } }; }
+  var BILLS = {
+    'Long, slender and clearly down-curved': billShape('scale(1.3, .85) rotate(-7deg)'),
+    'Short and fairly straight': billShape('scale(.72)'),
+    'Straight and pointed, medium length': billShape('none'),
+    'Very thick at the base': billShape('scale(1.05, 1.5)')
+  };
+  var TAILLEN = { 'Long and rounded': { tail: { transform: 'scale(1.18, 1.05)', transformOrigin: '0% 50%' } }, 'Medium': { tail: { transform: 'none' } } };
+
+  var LOOKS = {
+    adult: {
+      bill: BILLS, tailshape: TAILLEN,
+      color: { 'Orange': body('orange'), 'Yellow': body('yellow'), 'Chestnut (brick red)': body('chest') },
+      head: {
+        'All-black hood (head and throat)': HOOD,
+        'Black crown and black line through the eye; orange face': L(head('orange'), { throat: C('black'), crown: true }, EYELINE),
+        'Orange or yellow crown; black only on the face and throat': L(head('orange'), { throat: C('black'), lores: true })
+      },
+      face: {
+        'Wraps around the eye onto the cheek (a mask)': L(head('orange'), { ear: C('black'), throat: C('black'), mask: true }),
+        'Only in front of the eye, plus the throat': L(head('orange'), { throat: C('black'), lores: true }),
+        'A line through the eye on an orange face': L(head('orange'), { throat: C('black') }, EYELINE),
+        'Whole head black': HOOD
+      },
+      back: {
+        'Solid black': { back: C('black') },
+        'Black barred with buff (winter)': { back: C('black'), bars: true },
+        'Yellow-olive': { back: C('yolive') },
+        'Orange with black streaks': { back: C('orange'), streaks: true }
+      },
+      wing: {
+        'Large white wing patch': L(bars('white'), { patch: true }),
+        'Two white wingbars, the upper one stronger': L(bars('black'), { bar1b: true, bar2: true }),
+        'One white wingbar': L(bars('black'), { bar2: true }),
+        'Black with white edges, no clear bar': L(bars('black'), { edges: true })
+      },
+      shoulder: {
+        'Orange': { shoulder: C('orange') },
+        'Yellow, bordered with white': { shoulder: { fill: C('yellow'), stroke: C('white'), strokeWidth: '3' } },
+        'Chestnut': { shoulder: C('chest') },
+        'White': { shoulder: C('white') }
+      },
+      breast: {
+        'Black reaches the upper breast': { throat: C('black'), upbreast: true },
+        'Black bib on the throat only; breast clean': { throat: C('black') },
+        'Black spots on the sides of the breast': { throat: C('black'), spots: true }
+      },
+      tailcolor: {
+        'Black with orange outer feathers': L(tail('black'), { outertail: true }),
+        'Black and yellow': L(tail('black'), { tailbase: true }),
+        'All black': tail('black')
+      }
+    },
+    bib: {
+      bill: BILLS, tailshape: TAILLEN,
+      color: {
+        'Greenish-yellow or olive-yellow': L(body('gyellow'), head('gyellow')),
+        'Yellow-orange to orange': L(body('yorange'), head('yorange')),
+        'Dull yellow below, olive above': L(body('dyellow'), head('olive'), { back: C('olive') })
+      },
+      head: {
+        'Only a bib and lores': { throat: C('black'), lores: true },
+        'Bib plus a dark line through the eye': L({ throat: C('black') }, EYELINE),
+        'Black face, throat and upper breast, mottled': { throat: C('black'), lores: true, mottle: true, upbreast: { opacity: '.75' } },
+        'Irregular black patches or mottling': { throat: C('black'), mottle: true },
+        'A full hood': HOOD
+      },
+      face: {
+        'Dark eyeline on a yellow-orange face': L(head('yorange'), EYELINE),
+        'No eyeline': NOLINE
+      },
+      throat: {
+        'Neat, with a clean, sharp edge': { throat: C('black') },
+        'Ragged, spreading onto the breast': { throat: C('black'), ragged: true }
+      },
+      back: {
+        'Plain olive or gray': { back: C('olive') },
+        'Grayish': { back: C('gray') },
+        'Streaked or mottled dark': { back: C('olive'), streaks: true },
+        'Olive-brown': { back: C('oliveb') },
+        'Yellow-olive': { back: C('yolive') }
+      },
+      wing: {
+        'Bold white bars or white-edged coverts': L(bars('dwing'), { bar1b: true, bar2b: true, edges: true }),
+        'Narrow white bars, the lower one thin': L(bars('dwing'), { bar1: true, bar2thin: true }),
+        'Thin white bars': L(bars('dwing'), { bar1thin: true, bar2thin: true })
+      },
+      shoulder: { 'No orange shoulder yet': { shoulder: C('dwing') } },
+      belly: {
+        'Whitish, paler than the breast': lower('pale'),
+        'Orangish': lower('yorange'),
+        'Yellow, same as the breast': lower('yellow2')
+      }
+    },
+    plain: {
+      bill: BILLS, tailshape: TAILLEN,
+      color: {
+        'Greenish-yellow or olive-yellow all over; no orange': L(body('gyellow'), head('gyellow'), { throat: C('gyellow') }),
+        'Orange to yellow-orange breast': L({ sides: C('yorange'), throat: C('yorange'), cbody: C('yorange') }, head('yorange')),
+        'Yellow head and breast, gray body': L(lower('lgray'), head('yellow'), { sides: C('yellow'), throat: C('yellow'), back: C('gray'), cbody: C('lgray') }),
+        'Dull yellow below, olive above, gray-green head': L(body('dyellow'), head('ggreen'), { back: C('olive') }),
+        'Yellow with an olive back; big bird': L(body('yellow'), head('yellow'), { throat: C('yellow'), back: C('olive') })
+      },
+      head: { 'Plain': { mottle: { opacity: '0' } }, 'Some black mottling': { mottle: true } },
+      face: {
+        'Dark line through the eye': EYELINE,
+        'Plain, no eyeline': NOLINE,
+        'Black flecks on a gray-green face': L(head('ggreen'), NOLINE, { flecks: true })
+      },
+      throat: { 'Plain yellow': { throat: C('yellow2') }, 'Black flecks': { tflecks: true } },
+      back: {
+        'Plain, unstreaked': { back: C('olive') },
+        'Some streaking': { back: C('olive'), streaks: { opacity: '.5' } },
+        'Streaked or mottled with dark centers': { back: C('olive'), streaks: true }
+      },
+      wing: {
+        'Bold, wide white bars or white-edged coverts': L(bars('dwing'), { bar1b: true, bar2b: true, edges: true }),
+        'Neat white bars': bars('white'),
+        'Thin, faint bars': L(bars('dwing'), { bar1thin: { opacity: '.6' }, bar2thin: { opacity: '.6' } }),
+        'Hardly any': bars('dwing')
+      },
+      belly: {
+        'Whitish or pale gray, paler than the breast': lower('pale'),
+        'Orangish': lower('yorange'),
+        'Yellow or greenish-yellow, same as the breast': lower('gyellow')
+      }
+    }
+  };
+  // Each look starts from the whole bird for that stage
+  var BASE = {
+    adult: L(body('orange'), { head: C('black'), ear: C('black'), throat: C('black'), chead: C('black') }, { back: C('black'), cbill: C('bgray'), bill: C('bgray') }, wing('black'), tail('black'), { face: { stroke: C('black') } }),
+    bib: L(body('yellow2'), head('gyellow'), { throat: C('black'), back: C('olive'), bill: C('bgray'), cbill: C('bgray'), shoulder: C('dwing') }, wing('dwing'), tail('olive'), { face: { stroke: C('olive') } }),
+    plain: L(body('gyellow'), head('gyellow'), { throat: C('gyellow'), back: C('olive'), bill: C('bgray'), cbill: C('bgray'), shoulder: C('dwing') }, wing('dwing'), tail('olive'), { face: { stroke: C('olive') } })
+  };
+  STAGES.forEach(function (s) { s.look = BASE[s.id]; });
+  Object.keys(DATA).forEach(function (st) {
+    Object.keys(DATA[st]).forEach(function (q) {
+      if (!Array.isArray(DATA[st][q])) return;
+      DATA[st][q].forEach(function (g) {
+        var m = LOOKS[st][g.id]; if (!m) return;
+        g.options.forEach(function (o) { if (m[o.label]) o.look = m[o.label]; else console.warn('No look for', st, g.id, o.label); });
+      });
+    });
+  });
+
   Picker({
     species: SPECIES,
     stages: STAGES,
     defaultStage: 'plain',
     partToQ: PART_TO_Q, qOrder: Q_ORDER, qNames: Q_NAMES,
     data: DATA,
+    // Close-up for each answer button: a square of the diagram around that part
+    thumbs: { color: '170 405 260 260', head: '166 52 84 84', face: '180 70 56 56', throat: '176 82 70 70', bill: '128 62 66 66',
+              back: '255 68 96 96', wing: '265 75 130 130', shoulder: '246 101 60 60', breast: '180 110 90 90',
+              belly: '250 115 120 120', tail: '380 100 160 160' },
     ref: 'orioles.html'
   });
 })();

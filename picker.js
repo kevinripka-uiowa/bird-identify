@@ -112,11 +112,11 @@
     // A stage or an option may carry look: { name: value }. name is a data-part (repainted)
     // or a data-look overlay (shown). value is a fill string, true (show as drawn),
     // or an object of style properties (fill, transform, opacity...).
-    function applyLook(look, painted) {
+    function applyLook(look, painted, root) {
       Object.keys(look).forEach(function (name) {
         var v = look[name];
         var style = typeof v === 'string' ? { fill: v } : (v === true ? {} : v);
-        svg.querySelectorAll('[data-part="' + name + '"], [data-look="' + name + '"]').forEach(function (e) {
+        (root || svg).querySelectorAll('[data-part="' + name + '"], [data-look="' + name + '"]').forEach(function (e) {
           if (e.dataset.look) e.classList.add('look-on');
           Object.keys(style).forEach(function (k) { e.style[k] = style[k]; });
           if (e.dataset.part) e.classList.add('painted');
@@ -137,6 +137,28 @@
         if (o.look) { applyLook(o.look, painted); painted[f.q] = true; }
       });
       return painted;
+    }
+
+    // ---------- Thumbnails: a close-up of the part, painted for one answer ----------
+    // cfg.thumbs maps a group id (or a question) to a square viewBox on the diagram.
+    // Groups whose answers carry no look get no thumbnails.
+    function thumb(q, g, o) {
+      var box = cfg.thumbs && (cfg.thumbs[g.id] || cfg.thumbs[q]);
+      if (!box || !g.options.some(function (x) { return x.look; })) return null;
+      var t = document.querySelector(cfg.svgTemplate || '#bird-svg').content.firstElementChild.cloneNode(true);
+      t.querySelectorAll('.label, text').forEach(function (e) { e.remove(); });
+      // Fade everything but this question's own parts (if it has any)
+      var parts = [].slice.call(t.querySelectorAll('[data-part]'));
+      if (parts.some(function (p) { return qOfPart(p.dataset.part) === q; }))
+        parts.forEach(function (p) { if (qOfPart(p.dataset.part) !== q) p.classList.add('dim'); });
+      if (stageObj().look) applyLook(stageObj().look, null, t);
+      if (o.look) applyLook(o.look, null, t);
+      t.setAttribute('viewBox', box);
+      t.setAttribute('preserveAspectRatio', 'xMidYMid slice');
+      t.setAttribute('class', 'thumb');
+      t.setAttribute('aria-hidden', 'true');
+      t.removeAttribute('role'); t.removeAttribute('aria-label');
+      return t;
     }
 
     // ---------- Rendering ----------
@@ -191,9 +213,12 @@
         if (g.help) wrap.appendChild(el('p', 'help', g.help));
         var opts = el('div', 'opts');
         g.options.forEach(function (o, i) {
-          var b = el('button', 'opt', o.label);
+          var pic = thumb(q, g, o);
+          var b = el('button', pic ? 'opt has-thumb' : 'opt');
+          var txt = pic ? el('span', 'opt-text', o.label) : b;
+          if (pic) { b.appendChild(pic); b.appendChild(txt); } else b.textContent = o.label;
           b.type = 'button';
-          if (o.check) { b.appendChild(checkTag()); b.appendChild(el('span', 'checknote', 'Unsure: ' + o.check)); }
+          if (o.check) { txt.appendChild(checkTag()); txt.appendChild(el('span', 'checknote', 'Unsure: ' + o.check)); }
           b.setAttribute('aria-pressed', state.picks[g.id] === i ? 'true' : 'false');
           b.addEventListener('click', function () {
             if (state.picks[g.id] === i) delete state.picks[g.id]; else state.picks[g.id] = i;

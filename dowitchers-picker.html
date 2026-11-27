@@ -6,9 +6,12 @@
 <meta name="color-scheme" content="light">
 <title>Dowitcher Picker</title>
 <meta name="description" content="Tap parts of a dowitcher, pick what you see, and see whether it fits Short-billed or Long-billed.">
-<link rel="stylesheet" href="picker.css?v=2">
+<link rel="stylesheet" href="picker.css?v=3">
 <style>
   :root { --bird-leg: #8e959d; }
+  :root { --c-black: #24282c; --c-dark: #3b3631; --c-dbrown: #4e3b2c; --c-gbrown: #6f6a63; --c-buff: #dcb97f; --c-orange: #d8854a;
+          --c-forange: #e4b88f; --c-rufous: #b04f2a; --c-chestnut: #a5522c; --c-white: #fbfbf9; --c-pale: #e9e4da;
+          --c-lgray: #cfd2d4; --c-gray: #aeb2b5; --c-dgray: #6f747a; --c-bill: #3d3b39; }
   .part[data-part="breast"]     { fill: var(--bird-b); }
   .part[data-part="scapulars"]  { fill: var(--bird-a); }
   .part[data-part="wing"]       { fill: var(--bird-d); }
@@ -90,8 +93,45 @@
           <circle class="part" data-part="head" cx="150" cy="110" r="28"/>
           <path class="part" data-part="bill" d="M128,104 L20,126 L20,129 L130,117 Z"/>
           <path class="part stroke-only" data-part="supercilium" d="M128,99 Q145,93 166,96"/>
-          <circle class="eye" cx="144" cy="106" r="3.5"/>
+          <circle class="eye" data-part="eyedot" cx="144" cy="106" r="3.5"/>
           <path class="part stroke-only" data-part="call" d="M112,70 Q106,78 112,86 M104,64 Q95,78 104,92 M96,58 Q84,78 96,98"/>
+
+          <!-- overlays: hidden until a pick shows them -->
+          <path data-look="tert-tiger" d="M305,132 l6,8 M318,131 l6,10 M331,133 l6,10 M344,136 l6,9 M312,141 l5,8 M326,141 l5,9 M340,143 l5,8 M354,145 l4,6" style="fill:none;stroke:var(--c-buff);stroke-width:2.5;stroke-linecap:round"/>
+          <g data-look="tert-edge" style="fill:none;stroke:var(--c-buff);stroke-width:1.8"><path d="M290,128 C318,124 345,132 368,143 C342,150 312,149 292,140 Z"/><path d="M300,137 C325,135 350,141 372,148 C348,155 320,154 302,147 Z"/></g>
+          <path data-look="scap-buff" d="M246,113 l5,4 l5,-4 M247,119 l5,0 M260,113 l5,4 l5,-4 M261,119 l5,0 M274,113 l5,4 l5,-4 M275,119 l5,0 M288,113 l5,4 l5,-4 M289,119 l5,0 M302,113 l5,4 l5,-4 M303,119 l5,0" style="fill:none;stroke:var(--c-buff);stroke-width:2.2;stroke-linecap:round"/>
+          <path data-look="scap-chestnut" d="M246,121 q6,-9 12,0 M260,121 q6,-9 12,0 M274,121 q6,-9 12,0 M288,121 q6,-9 12,0 M302,121 q6,-9 12,0" style="fill:none;stroke:var(--c-chestnut);stroke-width:2.6;stroke-linecap:round"/>
+          <path data-look="scap-loops" d="M246,112 l6,8 l6,-8 M260,112 l6,8 l6,-8 M274,112 l6,8 l6,-8 M288,112 l6,8 l6,-8 M302,112 l6,8 l6,-8" style="fill:none;stroke:var(--c-buff);stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round"/>
+          <g data-look="scap-open" class="no-stroke"><rect x="246" y="112" width="11" height="9" style="fill:var(--c-black)"/><rect x="248" y="112" width="7" height="4" style="fill:var(--c-white)"/><rect x="260" y="112" width="11" height="9" style="fill:var(--c-black)"/><rect x="262" y="112" width="7" height="4" style="fill:var(--c-white)"/><rect x="274" y="112" width="11" height="9" style="fill:var(--c-black)"/><rect x="276" y="112" width="7" height="4" style="fill:var(--c-white)"/><rect x="288" y="112" width="11" height="9" style="fill:var(--c-black)"/><rect x="290" y="112" width="7" height="4" style="fill:var(--c-white)"/><rect x="302" y="112" width="11" height="9" style="fill:var(--c-black)"/><rect x="304" y="112" width="7" height="4" style="fill:var(--c-white)"/></g>
+          <g data-look="scap-points" class="no-stroke" style="fill:var(--c-black)"><path d="M246,112 h12 l-6,10 Z"/><path d="M260,112 h12 l-6,10 Z"/><path d="M274,112 h12 l-6,10 Z"/><path d="M288,112 h12 l-6,10 Z"/><path d="M302,112 h12 l-6,10 Z"/></g>
+          <g data-look="scap-blunt" class="no-stroke" style="fill:var(--c-black)"><rect x="246" y="112" width="11" height="9" rx="1"/><rect x="260" y="112" width="11" height="9" rx="1"/><rect x="274" y="112" width="11" height="9" rx="1"/><rect x="288" y="112" width="11" height="9" rx="1"/><rect x="302" y="112" width="11" height="9" rx="1"/></g>
+          <path data-look="cov-bars" d="M228,131 l3,14 M237,131 l3,14 M246,131 l3,14 M255,131 l3,14 M264,131 l3,14 M273,131 l3,14 M282,131 l3,14" style="fill:none;stroke:var(--c-buff);stroke-width:2;stroke-linecap:round"/>
+          <path data-look="cov-v" d="M226,133 l5,7 l5,-7 M232,142 l5,7 l5,-7 M238,133 l5,7 l5,-7 M244,142 l5,7 l5,-7 M250,133 l5,7 l5,-7 M256,142 l5,7 l5,-7 M262,133 l5,7 l5,-7 M268,142 l5,7 l5,-7 M274,133 l5,7 l5,-7 M280,142 l5,7 l5,-7" style="fill:none;stroke:var(--c-buff);stroke-width:2;stroke-linecap:round;stroke-linejoin:round"/>
+          <g data-look="cov-square" class="no-stroke"><rect x="226" y="134" width="9" height="4" style="fill:var(--c-white)"/><rect x="226" y="138" width="9" height="4" style="fill:var(--c-black)"/><rect x="238" y="134" width="9" height="4" style="fill:var(--c-white)"/><rect x="238" y="138" width="9" height="4" style="fill:var(--c-black)"/><rect x="250" y="134" width="9" height="4" style="fill:var(--c-white)"/><rect x="250" y="138" width="9" height="4" style="fill:var(--c-black)"/><rect x="262" y="134" width="9" height="4" style="fill:var(--c-white)"/><rect x="262" y="138" width="9" height="4" style="fill:var(--c-black)"/><rect x="274" y="134" width="9" height="4" style="fill:var(--c-white)"/><rect x="274" y="138" width="9" height="4" style="fill:var(--c-black)"/></g>
+          <path data-look="cov-edges" d="M226,140 q5,-6 10,0 M232,148 q5,-6 10,0 M238,140 q5,-6 10,0 M244,148 q5,-6 10,0 M250,140 q5,-6 10,0 M256,148 q5,-6 10,0 M262,140 q5,-6 10,0 M268,148 q5,-6 10,0 M274,140 q5,-6 10,0 M280,148 q5,-6 10,0" style="fill:none;stroke:var(--c-white);stroke-width:2;stroke-linecap:round"/>
+          <path data-look="cov-brown" d="M226,140 q5,-6 10,0 M232,148 q5,-6 10,0 M238,140 q5,-6 10,0 M244,148 q5,-6 10,0 M250,140 q5,-6 10,0 M256,148 q5,-6 10,0 M262,140 q5,-6 10,0 M268,148 q5,-6 10,0 M274,140 q5,-6 10,0 M280,148 q5,-6 10,0" style="fill:none;stroke:var(--c-chestnut);stroke-width:2;stroke-linecap:round"/>
+          <path data-look="wtip" d="M360,142 L394,153 L362,151 Z" style="fill:var(--c-dark)"/>
+          <path data-look="tbars" d="M354,129.9 L354,159.6 M364,132 L364,158.8 M374,134.2 L374,158 M384,136.3 L384,157.1" style="fill:none;stroke:var(--c-dark);stroke-width:5"/>
+          <path data-look="tbars-wide" d="M354,129.9 L354,159.6 M364,132 L364,158.8 M374,134.2 L374,158 M384,136.3 L384,157.1" style="fill:none;stroke:var(--c-dark);stroke-width:7.5"/>
+          <path data-look="bill-droop" d="M128,104 C95,110 55,116 30,129 C26,132 25,135 27,135 C55,125 95,119 130,117 Z" style="fill:var(--bird-d)"/>
+          <path data-look="hump" d="M168,100 C192,68 285,74 345,126" style="fill:none;stroke:var(--c-black);stroke-width:4.5;stroke-linecap:round"/>
+          <path data-look="dip" d="M168,100 C200,86 250,96 280,112 C302,120 322,116 345,122 L392,118" style="fill:none;stroke:var(--c-black);stroke-width:4.5;stroke-linecap:round;stroke-linejoin:round"/>
+          <path data-look="slim" d="M168,100 C210,97 290,100 345,126" style="fill:none;stroke:var(--c-black);stroke-width:4.5;stroke-linecap:round"/>
+          <path data-look="eyeline" d="M130,107 L168,104" style="fill:none;stroke:var(--c-dgray);stroke-width:3;stroke-linecap:round"/>
+          <path data-look="angle-hi" d="M96,115 L170,103.4 M129,110 L144,102" style="fill:none;stroke:var(--c-black);stroke-width:1.6;stroke-dasharray:4 3"/>
+          <path data-look="angle-lo" d="M96,115 L170,103.4 M129,110 L144,110" style="fill:none;stroke:var(--c-black);stroke-width:1.6;stroke-dasharray:4 3"/>
+          <path data-look="super-arch" d="M126,101 Q138,85 168,95" style="fill:none;stroke:var(--c-white);stroke-width:5;stroke-linecap:round"/>
+          <path data-look="crown" class="no-stroke" d="M125.2,97 A28,28 0 0 1 176.2,100 C165,89 138,88 125.2,97 Z"/>
+          <ellipse data-look="chin" class="no-stroke" cx="135" cy="125" rx="9" ry="6"/>
+          <g data-look="br-spots" class="no-stroke" style="fill:var(--c-dark)"><circle cx="190" cy="150" r="3.2"/><circle cx="205" cy="160" r="3.2"/><circle cx="218" cy="148" r="3.2"/><circle cx="200" cy="175" r="3.2"/><circle cx="215" cy="172" r="3.2"/><circle cx="228" cy="162" r="3.2"/><circle cx="185" cy="166" r="3.2"/><circle cx="230" cy="178" r="3.2"/></g>
+          <g data-look="br-spots-gray" class="no-stroke" style="fill:var(--c-dgray)"><circle cx="190" cy="150" r="2.2"/><circle cx="205" cy="160" r="2.2"/><circle cx="218" cy="148" r="2.2"/><circle cx="200" cy="175" r="2.2"/><circle cx="215" cy="172" r="2.2"/><circle cx="228" cy="162" r="2.2"/><circle cx="185" cy="166" r="2.2"/><circle cx="230" cy="178" r="2.2"/></g>
+          <g data-look="br-bars"><path d="M186,150 h9 M201,160 h9 M214,148 h9 M196,175 h9 M211,172 h9 M224,162 h9 M181,166 h9 M226,178 h9" style="fill:none;stroke:var(--c-black);stroke-width:4.5;stroke-linecap:round"/><path d="M186,153 h9 M201,163 h9 M214,151 h9 M196,178 h9 M211,175 h9 M224,165 h9 M181,169 h9 M226,181 h9" style="fill:none;stroke:var(--c-white);stroke-width:1.5;stroke-linecap:round"/></g>
+          <g data-look="neck-few" class="no-stroke" style="fill:var(--c-dark)"><circle cx="150" cy="134" r="1.8"/><circle cx="157" cy="145" r="1.8"/><circle cx="148" cy="154" r="1.8"/></g>
+          <g data-look="neck-dense" class="no-stroke" style="fill:var(--c-dark)"><circle cx="146" cy="130" r="2"/><circle cx="153" cy="131" r="2"/><circle cx="160" cy="134" r="2"/><circle cx="148" cy="138" r="2"/><circle cx="156" cy="140" r="2"/><circle cx="163" cy="143" r="2"/><circle cx="146" cy="146" r="2"/><circle cx="153" cy="148" r="2"/><circle cx="160" cy="151" r="2"/><circle cx="150" cy="156" r="2"/><circle cx="157" cy="159" r="2"/><circle cx="165" cy="157" r="2"/><circle cx="152" cy="164" r="2"/><circle cx="160" cy="166" r="2"/></g>
+          <g data-look="belly-patches" class="no-stroke" style="fill:var(--c-white)"><ellipse cx="268" cy="176" rx="9" ry="5"/><ellipse cx="300" cy="184" rx="7" ry="4"/><ellipse cx="318" cy="168" rx="8" ry="5"/><ellipse cx="285" cy="165" rx="5" ry="3"/><ellipse cx="330" cy="182" rx="5" ry="3"/><g style="fill:var(--c-dark)"><circle cx="280" cy="182" r="2.2"/><circle cx="305" cy="172" r="2.2"/><circle cx="262" cy="166" r="2"/><circle cx="322" cy="178" r="2"/><circle cx="292" cy="190" r="1.8"/></g></g>
+          <g data-look="belly-bars"><path d="M258,170 h80 M262,180 h68 M272,189 h48" style="fill:none;stroke:var(--c-black);stroke-width:2.5"/><path d="M258,174 h80 M262,184 h68" style="fill:none;stroke:var(--c-white);stroke-width:2.5"/></g>
+          <path data-look="fl-chev" d="M272,164 l4,4 l4,-4 M296,170 l4,4 l4,-4 M318,162 l4,4 l4,-4 M286,180 l4,4 l4,-4 M310,182 l4,4 l4,-4" style="fill:none;stroke:var(--c-gray);stroke-width:2;stroke-linecap:round"/>
+          <path data-look="fl-bars" d="M268,158 v16 M280,160 v18 M292,160 v20 M304,160 v20 M316,158 v18 M328,156 v16" style="fill:none;stroke:var(--c-dgray);stroke-width:3.5;stroke-linecap:round"/>
 
           <!-- labels -->
           <g class="label" data-q="call"><line x1="52" y1="48" x2="92" y2="62"/><text x="38" y="44" text-anchor="middle">Call</text></g>
@@ -110,7 +150,7 @@
       </svg>
 </template>
 
-<script src="picker.js"></script>
+<script src="picker.js?v=2"></script>
 <script>
 (function () {
   var SPECIES = [
@@ -118,7 +158,7 @@
     { id: 'lb', name: 'Long-billed Dowitcher' }
   ];
   var PART_TO_Q = { call: 'call', bill: 'bill', scapulars: 'scapulars', tertials: 'tertials', tail: 'tail',
-                    breast: 'breast', belly: 'belly', wing: 'wing', supercilium: 'face', head: 'face', legs: 'legs' };
+                    breast: 'breast', belly: 'belly', wing: 'wing', supercilium: 'face', head: 'face', legs: 'legs', eyedot: 'face' };
   var Q_ORDER = ['call', 'date', 'tertials', 'scapulars', 'breast', 'belly', 'wing', 'face', 'bill', 'tail', 'legs'];
   var Q_NAMES = { call: 'Call', date: 'Date', tertials: 'Tertials', scapulars: 'Scapulars', breast: 'Breast',
                   belly: 'Belly', wing: 'Wing', tail: 'Tail', bill: 'Bill and shape', face: 'Face', legs: 'Legs' };
@@ -308,17 +348,104 @@
     legs: LEGS
   };
 
+  // ---------- Looks: repaint the bird for each plumage and pick ----------
+  function C(n) { return 'var(--c-' + n + ')'; }
+  function L() { var o = {}; [].forEach.call(arguments, function (a) { Object.keys(a).forEach(function (k) { o[k] = a[k]; }); }); return o; }
+  function upper(c) { return { scapulars: C(c), wing: C(c), tertials: C(c) }; }
+  var COMMON = {
+    'White and dark bars about equal': { tbars: true },
+    'Dark bars wider, up to about twice the white': { 'tbars-wide': true },
+    'Extend just past the tertials': { wtip: true },
+    'Hidden under the tertials': {},
+    'Droops gently in the outer third': { bill: { opacity: '0' }, 'bill-droop': true },
+    'Straight most of its length': {},
+    'Very long bill': { bill: { transform: 'scaleX(1.18)', transformOrigin: '100% 50%' } },
+    'Hunched, as if it “swallowed a grapefruit”': { hump: true },
+    'Dip in the lower back, tapered rear, slightly cocked tail': { dip: true, tail: { transform: 'rotate(-8deg)', transformOrigin: '0% 50%' } },
+    'Slimmer, with a flatter back and a fuller rear': { slim: true },
+    'Eye set higher: a wider angle from the bill line up to the eye': { eyedot: { transform: 'translate(0px, -4px)' }, 'angle-hi': true },
+    'Eye set lower: a narrow, sharp angle': { eyedot: { transform: 'translate(0px, 4px)' }, 'angle-lo': true },
+    'Arched and flared in front; steep forehead': { supercilium: { opacity: '0' }, 'super-arch': true, eyeline: true },
+    'Straighter and thinner; flatter forehead': { supercilium: { strokeWidth: '2.5' }, eyeline: true },
+    'Longer-legged; wades a little deeper': { legs: { transform: 'scaleY(1.15)', transformOrigin: '50% 0%' } },
+    'Shorter-legged; feeds closer to shore': { legs: { transform: 'scaleY(.88)', transformOrigin: '50% 0%' } }
+  };
+  var LOOKS = {
+    juv: L(COMMON, {
+      'Dark, with bold buff bars, loops or “tiger stripes” inside': { tertials: C('dark'), 'tert-tiger': true },
+      'Dark gray with narrow buff edges; inner markings dull or none': { tertials: C('dgray'), 'tert-edge': true },
+      'Dark, with buff internal markings like the tertials': { scapulars: C('dark'), 'scap-buff': true },
+      'Neatly edged bright chestnut': { scapulars: C('dark'), 'scap-chestnut': true },
+      'Bright, with a buffy-orange wash': { breast: C('buff') },
+      'Grayer and plainer': { breast: C('gray') },
+      'Strongly patterned': { 'cov-bars': true },
+      'Plain, uniform gray': { wing: C('gray') },
+      'Dark brown, contrasting with the white supercilium': { crown: C('dbrown'), eyeline: true },
+      'Grayer, with less contrast': { crown: C('dgray'), supercilium: { stroke: C('lgray') }, eyeline: true }
+    }),
+    spring: L(COMMON, {
+      'Broad buff to orange edges join the pale tips: V-shaped “closed loops”': { 'scap-loops': true },
+      'Mostly white tips cut off by black at the sides: squared-off, “open”, white-barred look': { 'scap-open': true },
+      'Round spots': { 'br-spots': true },
+      'Black bars with white fringes': { 'br-bars': true },
+      'Plain orange, few or no marks': { breast: C('orange') },
+      'Lightly spotted or clean': { 'neck-few': true },
+      'Densely spotted': { 'neck-dense': true },
+      'White in random patches; dark marks set in orange': { 'belly-patches': true },
+      'Neat white fringes; feathers banded orange, black and white (striped look, strongest on the undertail)': { 'belly-bars': true },
+      'V-shaped pale tips running into buff edges': { 'cov-v': true },
+      'Squared-off white tips with black below': { 'cov-square': true }
+    }),
+    worn: L(COMMON, {
+      'Black centers come to deep points': { scapulars: C('forange'), 'scap-points': true },
+      'Black centers squarish or blunt': { scapulars: C('forange'), 'scap-blunt': true },
+      'Lighter-backed': upper('lgray'),
+      'Very dark-backed': upper('dark'),
+      'Small gray spots or streaks, paler; blends into the belly': { breast: C('lgray'), 'br-spots-gray': true },
+      'Smooth, darker gray wash, sharply cut off from the white belly': { breast: C('dgray') },
+      'Pale, whitish chin': { chin: C('white') },
+      'Gray wash runs up to the chin': { chin: C('gray') },
+      'Sparse pale gray spots or chevrons': { 'fl-chev': true },
+      'Dusky gray wash or vertical bars': { 'fl-bars': true },
+      'Some round spots left': { breast: C('forange'), 'br-spots': true },
+      'Clear, deep reddish': { breast: C('rufous') },
+      'Paler, with lighter edges': { wing: C('lgray'), 'cov-edges': true },
+      'Dark, with brown fringes': { wing: C('dgray'), 'cov-brown': true }
+    }),
+    unsure: COMMON
+  };
+  var STAGE_LOOK = {
+    juv: L(upper('gbrown'), { head: C('lgray'), breast: C('pale'), belly: C('white') }),
+    spring: L(upper('dark'), { head: C('forange'), breast: C('orange'), belly: C('orange') }),
+    worn: L(upper('gray'), { head: C('lgray'), breast: C('gray'), belly: C('white') })
+  };
+  var DATA = { juv: JUV, spring: SPRING, worn: WORN, unsure: UNSURE };
+  Object.keys(DATA).forEach(function (st) {
+    Object.keys(DATA[st]).forEach(function (q) {
+      if (!Array.isArray(DATA[st][q]) || q === 'call' || q === 'date') return;
+      DATA[st][q].forEach(function (g) { g.options.forEach(function (o) {
+        var lk = LOOKS[st][o.label];
+        if (lk) o.look = lk; else if (g.id !== 'underwing') console.warn('No look for', st, o.label);
+      }); });
+    });
+  });
+
   Picker({
     species: SPECIES,
     stages: [
-      { id: 'juv',    label: 'Juvenile', qOrder: ['call', 'tertials', 'scapulars', 'wing', 'breast', 'face', 'date', 'bill', 'tail', 'legs'],     name: 'Juvenile',          hint: 'Crisp, fresh, neatly patterned feathers, buffy or gray below with no orange. Mid-August to November.' },
-      { id: 'spring', label: 'Breeding', qOrder: ['call', 'scapulars', 'belly', 'breast', 'wing', 'date', 'face', 'bill', 'tail', 'legs'],     name: 'Breeding adult',    hint: 'Fresh, bright orange below with crisp patterns. April–May.' },
-      { id: 'worn',   label: 'Worn or gray', qOrder: ['call', 'date', 'scapulars', 'breast', 'wing', 'face', 'bill', 'tail', 'legs'], name: 'Worn or gray adult', hint: 'Faded, patchy orange (July–Sept) or plain gray nonbreeding.' },
+      { id: 'juv',    label: 'Juvenile', qOrder: ['call', 'tertials', 'scapulars', 'wing', 'breast', 'face', 'date', 'bill', 'tail', 'legs'],     name: 'Juvenile',          look: STAGE_LOOK.juv, hint: 'Crisp, fresh, neatly patterned feathers, buffy or gray below with no orange. Mid-August to November.' },
+      { id: 'spring', label: 'Breeding', qOrder: ['call', 'scapulars', 'belly', 'breast', 'wing', 'date', 'face', 'bill', 'tail', 'legs'],     name: 'Breeding adult',    look: STAGE_LOOK.spring, hint: 'Fresh, bright orange below with crisp patterns. April–May.' },
+      { id: 'worn',   label: 'Worn or gray', qOrder: ['call', 'date', 'scapulars', 'breast', 'wing', 'face', 'bill', 'tail', 'legs'], name: 'Worn or gray adult', look: STAGE_LOOK.worn, hint: 'Faded, patchy orange (July–Sept) or plain gray nonbreeding.' },
       { id: 'unsure', label: 'Not sure', qOrder: ['call', 'date', 'face', 'bill', 'wing', 'tail', 'legs'],     name: 'Any plumage',       hint: 'Only marks that work at any age: call, date, face, bill, wingtips, tail and legs.' }
     ],
     defaultStage: 'unsure',
     partToQ: PART_TO_Q, qOrder: Q_ORDER, qNames: Q_NAMES,
-    data: { juv: JUV, spring: SPRING, worn: WORN, unsure: UNSURE },
+    data: DATA,
+    // Close-up for each answer button: a square of the diagram around that part
+    thumbs: { tertials: '366 105 90 90', scapulars: '323 93 64 64', back: '255 55 220 220', breast: '213 98 120 120',
+              chin: '190 80 80 80', flanks: '335 137 90 90', belly: '310 132 110 110', wing: '290 103 90 90',
+              wingtips: '415 123 70 70', face: '190 80 80 80', billshape: '98 69 116 116', bill: '96 10 380 380',
+              tail: '418 124 60 60', legs: '299 195 84 84' },
     ref: 'dowitchers.html'
   });
 })();

@@ -6,9 +6,12 @@
 <meta name="color-scheme" content="light">
 <title>Junco Picker</title>
 <meta name="description" content="Tap parts of a junco, pick what you see, and get a ranked list of Dark-eyed Junco forms in Iowa.">
-<link rel="stylesheet" href="picker.css?v=2">
+<link rel="stylesheet" href="picker.css?v=3">
 <style>
-  :root { --bird-bill: #e8c4b8; }
+  :root { --bird-bill: #e8c4b8;
+          --c-slate: #3f4651; --c-gray: #7b838d; --c-ww: #69717c; --c-pale: #b3bbc4; --c-brgray: #8f8a84; --c-dull: #7e756d;
+          --c-rust: #c09166; --c-pink: #d9977c; --c-rustb: #8a5a3a; --c-reddish: #9c6b58; --c-rufous: #b5532b;
+          --c-black: #1f2328; --c-white: #fbfbf9; }
   .part[data-part="hood"]      { fill: var(--bird-a); }
   .part[data-part="back"]      { fill: var(--bird-b); }
   .part[data-part="wing"]      { fill: var(--bird-a); }
@@ -85,6 +88,9 @@
           <path class="part" data-part="bill" d="M93,106 L66,116 L93,124 Z"/>
           <circle class="eye" cx="116" cy="101" r="4.5"/>
 
+          <!-- overlays: hidden until a pick shows them -->
+          <path data-look="blend" class="no-stroke" d="M176,214 C200,200 214,160 205,118 L195,120 C193,150 190,186 182,212 Z" style="fill:var(--c-slate);opacity:.45"/>
+
           <!-- labels -->
           <g class="label" data-q="hood"><line x1="148" y1="36" x2="145" y2="80"/><text x="148" y="28" text-anchor="middle">Hood</text></g>
           <g class="label" data-q="back"><line x1="245" y1="62" x2="245" y2="112"/><text x="245" y="54" text-anchor="middle">Back</text></g>
@@ -100,7 +106,7 @@
       </svg>
 </template>
 
-<script src="picker.js"></script>
+<script src="picker.js?v=2"></script>
 <script>
 (function () {
   var SPECIES = [
@@ -160,11 +166,47 @@
     ]}]
   };
 
+  // ---------- Looks: repaint the bird to match each pick ----------
+  function C(n) { return 'var(--c-' + n + ')'; }
+  var TAIL = function (s) { return { tail: C('slate'), outertail: { transform: 'scaleY(' + s + ')', transformOrigin: '50% 100%' } }; };
+  var LOOKS = {
+    'Dark slate gray to black': { hood: C('slate') },
+    'Pale gray or blue-gray': { hood: C('pale') },
+    'Gray to brownish (a dull bird)': { hood: C('dull') },
+    'Blends smoothly into the flanks; smudgy, curving up into the breast': { hood: C('slate'), border: { stroke: 'none' }, blend: true },
+    'Stops at a crisp line, bulging down': { hood: C('slate'), border: { stroke: C('black'), strokeDasharray: 'none', strokeWidth: '3' } },
+    'Gray, the same as the hood': { flanks: C('slate'), hood: C('slate') },
+    'Gray, set off from a dark hood (often browner toward the rear)': { flanks: C('gray'), hood: C('slate') },
+    'Rusty to buffy-brown': { flanks: C('rust') },
+    'Broad, bright pinkish-cinnamon': { flanks: C('pink') },
+    'Same gray as the hood': { back: C('slate'), hood: C('slate') },
+    'Paler gray to brownish-gray, set off from a dark hood': { back: C('brgray'), hood: C('slate') },
+    'Rusty-brown': { back: C('rustb') },
+    'Poorly defined reddish-brown': { back: C('reddish') },
+    'Bright, well-defined rufous patch on a gray bird': { back: C('rufous'), hood: C('pale'), flanks: C('pale') },
+    'Two thin white wingbars': { wing: C('ww'), wingbars: { stroke: C('white') } },
+    'None': { wing: C('ww'), wingbars: { stroke: 'none' } },
+    'About 2 feathers': TAIL(.6),
+    '3 or 4 feathers mostly white': TAIL(1.5),
+    'Dark, contrasting with a pale gray head': { lores: C('black'), hood: C('pale') },
+    'Fairly dark, on a slate-gray head with wingbars': { lores: C('black'), hood: C('ww') },
+    'No contrast with the hood': { lores: C('slate'), hood: C('slate') }
+  };
+  // Size can't be drawn, so it gets no picture.
+  Object.keys(ALL).forEach(function (q) {
+    ALL[q].forEach(function (g) { g.options.forEach(function (o) {
+      if (LOOKS[o.label]) o.look = LOOKS[o.label]; else if (q !== 'size') console.warn('No look for', o.label);
+    }); });
+  });
+
   Picker({
     species: SPECIES,
     stages: null,
     partToQ: PART_TO_Q, qOrder: Q_ORDER, qNames: Q_NAMES,
     data: { all: ALL },
+    // Close-up for each answer button: a square of the diagram around that part
+    thumbs: { hoodcolor: '195 60 110 110', border: '232 122 96 96', flanks: '330 140 100 100', back: '320 90 110 110',
+              wingbars: '326 110 96 96', tail: '486 150 64 64', lores: '178 84 60 60' },
     ref: 'juncos.html'
   });
 })();

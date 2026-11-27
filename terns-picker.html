@@ -6,7 +6,7 @@
 <meta name="color-scheme" content="light">
 <title>Tern Picker</title>
 <meta name="description" content="Tap parts of a tern, pick what you see, and get a ranked list: Common, Forster’s or Arctic.">
-<link rel="stylesheet" href="picker.css?v=2">
+<link rel="stylesheet" href="picker.css?v=3">
 <style>
   .part[data-part="upperwing"]     { fill: var(--bird-b); }
   .part[data-part="carpal"]        { fill: var(--bird-a); }
@@ -117,7 +117,7 @@
   </svg>
 </template>
 
-<script src="picker.js"></script>
+<script src="picker.js?v=2"></script>
 <script>
 (function () {
   function C(n) { return 'var(--c-' + n + ')'; }
@@ -265,6 +265,9 @@
         hint: 'Brown, tan or scaly back and a short tail. July–October; most Iowa Arctic records fit here.' }
     ],
     defaultStage: 'breed',
+    // Close-up for each answer button: a square of the diagram around that part
+    thumbs: { bill: '280 34 40 40', head: '274 60 52 52', body: '260 100 80 80', innerwing: '158 82 132 132', wingtip: '28 76 148 148',
+              underwing: '428 76 148 148', tail: '254 204 92 92' },
     partToQ: PART_TO_Q, qOrder: Q_ORDER, qNames: Q_NAMES,
     data: { breed: BREED, fall: FALL, juv: JUV },
     ref: 'terns.html'

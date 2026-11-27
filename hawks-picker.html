@@ -6,7 +6,7 @@
 <meta name="color-scheme" content="light">
 <title>Iowa Hawk Picker</title>
 <meta name="description" content="Tap parts of a perched or flying hawk, pick what you see, and get a ranked list of Iowa hawks, including the Red-tailed forms.">
-<link rel="stylesheet" href="picker.css?v=2">
+<link rel="stylesheet" href="picker.css?v=3">
 <style>
   .part[data-part="breast"], .part[data-part="belly"], .part[data-part="fbody"] { fill: var(--bird-white); }
   .part[data-part="back"]      { fill: var(--bird-a); }
@@ -194,7 +194,7 @@
   </svg>
 </template>
 
-<script src="picker.js"></script>
+<script src="picker.js?v=2"></script>
 <script>
 (function () {
   function C(n) { return 'var(--c-' + n + ')'; }
@@ -478,7 +478,10 @@
         hint: 'Pale eyes, brown and streaked below, tail evenly banded. Young Red-tails have brown, banded tails, not red.',
         qOrder: ['shape', 'underwing', 'underparts', 'tail', 'head', 'back', 'wingtips', 'legs', 'date', 'where'] }
     ],
-    defaultStage: 'any',
+    defaultStage: 'ad',
+    // Close-up for each answer button: a square of the diagram around that part
+    thumbs: { head: '90 42 68 68', eye: '100 56 28 28', back: '126 96 104 104', legs: '100 222 64 64', tail: '394 176 72 72', tailc: '122 228 112 112',
+              underparts: '68 96 144 144', underwing: '262 46 160 160', shape: '264 10 334 334', wingtips: '130 210 100 100' },
     partToQ: PART_TO_Q, qOrder: Q_ORDER, qNames: Q_NAMES,
     data: { any: ANY, ad: AD, juv: JUV },
     ref: 'hawks.html'
