@@ -17,6 +17,13 @@
   .part[data-part="earspot"]       { fill: var(--bird-d); }
   .part[data-part="bill"]          { fill: var(--bird-d); }
   .part[data-part="tailband"]      { fill: var(--bird-d); }
+  :root { --c-black: #24282c; --c-dgray: #5f666d; --c-gray: #a9b1b9; --c-pale: #d3d8dd; --c-white: #fbfbf9;
+          --c-brown: #8a6a4a; --c-gbrown: #a49686; --c-choc: #5b3a26; --c-red: #b3262e; --c-dred: #7a1e24;
+          --c-orange: #e48b63; --c-yellow: #e7c13f; --c-pink: #f2d6d3; --c-smudge: #b4b9be; }
+  @media (prefers-color-scheme: dark) {
+    :root { --c-black: #121416; --c-white: #e9eaea; --c-pale: #c3c8cd; --c-pink: #e3c4c1; }
+    svg .part.painted, svg [data-look] { stroke: #7d848b; }
+  }
   .side-label { fill: var(--muted); font-size: 13px; font-style: italic; }
   @media (max-width: 820px) { .side-label { font-size: 16px; } .label text { font-size: 16px; } }
 </style>
@@ -85,6 +92,39 @@
     <ellipse class="part" data-part="earspot" cx="317" cy="106" rx="4" ry="5"/>
     <path class="part" data-part="bill" d="M294,82 L300,58 L306,82 Z"/>
 
+    <!-- overlays: hidden until a pick shows them -->
+    <path data-look="uw-wedge" d="M38,147 L72,128 L124,120 L128,134 L84,140 Z"/>
+    <path data-look="uw-band" class="no-stroke" d="M120,119 L127,118 L142,160 L135,159 Z" style="fill:var(--c-white)"/>
+    <g data-look="uw-spots" class="no-stroke" style="fill:var(--c-white)">
+      <circle cx="44" cy="148" r="3"/><circle cx="58" cy="150" r="3"/><circle cx="74" cy="152" r="3"/><circle cx="90" cy="154" r="3"/>
+    </g>
+    <path data-look="uw-tri" d="M126,120 L141,160 L250,178 Z"/>
+    <path data-look="uw-bar" d="M110,124 L152,117 L282,150 L282,168 Z"/>
+    <g data-look="tail-fork">
+      <path class="no-stroke" d="M287,284 L300,270 L313,284 Z" style="fill:var(--surface)"/>
+      <path d="M288,282 L300,270 L312,282" style="fill:none"/>
+    </g>
+    <g data-look="tail-wedge">
+      <path class="no-stroke" d="M275,285 L275,262 L281.3,262 L294,282 L306,282 L318.7,262 L325,262 L325,285 Z" style="fill:var(--surface)"/>
+      <path d="M281.3,262 L294,282 L306,282 L318.7,262" style="fill:none"/>
+    </g>
+    <path data-look="tail-center" d="M293,270 L307,270 L303,282 L297,282 Z" style="fill:var(--c-black)"/>
+    <path data-look="tb-outer" class="no-stroke" d="M280.6,268.8 L287,268.8 L287,281 L279.4,281 Z M313,268.8 L319.4,268.8 L320.6,281 L313,281 Z" style="fill:var(--c-white)"/>
+    <path data-look="collar" d="M282,113 C290,124 310,124 318,113 L320,124 C310,132 290,132 280,124 Z" style="fill:var(--c-black)"/>
+    <path data-look="cap" d="M280,100 A20,20 0 0 1 320,100 C310,94 290,94 280,100 Z"/>
+    <path data-look="halfhood" d="M280,100 A20,20 0 0 0 320,100 C310,96 290,96 280,100 Z"/>
+    <path data-look="nape" class="no-stroke" d="M285,113 A20,20 0 0 0 315,113 C308,110 292,110 285,113 Z" style="fill:var(--c-white)"/>
+    <g data-look="eyearcs" style="fill:none;stroke:var(--c-white);stroke-width:2.5;stroke-linecap:round">
+      <path d="M284,98 A5,5 0 0 1 292,97"/><path d="M316,98 A5,5 0 0 0 308,97"/>
+    </g>
+    <g data-look="eyearcs-bold" style="fill:none;stroke:var(--c-white);stroke-width:4.5;stroke-linecap:round">
+      <path d="M283,99 A6,6 0 0 1 293,96"/><path d="M317,99 A6,6 0 0 0 307,96"/>
+    </g>
+    <path data-look="billtip" d="M298,64 L300,58 L302,64 Z"/>
+    <g transform="translate(600 0) scale(-1 1)">
+      <path data-look="under-tips" class="no-stroke" d="M30,150 L72,126 L78,130 L40,151 Z" style="fill:var(--c-black)"/>
+    </g>
+
     <text class="side-label" x="95" y="190" text-anchor="middle">upperwing</text>
     <text class="side-label" x="505" y="190" text-anchor="middle">underwing</text>
 
@@ -123,61 +163,61 @@
 
   var FIRST = {
     upperwing: [{ id: 'uw', title: 'Upperwing pattern', options: [
-      { label: 'Thin dark bar on the inner wing; white wedge near the tip', fits: 'bo ~bh' },
-      { label: 'Broader brown bar on the inner wing; white wedge near the tip', fits: 'bh ~bo' },
-      { label: 'Bold black “W” across both wings', fits: 'li ki ro' },
-      { label: 'Three bold blocks: black outer wing, white triangle, brown inner wing', fits: 'sa' },
-      { label: 'Plain gray to gray-brown with a dark wingtip', fits: 'fr la' }
+      { label: 'Thin dark bar on the inner wing; white wedge near the tip', fits: 'bo ~bh', look: { carpal: { fill: 'var(--c-black)', stroke: 'none' }, trailing: 'var(--c-black)', wingtip: 'var(--c-black)', 'uw-wedge': 'var(--c-white)' } },
+      { label: 'Broader brown bar on the inner wing; white wedge near the tip', fits: 'bh ~bo', look: { 'uw-bar': 'var(--c-brown)', trailing: 'var(--c-black)', wingtip: 'var(--c-black)', 'uw-wedge': 'var(--c-white)' } },
+      { label: 'Bold black “W” across both wings', fits: 'li ki ro', look: { upperwing: 'var(--c-pale)', trailing: 'var(--c-white)', 'uw-bar': 'var(--c-black)', wingtip: 'var(--c-black)' } },
+      { label: 'Three bold blocks: black outer wing, white triangle, brown inner wing', fits: 'sa', look: { upperwing: 'var(--c-brown)', carpal: { fill: 'var(--c-brown)', stroke: 'none' }, trailing: 'var(--c-white)', wingtip: 'var(--c-black)', 'uw-tri': 'var(--c-white)' } },
+      { label: 'Plain gray to gray-brown with a dark wingtip', fits: 'fr la', look: { upperwing: 'var(--c-gbrown)', carpal: { fill: 'var(--c-gbrown)', stroke: 'none' }, trailing: 'var(--c-dgray)', wingtip: 'var(--c-black)' } }
     ]}],
     head: [{ id: 'head', title: 'Head', options: [
-      { label: 'White with a dark ear spot', fits: 'bo bh' },
-      { label: 'Dark cap and ear spot', fits: 'li' },
-      { label: 'Black collar on the back of the neck', fits: 'ki' },
-      { label: 'Crisp dark half-hood with bold white eye-arcs', fits: 'fr' },
-      { label: 'Smudgy gray', fits: 'la' },
-      { label: 'Gray-brown nape, with a scaly brown back', fits: 'sa' },
-      { label: 'Mostly white with a small ear spot; no cap', fits: 'ro' }
+      { label: 'White with a dark ear spot', fits: 'bo bh', look: { hood: 'var(--c-white)', earspot: 'var(--c-black)' } },
+      { label: 'Dark cap and ear spot', fits: 'li', look: { hood: 'var(--c-white)', cap: 'var(--c-dgray)', earspot: 'var(--c-black)' } },
+      { label: 'Black collar on the back of the neck', fits: 'ki', look: { hood: 'var(--c-white)', earspot: 'var(--c-black)', collar: true } },
+      { label: 'Crisp dark half-hood with bold white eye-arcs', fits: 'fr', look: { hood: 'var(--c-white)', halfhood: 'var(--c-dgray)', earspot: 'var(--c-black)', 'eyearcs-bold': true } },
+      { label: 'Smudgy gray', fits: 'la', look: { hood: 'var(--c-smudge)', earspot: 'var(--c-dgray)' } },
+      { label: 'Gray-brown nape, with a scaly brown back', fits: 'sa', look: { hood: 'var(--c-white)', halfhood: 'var(--c-gbrown)', earspot: 'var(--c-gbrown)' } },
+      { label: 'Mostly white with a small ear spot; no cap', fits: 'ro', look: { hood: 'var(--c-white)', earspot: { fill: 'var(--c-dgray)', transform: 'scale(.6)', transformOrigin: 'center' } } }
     ]}],
     bill: [{ id: 'bill', title: 'Bill', options: [
-      { label: 'Pink-orange with a dark tip', fits: 'bh' },
-      { label: 'Small to tiny, black or dark', fits: 'bo li sa ro fr' },
-      { label: 'Black and stout', fits: 'ki' },
-      { label: 'Heavy and drooping, dark', fits: 'la' }
+      { label: 'Pink-orange with a dark tip', fits: 'bh', look: { bill: 'var(--c-orange)', billtip: 'var(--c-black)' } },
+      { label: 'Small to tiny, black or dark', fits: 'bo li sa ro fr', look: { bill: { fill: 'var(--c-black)', transform: 'scale(.75)', transformOrigin: '50% 100%' } } },
+      { label: 'Black and stout', fits: 'ki', look: { bill: { fill: 'var(--c-black)', transform: 'scale(1.3, 1)', transformOrigin: '50% 100%' } } },
+      { label: 'Heavy and drooping, dark', fits: 'la', look: { bill: { fill: 'var(--c-black)', transform: 'scale(1.35, 1.15)', transformOrigin: '50% 100%' } } }
     ]}],
     tail: [{ id: 'tail', title: 'Tail', options: [
-      { label: 'Band stops short of the outer feathers', fits: 'fr' },
-      { label: 'Broad, complete black band', fits: 'la' },
-      { label: 'Narrow black band', fits: 'bo bh ~li' },
-      { label: 'Notched or square, with a black band', fits: 'ki ~li' },
-      { label: 'Slightly forked, with a black tip', fits: 'sa' },
-      { label: 'Wedge-shaped, black only in the center', fits: 'ro' }
+      { label: 'Band stops short of the outer feathers', fits: 'fr', look: { tailband: 'var(--c-black)', 'tb-outer': true } },
+      { label: 'Broad, complete black band', fits: 'la', look: { tailband: { fill: 'var(--c-black)', transform: 'scaleY(1.9)', transformOrigin: '50% 100%' } } },
+      { label: 'Narrow black band', fits: 'bo bh ~li', look: { tailband: { fill: 'var(--c-black)', transform: 'scaleY(.55)', transformOrigin: '50% 100%' } } },
+      { label: 'Notched or square, with a black band', fits: 'ki ~li', look: { tailband: 'var(--c-black)', 'tail-fork': { transform: 'scale(.5)', transformOrigin: '50% 100%' } } },
+      { label: 'Slightly forked, with a black tip', fits: 'sa', look: { tailband: { fill: 'var(--c-black)', transform: 'scaleY(.6)', transformOrigin: '50% 100%' }, 'tail-fork': true } },
+      { label: 'Wedge-shaped, black only in the center', fits: 'ro', look: { tailband: 'var(--c-white)', 'tail-wedge': true, 'tail-center': true } }
     ]}],
     underwing: [{ id: 'under', title: 'Underwing', options: [
-      { label: 'Clean and pale', fits: 'fr li bo' },
-      { label: 'Underside of the outer wing grayer and darker', fits: 'bh' },
-      { label: 'Dusky', fits: 'la' }
+      { label: 'Clean and pale', fits: 'fr li bo', look: { underwing: 'var(--c-white)', underprimaries: 'var(--c-white)' } },
+      { label: 'Underside of the outer wing grayer and darker', fits: 'bh', look: { underwing: 'var(--c-white)', underprimaries: 'var(--c-dgray)' } },
+      { label: 'Dusky', fits: 'la', look: { underwing: 'var(--c-smudge)', underprimaries: 'var(--c-dgray)' } }
     ]}],
     body: [{ id: 'body', title: 'Breast and flanks', options: [
-      { label: 'Clean white', fits: 'fr bo' },
-      { label: 'Gray wash on the breast and flanks', fits: 'la' },
-      { label: 'Gray-brown breast sides', fits: 'sa' }
+      { label: 'Clean white', fits: 'fr bo', look: { body: 'var(--c-white)' } },
+      { label: 'Gray wash on the breast and flanks', fits: 'la', look: { body: 'var(--c-smudge)' } },
+      { label: 'Gray-brown breast sides', fits: 'sa', look: { body: 'var(--c-gbrown)' } }
     ]}],
     legs: { note: 'Leg color overlaps between Bonaparte’s and Black-headed at this age, so the reference page doesn’t use it.' }
   };
 
   var SPRING = {
     head: [{ id: 'head', title: 'Hood', options: [
-      { label: 'Black, with thick white eye-arcs', fits: 'fr' },
-      { label: 'Black, with thin white eye-arcs', fits: 'bo la' },
-      { label: 'Black, reaching down the nape; no eye-arcs', fits: 'li' },
-      { label: 'Chocolate brown, stopping short of the nape', fits: 'bh', check: 'Standard, but not confirmed on a source page.' }
+      { label: 'Black, with thick white eye-arcs', fits: 'fr', look: { hood: 'var(--c-black)', earspot: 'var(--c-black)', 'eyearcs-bold': true } },
+      { label: 'Black, with thin white eye-arcs', fits: 'bo la', look: { hood: 'var(--c-black)', earspot: 'var(--c-black)', eyearcs: true } },
+      { label: 'Black, reaching down the nape; no eye-arcs', fits: 'li', look: { hood: 'var(--c-black)', earspot: 'var(--c-black)', collar: true } },
+      { label: 'Chocolate brown, stopping short of the nape', fits: 'bh', check: 'Standard, but not confirmed on a source page.', look: { hood: 'var(--c-choc)', earspot: 'var(--c-choc)', nape: true } }
     ]}],
     bill: [{ id: 'bill', title: 'Bill', options: [
-      { label: 'Thin and black', fits: 'bo' },
-      { label: 'Short and red', fits: 'fr' },
-      { label: 'Long, drooping, dark red', fits: 'la' },
-      { label: 'Dark red and thicker', fits: 'bh' },
-      { label: 'Tiny and dark', fits: 'li', check: 'Sources conflict on breeding Little Gull’s bill: dark red or black.' }
+      { label: 'Thin and black', fits: 'bo', look: { bill: { fill: 'var(--c-black)', transform: 'scale(.8, 1)', transformOrigin: '50% 100%' } } },
+      { label: 'Short and red', fits: 'fr', look: { bill: { fill: 'var(--c-red)', transform: 'scale(1, .8)', transformOrigin: '50% 100%' } } },
+      { label: 'Long, drooping, dark red', fits: 'la', look: { bill: { fill: 'var(--c-dred)', transform: 'scale(1.2, 1.2)', transformOrigin: '50% 100%' } } },
+      { label: 'Dark red and thicker', fits: 'bh', look: { bill: { fill: 'var(--c-dred)', transform: 'scale(1.3, 1)', transformOrigin: '50% 100%' } } },
+      { label: 'Tiny and dark', fits: 'li', check: 'Sources conflict on breeding Little Gull’s bill: dark red or black.', look: { bill: { fill: 'var(--c-black)', transform: 'scale(.65)', transformOrigin: '50% 100%' } } }
     ]}],
     legs: [{ id: 'legs', title: 'Legs', options: [
       { label: 'Dark', fits: 'fr la' },
@@ -185,76 +225,78 @@
       { label: 'Red', fits: 'li bh' }
     ]}],
     upperwing: [{ id: 'uw', title: 'Wingtip from above', options: [
-      { label: 'White wedge along the leading edge', fits: 'bo bh' },
-      { label: 'No black at all; rounded tip', fits: 'li' },
-      { label: 'White band between the gray and the black; big white tips', fits: 'fr' },
-      { label: 'Black blending into dark gray; tiny white tips', fits: 'la' }
+      { label: 'White wedge along the leading edge', fits: 'bo bh', look: { wingtip: 'var(--c-black)', 'uw-wedge': 'var(--c-white)' } },
+      { label: 'No black at all; rounded tip', fits: 'li', look: { wingtip: 'var(--bird-b)', trailing: 'var(--c-white)' } },
+      { label: 'White band between the gray and the black; big white tips', fits: 'fr', look: { wingtip: 'var(--c-black)', 'uw-band': true, 'uw-spots': true } },
+      { label: 'Black blending into dark gray; tiny white tips', fits: 'la', look: { upperwing: 'var(--c-dgray)', carpal: { fill: 'var(--c-dgray)', stroke: 'none' }, wingtip: 'var(--c-black)' } }
     ]}],
     underwing: [{ id: 'under', title: 'Underwing', options: [
-      { label: 'White and see-through, with thin black tips', fits: 'bo' },
-      { label: 'Blackish under the outer wing', fits: 'bh' },
-      { label: 'Sooty black all over', fits: 'li' },
-      { label: 'Dusky outer wing', fits: 'la', check: 'Franklin’s and Laughing underwing details: standard, but not confirmed on a source page.' },
-      { label: 'Pale', fits: 'fr', check: 'Franklin’s and Laughing underwing details: standard, but not confirmed on a source page.' }
+      { label: 'White and see-through, with thin black tips', fits: 'bo', look: { underwing: 'var(--c-white)', underprimaries: 'var(--c-white)', 'under-tips': true } },
+      { label: 'Blackish under the outer wing', fits: 'bh', look: { underwing: 'var(--c-pale)', underprimaries: 'var(--c-black)' } },
+      { label: 'Sooty black all over', fits: 'li', look: { underwing: 'var(--c-black)', underprimaries: 'var(--c-black)' } },
+      { label: 'Dusky outer wing', fits: 'la', check: 'Franklin’s and Laughing underwing details: standard, but not confirmed on a source page.', look: { underwing: 'var(--c-pale)', underprimaries: 'var(--c-dgray)' } },
+      { label: 'Pale', fits: 'fr', check: 'Franklin’s and Laughing underwing details: standard, but not confirmed on a source page.', look: { underwing: 'var(--c-white)', underprimaries: 'var(--c-pale)' } }
     ]}],
     tail: { note: 'Adults have all-white tails.' },
     body: [{ id: 'body', title: 'Underparts', options: [
-      { label: 'Pink flush below', fits: '~fr' }
+      { label: 'Pink flush below', fits: '~fr', look: { body: 'var(--c-pink)' } }
     ]}]
   };
 
   var FALL = {
     head: [{ id: 'head', title: 'Head pattern', options: [
-      { label: 'White with a dark ear spot', fits: 'bo bh' },
-      { label: 'Dark cap and ear spot', fits: 'li' },
-      { label: 'Crisp blackish half-hood with bold eye-arcs', fits: 'fr' },
-      { label: 'Smudgy gray rear head', fits: 'la' },
-      { label: 'Gray smudge behind the eye and gray nape', fits: 'ki' },
-      { label: 'Still hooded: dark gray with a black lower border', fits: 'sa', check: 'Adult Sabine’s winter head pattern wasn’t confirmed.' },
-      { label: 'Small dark mark behind the eye; no cap', fits: 'ro' }
+      { label: 'White with a dark ear spot', fits: 'bo bh', look: { hood: 'var(--c-white)', earspot: 'var(--c-black)' } },
+      { label: 'Dark cap and ear spot', fits: 'li', look: { hood: 'var(--c-white)', cap: 'var(--c-dgray)', earspot: 'var(--c-black)' } },
+      { label: 'Crisp blackish half-hood with bold eye-arcs', fits: 'fr', look: { hood: 'var(--c-white)', halfhood: 'var(--c-black)', earspot: 'var(--c-black)', 'eyearcs-bold': true } },
+      { label: 'Smudgy gray rear head', fits: 'la', look: { hood: 'var(--c-white)', halfhood: 'var(--c-smudge)', earspot: 'var(--c-dgray)' } },
+      { label: 'Gray smudge behind the eye and gray nape', fits: 'ki', look: { hood: 'var(--c-white)', halfhood: 'var(--c-pale)', earspot: 'var(--c-dgray)' } },
+      { label: 'Still hooded: dark gray with a black lower border', fits: 'sa', check: 'Adult Sabine’s winter head pattern wasn’t confirmed.', look: { hood: 'var(--c-dgray)', earspot: 'var(--c-dgray)', collar: true } },
+      { label: 'Small dark mark behind the eye; no cap', fits: 'ro', look: { hood: 'var(--c-white)', earspot: { fill: 'var(--c-dgray)', transform: 'scale(.6)', transformOrigin: 'center' } } }
     ]}],
     bill: [{ id: 'bill', title: 'Bill', options: [
-      { label: 'Black and slim', fits: 'bo fr' },
-      { label: 'Red with a dark tip', fits: 'bh' },
-      { label: 'Heavy and black', fits: 'la' },
-      { label: 'Black with a yellow tip', fits: 'sa' },
-      { label: 'Plain yellow', fits: 'ki' },
-      { label: 'Small to tiny, dark', fits: 'li ro' }
+      { label: 'Black and slim', fits: 'bo fr', look: { bill: { fill: 'var(--c-black)', transform: 'scale(.8, 1)', transformOrigin: '50% 100%' } } },
+      { label: 'Red with a dark tip', fits: 'bh', look: { bill: 'var(--c-red)', billtip: 'var(--c-black)' } },
+      { label: 'Heavy and black', fits: 'la', look: { bill: { fill: 'var(--c-black)', transform: 'scale(1.35, 1.15)', transformOrigin: '50% 100%' } } },
+      { label: 'Black with a yellow tip', fits: 'sa', look: { bill: 'var(--c-black)', billtip: 'var(--c-yellow)' } },
+      { label: 'Plain yellow', fits: 'ki', look: { bill: 'var(--c-yellow)' } },
+      { label: 'Small to tiny, dark', fits: 'li ro', look: { bill: { fill: 'var(--c-black)', transform: 'scale(.7)', transformOrigin: '50% 100%' } } }
     ]}],
     upperwing: [{ id: 'uw', title: 'Wingtip from above', options: [
-      { label: 'Solid black tips with no white (“dipped in ink”)', fits: 'ki' },
-      { label: 'Three-color: gray, black outer wing, white triangle', fits: 'sa' },
-      { label: 'White wedge on the leading edge', fits: 'bo bh' },
-      { label: 'White band and big white tips', fits: 'fr' },
-      { label: 'All-dark tips', fits: 'la' },
-      { label: 'No black above', fits: 'li' },
-      { label: 'Pale gray with a broad white trailing edge', fits: 'ro' }
+      { label: 'Solid black tips with no white (“dipped in ink”)', fits: 'ki', look: { wingtip: 'var(--c-black)' } },
+      { label: 'Three-color: gray, black outer wing, white triangle', fits: 'sa', look: { wingtip: 'var(--c-black)', 'uw-tri': 'var(--c-white)', trailing: 'var(--c-white)' } },
+      { label: 'White wedge on the leading edge', fits: 'bo bh', look: { wingtip: 'var(--c-black)', 'uw-wedge': 'var(--c-white)' } },
+      { label: 'White band and big white tips', fits: 'fr', look: { wingtip: 'var(--c-black)', 'uw-band': true, 'uw-spots': true } },
+      { label: 'All-dark tips', fits: 'la', look: { upperwing: 'var(--c-dgray)', carpal: { fill: 'var(--c-dgray)', stroke: 'none' }, wingtip: 'var(--c-black)' } },
+      { label: 'No black above', fits: 'li', look: { wingtip: 'var(--bird-b)', trailing: 'var(--c-white)' } },
+      { label: 'Pale gray with a broad white trailing edge', fits: 'ro', look: { upperwing: 'var(--c-pale)', carpal: { fill: 'var(--c-pale)', stroke: 'none' }, wingtip: 'var(--c-pale)', trailing: 'var(--c-white)' } }
     ]}],
     underwing: [{ id: 'under', title: 'Underwing', options: [
-      { label: 'White', fits: 'bo' },
-      { label: 'Dark underside of the outer wing', fits: 'bh' },
-      { label: 'Sooty', fits: 'li' },
-      { label: 'Dark gray', fits: 'ro' }
+      { label: 'White', fits: 'bo', look: { underwing: 'var(--c-white)', underprimaries: 'var(--c-white)' } },
+      { label: 'Dark underside of the outer wing', fits: 'bh', look: { underwing: 'var(--c-pale)', underprimaries: 'var(--c-black)' } },
+      { label: 'Sooty', fits: 'li', look: { underwing: 'var(--c-black)', underprimaries: 'var(--c-black)' } },
+      { label: 'Dark gray', fits: 'ro', look: { underwing: 'var(--c-dgray)', underprimaries: 'var(--c-dgray)' } }
     ]}],
     tail: [{ id: 'tail', title: 'Tail shape', options: [
-      { label: 'Wedge-shaped', fits: 'ro' },
-      { label: 'Slightly forked', fits: 'sa' },
+      { label: 'Wedge-shaped', fits: 'ro', look: { 'tail-wedge': true } },
+      { label: 'Slightly forked', fits: 'sa', look: { 'tail-fork': true } },
       { label: 'Square or rounded', fits: 'fr bo la li bh ki' }
     ]}],
     legs: [{ id: 'legs', title: 'Legs', options: [
       { label: 'Black', fits: 'ki' }
     ]}],
     body: [{ id: 'body', title: 'Underparts', options: [
-      { label: 'Pink flush below', fits: '~ro ~fr' }
+      { label: 'Pink flush below', fits: '~ro ~fr', look: { body: 'var(--c-pink)' } }
     ]}]
   };
+
+  var ADULT = { carpal: { fill: 'var(--bird-b)', stroke: 'none' }, trailing: 'var(--c-white)', tailband: { fill: 'var(--c-white)', stroke: 'none' } };
 
   Picker({
     species: SPECIES,
     stages: [
       { id: 'first',  label: '1st cycle',     name: '1st cycle',          tab: 'first',  hint: 'A dark bar or “W” on the inner wing, or a black tail band. A brown-backed bird in July–September is a juvenile: use this.' },
-      { id: 'spring', label: 'Adult, spring', name: 'Adult, spring–summer', tab: 'spring', hint: 'Clean gray inner wing, white tail, and a hood. In Iowa, usually April–May.' },
-      { id: 'fall',   label: 'Adult, fall',   name: 'Adult, fall–winter',   tab: 'fall',   hint: 'Clean gray inner wing, white tail, and no hood (except Sabine’s). In Iowa, usually August–November.' }
+      { id: 'spring', label: 'Adult, spring', name: 'Adult, spring–summer', tab: 'spring', look: ADULT, hint: 'Clean gray inner wing, white tail, and a hood. In Iowa, usually April–May.' },
+      { id: 'fall',   label: 'Adult, fall',   name: 'Adult, fall–winter',   tab: 'fall',   look: ADULT, hint: 'Clean gray inner wing, white tail, and no hood (except Sabine’s). In Iowa, usually August–November.' }
     ],
     defaultStage: 'first',
     partToQ: PART_TO_Q, qOrder: Q_ORDER, qNames: Q_NAMES,

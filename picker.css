@@ -61,6 +61,11 @@
   .label.current text { fill: var(--hi-ink); }
   .label.current line { stroke: var(--hi-line); stroke-width: 2; }
   .part.na { opacity: .45; }
+  /* looks: overlays drawn only when a pick asks for them */
+  svg [data-look] { display: none; pointer-events: none; stroke: var(--bird-line); stroke-width: 1.5; }
+  svg [data-look].look-on { display: inline; }
+  svg [data-look].no-stroke, svg [data-look] .no-stroke { stroke: none; }
+  svg .part.painted, svg [data-look] { transform-box: fill-box; transition: fill .15s, transform .15s; }
 
   /* Part chips */
   .parts { display: flex; flex-wrap: wrap; gap: 6px; }

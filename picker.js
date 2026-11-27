@@ -96,11 +96,43 @@
       });
     }
 
+    // ---------- Looks: repaint the diagram to match the picks ----------
+    // A stage or an option may carry look: { name: value }. name is a data-part (repainted)
+    // or a data-look overlay (shown). value is a fill string, true (show as drawn),
+    // or an object of style properties (fill, transform, opacity...).
+    function applyLook(look, painted) {
+      Object.keys(look).forEach(function (name) {
+        var v = look[name];
+        var style = typeof v === 'string' ? { fill: v } : (v === true ? {} : v);
+        svg.querySelectorAll('[data-part="' + name + '"], [data-look="' + name + '"]').forEach(function (e) {
+          if (e.dataset.look) e.classList.add('look-on');
+          Object.keys(style).forEach(function (k) { e.style[k] = style[k]; });
+          if (e.dataset.part) e.classList.add('painted');
+        });
+        if (painted && cfg.partToQ[name]) painted[cfg.partToQ[name]] = true;
+      });
+    }
+    function renderLooks() {
+      var painted = {};
+      svg.querySelectorAll('[data-part], [data-look]').forEach(function (e) {
+        if (!('base' in e.dataset)) e.dataset.base = e.getAttribute('style') || '';
+        e.setAttribute('style', e.dataset.base); e.classList.remove('look-on', 'painted');
+      });
+      if (stageObj().look) applyLook(stageObj().look);
+      Object.keys(state.picks).forEach(function (id) {
+        var f = findGroup(id); if (!f) return;
+        var o = f.g.options[state.picks[id]];
+        if (o.look) { applyLook(o.look, painted); painted[f.q] = true; }
+      });
+      return painted;
+    }
+
     // ---------- Rendering ----------
     function renderDiagram() {
+      var painted = renderLooks();
       svg.querySelectorAll('[data-part]').forEach(function (p) {
         var q = qOfPart(p.dataset.part);
-        p.classList.toggle('answered', !!q && qAnswered(q));
+        p.classList.toggle('answered', !!q && qAnswered(q) && !painted[q]);
         p.classList.toggle('current', !!q && state.current === q);
         p.classList.toggle('na', !!q && !groupsFor(q));
       });
