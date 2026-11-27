@@ -1,0 +1,334 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Oriole Picker</title>
+<meta name="description" content="Tap parts of an oriole, pick what you see, and sort the orioles of the contiguous US, including females and young birds.">
+<link rel="stylesheet" href="picker.css">
+<style>
+  :root { --bird-leg: #6b7178; }
+  @media (prefers-color-scheme: dark) { :root { --bird-leg: #9aa1a8; } }
+  .part[data-part="back"]      { fill: var(--bird-b); }
+  .part[data-part="head"]      { fill: var(--bird-b); }
+  .part[data-part="wing"]      { fill: var(--bird-a); }
+  .part[data-part="tertials"]  { fill: var(--bird-a); }
+  .part[data-part="primaries"] { fill: var(--bird-d); }
+  .part[data-part="tail"]      { fill: var(--bird-d); }
+  .part[data-part="ear"]       { fill: var(--bird-a); }
+  .part[data-part="throat"]    { fill: var(--bird-a); }
+  .part[data-part="shoulder"]  { fill: var(--bird-b); }
+  .part[data-part="sides"], .part[data-part="flanks"] { fill: var(--bird-c); }
+  .part[data-part="bill"]      { fill: var(--bird-d); }
+  .part.wingbar { stroke: var(--bird-white); stroke-width: 4; stroke-linecap: round; }
+  .part[data-part="face"] { stroke: var(--bird-line); stroke-width: 2.5; stroke-linecap: round; }
+  svg .part[data-part="face"].answered { stroke: var(--hi-line); stroke-width: 4; }
+  .leg { fill: none; stroke: var(--bird-leg); stroke-width: 3; stroke-linecap: round; stroke-linejoin: round; }
+  .eye { fill: var(--bird-line); }
+  .branch { stroke: var(--line); stroke-width: 6; stroke-linecap: round; }
+</style>
+</head>
+<body>
+<main>
+  <p class="kicker"><a class="home" href="index.html">← Home</a> · Tricky birds · US</p>
+  <h1>Oriole Picker</h1>
+  <p class="lede">Orioles of the contiguous US. Pick the look first, then tap any part of the bird and choose what you see. “Where” and “Belly” do the most work on dull birds. For maps and the full write-up, see the <a href="orioles.html">oriole reference page</a>.</p>
+
+  <div class="layout">
+    <div class="stack">
+      <section class="card">
+        <div class="card-head"><h2>1 · Pick the look</h2><button type="button" class="clear">↺ Start over</button></div>
+        <div class="seg" id="stages" role="group" aria-label="Look"></div>
+        <p class="stage-hint" id="stage-hint"></p>
+      </section>
+
+      <section class="card">
+        <h2>2 · Tap a part</h2>
+        <div id="diagram"></div>
+        <div class="parts" id="partchips" role="group" aria-label="Parts"></div>
+      </section>
+
+      <section class="card q" id="question" aria-live="polite"></section>
+
+      <section class="card">
+        <h2>Your picks</h2>
+        <div class="picks" id="picks"></div>
+      </section>
+    </div>
+
+    <section class="card results" id="results-card">
+      <div class="results-head">
+        <h2 id="results">Could be</h2>
+        <span class="count" id="count"></span>
+        <button type="button" class="clear">↺ Start over</button>
+      </div>
+      <ul class="res" id="res"></ul>
+    </section>
+  </div>
+
+  <footer><a href="index.html">← All bird pages</a> · Answers come from the <a href="orioles.html">oriole reference page</a> and its sources. Things tagged <span class="unsure">check</span> aren’t confirmed; the full list is in the reference page’s <a href="orioles.html#to-check">To check</a> section.</footer>
+</main>
+
+<div class="bar" id="bar"><span id="bar-text"></span><button type="button" class="clear">↺</button><a href="#results">See results ↓</a></div>
+
+<template id="bird-svg">
+  <svg viewBox="0 0 600 300" role="img">
+  <defs><clipPath id="body-clip"><ellipse cx="245" cy="150" rx="92" ry="46"/></clipPath></defs>
+  <g transform="translate(60 4)">
+    <line class="branch" x1="150" y1="250" x2="390" y2="262"/>
+    <!-- tail behind -->
+    <path class="part" data-part="tail" d="M318,150 L466,196 L458,216 L314,178 Z"/>
+    <path class="leg" d="M236,186 L232,224 L238,252 M266,188 L270,226 L264,254 M226,253 L250,254 M254,256 L278,256"/>
+    <!-- body -->
+    <ellipse class="part" data-part="belly" cx="245" cy="150" rx="92" ry="46"/>
+    <g clip-path="url(#body-clip)">
+      <ellipse class="part" data-part="sides" cx="190" cy="156" rx="56" ry="46"/>
+      <ellipse class="part" data-part="flanks" cx="262" cy="182" rx="58" ry="18"/>
+      <ellipse class="part" data-part="back" cx="250" cy="108" rx="110" ry="30"/>
+    </g>
+    <path class="part" data-part="undertail" d="M318,166 C335,170 352,178 366,190 C348,194 330,192 314,184 Z"/>
+    <!-- wing -->
+    <path class="part" data-part="wing" d="M196,124 C240,110 300,114 340,134 C316,154 258,160 208,150 Z"/>
+    <ellipse class="part" data-part="shoulder" cx="216" cy="127" rx="18" ry="7"/>
+    <path class="part stroke-only wingbar" data-part="wingbars" d="M224,135 Q248,141 272,136"/>
+    <path class="part stroke-only wingbar" data-part="wingbars" d="M226,145 Q254,152 288,146"/>
+    <path class="part" data-part="tertials" d="M276,128 C300,124 322,130 340,140 C322,150 298,150 280,144 Z"/>
+    <path class="part" data-part="primaries" d="M330,134 L404,166 L398,174 L324,150 Z"/>
+    <!-- head -->
+    <path class="part" data-part="sides" d="M126,100 C126,128 148,152 186,160 L204,120 C186,110 166,100 152,92 Z"/>
+    <circle class="part" data-part="head" cx="150" cy="90" r="30"/>
+    <path class="part" data-part="throat" d="M124,96 C124,112 136,124 156,126 C164,124 170,118 172,112 C156,112 140,106 128,94 Z"/>
+    <ellipse class="part" data-part="ear" cx="160" cy="98" rx="12" ry="8"/>
+    <path class="part" data-part="bill" d="M124,84 L84,95 L124,100 Z"/>
+    <path class="part stroke-only" data-part="face" d="M122,88 L160,86"/>
+    <circle class="eye" cx="140" cy="87" r="3.6"/>
+
+    <!-- labels -->
+    <g class="label" data-q="head"><line x1="170" y1="38" x2="158" y2="62"/><text x="176" y="30" text-anchor="middle">Head</text></g>
+    <g class="label" data-q="face"><line x1="92" y1="62" x2="138" y2="86"/><text x="80" y="56" text-anchor="middle">Face</text></g>
+    <g class="label" data-q="bill"><line x1="56" y1="122" x2="96" y2="96"/><text x="46" y="138" text-anchor="middle">Bill</text></g>
+    <g class="label" data-q="throat"><line x1="100" y1="170" x2="140" y2="118"/><text x="86" y="186" text-anchor="middle">Throat</text></g>
+    <g class="label" data-q="back"><line x1="246" y1="54" x2="248" y2="96"/><text x="246" y="46" text-anchor="middle">Back</text></g>
+    <g class="label" data-q="shoulder"><line x1="300" y1="72" x2="226" y2="124"/><text x="310" y="64" text-anchor="middle">Shoulder</text></g>
+    <g class="label" data-q="wing"><line x1="392" y1="110" x2="334" y2="140"/><text x="400" y="102" text-anchor="middle">Wing</text></g>
+    <g class="label" data-q="tail"><line x1="486" y1="232" x2="458" y2="210"/><text x="492" y="250" text-anchor="middle">Tail</text></g>
+    <g class="label" data-q="breast"><line x1="160" y1="222" x2="180" y2="186"/><text x="150" y="238" text-anchor="middle">Breast</text></g>
+    <g class="label" data-q="belly"><line x1="310" y1="232" x2="290" y2="196"/><text x="318" y="250" text-anchor="middle">Belly</text></g>
+  </g>
+</svg>
+</template>
+
+<script src="picker.js"></script>
+<script>
+(function () {
+  var SPECIES = [
+    { id: 'ba', name: 'Baltimore' },
+    { id: 'or', name: 'Orchard' },
+    { id: 'bu', name: 'Bullock’s', rare: 'West' },
+    { id: 'ho', name: 'Hooded', rare: 'Southwest, S Texas' },
+    { id: 'sc', name: 'Scott’s', rare: 'Southwest' },
+    { id: 'au', name: 'Audubon’s', rare: 'S Texas only' },
+    { id: 'al', name: 'Altamira', rare: 'S Texas only' },
+    { id: 'sb', name: 'Spot-breasted', rare: 'SE Florida only' },
+    { id: 'sk', name: 'Streak-backed', rare: 'Rare, AZ and CA' }
+  ];
+  var STAGES = [
+    { id: 'adult', label: 'Adult male', name: 'Adult male', tab: 'adult',
+      hint: 'Full black-and-orange (or yellow, or chestnut) pattern. Female Audubon’s and Altamira look like males, so pick this for them too.' },
+    { id: 'bib', label: 'Dull, black bib', name: 'Dull with a black bib', tab: 'bib',
+      hint: 'Female-like colors with a black throat: usually a first-year male. Older female Bullock’s and Scott’s can show a dark throat too.' },
+    { id: 'plain', label: 'Dull, no black', name: 'Female or juvenile', tab: 'plain',
+      hint: 'No black on the face or throat: females, juveniles and first-year females.' }
+  ];
+  var PART_TO_Q = { head: 'head', face: 'face', ear: 'face', throat: 'throat', bill: 'bill', back: 'back',
+                    shoulder: 'shoulder', wing: 'wing', wingbars: 'wing', tertials: 'wing', primaries: 'wing',
+                    tail: 'tail', sides: 'breast', belly: 'belly', flanks: 'belly', undertail: 'belly' };
+  var Q_ORDER = ['where', 'color', 'size', 'head', 'face', 'throat', 'back', 'wing', 'shoulder', 'breast', 'belly', 'tail', 'bill', 'call'];
+  var Q_NAMES = { where: 'Where', color: 'Overall color', size: 'Size & shape', head: 'Head', face: 'Face', throat: 'Throat',
+                  back: 'Back', wing: 'Wing', shoulder: 'Shoulder', breast: 'Breast', belly: 'Belly', tail: 'Tail', bill: 'Bill', call: 'Call' };
+
+  // Same in every stage
+  var WHERE = [{ id: 'where', title: 'Where you saw it', help: 'Strays happen, so this ranks but never rules out.', options: [
+    { label: 'Iowa, the Midwest or the East', fits: 'ba or ~bu ~ho ~sc' },
+    { label: 'Great Plains (Kansas, Nebraska, Dakotas)', fits: 'ba or bu' },
+    { label: 'West: Pacific states, Great Basin, Rockies', fits: 'bu ~sc ~ho' },
+    { label: 'Desert Southwest: Arizona, New Mexico, southern California', fits: 'bu ho sc ~sk' },
+    { label: 'South Texas', fits: 'or ho au al ~ba ~bu' },
+    { label: 'Florida', fits: 'ba or sb' }
+  ]}];
+  var SIZE = [{ id: 'size', title: 'Size and shape', options: [
+    { label: 'Small and slim, short bill', fits: 'or' },
+    { label: 'Medium, robin-like build but slimmer', fits: 'ba bu' },
+    { label: 'Slender, long tail, long curved bill', fits: 'ho' },
+    { label: 'Large and long-tailed', fits: 'sc au al ~sb ~sk' }
+  ]}];
+  var BILL = [{ id: 'bill', title: 'Bill', check: 'Sources differ on whether Orchard’s bill is straight or slightly curved, and on Scott’s bill shape.', options: [
+    { label: 'Long, slender and clearly down-curved', fits: 'ho' },
+    { label: 'Short and fairly straight', fits: 'or' },
+    { label: 'Straight and pointed, medium length', fits: 'ba bu sc ~sk' },
+    { label: 'Very thick at the base', fits: 'al au ~sb' }
+  ]}];
+  var CALL = [{ id: 'call', title: 'Call', options: [
+    { label: 'Soft “chuk” and a quick chatter', fits: 'or' },
+    { label: 'Nasal, rising “wheet” (like a House Finch)', fits: 'ho ~sc' },
+    { label: 'Harsh, nasal “chuk”', fits: 'sc' },
+    { label: 'Dry chatter or rattle', fits: 'ba bu ~or ~ho ~al' },
+    { label: 'Nasal “nyee”, or a slow slide-whistle song', fits: 'au' },
+    { label: 'Clipped “ike”', fits: 'al' }
+  ]}];
+  var TAILSHAPE = [{ id: 'tailshape', title: 'Tail length', options: [
+    { label: 'Long and rounded', fits: 'ho sc au al ~sb ~sk' },
+    { label: 'Medium', fits: 'ba bu or' }
+  ]}];
+
+  var DATA = {
+    adult: {
+      where: WHERE, size: SIZE, bill: BILL, call: CALL,
+      color: [{ id: 'color', title: 'Overall color', options: [
+        { label: 'Orange', fits: 'ba bu al sb sk ho' },
+        { label: 'Yellow', fits: 'sc au ~ho' },
+        { label: 'Chestnut (brick red)', fits: 'or' }
+      ]}],
+      head: [{ id: 'head', title: 'Head', options: [
+        { label: 'All-black hood (head and throat)', fits: 'ba or sc au' },
+        { label: 'Black crown and black line through the eye; orange face', fits: 'bu' },
+        { label: 'Orange or yellow crown; black only on the face and throat', fits: 'ho al sb sk' }
+      ]}],
+      face: [{ id: 'face', title: 'Black on the face', options: [
+        { label: 'Wraps around the eye onto the cheek (a mask)', fits: 'ho' },
+        { label: 'Only in front of the eye, plus the throat', fits: 'al sb sk' },
+        { label: 'A line through the eye on an orange face', fits: 'bu' },
+        { label: 'Whole head black', fits: 'ba or sc au' }
+      ]}],
+      throat: { note: 'In adult males the throat goes with the head pattern: use Head or Face.' },
+      back: [{ id: 'back', title: 'Back', options: [
+        { label: 'Solid black', fits: 'ba or bu ho sc al sb' },
+        { label: 'Black barred with buff (winter)', fits: 'ho' },
+        { label: 'Yellow-olive', fits: 'au' },
+        { label: 'Orange with black streaks', fits: 'sk' }
+      ]}],
+      wing: [{ id: 'wing', title: 'Wing', options: [
+        { label: 'Large white wing patch', fits: 'bu ~sb' },
+        { label: 'Two white wingbars, the upper one stronger', fits: 'ho' },
+        { label: 'One white wingbar', fits: 'ba or sc al' },
+        { label: 'Black with white edges, no clear bar', fits: 'au' }
+      ]}],
+      shoulder: [{ id: 'shoulder', title: 'Shoulder (top of the wing)', options: [
+        { label: 'Orange', fits: 'al', check: 'Adult male Baltimore may also show an orange shoulder; not confirmed from an opened source.' },
+        { label: 'Yellow, bordered with white', fits: 'sc' },
+        { label: 'Chestnut', fits: 'or' },
+        { label: 'White', fits: 'bu ho ~sb' }
+      ]}],
+      breast: [{ id: 'breast', title: 'Breast', options: [
+        { label: 'Black reaches the upper breast', fits: 'ba or sc au' },
+        { label: 'Black bib on the throat only; breast clean', fits: 'ho al bu sk' },
+        { label: 'Black spots on the sides of the breast', fits: 'sb' }
+      ]}],
+      belly: { note: 'Belly color matches the overall color in adult males. Use Overall color.' },
+      tail: TAILSHAPE.concat([{ id: 'tailcolor', title: 'Tail color', options: [
+        { label: 'Black with orange outer feathers', fits: 'ba' },
+        { label: 'Black and yellow', fits: 'sc' },
+        { label: 'All black', fits: 'or ho au al sb' }
+      ]}])
+    },
+
+    bib: {
+      where: WHERE, size: SIZE, bill: BILL, call: CALL, tail: TAILSHAPE,
+      color: [{ id: 'color', title: 'Overall color', options: [
+        { label: 'Greenish-yellow or olive-yellow', fits: 'or ho' },
+        { label: 'Yellow-orange to orange', fits: 'ba bu al' },
+        { label: 'Dull yellow below, olive above', fits: 'sc au' }
+      ]}],
+      head: [{ id: 'head', title: 'Black on the head', options: [
+        { label: 'Only a bib and lores', fits: 'or ho al' },
+        { label: 'Bib plus a dark line through the eye', fits: 'bu' },
+        { label: 'Black face, throat and upper breast, mottled', fits: 'sc' },
+        { label: 'Irregular black patches or mottling', fits: 'ba ~sc' },
+        { label: 'A full hood', fits: 'au', check: 'Whether young Audubon’s show the hood is inconsistent between sources.' }
+      ]}],
+      face: [{ id: 'face', title: 'Line through the eye', options: [
+        { label: 'Dark eyeline on a yellow-orange face', fits: 'bu' },
+        { label: 'No eyeline', fits: 'or ho ba ~al' }
+      ]}],
+      throat: [{ id: 'throat', title: 'Edge of the bib', help: 'Both young Orchard and young Hooded show a neat bib; separate them by shape.', options: [
+        { label: 'Neat, with a clean, sharp edge', fits: 'or ho ~al' },
+        { label: 'Ragged, spreading onto the breast', fits: 'sc ~ba' }
+      ]}],
+      back: [{ id: 'back', title: 'Back', options: [
+        { label: 'Plain olive or gray', fits: 'or ho' },
+        { label: 'Grayish', fits: 'bu' },
+        { label: 'Streaked or mottled dark', fits: 'ba sc' },
+        { label: 'Olive-brown', fits: 'al' },
+        { label: 'Yellow-olive', fits: 'au' }
+      ]}],
+      wing: [{ id: 'wing', title: 'Wingbars', options: [
+        { label: 'Bold white bars or white-edged coverts', fits: 'ba bu sc' },
+        { label: 'Narrow white bars, the lower one thin', fits: 'or' },
+        { label: 'Thin white bars', fits: 'ho ~or' }
+      ]}],
+      shoulder: [{ id: 'shoulder', title: 'Shoulder', options: [
+        { label: 'No orange shoulder yet', fits: 'al ba bu or ho sc au' }
+      ], help: 'Young Altamiras lack the adult’s orange shoulder, so this doesn’t help much.' }],
+      breast: { note: 'Use the belly against the breast instead: tap Belly.' },
+      belly: [{ id: 'belly', title: 'Belly against the breast', options: [
+        { label: 'Whitish, paler than the breast', fits: 'bu' },
+        { label: 'Orangish', fits: 'ba' },
+        { label: 'Yellow, same as the breast', fits: 'or ho sc au al' }
+      ]}]
+    },
+
+    plain: {
+      where: WHERE, size: SIZE, bill: BILL, call: CALL, tail: TAILSHAPE,
+      color: [{ id: 'color', title: 'Overall color', options: [
+        { label: 'Greenish-yellow or olive-yellow all over; no orange', fits: 'or ho au ~sc' },
+        { label: 'Orange to yellow-orange breast', fits: 'ba ~bu' },
+        { label: 'Yellow head and breast, gray body', fits: 'bu ~ba' },
+        { label: 'Dull yellow below, olive above, gray-green head', fits: 'sc' },
+        { label: 'Yellow with an olive back; big bird', fits: 'al sb ~au' }
+      ]}],
+      head: [{ id: 'head', title: 'Head', options: [
+        { label: 'Plain', fits: 'or ho bu au al sb ~ba' },
+        { label: 'Some black mottling', fits: 'ba sc' }
+      ]}],
+      face: [{ id: 'face', title: 'Face', options: [
+        { label: 'Dark line through the eye', fits: 'bu' },
+        { label: 'Plain, no eyeline', fits: 'or ho ba au al sb' },
+        { label: 'Black flecks on a gray-green face', fits: 'sc' }
+      ]}],
+      throat: [{ id: 'throat', title: 'Throat', options: [
+        { label: 'Plain yellow', fits: 'or ho bu ba au al sb' },
+        { label: 'Black flecks', fits: 'sc ~ba' }
+      ]}],
+      back: [{ id: 'back', title: 'Back', options: [
+        { label: 'Plain, unstreaked', fits: 'or ho bu au al sb' },
+        { label: 'Some streaking', fits: 'ba ~bu' },
+        { label: 'Streaked or mottled with dark centers', fits: 'sc sk' }
+      ]}],
+      wing: [{ id: 'wing', title: 'Wingbars', options: [
+        { label: 'Bold, wide white bars or white-edged coverts', fits: 'ba bu sc' },
+        { label: 'Neat white bars', fits: 'or ~ho' },
+        { label: 'Thin, faint bars', fits: 'ho ~sc' },
+        { label: 'Hardly any', fits: 'au al' }
+      ]}],
+      shoulder: { note: 'Females and juveniles don’t have a distinct shoulder patch.' },
+      breast: { note: 'Use the belly against the breast instead: tap Belly.' },
+      belly: [{ id: 'belly', title: 'Belly against the breast', help: 'One of the best clues for Baltimore against Bullock’s.', options: [
+        { label: 'Whitish or pale gray, paler than the breast', fits: 'bu', check: 'Whether pale young female Baltimores can show a whitish belly wasn’t confirmed.' },
+        { label: 'Orangish', fits: 'ba' },
+        { label: 'Yellow or greenish-yellow, same as the breast', fits: 'or ho sc au al sb' }
+      ]}]
+    }
+  };
+
+  Picker({
+    species: SPECIES,
+    stages: STAGES,
+    defaultStage: 'plain',
+    partToQ: PART_TO_Q, qOrder: Q_ORDER, qNames: Q_NAMES,
+    data: DATA,
+    ref: 'orioles.html'
+  });
+})();
+</script>
+</body>
+</html>
