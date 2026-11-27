@@ -17,6 +17,8 @@
   .part[data-part="earspot"]       { fill: var(--bird-d); }
   .part[data-part="bill"]          { fill: var(--bird-d); }
   .part[data-part="tailband"]      { fill: var(--bird-d); }
+  .part[data-part="sback"]         { fill: var(--bird-b); }
+  .part[data-part="sbill"]         { fill: var(--bird-d); }
   :root { --c-black: #24282c; --c-dgray: #5f666d; --c-gray: #a9b1b9; --c-pale: #d3d8dd; --c-white: #fbfbf9;
           --c-brown: #8a6a4a; --c-gbrown: #a49686; --c-choc: #5b3a26; --c-red: #b3262e; --c-dred: #7a1e24;
           --c-orange: #e48b63; --c-yellow: #e7c13f; --c-pink: #f2d6d3; --c-smudge: #b4b9be; }
@@ -32,7 +34,7 @@
 <main>
   <p class="kicker"><a class="home" href="index.html">← Home</a> · Tricky birds · Iowa</p>
   <h1>Small Gull Picker</h1>
-  <p class="lede">Pick the age and season, then tap any part of the bird and choose what you see. Answers tagged <span class="unsure">check</span> aren’t confirmed yet. Every species stays listed, ranked by how well it fits; ones that conflict fade and say why. For the full write-up, see the <a href="small-gulls.html">small gull reference page</a>.</p>
+  <p class="lede">Pick the age and season, then tap any part of the flying or standing bird and choose what you see. Answers tagged <span class="unsure">check</span> aren’t confirmed yet. Every species stays listed, ranked by how well it fits; ones that conflict fade and say why. For the full write-up, see the <a href="small-gulls.html">small gull reference page</a>.</p>
 
   <div class="layout">
     <div class="stack">
@@ -72,7 +74,7 @@
 <div class="bar" id="bar"><span id="bar-text"></span><button type="button" class="clear">↺</button><a href="#results">See results ↓</a></div>
 
 <template id="bird-svg">
-  <svg viewBox="0 0 600 320" role="img">
+  <svg viewBox="0 0 600 412" role="img" aria-label="Gull diagram, flying and standing: tap a part">
     <!-- left wing, from above -->
     <path class="part" data-part="upperwing" d="M282,135 C220,118 140,110 72,126 L30,150 C85,162 160,172 220,178 L282,182 Z"/>
     <path class="part" data-part="trailing" d="M140,160 C175,166 225,173 282,176 L282,182 C225,180 170,174 132,168 Z"/>
@@ -139,6 +141,36 @@
     <g class="label" data-q="tail"><line x1="250" y1="294" x2="281" y2="262"/><text x="246" y="302" text-anchor="end">Tail</text></g>
     <g class="label" data-q="underwing"><line x1="430" y1="232" x2="420" y2="168"/><text x="430" y="250" text-anchor="middle">Underwing</text></g>
     <g class="label" data-q="underwing"><line x1="538" y1="96" x2="520" y2="134"/><text x="540" y="88" text-anchor="middle">Under wingtip</text></g>
+    <!-- standing, smaller -->
+    <g transform="translate(10 300) scale(.4)">
+      <path class="part leg-line" data-part="legs" d="M240,196 L238,250 M270,196 L274,250"/>
+      <path class="part" data-part="legs" d="M224,253 L238,248 L252,254 Z M260,253 L274,248 L288,254 Z" style="fill:var(--bird-leg)"/>
+      <path class="part" data-part="stail" d="M335,142 L420,158 L418,172 L333,166 Z"/>
+      <ellipse class="part" data-part="body" cx="250" cy="150" rx="100" ry="50"/>
+      <path class="part" data-part="body" d="M118,108 C125,135 150,165 190,178 L212,112 C190,96 170,82 160,72 Z"/>
+      <circle class="part" data-part="hood" cx="145" cy="92" r="30"/>
+      <path class="part" data-part="sback" d="M185,118 C215,102 290,98 340,128 L336,142 C300,130 240,126 195,134 Z"/>
+      <path class="part" data-part="sback" d="M195,128 C250,116 320,120 360,136 C330,160 255,168 205,160 Z"/>
+      <path class="part" data-part="sback" d="M298,124 C328,121 352,128 368,138 C345,147 318,145 300,137 Z"/>
+      <path class="part" data-part="wingtip" d="M342,132 L462,156 L456,168 L338,152 Z"/>
+      <path class="part" data-part="sbill" d="M120,84 L90,88 C85,89 84,94 87,96 L120,100 Z"/>
+      <ellipse class="part" data-part="earspot" cx="158" cy="98" rx="7" ry="8"/>
+      <circle class="pupil" cx="136" cy="86" r="3"/>
+      <path data-look="cap" d="M116,86 A30,30 0 0 1 174,84 C160,76 132,76 116,86 Z"/>
+      <path data-look="halfhood" d="M140,63 A30,30 0 0 1 174,98 C162,92 150,80 140,63 Z"/>
+      <path data-look="nape" class="no-stroke" d="M150,120 C162,114 170,106 174,98 L176,104 C172,114 162,121 152,123 Z" style="fill:var(--c-white)"/>
+      <path data-look="collar" d="M162,116 C176,112 190,112 202,118 L206,130 C192,124 176,124 164,128 Z" style="fill:var(--c-black)"/>
+      <g data-look="eyearcs" style="fill:none;stroke:var(--c-white);stroke-width:3;stroke-linecap:round">
+        <path d="M129,81 A8,8 0 0 1 143,81"/><path d="M129,91 A8,8 0 0 0 143,91"/>
+      </g>
+      <g data-look="eyearcs-bold" style="fill:none;stroke:var(--c-white);stroke-width:5;stroke-linecap:round">
+        <path d="M128,80 A9,9 0 0 1 144,80"/><path d="M128,92 A9,9 0 0 0 144,92"/>
+      </g>
+      <path data-look="billtip" d="M90,88 L98,87 L98,97 L87,96 C84,94 85,89 90,88 Z"/>
+    </g>
+    <text class="side-label" x="206" y="336" text-anchor="start">standing</text>
+    <g class="label" data-q="body"><line x1="206" y1="368" x2="112" y2="362"/><text x="210" y="373" text-anchor="start">Breast</text></g>
+    <g class="label" data-q="legs"><line x1="206" y1="396" x2="112" y2="400"/><text x="210" y="401" text-anchor="start">Legs</text></g>
   </svg>
 </template>
 
@@ -157,7 +189,8 @@
   ];
   var PART_TO_Q = { upperwing: 'upperwing', carpal: 'upperwing', trailing: 'upperwing', wingtip: 'upperwing',
                     underwing: 'underwing', underprimaries: 'underwing', hood: 'head', earspot: 'head',
-                    bill: 'bill', tail: 'tail', tailband: 'tail', body: 'body' };
+                    bill: 'bill', tail: 'tail', tailband: 'tail', body: 'body',
+                    sback: 'upperwing', stail: 'tail', sbill: 'bill', legs: 'legs' };
   var Q_ORDER = ['upperwing', 'underwing', 'head', 'bill', 'tail', 'body', 'legs'];
   var Q_NAMES = { upperwing: 'Upperwing', head: 'Head', bill: 'Bill', tail: 'Tail', underwing: 'Underwing', body: 'Breast', legs: 'Legs' };
 
@@ -290,6 +323,22 @@
   };
 
   var ADULT = { carpal: { fill: 'var(--bird-b)', stroke: 'none' }, trailing: 'var(--c-white)', tailband: { fill: 'var(--c-white)', stroke: 'none' } };
+
+  // The standing bird repaints too: its bill points sideways, and its folded wing takes the upperwing color.
+  function sideLook(look) {
+    if (!look) return;
+    if (look.bill !== undefined) {
+      var b = look.bill;
+      look.sbill = typeof b === 'string' ? b : { fill: b.fill, transformOrigin: '100% 50%',
+        transform: b.transform && b.transform.replace(/scale\(([\d.]+)(?:,\s*([\d.]+))?\)/, function (m, x, y) { return 'scale(' + (y || x) + ', ' + x + ')'; }) };
+    }
+    if (look.upperwing !== undefined) look.sback = look.upperwing;
+  }
+  [FIRST, SPRING, FALL].forEach(function (st) {
+    Object.keys(st).forEach(function (q) {
+      if (Array.isArray(st[q])) st[q].forEach(function (g) { g.options.forEach(function (o) { sideLook(o.look); }); });
+    });
+  });
 
   Picker({
     species: SPECIES,

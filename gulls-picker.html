@@ -13,13 +13,30 @@
   .part[data-part="primaries"] { fill: var(--bird-d); }
   .part[data-part="bill"] { fill: var(--bird-c); }
   .part[data-part="legs"] { fill: var(--bird-leg); }
+  .part[data-part="fupper"] { fill: var(--bird-b); }
+  .part[data-part="fwingtip"] { fill: var(--bird-d); }
+  .part[data-part="funder"] { fill: var(--bird-c); }
+  .part[data-part="funderprim"] { fill: var(--bird-a); }
+  .part[data-part="fbill"] { fill: var(--bird-c); }
+  :root { --c-black: #24282c; --c-white: #fbfbf9; --c-pale: #e1e6ea; --c-gray: #b5bec6; --c-cagray: #98a1ab;
+          --c-slate: #5b626a; --c-blackish: #33373c; --c-silver: #eef1f3;
+          --c-brown: #9b7c5e; --c-dbrown: #67503f; --c-lbrown: #cbb69e; --c-wash: #e7ded2; --c-cream: #efe6d4; --c-cold: #8a837b;
+          --c-yellow: #e7c13f; --c-pyellow: #f4eaa4; --c-darkeye: #3a3330; --c-red: #c0392b; --c-orange: #e8913a; --c-purple: #a8528a;
+          --c-pink: #ebb5ae; --c-dpink: #e2768c; --c-greenish: #c3c46c; --c-bluegray: #93a3ae; --c-ggreen: #a7b28d;
+          --c-ygreen: #d0cf7b; --c-peach: #f0cfa4; --c-dbill: #4a4542; --c-streak: #8c7a68; }
+  @media (prefers-color-scheme: dark) {
+    :root { --c-black: #121416; --c-white: #e9eaea; --c-pale: #cdd2d6; --c-silver: #dadde0; --c-cream: #ddd3c2; --c-wash: #d4cbbf; }
+    svg .part.painted, svg [data-look] { stroke: #7d848b; }
+  }
+  .side-label { fill: var(--muted); font-size: 13px; font-style: italic; }
+  @media (max-width: 820px) { .side-label { font-size: 16px; } }
 </style>
 </head>
 <body>
 <main>
   <p class="kicker"><a class="home" href="index.html">← Home</a> · Tricky birds · Iowa</p>
   <h1>Gull Picker</h1>
-  <p class="lede">Pick the age, then tap any part of the bird and choose what you see. Answers tagged <span class="unsure">check</span> aren’t confirmed yet. Every species stays listed, ranked by how well it fits; ones that conflict fade and say why. For the full write-up, see the <a href="gulls.html">gull reference page</a>.</p>
+  <p class="lede">Pick the age, then tap any part of the standing or flying bird and choose what you see. Answers tagged <span class="unsure">check</span> aren’t confirmed yet. Every species stays listed, ranked by how well it fits; ones that conflict fade and say why. For the full write-up, see the <a href="gulls.html">gull reference page</a>.</p>
 
   <div class="layout">
     <div class="stack">
@@ -59,7 +76,7 @@
 
 <!-- Same schematic gull as the decoder page, with simpler labels -->
 <template id="bird-svg">
-  <svg viewBox="0 0 600 300" role="img" aria-label="Gull diagram: tap a part">
+  <svg viewBox="0 0 600 462" role="img" aria-label="Gull diagram, standing and flying: tap a part">
     <g transform="translate(80 10)">
       <path class="part leg-line" data-part="legs" d="M240,196 L238,250 M270,196 L274,250"/>
       <path class="part" data-part="legs" d="M224,253 L238,248 L252,254 Z M260,253 L274,248 L288,254 Z"/>
@@ -75,6 +92,24 @@
       <circle class="part" data-part="eye" cx="136" cy="86" r="7"/>
       <circle class="pupil" cx="135.5" cy="86" r="2.6"/>
 
+      <!-- overlays: hidden until a pick shows them -->
+      <g data-look="bars" style="fill:none;stroke:var(--c-dbrown);stroke-width:2;stroke-linecap:round"><path d="M214,134 q6,-3 12,0"/><path d="M230,134 q6,-3 12,0"/><path d="M246,134 q6,-3 12,0"/><path d="M262,134 q6,-3 12,0"/><path d="M278,134 q6,-3 12,0"/><path d="M294,134 q6,-3 12,0"/><path d="M310,134 q6,-3 12,0"/><path d="M326,134 q6,-3 12,0"/><path d="M222,143 q6,-3 12,0"/><path d="M238,143 q6,-3 12,0"/><path d="M254,143 q6,-3 12,0"/><path d="M270,143 q6,-3 12,0"/><path d="M286,143 q6,-3 12,0"/><path d="M302,143 q6,-3 12,0"/><path d="M318,143 q6,-3 12,0"/><path d="M232,152 q6,-3 12,0"/><path d="M248,152 q6,-3 12,0"/><path d="M264,152 q6,-3 12,0"/><path d="M280,152 q6,-3 12,0"/><path d="M296,152 q6,-3 12,0"/></g>
+      <g data-look="scales" style="fill:none;stroke:var(--c-cream);stroke-width:2;stroke-linecap:round"><path d="M214,134 q6,-5 12,0"/><path d="M230,134 q6,-5 12,0"/><path d="M246,134 q6,-5 12,0"/><path d="M262,134 q6,-5 12,0"/><path d="M278,134 q6,-5 12,0"/><path d="M294,134 q6,-5 12,0"/><path d="M310,134 q6,-5 12,0"/><path d="M326,134 q6,-5 12,0"/><path d="M222,143 q6,-5 12,0"/><path d="M238,143 q6,-5 12,0"/><path d="M254,143 q6,-5 12,0"/><path d="M270,143 q6,-5 12,0"/><path d="M286,143 q6,-5 12,0"/><path d="M302,143 q6,-5 12,0"/><path d="M318,143 q6,-5 12,0"/><path d="M232,152 q6,-5 12,0"/><path d="M248,152 q6,-5 12,0"/><path d="M264,152 q6,-5 12,0"/><path d="M280,152 q6,-5 12,0"/><path d="M296,152 q6,-5 12,0"/></g>
+      <g data-look="checker" class="no-stroke" style="fill:var(--c-dbrown)"><ellipse cx="220" cy="132" rx="4" ry="2.4"/><ellipse cx="236" cy="132" rx="4" ry="2.4"/><ellipse cx="252" cy="132" rx="4" ry="2.4"/><ellipse cx="268" cy="132" rx="4" ry="2.4"/><ellipse cx="284" cy="132" rx="4" ry="2.4"/><ellipse cx="300" cy="132" rx="4" ry="2.4"/><ellipse cx="316" cy="132" rx="4" ry="2.4"/><ellipse cx="332" cy="132" rx="4" ry="2.4"/><ellipse cx="236" cy="141" rx="4" ry="2.4"/><ellipse cx="252" cy="141" rx="4" ry="2.4"/><ellipse cx="268" cy="141" rx="4" ry="2.4"/><ellipse cx="284" cy="141" rx="4" ry="2.4"/><ellipse cx="300" cy="141" rx="4" ry="2.4"/><ellipse cx="316" cy="141" rx="4" ry="2.4"/><ellipse cx="332" cy="141" rx="4" ry="2.4"/><ellipse cx="238" cy="150" rx="4" ry="2.4"/><ellipse cx="254" cy="150" rx="4" ry="2.4"/><ellipse cx="270" cy="150" rx="4" ry="2.4"/><ellipse cx="286" cy="150" rx="4" ry="2.4"/><ellipse cx="302" cy="150" rx="4" ry="2.4"/></g>
+      <g data-look="pedges" style="fill:none;stroke:var(--c-cream);stroke-width:1.6"><path d="M362,140 L446,157 M360,147 L448,163"/></g>
+      <path data-look="bigtip" d="M440,151.6 L462,156 L456,168 L438,165.6 Z" style="fill:var(--c-white)"/>
+      <g data-look="spots" class="no-stroke" style="fill:var(--c-white)"><circle cx="450" cy="161" r="3.4"/><circle cx="436" cy="158.4" r="2.4"/></g>
+      <g data-look="tiprow" class="no-stroke" style="fill:var(--c-white)"><circle cx="392" cy="158.8" r="1.8"/><circle cx="406" cy="160.6" r="1.8"/><circle cx="420" cy="162.4" r="1.8"/></g>
+      <path data-look="tband" d="M398,153.9 L420,158 L418,172 L396,170.4 Z" style="fill:var(--c-black)"/>
+      <g data-look="hfine" class="no-stroke" style="fill:var(--c-streak)"><circle cx="160" cy="108" r="2.2"/><circle cx="166" cy="102" r="2.2"/><circle cx="170" cy="112" r="2.2"/><circle cx="158" cy="118" r="2.2"/><circle cx="174" cy="104" r="2.2"/><circle cx="165" cy="121" r="2.2"/><circle cx="176" cy="117" r="2.2"/><circle cx="152" cy="113" r="2.2"/><circle cx="181" cy="111" r="2.2"/><circle cx="184" cy="122" r="2.2"/></g>
+      <g data-look="hblur" class="no-stroke" style="fill:var(--c-streak);opacity:.35"><ellipse cx="156" cy="104" rx="24" ry="18"/><ellipse cx="170" cy="130" rx="20" ry="12"/></g>
+      <path data-look="hheavy" d="M124,76 l2,6 M132,70 l2,6 M142,66 l2,6 M152,68 l2,6 M160,74 l2,6 M166,82 l2,6 M170,92 l2,6 M164,98 l2,6 M156,90 l2,6 M148,80 l2,6 M140,76 l2,6 M126,98 l2,6 M150,102 l2,6 M160,108 l2,6 M170,104 l2,6 M176,112 l2,6 M166,116 l2,6 M156,116 l2,6 M180,120 l2,6 M172,124 l2,6 M186,126 l2,6 M146,112 l2,6" style="fill:none;stroke:var(--c-streak);stroke-width:2.4;stroke-linecap:round"/>
+      <ellipse data-look="hmask" class="no-stroke" cx="137" cy="88" rx="14" ry="9" style="fill:var(--c-dbrown);opacity:.55"/>
+      <circle data-look="orbital" cx="136" cy="86" r="9.5" style="fill:none;stroke-width:3"/>
+      <path data-look="billtip" class="no-stroke" d="M80,89.4 L74,90 C66,91 63,96 66,99 L76,99 L80,101.4 Z" style="fill:var(--c-black)"/>
+      <path data-look="ring" class="no-stroke" d="M83,88.8 L90,87.9 L90,104.9 L83,103.2 Z" style="fill:var(--c-black)"/>
+      <ellipse data-look="redspot" class="no-stroke" cx="80" cy="99.4" rx="4.5" ry="2.4" style="fill:var(--c-red)"/>
+      <ellipse data-look="blackspot" class="no-stroke" cx="73" cy="97" rx="3" ry="2" style="fill:var(--c-black)"/>
       <g class="label" data-q="bill"><line x1="44" y1="124" x2="72" y2="100"/><text x="40" y="142" text-anchor="middle">Bill</text><circle class="dot" cx="64" cy="137" r="4"/></g>
       <g class="label" data-q="eye"><line x1="116" y1="46" x2="134" y2="80"/><text x="110" y="38" text-anchor="middle">Eye</text><circle class="dot" cx="132" cy="33" r="4"/></g>
       <g class="label" data-q="head"><line x1="170" y1="58" x2="160" y2="70"/><text x="170" y="52" text-anchor="middle">Head</text><circle class="dot" cx="197" cy="47" r="4"/></g>
@@ -84,6 +119,31 @@
       <g class="label" data-q="size"><line x1="300" y1="214" x2="290" y2="190"/><text x="304" y="232" text-anchor="middle">Size</text><circle class="dot" cx="328" cy="227" r="4"/></g>
       <g class="label" data-q="legs"><line x1="206" y1="256" x2="236" y2="238"/><text x="200" y="266" text-anchor="end">Legs</text><circle class="dot" cx="208" cy="261" r="4"/></g>
     </g>
+    <!-- flying, smaller: left wing from above, right wing from below -->
+    <g transform="translate(150 290) scale(.5)">
+      <path class="part" data-part="fupper" d="M282,135 C220,118 140,110 72,126 L30,150 C85,162 160,172 220,178 L282,182 Z"/>
+      <path class="part" data-part="fwingtip" d="M72,126 C95,120 112,118 125,118 L140,160 C110,156 70,154 30,150 Z"/>
+      <g transform="translate(600 0) scale(-1 1)">
+        <path class="part" data-part="funder" d="M282,135 C220,118 140,110 72,126 L30,150 C85,162 160,172 220,178 L282,182 Z"/>
+        <path class="part" data-part="funderprim" d="M72,126 C95,120 112,118 125,118 L140,160 C110,156 70,154 30,150 Z"/>
+      </g>
+      <path class="part" data-part="ftail" d="M282,236 L318,236 L324,284 L276,284 Z"/>
+      <ellipse class="part" data-part="fbody" cx="300" cy="172" rx="26" ry="72"/>
+      <circle class="part" data-part="fhead" cx="300" cy="98" r="22"/>
+      <path class="part" data-part="fbill" d="M293,80 L300,50 L307,80 Z"/>
+      <path data-look="bigtip" d="M30,150 L50,138.6 L58,152.6 Z" style="fill:var(--c-white)"/>
+      <g data-look="spots" class="no-stroke" style="fill:var(--c-white)"><circle cx="48" cy="146" r="4"/><circle cx="66" cy="144" r="3"/></g>
+      <g data-look="tiprow" class="no-stroke" style="fill:var(--c-white)"><circle cx="80" cy="151" r="2.6"/><circle cx="100" cy="153" r="2.6"/><circle cx="120" cy="155" r="2.6"/></g>
+      <path data-look="tband" d="M278.3,266 L321.7,266 L324,284 L276,284 Z" style="fill:var(--c-black)"/>
+      <path data-look="billtip" class="no-stroke" d="M296.67,60 L300,50 L303.33,60 Z" style="fill:var(--c-black)"/>
+      <path data-look="ring" class="no-stroke" d="M297.67,60 L302.33,60 L303.5,65 L296.5,65 Z" style="fill:var(--c-black)"/>
+    </g>
+    <text class="side-label" x="580" y="28" text-anchor="end">standing</text>
+    <text class="side-label" x="60" y="452" text-anchor="middle">flying</text>
+    <g class="label" data-q="wingtip"><line x1="114" y1="360" x2="184" y2="360"/><text x="110" y="366" text-anchor="end">Wingtip</text></g>
+    <g class="label" data-q="back"><line x1="210" y1="426" x2="240" y2="376"/><text x="204" y="444" text-anchor="middle">Back</text></g>
+    <g class="label" data-q="wingtip"><line x1="486" y1="360" x2="416" y2="360"/><text x="490" y="366" text-anchor="start">Underwing</text></g>
+    <g class="label" data-q="tail"><line x1="346" y1="440" x2="312" y2="432"/><text x="350" y="448" text-anchor="start">Tail</text></g>
   </svg>
 </template>
 
@@ -105,7 +165,9 @@
 
   // Which diagram shapes open which question
   var PART_TO_Q = { bill: 'bill', eye: 'eye', mantle: 'back', coverts: 'back', tertials: 'back',
-                    primaries: 'wingtip', tail: 'tail', legs: 'legs', body: 'size', head: 'head' };
+                    primaries: 'wingtip', tail: 'tail', legs: 'legs', body: 'size', head: 'head',
+                    fupper: 'back', fwingtip: 'wingtip', funder: 'wingtip', funderprim: 'wingtip',
+                    ftail: 'tail', fbody: 'size', fhead: 'head', fbill: 'bill' };
   var Q_ORDER = ['back', 'wingtip', 'bill', 'eye', 'head', 'legs', 'tail', 'size'];
   var Q_NAMES = { back: 'Back', wingtip: 'Wingtip', bill: 'Bill', eye: 'Eye', head: 'Head & neck', legs: 'Legs', tail: 'Tail', size: 'Size' };
 
@@ -256,12 +318,101 @@
 
   var DATA = { first: FIRST, second: SECOND, third: THIRD, adult: ADULT };
 
+  // ---------- Looks: repaint the standing and flying birds ----------
+  function C(n) { return 'var(--c-' + n + ')'; }
+  function L() { var o = {}; [].forEach.call(arguments, function (a) { Object.keys(a).forEach(function (k) { o[k] = a[k]; }); }); return o; }
+  function back(c) { return { mantle: C(c), coverts: C(c), tertials: C(c), fupper: C(c) }; }
+  function tip(c, under) { return { primaries: C(c), fwingtip: C(c), funderprim: C(under || c) }; }
+  function bill(c) { return { bill: C(c), fbill: C(c) }; }
+  function legs(c) { return { legs: { fill: C(c), stroke: C(c) } }; }
+  function sized(c, s) { return { bill: { fill: C(c), transform: 'scale(' + s + ')', transformOrigin: '100% 50%' },
+                                  fbill: { fill: C(c), transform: 'scale(' + s + ')', transformOrigin: '50% 100%' } }; }
+  function tail(c) { return { tail: C(c), ftail: C(c) }; }
+  var HEADS = {
+    'Nearly white, a few fine streaks': { hfine: { opacity: '.45' } },
+    'Fine spots or streaks, heaviest on the hindneck (often a “necklace”)': { hfine: true },
+    'Soft, blurry mottling over the head and neck, often onto the breast': { hblur: true },
+    'Heavy brown streaks over the head and neck': { hheavy: true },
+    'Dense streaks around the eye forming a dark “mask”': { hheavy: true, hmask: true }
+  };
+  var AD = L(HEADS, {
+    'Pale gray': back('pale'), 'Medium gray, like Herring': back('gray'), 'A shade darker than Herring': back('cagray'),
+    'Dark slate': back('slate'), 'Blackish': back('blackish'),
+    'Black with small white spots': L(tip('black'), { spots: true }),
+    'Black with a big white tip': L(tip('black'), { bigtip: true }),
+    'Less black: big white spots and a row of white tips': L(tip('black'), { spots: true, tiprow: true }),
+    'Slaty black to gray, silvery from below': L(tip('slate', 'silver'), { spots: true }),
+    'All white': tip('white'),
+    'Yellow with a full black ring': L(bill('yellow'), { ring: true }),
+    'Red and black spot near the tip': L(bill('yellow'), { redspot: true, blackspot: true }),
+    'Red spot only': L(bill('yellow'), { redspot: true }),
+    'Thin and plain yellow': sized('yellow', .8),
+    'Pale yellow': { eye: C('pyellow') }, 'Dark': { eye: C('darkeye') },
+    'Red': { orbital: { stroke: C('red') } }, 'Yellow to orange': { orbital: { stroke: C('orange') } },
+    'Pink to purple': { orbital: { stroke: C('purple') } },
+    'Yellow': legs('yellow'), 'Greenish-yellow to grayish': legs('greenish'), 'Pink': legs('pink'), 'Deep, bright pink': legs('dpink')
+  });
+  // Brown immatures: the age paints the whole bird, then each pick changes its part.
+  var BROWN = L(back('brown'), tip('dbrown'), tail('dbrown'), { funder: C('lbrown'), head: C('lbrown'), fhead: C('lbrown'),
+    body: C('lbrown'), fbody: C('lbrown'), eye: C('darkeye') }, legs('pink'));
+  var LOOKS = {
+    adult: AD,
+    third: AD,
+    second: L(HEADS, {
+      'Gray and almost adult': back('gray'), 'Medium-gray saddle on brown': { mantle: C('gray') },
+      'Saddle a shade darker than Herring': { mantle: C('cagray') }, 'Pale gray saddle': { mantle: C('pale') },
+      'Dark slate saddle': { mantle: C('slate') }, 'Blackish saddle': { mantle: C('blackish') }, 'Little or no gray yet': { mantle: C('brown') },
+      'Black, with small or no white spots': tip('black'), 'Narrow black tip with a white spot': L(tip('black'), { spots: true }),
+      'Dark brown to black': tip('dbrown'), 'Brownish': tip('brown'), 'Pale to white': tip('cream'),
+      'Yellowish-green with a black ring': L(bill('ygreen'), { ring: true }),
+      'Blue-gray base, dark tip': L(bill('bluegray'), { billtip: true }),
+      'Grayish-green base, dark tip': L(bill('ggreen'), { billtip: true }),
+      'Pink base, dark tip': L(bill('pink'), { billtip: true }),
+      'Dark with a paler base': bill('dbill'),
+      'Pink': legs('pink'), 'Pinkish to pale yellow': legs('peach'), 'Greenish-gray or blue-gray': legs('bluegray'), 'Yellowish to greenish': legs('greenish')
+    }),
+    first: {
+      'Gray back already': { mantle: C('gray') },
+      'Evenly brown, barred and mottled': L(back('brown'), { bars: true }),
+      'Cold, dark-centered back feathers': L(back('cold'), { scales: true }),
+      'Bold black-and-white checkerboard': L(back('wash'), { checker: true }),
+      'Pale, creamy to whitish': back('cream'),
+      'Blackish, darker than the rest of the bird': tip('black'),
+      'Brown with pale edges': L(tip('brown'), { pedges: true }),
+      'As pale as the rest of the bird': tip('cream'),
+      'Pink with a crisp black tip': L(bill('pink'), { billtip: true }),
+      'Dull pink blending into a dark tip': L(bill('peach'), { billtip: { opacity: '.6' } }),
+      'Mostly black (the base may be paling)': bill('black'),
+      'Huge and black': sized('black', 1.15),
+      'White with a black band': L(tail('white'), { tband: true }),
+      'Mostly dark': tail('dbrown'),
+      'White rump against a sharp black band (in flight)': L(tail('white'), { tband: true }),
+      'Pale': tail('cream')
+    }
+  };
+  var STAGE_LOOK = {
+    first: L(BROWN, bill('black')),
+    second: L(BROWN, { head: C('wash'), fhead: C('wash'), body: C('wash'), fbody: C('wash'), eye: null }, bill('pink'), { billtip: true }),
+    third: L(bill('yellow'), { ring: true, tband: { opacity: '.5' } })
+  };
+  delete STAGE_LOOK.second.eye;
+  Object.keys(DATA).forEach(function (st) {
+    Object.keys(DATA[st]).forEach(function (q) {
+      if (!Array.isArray(DATA[st][q])) return;
+      DATA[st][q].forEach(function (g) { g.options.forEach(function (o) {
+        var lk = LOOKS[st][o.label];
+        if (lk) o.look = lk; else if (q !== 'size') console.warn('No look for', st, o.label);
+      }); });
+    });
+  });
+
+
   Picker({
     species: SPECIES,
     stages: [
-      { id: 'first',  label: '1st cycle', name: '1st cycle', tab: 'first' },
-      { id: 'second', label: '2nd',       name: '2nd cycle', tab: 'second' },
-      { id: 'third',  label: '3rd',       name: '3rd cycle', tab: 'third' },
+      { id: 'first',  label: '1st cycle', name: '1st cycle', tab: 'first', look: STAGE_LOOK.first },
+      { id: 'second', label: '2nd',       name: '2nd cycle', tab: 'second', look: STAGE_LOOK.second },
+      { id: 'third',  label: '3rd',       name: '3rd cycle', tab: 'third', look: STAGE_LOOK.third },
       { id: 'adult',  label: 'Adult',     name: 'Adult',     tab: 'adult' }
     ],
     defaultStage: 'adult',
