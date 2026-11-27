@@ -1,0 +1,502 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Iowa Hawk Picker</title>
+<meta name="description" content="Tap parts of a perched or flying hawk, pick what you see, and get a ranked list of Iowa hawks, including the Red-tailed forms.">
+<link rel="stylesheet" href="picker.css">
+<style>
+  .part[data-part="breast"], .part[data-part="belly"], .part[data-part="fbody"] { fill: var(--bird-white); }
+  .part[data-part="back"]      { fill: var(--bird-a); }
+  .part[data-part="wingtips"]  { fill: var(--bird-d); }
+  .part[data-part="head"], .part[data-part="fhead"] { fill: var(--bird-a); }
+  .part[data-part="beak"]      { fill: var(--bird-d); }
+  .part[data-part="tail"], .part[data-part="ftail"] { fill: var(--bird-b); }
+  .part[data-part="flight"]    { fill: var(--bird-c); }
+  .part[data-part="underwing"] { fill: var(--bird-white); }
+  .part.leg-line { stroke: #d9b54a; }
+  :root { --c-black: #24282c; --c-white: #fbfbf9; --c-dark: #3d2c20; --c-brown: #7a5434; --c-rufous: #b6582c; --c-brick: #c4562a;
+          --c-buff: #e8d3a8; --c-pale: #f2ece1; --c-gray: #7f8890; --c-slate: #5e6870; --c-graybrown: #8a7864; --c-pink: #e9c2b0;
+          --c-yellow: #e2bd2a; --c-orange: #e0872a; --c-red: #b5231e; --c-iris-dark: #4a3424; --c-flight: #d3d6d9; --c-dflight: #6e7377;
+          --c-tailgray: #a8a39a; --c-tailwhite: #f4f1ea; }
+  @media (prefers-color-scheme: dark) {
+    :root { --c-black: #121416; --c-white: #e9eaea; --c-pale: #dcd6cb; --c-tailwhite: #e2ded6; }
+    svg .part.painted, svg [data-look] { stroke: #7d848b; }
+  }
+  .side-label { fill: var(--muted); font-size: 13px; font-style: italic; }
+  @media (max-width: 820px) { .side-label { font-size: 16px; } .label text { font-size: 16px; } }
+  .notes { margin-top: 20px; font-size: 15px; }
+  .notes ul { margin: 0; padding-left: 20px; }
+  .notes li + li { margin-top: 6px; }
+  .notes .src { color: var(--muted); font-size: 13px; margin: 12px 0 0; }
+  .notes a { color: inherit; }
+</style>
+
+
+</head>
+<body>
+<main>
+  <p class="kicker"><a class="home" href="index.html">← Home</a> · Tricky birds · Iowa</p>
+  <h1>Iowa Hawk Picker</h1>
+  <p class="lede">Pick the age if you can, then tap the perched bird or the flying one and choose what you see. Start with shape: it sorts the buteos, accipiters and harrier before any plumage detail. Light, rufous and dark morphs are choices under the belly and underwing. The five forms of Red-tailed Hawk are listed separately. Answers tagged <span class="unsure">check</span> aren’t confirmed yet.</p>
+
+  <div class="layout">
+    <div class="stack">
+      <section class="card">
+        <div class="card-head"><h2>1 · Age</h2><button type="button" class="clear">↺ Start over</button></div>
+        <div class="seg" id="stages" role="group" aria-label="Age"></div>
+        <p class="stage-hint" id="stage-hint"></p>
+      </section>
+
+      <section class="card">
+        <h2>2 · Tap a part</h2>
+        <div id="diagram"></div>
+        <div class="parts" id="partchips" role="group" aria-label="Parts"></div>
+      </section>
+
+      <section class="card q" id="question" aria-live="polite"></section>
+
+      <section class="card">
+        <h2>Your picks</h2>
+        <div class="picks" id="picks"></div>
+      </section>
+    </div>
+
+    <section class="card results" id="results-card">
+      <div class="results-head">
+        <h2 id="results">Could be</h2>
+        <span class="count" id="count"></span>
+        <button type="button" class="clear">↺ Start over</button>
+      </div>
+      <ul class="res" id="res"></ul>
+    </section>
+  </div>
+
+  <section class="card notes" id="notes">
+    <h2>Notes and sources</h2>
+    <ul>
+      <li><strong>Hybrids are common.</strong> Mallard crosses with all three. Warning signs: bold white bars on the speculum, a whitish tail, curled central tail feathers, or green on a male’s head. Mexican × Mottled hybrids occur in South Texas brush country, where the two meet.</li>
+      <li><strong>Texas in January.</strong> Mottled Duck lives on the upper and central coast and has spread inland. Mexican Duck lives in the Trans-Pecos and along the border, east to about Webb County. American Black Duck is very rare; the Texas Bird Records Committee had accepted only 8 records by 2010. <span class="unsure">check</span> current review status.</li>
+      <li><strong>Iowa.</strong> Mottled Duck is listed as Casual (seen in 5–8 of the last 10 years) and every report needs documentation; many local claims are dark Mallards or hybrids. Mexican Duck has no Iowa record. American Black Duck is Regular.</li>
+      <li><strong>Legs</strong> are orange in all four, brighter on males, so they don’t help.</li>
+    </ul>
+    <p class="src">Sources: Ducks Unlimited species pages (<a href="https://www.ducks.org/hunting/waterfowl-id/mottled-duck">Mottled</a>, <a href="https://www.ducks.org/hunting/waterfowl-id/mexican-duck">Mexican</a>, <a href="https://www.ducks.org/hunting/waterfowl-id/american-black-duck">Black</a>); All About Birds species comparisons (<a href="https://www.allaboutbirds.org/guide/Mexican_Duck/species-compare">Mexican</a>, <a href="https://www.allaboutbirds.org/guide/Mottled_Duck/species-compare">Mottled</a>); <a href="https://www.audubon.org/field-guide/bird/mexican-duck">Audubon field guide</a>; <a href="https://par.nsf.gov/servlets/purl/10515808">Mexican × Mottled hybrid zone study (2024)</a>; <a href="https://tpwd.texas.gov/huntwild/wild/research/highlights/taxa/publications/Johnson_Garrettson_2010_BlackDucksPublished.pdf">Johnson &amp; Garrettson 2010, Black Ducks in Texas</a>; <a href="https://iowabirds.org/birds/Checklist.aspx">Iowa Ornithologists’ Union checklist</a>.</p>
+  </section>
+
+  <section class="card notes" id="notes">
+    <h2>Notes and sources</h2>
+    <ul>
+      <li><strong>Red-tailed forms in Iowa.</strong> Eastern is the resident breeder and Iowa’s commonest hawk. Northern (<em>abieticola</em>) comes in winter, with a dark head and heavy belly band. Krider’s is a pale prairie form, Western (<em>calurus</em>) a rare migrant and winter bird with light, rufous and dark morphs, and Harlan’s a rare winter bird, mostly blackish with a whitish or gray mottled tail. Northern and Krider’s are debated as true subspecies, and many birds are intergrades. <span class="unsure">check</span> No Iowa source gives seasons or numbers for these forms.</li>
+      <li><strong>Dark birds.</strong> Dark Western Red-tailed, Harlan’s, Swainson’s, Rough-legged and Ferruginous all have dark morphs; Broad-winged rarely does. Judge the tail and the underwing flight feathers, not the body.</li>
+      <li><strong>Hard pairs.</strong> Cooper’s vs. Sharp-shinned: combine head projection, cap vs. nape, tail tip and streaking; some birds can’t be named. Juvenile Red-shouldered vs. Broad-winged: crescents vs. a square panel in the wing, even vs. tip-heavy tail bands, square vs. pointed wingtips. Juvenile goshawk vs. Cooper’s: streaked undertail coverts, heavy streaks, a strong eyebrow.</li>
+      <li><strong>Iowa status</strong> (Iowa Ornithologists’ Union checklist). Ferruginous is Casual, mostly western Iowa in fall. American Goshawk is rare, mid-October into winter. Rough-legged is a winter visitor from late October. Broad-winged peaks in late September; Swainson’s late September to early October; Red-tailed late October to early November.</li>
+      <li><strong>Names.</strong> North American goshawks were split from the Eurasian bird in 2023 as American Goshawk; in 2025 it and Cooper’s Hawk moved to the genus <em>Astur</em>.</li>
+    </ul>
+    <p class="src">Sources: <a href="https://hawkwatch.org/raptor-id/raptor-id-fact-sheets/red-tailed-hawk/">HawkWatch International raptor ID fact sheets</a> and <a href="https://hawkwatch.org/how-to-tell-accipiters-apart/">accipiter guide</a>; <a href="https://pottconservation.com/files/hawkwatch2023report_viggy_30423.pdf">Hitchcock Nature Center hawkwatch reports</a> (<a href="https://pottconservation.com/blog/2020_hawkwatch_season_report">2020</a>, <a href="https://www.pottconservation.com/files/hawkwatchreport_fall2021_87624.pdf">2021</a>, 2023); <a href="https://iowabirds.org/Birds/Checklist.aspx">Iowa Ornithologists’ Union checklist</a>; <a href="https://www.iowadnr.gov/news-release/2023-03-01/iowa-raptor-identification-guide">Iowa DNR raptor guide</a>; <a href="https://www.audubon.org/magazine/more-gulls-more-vireos-latest-shakeup-of-north-american-bird-names-splits-familiar-species">Audubon on the 2025 name changes</a>; <a href="https://en.wikipedia.org/wiki/Harlan%27s_hawk">Harlan’s Hawk overview</a>.</p>
+  </section>
+
+  <footer><a href="index.html">← All bird pages</a> · Sources below. Things tagged <span class="unsure">check</span> aren’t confirmed.</footer>
+</main>
+
+<div class="bar" id="bar"><span id="bar-text"></span><button type="button" class="clear">↺</button><a href="#results">See results ↓</a></div>
+
+<template id="bird-svg">
+  <svg viewBox="0 0 600 360" role="img" aria-label="Diagram: tap a part">
+    <!-- PERCHED, side view facing left -->
+    <path d="M40,268 L250,262" style="stroke:var(--muted);stroke-width:6;stroke-linecap:round;fill:none;opacity:.5"/>
+    <path class="part" data-part="tail" d="M150,226 L186,226 L210,334 L174,340 Z"/>
+    <path class="part leg-line" data-part="legs" d="M124,234 L120,264 M110,268 L120,264 L128,270 M146,234 L148,262 M138,266 L148,262 L156,268"/>
+    <path class="part" data-part="belly" d="M94,150 C94,202 114,240 140,240 C166,240 186,202 186,150 Z"/>
+    <path class="part" data-part="breast" d="M94,150 C94,112 116,96 140,96 C164,96 186,112 186,150 Z"/>
+    <path class="part" data-part="back" d="M150,102 C184,106 202,140 206,190 C192,196 172,196 158,200 C146,168 144,130 150,102 Z"/>
+    <path class="part" data-part="wingtips" d="M158,200 C172,196 192,196 206,190 C208,230 206,262 198,296 C186,264 168,232 158,200 Z"/>
+    <circle class="part" data-part="head" cx="128" cy="76" r="27"/>
+    <path class="part" data-part="beak" d="M104,68 C96,68 90,74 92,84 L98,80 C100,78 104,80 106,82 Z"/>
+    <circle data-look="iris" class="no-stroke" cx="114" cy="70" r="6"/>
+    <circle class="pupil" cx="114" cy="70" r="3.5"/>
+    <text class="side-label" x="40" y="352" text-anchor="start">perched</text>
+
+    <!-- FLYING, seen from below -->
+    <g class="fly">
+      <path class="part" data-part="ftail" d="M420,178 L440,178 L456,246 L404,246 Z"/>
+      <g>
+        <path class="part" data-part="flight" d="M412,102 C380,92 330,90 292,96 L262,106 C274,132 326,160 412,160 Z"/>
+        <path class="part" data-part="underwing" d="M412,102 C380,92 330,90 292,96 L302,116 C330,126 370,132 412,134 Z"/>
+      </g>
+      <g transform="translate(860 0) scale(-1 1)">
+        <path class="part" data-part="flight" d="M412,102 C380,92 330,90 292,96 L262,106 C274,132 326,160 412,160 Z"/>
+        <path class="part" data-part="underwing" d="M412,102 C380,92 330,90 292,96 L302,116 C330,126 370,132 412,134 Z"/>
+      </g>
+      <ellipse class="part" data-part="fbody" cx="430" cy="128" rx="19" ry="54"/>
+      <circle class="part" data-part="fhead" cx="430" cy="70" r="15"/>
+    </g>
+    <text class="side-label" x="430" y="300" text-anchor="middle">flying, from below</text>
+    <!-- overlays: hidden until a pick shows them -->
+    <path data-look="malar" class="no-stroke" d="M106,78 C108,88 112,96 120,102 L125,99 C119,93 116,86 113,78 Z" style="fill:var(--c-dark)"/>
+    <path data-look="facepale" class="no-stroke" d="M104,62 C112,56 124,56 134,62 C130,70 128,80 130,92 C120,96 108,92 104,84 Z" style="fill:var(--c-white);opacity:.9"/>
+    <path data-look="cap" class="no-stroke" d="M102,64 C106,52 118,48 130,49 C142,50 152,58 155,70 C146,64 136,62 128,62 C118,62 110,62 102,64 Z" style="fill:var(--c-black)"/>
+    <path data-look="brow" d="M104,64 C112,60 124,60 140,64" style="fill:none;stroke:var(--c-white);stroke-width:4;stroke-linecap:round"/>
+    <g data-look="bellyband" class="no-stroke" style="fill:var(--c-dark)">
+      <ellipse cx="108" cy="188" rx="8" ry="11"/><ellipse cx="124" cy="194" rx="7" ry="10"/><ellipse cx="140" cy="196" rx="7" ry="10"/><ellipse cx="156" cy="194" rx="7" ry="10"/><ellipse cx="172" cy="188" rx="8" ry="11"/>
+    </g>
+    <g data-look="streaks" style="fill:none;stroke:var(--c-dark);stroke-width:3;stroke-linecap:round">
+      <path d="M110,124 v10"/><path d="M126,120 v12"/><path d="M142,122 v12"/><path d="M158,124 v10"/><path d="M172,130 v10"/>
+      <path d="M104,150 v12"/><path d="M118,148 v14"/><path d="M134,150 v14"/><path d="M150,150 v14"/><path d="M166,150 v12"/><path d="M178,154 v10"/>
+      <path d="M110,178 v12"/><path d="M126,182 v14"/><path d="M142,184 v14"/><path d="M158,182 v14"/><path d="M172,178 v12"/>
+      <path d="M124,212 v10"/><path d="M140,214 v10"/><path d="M156,212 v10"/>
+    </g>
+    <g data-look="bars" style="fill:none;stroke:var(--c-rufous);stroke-width:4;stroke-linecap:round">
+      <path d="M104,128 h76"/><path d="M98,142 h86"/><path d="M96,156 h90"/><path d="M96,170 h90"/><path d="M98,184 h86"/><path d="M102,198 h78"/><path d="M108,212 h64"/><path d="M118,226 h44"/>
+    </g>
+    <g data-look="scapv" class="no-stroke" style="fill:var(--c-white)">
+      <ellipse cx="166" cy="124" rx="5" ry="3"/><ellipse cx="176" cy="134" rx="5" ry="3"/><ellipse cx="164" cy="140" rx="5" ry="3"/><ellipse cx="184" cy="148" rx="5" ry="3"/><ellipse cx="172" cy="154" rx="5" ry="3"/><ellipse cx="190" cy="164" rx="4" ry="3"/>
+    </g>
+    <g data-look="checker" class="no-stroke" style="fill:var(--c-white)">
+      <rect x="170" y="210" width="6" height="4"/><rect x="182" y="222" width="6" height="4"/><rect x="176" y="238" width="6" height="4"/><rect x="190" y="246" width="6" height="4"/><rect x="186" y="264" width="6" height="4"/>
+      <rect x="168" y="176" width="6" height="4"/><rect x="184" y="182" width="6" height="4"/>
+    </g>
+    <g data-look="tbands-thin" style="fill:none;stroke:var(--c-dark);stroke-width:2.5">
+      <path d="M154,242 L189,240"/><path d="M157,256 L192,253"/><path d="M160,270 L195,266"/><path d="M163,284 L198,279"/><path d="M166,298 L201,292"/><path d="M169,312 L204,305"/><path d="M172,326 L207,318"/>
+    </g>
+    <g data-look="tbands-white" style="fill:none;stroke:var(--c-white);stroke-width:4">
+      <path d="M157,262 L193,258"/><path d="M164,292 L200,286"/><path d="M171,320 L206,313"/>
+    </g>
+    <path data-look="tband-one" d="M162,286 L199,280" style="fill:none;stroke:var(--c-white);stroke-width:9"/>
+    <path data-look="tsub" class="no-stroke" d="M168,316 L206,310 L209,326 L172,333 Z" style="fill:var(--c-dark)"/>
+    <path data-look="ttip" class="no-stroke" d="M173,334 L209,327 L210,334 L174,340 Z" style="fill:var(--c-white)"/>
+    <g data-look="feathered" style="fill:var(--c-buff)">
+      <rect x="114" y="236" width="12" height="26" rx="4"/><rect x="141" y="236" width="12" height="25" rx="4"/>
+    </g>
+    <g class="fly-ov">
+      <path data-look="patagial" class="no-stroke" d="M412,103 C384,95 352,93 326,95 L330,104 C358,103 388,106 412,111 Z" style="fill:var(--c-dark)"/>
+      <ellipse data-look="carpal" class="no-stroke" cx="304" cy="106" rx="13" ry="8" style="fill:var(--c-dark)"/>
+      <path data-look="tips" class="no-stroke" d="M292,96 L262,106 C268,118 278,126 290,132 C292,120 294,108 292,96 Z" style="fill:var(--c-dark)"/>
+      <path data-look="trailing" d="M262,106 C274,132 326,160 412,160" style="fill:none;stroke:var(--c-dark);stroke-width:5"/>
+      <path data-look="window" d="M300,116 C304,126 310,134 318,140" style="fill:none;stroke:var(--c-white);stroke-width:6;stroke-linecap:round"/>
+      <g transform="translate(860 0) scale(-1 1)">
+      <path data-look="patagial" class="no-stroke" d="M412,103 C384,95 352,93 326,95 L330,104 C358,103 388,106 412,111 Z" style="fill:var(--c-dark)"/>
+      <ellipse data-look="carpal" class="no-stroke" cx="304" cy="106" rx="13" ry="8" style="fill:var(--c-dark)"/>
+      <path data-look="tips" class="no-stroke" d="M292,96 L262,106 C268,118 278,126 290,132 C292,120 294,108 292,96 Z" style="fill:var(--c-dark)"/>
+      <path data-look="trailing" d="M262,106 C274,132 326,160 412,160" style="fill:none;stroke:var(--c-dark);stroke-width:5"/>
+      <path data-look="window" d="M300,116 C304,126 310,134 318,140" style="fill:none;stroke:var(--c-white);stroke-width:6;stroke-linecap:round"/>
+      </g>
+      <g data-look="fbellyband" class="no-stroke" style="fill:var(--c-dark)"><ellipse cx="420" cy="140" rx="6" ry="9"/><ellipse cx="430" cy="143" rx="6" ry="9"/><ellipse cx="440" cy="140" rx="6" ry="9"/></g>
+      <g data-look="fbib" class="no-stroke" style="fill:var(--c-brown)"><path d="M412,96 C414,84 446,84 448,96 C449,108 446,116 430,118 C414,116 411,108 412,96 Z"/></g>
+      <g data-look="fbands-thin" style="fill:none;stroke:var(--c-dark);stroke-width:2">
+        <path d="M418,190 h24"/><path d="M416,200 h28"/><path d="M414,210 h32"/><path d="M412,220 h36"/><path d="M409,230 h42"/><path d="M407,240 h46"/>
+      </g>
+      <g data-look="fbands-broad" style="fill:none;stroke:var(--c-dark);stroke-width:6">
+        <path d="M416,198 h28"/><path d="M411,222 h38"/>
+      </g>
+      <path data-look="fband-one" d="M410,218 h40" style="fill:none;stroke:var(--c-white);stroke-width:9"/>
+      <path data-look="fbands-white" d="M416,196 h28 M412,214 h36 M409,232 h42" style="fill:none;stroke:var(--c-white);stroke-width:3.5"/>
+      <path data-look="fsub" class="no-stroke" d="M406,232 L454,232 L456,244 L404,244 Z" style="fill:var(--c-dark)"/>
+    </g>
+
+    <!-- labels -->
+    <g class="label" data-q="head"><line x1="96" y1="30" x2="118" y2="52"/><text x="92" y="26" text-anchor="middle">Head</text></g>
+    <g class="label" data-q="underparts"><line x1="44" y1="168" x2="96" y2="168"/><text x="40" y="160" text-anchor="end">Belly</text></g>
+    <g class="label" data-q="back"><line x1="226" y1="112" x2="190" y2="138"/><text x="226" y="104" text-anchor="middle">Back</text></g>
+    <g class="label" data-q="wingtips"><line x1="246" y1="222" x2="204" y2="246"/><text x="246" y="214" text-anchor="middle">Wingtips</text></g>
+    <g class="label" data-q="tail"><line x1="234" y1="318" x2="206" y2="306"/><text x="238" y="324" text-anchor="start">Tail</text></g>
+    <g class="label" data-q="legs"><line x1="72" y1="300" x2="118" y2="268"/><text x="68" y="312" text-anchor="middle">Legs</text></g>
+    <g class="label" data-q="underwing"><line x1="362" y1="58" x2="362" y2="96"/><text x="362" y="50" text-anchor="middle">Underwing</text></g>
+    <g class="label" data-q="underwing"><line x1="280" y1="72" x2="276" y2="102"/><text x="280" y="64" text-anchor="middle">Wingtip</text></g>
+    <g class="label" data-q="shape"><line x1="560" y1="186" x2="540" y2="146"/><text x="560" y="204" text-anchor="middle">Shape</text></g>
+    <g class="label" data-q="tail"><line x1="500" y1="250" x2="452" y2="230"/><text x="504" y="256" text-anchor="start">Tail</text></g>
+  </svg>
+</template>
+
+<script src="picker.js"></script>
+<script>
+(function () {
+  function C(n) { return 'var(--c-' + n + ')'; }
+  function mix() { var o = {}; for (var i = 0; i < arguments.length; i++) for (var k in arguments[i]) o[k] = arguments[i][k]; return o; }
+  // Wing reshaping: scale both wings from the body
+  function wingT(t) {
+    var s = { transformBox: 'view-box', transformOrigin: '412px 128px', transform: t };
+    return { flight: s, underwing: s, tips: s, patagial: s, carpal: s, trailing: s, window: s };
+  }
+  function tails(fly, perch) {
+    return { ftail: { transform: 'scaleY(' + fly + ')', transformOrigin: '50% 0' },
+             tail: { transform: 'scaleY(' + perch + ')', transformOrigin: '50% 0' } };
+  }
+  function body(c) { return { breast: C(c), belly: C(c), fbody: C(c) }; }
+
+  var RT = 'rte rtn rtk rtw rth';
+  var TIMING = 'Fall dates come from the Hitchcock Nature Center hawkwatch (2020–2023). Spring and summer windows are general range knowledge, not checked against an Iowa source.';
+  var SUBSP = 'No Iowa source gives seasons or numbers for the Red-tailed forms; these windows are general knowledge.';
+  var STD = 'Standard field-guide mark; not confirmed from a source I could open.';
+
+  var SPECIES = [
+    { id: 'rte', name: 'Red-tailed (Eastern)' },
+    { id: 'rtn', name: 'Red-tailed (Northern)', rare: 'Winter' },
+    { id: 'rtk', name: 'Red-tailed (Krider’s)', rare: 'Scarce' },
+    { id: 'rtw', name: 'Red-tailed (Western)', rare: 'Rare' },
+    { id: 'rth', name: 'Red-tailed (Harlan’s)', rare: 'Rare, winter' },
+    { id: 'rsh', name: 'Red-shouldered Hawk' },
+    { id: 'bwh', name: 'Broad-winged Hawk' },
+    { id: 'swh', name: 'Swainson’s Hawk' },
+    { id: 'rlh', name: 'Rough-legged Hawk' },
+    { id: 'fh',  name: 'Ferruginous Hawk', rare: 'Casual, west' },
+    { id: 'coh', name: 'Cooper’s Hawk' },
+    { id: 'ssh', name: 'Sharp-shinned Hawk' },
+    { id: 'gos', name: 'American Goshawk', rare: 'Rare, winter' },
+    { id: 'noh', name: 'Northern Harrier' }
+  ];
+  var PART_TO_Q = { flight: 'underwing', underwing: 'underwing', ftail: 'tail', tail: 'tail', fbody: 'underparts',
+                    breast: 'underparts', belly: 'underparts', head: 'head', fhead: 'head', beak: 'head',
+                    back: 'back', wingtips: 'wingtips', legs: 'legs' };
+  var Q_ORDER = ['shape', 'underwing', 'tail', 'underparts', 'head', 'back', 'wingtips', 'legs', 'date', 'where'];
+  var Q_NAMES = { shape: 'Shape and flight', underwing: 'Underwing', tail: 'Tail', underparts: 'Belly and breast',
+                  head: 'Head', back: 'Back', wingtips: 'Wingtips (perched)', legs: 'Legs', date: 'Date', where: 'Where in Iowa' };
+
+  // ---------- Any age ----------
+  var SHAPE = [
+    { id: 'sil', title: 'Shape in flight', options: [
+      { label: 'Broad wings and a short, fanned tail (a buteo)', fits: RT + ' rsh bwh swh rlh fh', look: {} },
+      { label: 'Short, rounded wings and a long, narrow tail (an accipiter)', fits: 'coh ssh ~gos',
+        look: mix(wingT('scaleX(.74)'), tails(1.45, 1.07)) },
+      { label: 'Long, narrow wings and a long tail, flying low', fits: 'noh',
+        look: mix(wingT('scale(1.05, .78)'), tails(1.4, 1.07)) },
+      { label: 'Long, narrow, pointed wings', fits: 'swh ~rlh ~fh', look: wingT('scale(1.1, .85)') },
+      { label: 'Small and stocky, with pointed wingtips', fits: 'bwh', look: wingT('scaleX(.82)') }
+    ]},
+    { id: 'style', title: 'How it flies', options: [
+      { label: 'Hovers in place over open fields for long spells', fits: 'rlh ~rte ~rtn ~rtk ~rtw ~rth ~swh ~fh' },
+      { label: 'Flap-flap-flap-glide with quick, stiff wingbeats', fits: 'coh ssh ~rsh ~gos' },
+      { label: 'Low over fields, tilting side to side, wings raised in a V', fits: 'noh ~swh' },
+      { label: 'Soars in big flocks (“kettles”), mostly in September', fits: 'bwh ~swh' },
+      { label: 'Soars in wide circles on broad wings', fits: RT + ' rsh ~fh ~gos ~rlh' }
+    ]}
+  ];
+  var WINGTIPS = [{ id: 'wtips', title: 'Wingtips on a perched bird', options: [
+    { label: 'Reach the tail tip, or nearly', fits: 'swh rlh fh', look: { wingtips: { transform: 'scaleY(1.17)', transformOrigin: '50% 0' } } },
+    { label: 'Fall well short of the tail tip', fits: RT + ' rsh bwh coh ssh gos noh', look: {} }
+  ]}];
+  var LEGS = [
+    { id: 'feet', title: 'Legs', options: [
+      { label: 'Feathered right down to the toes', fits: 'rlh fh', look: { feathered: true } },
+      { label: 'Bare yellow legs', fits: RT + ' rsh bwh swh coh ssh gos noh', look: {} }
+    ]},
+    { id: 'thick', title: 'Leg thickness (accipiters)', help: 'Hard to judge without a side-by-side view.', options: [
+      { label: 'Pencil-thin', fits: 'ssh', look: { legs: { strokeWidth: '3' } } },
+      { label: 'Thicker', fits: RT + ' rsh bwh swh rlh fh coh gos noh', look: { legs: { strokeWidth: '6.5' } } }
+    ]}
+  ];
+  var DATE = [{ id: 'date', title: 'When you saw it', check: TIMING, options: [
+    { label: 'December–February', fits: 'rte rtn ~rtk ~rtw ~rth rlh coh ssh ~gos noh ~rsh' },
+    { label: 'March–April', fits: 'rte ~rtn ~rtk ~rtw ~rth rsh ~bwh ~swh ~rlh coh ssh ~gos noh ~fh' },
+    { label: 'May–August', fits: 'rte rsh bwh swh coh ~ssh noh' },
+    { label: 'September', fits: 'rte rsh bwh swh coh ssh noh ~fh' },
+    { label: 'October–November', fits: 'rte ~rtn ~rtk ~rtw ~rth ~rsh ~bwh ~swh rlh ~fh coh ssh ~gos noh' }
+  ]}];
+  var WHERE = [{ id: 'where', title: 'Where in Iowa', help: 'Red-tailed is the commonest hawk statewide.', check: SUBSP, options: [
+    { label: 'Western Iowa (Loess Hills, Missouri River valley)', fits: 'rte rtn ~rtk ~rtw ~rth bwh swh rlh ~fh coh ssh ~gos noh ~rsh' },
+    { label: 'Central Iowa', fits: 'rte rtn ~rtk ~rtw ~rth ~rsh bwh ~swh rlh coh ssh ~gos noh' },
+    { label: 'Eastern Iowa (Mississippi, Cedar and Iowa River valleys)', fits: 'rte rtn ~rtk ~rth rsh bwh ~swh rlh coh ssh ~gos noh' }
+  ]}];
+  var TIPGROUP = { id: 'tiptype', title: 'Tail tip (accipiters)', options: [
+    { label: 'Rounded, with a broad white tip', fits: 'coh ~gos', look: { ttip: { transform: 'scaleY(1.6)', transformOrigin: '50% 0' } } },
+    { label: 'Square, with a thin white tip', fits: 'ssh', look: { ttip: true } },
+    { label: 'Neither stands out', fits: RT + ' rsh bwh swh rlh fh noh ~gos', look: {} }
+  ]};
+  var RUMP = { id: 'rump', title: 'White patch above the tail (seen from above)', options: [
+    { label: 'Yes, a white rump', fits: 'noh' },
+    { label: 'No', fits: RT + ' rsh bwh swh rlh fh coh ssh gos' }
+  ]};
+  var PATAGIAL = { id: 'patag', title: 'Dark bar on the front edge of the inner wing', help: 'On light birds: the “patagial bar”, from the body out to the wrist. The best Red-tailed mark.', options: [
+    { label: 'Yes, a bold dark bar', fits: 'rte rtn rtw ~rth', look: { patagial: true } },
+    { label: 'Faint', fits: 'rtk ~rte', look: { patagial: { opacity: '.35' } } },
+    { label: 'No', fits: 'rsh bwh swh rlh fh coh ssh gos noh ~rtk', look: {} }
+  ]};
+  var CARPAL = { id: 'carpal', title: 'Dark patch at the wrist', options: [
+    { label: 'Big black wrist patches', fits: 'rlh', look: { carpal: true } },
+    { label: 'A small dark “comma”', fits: 'fh ~rlh', check: STD, look: { carpal: { transform: 'scale(.6)', transformOrigin: '50% 50%' } } },
+    { label: 'None', fits: RT + ' rsh bwh swh coh ssh gos noh', look: {} }
+  ]};
+
+  // ---------- Adult ----------
+  var AD = {
+    shape: SHAPE, wingtips: WINGTIPS, legs: LEGS, date: DATE, where: WHERE,
+    underwing: [PATAGIAL, CARPAL,
+      { id: 'tone', title: 'Wing linings vs. flight feathers', options: [
+        { label: 'White linings, dark gray flight feathers (two-toned)', fits: 'swh', look: { underwing: C('white'), flight: C('dflight') } },
+        { label: 'Dark linings, pale silvery flight feathers (dark birds)', fits: 'rtw rth rlh fh ~bwh ~swh', look: { underwing: C('dark'), flight: C('flight') } },
+        { label: 'Rufous linings', fits: 'rsh ~rtw ~fh ~swh', look: { underwing: C('rufous'), flight: C('flight') } },
+        { label: 'Pale all over', fits: 'rte rtn rtk bwh rlh fh coh ssh gos noh', look: { underwing: C('white'), flight: C('flight') } }
+      ]},
+      { id: 'trail', title: 'Rear edge of the wing', options: [
+        { label: 'Bold black rear edge and wingtips', fits: 'bwh rte rtn rtw rth rlh ~noh ~swh', look: { trailing: true, tips: true } },
+        { label: 'Black wingtips only', fits: 'noh ~fh', look: { tips: true } },
+        { label: 'Faint or none', fits: 'coh ssh gos rsh fh rtk', look: {} }
+      ]},
+      { id: 'crescent', title: 'Pale crescents near the wingtips (best backlit)', options: [
+        { label: 'Yes, pale “commas” at the base of the outer flight feathers', fits: 'rsh', look: { window: true } },
+        { label: 'No', fits: RT + ' bwh swh rlh fh coh ssh gos noh', look: {} }
+      ]}
+    ],
+    tail: [
+      { id: 'tailc', title: 'Tail pattern', help: 'Seen from above when perched, or backlit in flight.', options: [
+        { label: 'Brick red', fits: 'rte rtn rtw ~rth',
+          look: { tail: C('brick'), ftail: C('pink') } },
+        { label: 'White to pale pink, palest at the base', fits: 'rtk fh ~rth', look: { tail: C('tailwhite'), ftail: C('tailwhite') } },
+        { label: 'Whitish or gray and mottled, with a smudgy dark band near the tip; no red', fits: 'rth',
+          look: { tail: C('tailgray'), ftail: C('tailgray'), tsub: { opacity: '.7' }, fsub: { opacity: '.7' } } },
+        { label: 'Black, with narrow white bands', fits: 'rsh', look: { tail: C('dark'), ftail: C('slate'), 'tbands-white': true, 'fbands-white': true } },
+        { label: 'Black, with one broad white band', fits: 'bwh', look: { tail: C('dark'), ftail: C('slate'), 'tband-one': true, 'fband-one': true } },
+        { label: 'White base and one broad dark band at the tip', fits: 'rlh', look: { tail: C('tailwhite'), ftail: C('tailwhite'), tsub: true, fsub: true } },
+        { label: 'Gray or brown, with several dark bands', fits: 'swh coh ssh gos noh ~rlh ~rtw',
+          look: { tail: C('tailgray'), ftail: C('tailgray'), 'tbands-thin': true, 'fbands-broad': true } }
+      ]},
+      TIPGROUP, RUMP
+    ],
+    underparts: [
+      { id: 'color', title: 'Overall color below', help: 'Several hawks have dark and rufous morphs as well as light ones.', options: [
+        { label: 'Light: white to buff', fits: 'rte rtn rtk rtw rlh fh swh noh ~rth ~bwh', look: body('pale') },
+        { label: 'Rufous or orange-barred', fits: 'rsh bwh coh ssh ~rtw ~swh ~fh', look: body('pink') },
+        { label: 'Dark brown to blackish all over (dark morph)', fits: 'rtw rth swh rlh fh ~bwh',
+          look: mix(body('dark'), { head: C('dark'), fhead: C('dark') }) },
+        { label: 'Pale gray', fits: 'gos', look: body('flight') }
+      ]},
+      { id: 'pattern', title: 'Pattern below', options: [
+        { label: 'Band of dark streaks across the belly', fits: 'rte rtn rtw rlh ~rth', look: { bellyband: true, fbellyband: true } },
+        { label: 'Heavy blackish belly band, barred flanks', fits: 'rtn ~rtw ~rlh', look: { bellyband: { transform: 'scale(1.15, 1.3)', transformOrigin: '50% 50%' }, fbellyband: true } },
+        { label: 'Dark brown chest bib, paler belly', fits: 'swh', look: { breast: C('brown'), fbib: true } },
+        { label: 'Barred across', fits: 'rsh bwh coh ssh', look: { bars: true } },
+        { label: 'Fine gray barring', fits: 'gos', look: { bars: { stroke: C('gray'), strokeWidth: '2' } } },
+        { label: 'Brown streaks (a brown female harrier)', fits: 'noh', look: { streaks: { stroke: C('brown') } } },
+        { label: 'Nearly plain', fits: 'rtk fh noh ~rte', look: {} }
+      ]}
+    ],
+    head: [
+      { id: 'eye', title: 'Eye color', options: [
+        { label: 'Red to orange', fits: 'coh ssh gos', look: { iris: C('red') } },
+        { label: 'Lemon yellow', fits: 'noh', look: { iris: C('yellow') } },
+        { label: 'Dark brown', fits: RT + ' rsh bwh swh rlh fh ~noh', look: { iris: C('iris-dark') } }
+      ]},
+      { id: 'face', title: 'Head pattern', options: [
+        { label: 'Black cap, paler nape and cheeks', fits: 'coh', look: { head: C('gray'), cap: true } },
+        { label: 'Dark hood running down onto the nape', fits: 'ssh', look: { head: C('slate') } },
+        { label: 'Black crown and a bold white eyebrow', fits: 'gos', look: { head: C('gray'), cap: true, brow: true } },
+        { label: 'Owl-like facial disk', fits: 'noh', look: { facepale: { opacity: '.5' } } },
+        { label: 'Brown head, white throat', fits: 'rte swh ~rtk', look: { head: C('brown'), fhead: C('brown') } },
+        { label: 'Dark head and throat', fits: 'rtn rtw rth ~rlh', look: { head: C('dark'), fhead: C('dark') } },
+        { label: 'Mostly white or grayish-white head', fits: 'rtk rlh fh ~rth', look: { head: C('pale'), fhead: C('pale') } }
+      ]}
+    ],
+    back: [{ id: 'back', title: 'Back and folded wing', options: [
+      { label: 'Brown, with white mottling forming a pale “V”', fits: 'rte rtn rtw ~rtk', check: STD, look: { back: C('brown'), wingtips: C('dark'), scapv: true } },
+      { label: 'Very pale, lots of white mottling', fits: 'rtk', look: { back: C('graybrown'), wingtips: C('graybrown'), scapv: true, checker: true } },
+      { label: 'Checkered black and white, rufous shoulders', fits: 'rsh', look: { back: C('rufous'), wingtips: C('dark'), checker: true } },
+      { label: 'Blue-gray', fits: 'coh ssh gos noh', look: { back: C('gray'), wingtips: C('slate') } },
+      { label: 'Rusty', fits: 'fh', look: { back: C('rufous'), wingtips: C('graybrown') } },
+      { label: 'Plain dark brown', fits: 'bwh swh rlh rth noh ~rtw', look: { back: C('dark'), wingtips: C('dark') } }
+    ]}]
+  };
+
+  // ---------- Juvenile ----------
+  var JUV = {
+    shape: SHAPE, wingtips: WINGTIPS, legs: LEGS, date: DATE, where: WHERE,
+    underwing: [PATAGIAL, CARPAL,
+      { id: 'tone', title: 'Wing linings vs. flight feathers', options: [
+        { label: 'Pale linings, darker flight feathers', fits: 'swh noh', look: { underwing: C('pale'), flight: C('dflight') } },
+        { label: 'Dark linings, paler flight feathers (dark birds)', fits: 'rtw rth rlh fh ~swh ~bwh', look: { underwing: C('dark'), flight: C('flight') } },
+        { label: 'Buffy-rufous wash on the linings', fits: 'rsh ~swh', look: { underwing: C('buff'), flight: C('flight') } },
+        { label: 'Pale all over', fits: 'rte rtn rtk bwh rlh fh coh ssh gos', look: { underwing: C('white'), flight: C('flight') } }
+      ]},
+      { id: 'window', title: 'Pale patches near the wingtips (best backlit)', options: [
+        { label: 'Pale crescents (“commas”)', fits: 'rsh', look: { window: true } },
+        { label: 'A pale, squarish panel in the outer flight feathers', fits: 'bwh rte rtn rtk rtw ~rlh', look: { window: { strokeWidth: '12', opacity: '.8' } } },
+        { label: 'None', fits: 'swh fh coh ssh gos noh ~rth ~rlh', look: {} }
+      ]},
+      { id: 'trail', title: 'Rear edge of the wing', help: 'Juveniles have blurrier rear edges than adults.', options: [
+        { label: 'Blurry dusky rear edge', fits: RT + ' bwh rlh swh ~rsh ~fh', look: { trailing: { strokeOpacity: '.45' } } },
+        { label: 'None', fits: 'coh ssh gos rsh fh ~noh', look: {} },
+        { label: 'Dark inner flight feathers, paler outer ones', fits: 'noh', look: { flight: C('dflight'), window: { strokeWidth: '14' } } }
+      ]}
+    ],
+    tail: [
+      { id: 'tailc', title: 'Tail pattern', options: [
+        { label: 'Brown, with many narrow, even dark bands', fits: 'rte rtn rtw rth rsh', look: { tail: C('graybrown'), ftail: C('tailgray'), 'tbands-thin': true, 'fbands-thin': true } },
+        { label: 'Narrow bands, with a wider dark band at the tip', fits: 'bwh swh', look: { tail: C('graybrown'), ftail: C('tailgray'), 'tbands-thin': { opacity: '.5' }, tsub: true, fsub: true } },
+        { label: 'White, with narrow dark bands', fits: 'rtk', look: { tail: C('tailwhite'), ftail: C('tailwhite'), 'tbands-thin': true, 'fbands-thin': true } },
+        { label: 'White base and a smudgy dusky tip', fits: 'rlh fh', look: { tail: C('tailwhite'), ftail: C('tailwhite'), tsub: { opacity: '.5' }, fsub: { opacity: '.5' } } },
+        { label: 'Wavy, offset “zigzag” bands', fits: 'gos', check: STD, look: { tail: C('graybrown'), ftail: C('tailgray'), 'tbands-thin': { strokeDasharray: '8 3' }, 'fbands-broad': true } },
+        { label: 'Gray-brown, with a few bold dark bands', fits: 'coh ssh ~gos noh', look: { tail: C('graybrown'), ftail: C('tailgray'), 'fbands-broad': true } }
+      ]},
+      TIPGROUP, RUMP
+    ],
+    underparts: [
+      { id: 'color', title: 'Overall color below', options: [
+        { label: 'Whitish to buff', fits: 'rte rtn rtk rtw rsh bwh swh rlh fh coh ssh gos ~rth', look: body('pale') },
+        { label: 'Rich rufous-orange', fits: 'noh ~swh', look: body('buff') },
+        { label: 'Dark brown (dark morph)', fits: 'rtw rth swh rlh fh ~bwh', look: mix(body('dark'), { head: C('dark'), fhead: C('dark') }) }
+      ]},
+      { id: 'pattern', title: 'Pattern below', options: [
+        { label: 'Streaky band across the belly', fits: 'rte rtn rtw ~rtk ~rth', look: { bellyband: true, fbellyband: true } },
+        { label: 'Solid dark belly patch', fits: 'rlh', look: { bellyband: { transform: 'scale(1.2, 1.4)', transformOrigin: '50% 50%' }, fbellyband: true } },
+        { label: 'Streaks mostly on the sides of the breast', fits: 'bwh swh', look: { streaks: { opacity: '.5' } } },
+        { label: 'Coarse blurry streaks far down the belly', fits: 'ssh ~rsh', look: { streaks: { stroke: C('rufous') } } },
+        { label: 'Neat thin streaks on the breast; belly fairly clean', fits: 'coh', look: { streaks: { strokeWidth: '1.8' } } },
+        { label: 'Heavy streaks everywhere, even under the tail', fits: 'gos ~rsh', look: { streaks: { strokeWidth: '4' } } },
+        { label: 'Even streaks spread over breast and belly', fits: 'rsh ~bwh', look: { streaks: true } },
+        { label: 'Mostly plain; a few spots on the legs or flanks', fits: 'fh rtk noh', look: {} }
+      ]}
+    ],
+    head: [
+      { id: 'eye', title: 'Eye color', help: 'Most juvenile hawks have pale eyes.', options: [
+        { label: 'Pale yellow to yellow-green', fits: RT + ' bwh swh rlh coh ssh gos ~noh ~rsh ~fh', look: { iris: C('yellow') } },
+        { label: 'Dark brown', fits: '~noh ~rsh ~fh', look: { iris: C('iris-dark') } }
+      ]},
+      { id: 'face', title: 'Head pattern', options: [
+        { label: 'Tawny head contrasting with a brown back', fits: 'coh', look: { head: C('buff') } },
+        { label: 'Broad buff eyebrow', fits: 'gos', look: { head: C('graybrown'), brow: { stroke: C('buff') } } },
+        { label: 'Dark stripe down from the bill (malar) on a pale face', fits: 'bwh swh ~rte', check: STD, look: { head: C('pale'), malar: true } },
+        { label: 'White head', fits: 'rtk ~fh', look: { head: C('white'), fhead: C('white') } },
+        { label: 'Owl-like facial disk', fits: 'noh', look: { head: C('brown'), facepale: { opacity: '.5' } } },
+        { label: 'Dark head', fits: 'rtn rtw rth ~rlh', look: { head: C('dark'), fhead: C('dark') } },
+        { label: 'Brown head, nothing striking', fits: 'rte rsh ssh rlh', look: { head: C('brown'), fhead: C('brown') } }
+      ]}
+    ],
+    back: [{ id: 'back', title: 'Back and folded wing', options: [
+      { label: 'Brown, with a clear pale “V” of white mottling', fits: 'rte rtn rtw ~rtk', check: STD, look: { back: C('brown'), wingtips: C('dark'), scapv: true } },
+      { label: 'Dotted black and white on the wing', fits: 'rth ~rtk', look: { back: C('dark'), wingtips: C('dark'), checker: true } },
+      { label: 'Brown with rusty feather edges', fits: 'ssh ~coh', look: { back: C('brown'), wingtips: C('brown') } },
+      { label: 'Brown, with a pale mottled bar across the wing', fits: 'gos', look: { back: C('graybrown'), wingtips: C('brown'), checker: { opacity: '.6' } } },
+      { label: 'Plain brown; banded flight feathers on the folded wing', fits: 'rsh', look: { back: C('brown'), wingtips: C('brown') } },
+      { label: 'Plain brown', fits: 'bwh swh rlh fh noh coh', look: { back: C('brown'), wingtips: C('dark') } }
+    ]}]
+  };
+
+  var ANY = {
+    shape: SHAPE, wingtips: WINGTIPS, legs: LEGS, date: DATE, where: WHERE,
+    underwing: [PATAGIAL, CARPAL],
+    tail: [TIPGROUP, RUMP],
+    underparts: { note: 'Pick an age first: adults and juveniles are patterned differently below.' },
+    head: { note: 'Pick an age first: eye color and head pattern change with age.' },
+    back: { note: 'Pick an age first.' }
+  };
+
+  Picker({
+    species: SPECIES,
+    stages: [
+      { id: 'any', label: 'Not sure', name: 'Any age',
+        hint: 'Juveniles are usually streaked below, with pale eyes and evenly banded tails. Adult buteos have dark eyes; adult Red-tails have red tails.',
+        qOrder: ['shape', 'underwing', 'wingtips', 'legs', 'tail', 'date', 'where'] },
+      { id: 'ad', label: 'Adult', name: 'Adult',
+        hint: 'Adult buteos have dark eyes; adult accipiters have red to orange eyes and rufous bars below.',
+        qOrder: ['shape', 'tail', 'underwing', 'underparts', 'head', 'back', 'wingtips', 'legs', 'date', 'where'] },
+      { id: 'juv', label: 'Juvenile', name: 'Juvenile (first year)',
+        hint: 'Pale eyes, brown and streaked below, tail evenly banded. Young Red-tails have brown, banded tails, not red.',
+        qOrder: ['shape', 'underwing', 'underparts', 'tail', 'head', 'back', 'wingtips', 'legs', 'date', 'where'] }
+    ],
+    defaultStage: 'any',
+    partToQ: PART_TO_Q, qOrder: Q_ORDER, qNames: Q_NAMES,
+    data: { any: ANY, ad: AD, juv: JUV }
+  });
+})();
+</script>
+</body>
+</html>
