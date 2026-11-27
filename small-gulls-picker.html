@@ -3,9 +3,10 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light">
 <title>Small Gull Picker</title>
 <meta name="description" content="Tap parts of a small or hooded gull, pick what you see, and get a ranked list of Iowa’s small gulls.">
-<link rel="stylesheet" href="picker.css">
+<link rel="stylesheet" href="picker.css?v=2">
 <style>
   .part[data-part="upperwing"]     { fill: var(--bird-b); }
   .part[data-part="carpal"]        { fill: var(--bird-a); }
@@ -22,10 +23,6 @@
   :root { --c-black: #24282c; --c-dgray: #5f666d; --c-gray: #a9b1b9; --c-pale: #d3d8dd; --c-white: #fbfbf9;
           --c-brown: #8a6a4a; --c-gbrown: #a49686; --c-choc: #5b3a26; --c-red: #b3262e; --c-dred: #7a1e24;
           --c-orange: #e48b63; --c-yellow: #e7c13f; --c-pink: #f2d6d3; --c-smudge: #b4b9be; }
-  @media (prefers-color-scheme: dark) {
-    :root { --c-black: #121416; --c-white: #e9eaea; --c-pale: #c3c8cd; --c-pink: #e3c4c1; }
-    svg .part.painted, svg [data-look] { stroke: #7d848b; }
-  }
   .side-label { fill: var(--muted); font-size: 13px; font-style: italic; }
   @media (max-width: 820px) { .side-label { font-size: 16px; } .label text { font-size: 16px; } }
 </style>

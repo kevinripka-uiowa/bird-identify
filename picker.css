@@ -7,16 +7,6 @@
     --hi: #f3cf8a; --hi-line: #b8741a; --hi-soft: #fbf1de; --hi-ink: #8a520c;
     --yes: #2f6b3a; --yes-soft: #e3efe2; --some: #8a6212; --some-soft: #f6ecd6; --no: #9b3b2a; --no-soft: #f6e2dc;
   }
-  @media (prefers-color-scheme: dark) {
-    :root {
-      --bg: #17191c; --surface: #202328; --ink: #e7e9ec; --muted: #a2a9b1; --line: #353a41;
-      --accent: #b9c3cf; --accent-soft: #2a2f36;
-      --bird-a: #6d747c; --bird-b: #7f868d; --bird-c: #959ba1; --bird-d: #3b4046;
-      --bird-white: #e9eaea; --bird-line: #1b1e22; --bird-leg: #a8857e;
-      --hi: #e0a94a; --hi-line: #f0b65a; --hi-soft: #3a2f1c; --hi-ink: #f3c77a;
-      --yes: #9fd3a6; --yes-soft: #23372a; --some: #e8c67e; --some-soft: #3a3020; --no: #f0a898; --no-soft: #3d2621;
-    }
-  }
   * { box-sizing: border-box; }
   html { -webkit-text-size-adjust: 100%; }
   body { margin: 0; background: var(--bg); color: var(--ink);
@@ -90,7 +80,6 @@
   .unsure { display: inline-block; font-size: 11px; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; line-height: 1.5;
             color: #8a520c; background: #fbf1de; border: 1px dashed #d9a34a; border-radius: 999px; padding: 0 6px; margin-left: 6px;
             vertical-align: 1px; white-space: nowrap; }
-  @media (prefers-color-scheme: dark) { .unsure { color: #f3c77a; background: #3a2f1c; border-color: #8a6a2c; } }
   .checknote { display: block; font-size: 13px; font-weight: 400; color: var(--muted); margin-top: 2px; }
   p.checknote { margin: 0 0 8px; }
   .empty { color: var(--muted); margin: 0; }

@@ -3,9 +3,10 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light">
 <title>Iowa Hawk Picker</title>
 <meta name="description" content="Tap parts of a perched or flying hawk, pick what you see, and get a ranked list of Iowa hawks, including the Red-tailed forms.">
-<link rel="stylesheet" href="picker.css">
+<link rel="stylesheet" href="picker.css?v=2">
 <style>
   .part[data-part="breast"], .part[data-part="belly"], .part[data-part="fbody"] { fill: var(--bird-white); }
   .part[data-part="back"]      { fill: var(--bird-a); }
@@ -20,10 +21,6 @@
           --c-buff: #e8d3a8; --c-pale: #f2ece1; --c-gray: #7f8890; --c-slate: #5e6870; --c-graybrown: #8a7864; --c-pink: #e9c2b0;
           --c-yellow: #e2bd2a; --c-orange: #e0872a; --c-red: #b5231e; --c-iris-dark: #4a3424; --c-flight: #d3d6d9; --c-dflight: #6e7377;
           --c-tailgray: #a8a39a; --c-tailwhite: #f4f1ea; }
-  @media (prefers-color-scheme: dark) {
-    :root { --c-black: #121416; --c-white: #e9eaea; --c-pale: #dcd6cb; --c-tailwhite: #e2ded6; }
-    svg .part.painted, svg [data-look] { stroke: #7d848b; }
-  }
   .side-label { fill: var(--muted); font-size: 13px; font-style: italic; }
   @media (max-width: 820px) { .side-label { font-size: 16px; } .label text { font-size: 16px; } }
   .notes { margin-top: 20px; font-size: 15px; }

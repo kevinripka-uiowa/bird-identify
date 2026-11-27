@@ -3,9 +3,10 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light">
 <title>Gull Picker</title>
 <meta name="description" content="Tap parts of a gull, pick what you see, and get a ranked list of Iowa's white-headed gulls.">
-<link rel="stylesheet" href="picker.css">
+<link rel="stylesheet" href="picker.css?v=2">
 <style>
   .part[data-part="mantle"] { fill: var(--bird-b); }
   .part[data-part="coverts"] { fill: var(--bird-c); }
@@ -24,10 +25,6 @@
           --c-yellow: #e7c13f; --c-pyellow: #f4eaa4; --c-darkeye: #3a3330; --c-red: #c0392b; --c-orange: #e8913a; --c-purple: #a8528a;
           --c-pink: #ebb5ae; --c-dpink: #e2768c; --c-greenish: #c3c46c; --c-bluegray: #93a3ae; --c-ggreen: #a7b28d;
           --c-ygreen: #d0cf7b; --c-peach: #f0cfa4; --c-dbill: #4a4542; --c-streak: #8c7a68; }
-  @media (prefers-color-scheme: dark) {
-    :root { --c-black: #121416; --c-white: #e9eaea; --c-pale: #cdd2d6; --c-silver: #dadde0; --c-cream: #ddd3c2; --c-wash: #d4cbbf; }
-    svg .part.painted, svg [data-look] { stroke: #7d848b; }
-  }
   .side-label { fill: var(--muted); font-size: 13px; font-style: italic; }
   @media (max-width: 820px) { .side-label { font-size: 16px; } }
 </style>

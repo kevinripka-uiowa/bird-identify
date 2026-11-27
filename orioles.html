@@ -3,6 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light">
 <title>Orioles of the US</title>
 <meta name="description" content="How to identify the orioles of the contiguous US, especially females and young birds: four checks, rough range maps, side-by-side tables, Iowa records and pitfalls.">
 <style>
@@ -20,23 +21,6 @@
     --water: #dfe9f0; --land: #e7e3da; --land-line: #ffffff; --state-line: #ffffff;
     --breed: #ee9a3a; --winter: #5b8fd6; --res: #8a6bbf; --mig: #c9a227; --mig-bg: #f6e8b4; --ia: #22262b;
     --hi: #f3cf8a; --hi-line: #b8741a; --hi-soft: #fbf1de; --hi-ink: #8a520c;
-  }
-  @media (prefers-color-scheme: dark) {
-    :root {
-      --bg: #17191c;
-      --surface: #202328;
-      --ink: #e7e9ec;
-      --muted: #a2a9b1;
-      --line: #353a41;
-      --accent: #b9c3cf;
-      --accent-soft: #2a2f36;
-      --rust: #d18c5f;
-      --bird-a: #6d747c; --bird-b: #7f868d; --bird-c: #959ba1; --bird-d: #3b4046;
-      --bird-white: #e9eaea; --bird-line: #1b1e22; --bird-leg: #9aa1a8;
-      --water: #1c2631; --land: #3a3e44; --land-line: #22262b; --state-line: #2c3036;
-      --breed: #d9862c; --winter: #4f7fc4; --res: #8f74c4; --mig: #b8962a; --mig-bg: #4a4128; --ia: #f2f2f2;
-      --hi: #e0a94a; --hi-line: #f0b65a; --hi-soft: #3a2f1c; --hi-ink: #f3c77a;
-    }
   }
 
   * { box-sizing: border-box; }
@@ -173,7 +157,6 @@
   .to-check ul { padding-left: 20px; }
   .to-check li { margin: 4px 0; }
   .to-check li strong { margin-right: 4px; }
-  @media (prefers-color-scheme: dark) { .unsure { color: #f3c77a; background: #3a2f1c; border-color: #8a6a2c; } }
 
   h3 { font-size: 18px; margin: 28px 0 8px; scroll-margin-top: 12px; }
   .jump { display: flex; flex-wrap: wrap; gap: 8px; padding: 0; list-style: none; margin: 8px 0 16px; }

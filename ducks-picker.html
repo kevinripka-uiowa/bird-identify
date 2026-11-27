@@ -3,9 +3,10 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light">
 <title>Dusky Duck Picker</title>
 <meta name="description" content="Tap parts of a brown duck, pick what you see, and get a ranked list: Mottled, Mexican, American Black or female Mallard.">
-<link rel="stylesheet" href="picker.css">
+<link rel="stylesheet" href="picker.css?v=2">
 <style>
   .part[data-part="body"]        { fill: var(--bird-a); }
   .part[data-part="wing"]        { fill: var(--bird-b); }
@@ -21,10 +22,6 @@
           --c-yellow: #d8c23c; --c-olive: #8e9445; --c-oliveyellow: #b5ae45; --c-orange: #e5872a; --c-dullorange: #c4874c;
           --c-blue: #3a5bb0; --c-purple: #5e3f92; --c-teal: #2f7f80; --c-lining: #f4f4f1; --c-flight: #9aa0a6; --c-dflight: #6c7278;
           --c-leg: #e57b2a; --c-dullleg: #b98a5c; --c-whitetail: #ece7dc; --c-darktail: #5b4635; }
-  @media (prefers-color-scheme: dark) {
-    :root { --c-black: #121416; --c-white: #e9eaea; --c-lining: #e4e5e3; }
-    svg .part.painted, svg [data-look] { stroke: #7d848b; }
-  }
   .side-label { fill: var(--muted); font-size: 13px; font-style: italic; }
   @media (max-width: 820px) { .side-label { font-size: 16px; } .label text { font-size: 16px; } }
   .notes { margin-top: 20px; font-size: 15px; }
