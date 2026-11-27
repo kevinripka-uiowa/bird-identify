@@ -1,0 +1,457 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Dusky Ducks</title>
+<meta name="description" content="Separating Mottled, Mexican and American Black Ducks from female and eclipse Mallards: speculum, tail, bill and face, with Texas and Iowa status.">
+<style>
+  :root {
+    --bg: #f6f4ef;
+    --surface: #ffffff;
+    --ink: #22262b;
+    --muted: #5d646c;
+    --line: #dcd8cf;
+    --accent: #4a5563;
+    --accent-soft: #e8ebef;
+    --rust: #9a5a34;
+    --chip-common: #dfe9dc;   --chip-common-ink: #2f5129;
+    --chip-uncommon: #f2e7d2; --chip-uncommon-ink: #6b4b14;
+    --chip-regular: #e6e3f1;  --chip-regular-ink: #43386d;
+    --chip-casual: #ecdde6;   --chip-casual-ink: #6a2850;
+    --chip-acc: #f4dfd8;      --chip-acc-ink: #7a3322;
+    --bird-a: #bfc4ca; --bird-b: #cfd3d8; --bird-c: #dde0e3; --bird-d: #8e959d;
+    --bird-white: #fbfbf9; --bird-line: #4f565e;
+    --hi: #f3cf8a; --hi-line: #b8741a; --hi-soft: #fbf1de; --hi-ink: #8a520c;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #17191c;
+      --surface: #202328;
+      --ink: #e7e9ec;
+      --muted: #a2a9b1;
+      --line: #353a41;
+      --accent: #b9c3cf;
+      --accent-soft: #2a2f36;
+      --rust: #d18c5f;
+      --chip-common: #26362a;   --chip-common-ink: #b5d7ad;
+      --chip-uncommon: #3a3020; --chip-uncommon-ink: #e8cd96;
+      --chip-regular: #2e2a40;  --chip-regular-ink: #c9c0ee;
+      --chip-casual: #3a2433;   --chip-casual-ink: #e8b2d2;
+      --chip-acc: #3d2621;      --chip-acc-ink: #f0b4a4;
+      --bird-a: #6d747c; --bird-b: #7f868d; --bird-c: #959ba1; --bird-d: #3b4046;
+      --bird-white: #e9eaea; --bird-line: #1b1e22;
+      --hi: #e0a94a; --hi-line: #f0b65a; --hi-soft: #3a2f1c; --hi-ink: #f3c77a;
+    }
+  }
+
+  * { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font: 16px/1.55 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  }
+  main { max-width: 1040px; margin: 0 auto; padding: 32px 16px 64px; }
+
+  header { margin-bottom: 28px; }
+  .kicker { font-size: 13px; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); margin: 0 0 6px; }
+  .kicker .home { display: inline-block; padding: 6px 10px 6px 0; margin: -6px 0; color: inherit; font-weight: 700; text-decoration: none; }
+  .kicker .home:hover { text-decoration: underline; }
+  h1 { font-size: clamp(28px, 5vw, 40px); line-height: 1.15; margin: 0 0 10px; }
+  .lede { font-size: 18px; color: var(--muted); max-width: 62ch; margin: 0; }
+
+  h2 { font-size: 24px; margin: 44px 0 12px; }
+  h3 { font-size: 19px; margin: 28px 0 10px; }
+  p { max-width: 70ch; }
+  em.sci { font-style: italic; color: var(--muted); font-weight: 400; }
+  .note { background: var(--accent-soft); border-radius: 10px; padding: 14px 16px; max-width: none; }
+
+  /* Cast list */
+  .cast { list-style: none; padding: 0; margin: 12px 0; display: grid; gap: 8px;
+          grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); }
+  .cast li { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 10px 14px; }
+  .cast strong { display: block; }
+  .cast small { display: block; color: var(--muted); font-size: 13px; margin-top: 4px; }
+  .chip { display: inline-block; font-size: 12px; font-weight: 600; padding: 1px 8px; border-radius: 999px; white-space: nowrap; margin-top: 4px; }
+  .chip-common   { background: var(--chip-common);   color: var(--chip-common-ink); }
+  .chip-uncommon { background: var(--chip-uncommon); color: var(--chip-uncommon-ink); }
+  .chip-regular  { background: var(--chip-regular);  color: var(--chip-regular-ink); }
+  .chip-casual   { background: var(--chip-casual);   color: var(--chip-casual-ink); }
+  .chip-acc      { background: var(--chip-acc);      color: var(--chip-acc-ink); }
+
+  /* Tabs */
+  .tabs { display: flex; gap: 6px; margin: 16px 0 8px; padding: 4px; background: var(--accent-soft);
+          border-radius: 12px; overflow-x: auto; }
+  .tab { flex: 1 0 auto; font: inherit; font-weight: 600; font-size: 15px; color: var(--muted); cursor: pointer;
+         background: none; border: 0; border-radius: 9px; padding: 10px 14px; white-space: nowrap; }
+  .tab[aria-selected="true"] { background: var(--surface); color: var(--ink); box-shadow: 0 1px 3px rgba(0,0,0,.15); }
+  .tab:focus-visible { outline: 2px solid var(--hi-line); outline-offset: 1px; }
+  .panel[hidden] { display: none; }
+  .panel > h3:first-child { margin-top: 20px; }
+
+  /* Checks */
+  .checks { list-style: none; padding: 0; margin: 16px 0; display: grid; gap: 12px;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); counter-reset: check; }
+  .checks li { position: relative; counter-increment: check; display: flex; }
+  .checks li::before { content: counter(check); position: absolute; left: 16px; top: 15px; z-index: 1; pointer-events: none;
+                       width: 28px; height: 28px; border-radius: 50%; background: var(--accent);
+                       color: var(--bg); font-weight: 700; display: grid; place-items: center; font-size: 15px; }
+  .check { flex: 1; text-align: left; font: inherit; color: inherit; cursor: pointer;
+           background: var(--surface); border: 1px solid var(--line); border-radius: 10px;
+           padding: 16px 16px 16px 56px; transition: border-color .15s, box-shadow .15s; }
+  .check:hover { border-color: var(--hi-line); }
+  .check:focus-visible { outline: 2px solid var(--hi-line); outline-offset: 2px; }
+  .check[aria-pressed="true"] { border-color: var(--hi-line); box-shadow: 0 0 0 2px var(--hi-line) inset; background: var(--hi-soft); }
+  .checks strong { display: block; margin-bottom: 4px; }
+
+  /* Diagram */
+  .diagram { margin: 16px 0; background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 12px 12px 10px; }
+  .diagram svg { display: block; width: 100%; height: auto; max-height: 340px; }
+  .diagram figcaption { font-size: 14px; color: var(--muted); padding: 4px 4px 0; }
+  .part { fill: var(--bird-white); stroke: var(--bird-line); stroke-width: 1.5; stroke-linejoin: round; }
+  .part[data-part="body"]        { fill: var(--bird-a); }
+  .part[data-part="wing"]        { fill: var(--bird-b); }
+  .part[data-part="head"]        { fill: var(--bird-c); }
+  .part[data-part="speculum"]    { fill: var(--bird-d); }
+  .part[data-part="bill"]        { fill: var(--bird-a); }
+  .part[data-part="tail"]        { fill: var(--bird-b); }
+  .part[data-part="outertail"]   { fill: var(--bird-c); }
+  .part[data-part="underflight"] { fill: var(--bird-b); }
+  .part[data-part="underwing"]   { fill: var(--bird-c); }
+  .side-label { fill: var(--muted); font-size: 13px; font-style: italic; }
+  .label line { stroke: var(--muted); stroke-width: 1; }
+  .label text { fill: var(--ink); font-size: 15px; font-weight: 600; }
+  /* When a check is selected, other parts become blank outlines (still opaque, so they hide what's beneath) */
+  svg.focus .part:not(.on) { fill: var(--surface); stroke: var(--muted); stroke-opacity: .55; }
+  svg.focus .label { opacity: .3; }
+  svg.focus .label.on { opacity: 1; }
+  svg.focus .part.on { fill: var(--hi); stroke: var(--hi-line); stroke-width: 2.5; }
+  svg.focus .label.on line { stroke: var(--hi-line); stroke-width: 2; }
+  svg.focus .label.on text { fill: var(--hi-ink); }
+
+  /* Tables */
+  .table-wrap { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; overflow: auto; max-height: 75vh; max-height: 75svh; -webkit-overflow-scrolling: touch; }
+  table { width: 100%; border-collapse: separate; border-spacing: 0; font-size: 15px; }
+  th, td { text-align: left; vertical-align: top; padding: 12px 14px; border-bottom: 1px solid var(--line); }
+  thead th { font-size: 13px; text-transform: uppercase; letter-spacing: .05em; color: var(--muted);
+             background: var(--accent-soft); font-weight: 600; }
+  thead th { position: sticky; top: 0; z-index: 2; }  /* header row stays put while the table scrolls */
+  tbody tr:last-child td, tbody tr:last-child th { border-bottom: 0; }
+  tbody th { font-weight: 700; min-width: 130px; }
+  tbody th em { display: block; }
+  tr.rarity th { color: var(--muted); }
+  td.clincher { font-weight: 600; }
+  .scroll-hint { display: none; font-size: 13px; color: var(--muted); margin: 0 0 6px; }
+
+  /* Pitfalls */
+  .pitfalls { padding: 0; list-style: none; display: grid; gap: 10px; }
+  .pitfalls li { background: var(--surface); border: 1px solid var(--line); border-left: 4px solid var(--rust);
+                 border-radius: 8px; padding: 12px 16px; }
+  .pitfalls strong { display: block; }
+
+  .sources { color: var(--muted); padding-left: 20px; }
+  .sources a { color: inherit; }
+  footer { margin-top: 40px; padding-top: 16px; border-top: 1px solid var(--line); color: var(--muted); font-size: 14px; }
+  footer a { color: inherit; }
+
+  /* Narrow screens */
+  @media (max-width: 760px) {
+    /* Tables scroll sideways with the first column frozen */
+    table { width: auto; min-width: 760px; font-size: 14px; }
+    th, td { padding: 10px 12px; }
+    td { min-width: 150px; }
+    thead th:first-child, tbody th {
+      position: sticky; left: 0; z-index: 1;
+      width: 108px; min-width: 108px; max-width: 108px;
+      border-right: 1px solid var(--line);
+      box-shadow: 4px 0 6px -4px rgba(0,0,0,.25);
+    }
+    thead th:first-child { background: var(--accent-soft); z-index: 3; }
+    tbody th { background: var(--surface); }
+    .scroll-hint { display: block; }
+
+    /* Keep the bird in view while tapping through the checks below it */
+    .diagram { position: sticky; top: 0; z-index: 4; margin-left: -8px; margin-right: -8px; padding: 8px;
+               box-shadow: 0 6px 12px -8px rgba(0,0,0,.25); }
+    .label text { font-size: 19px; }
+    .side-label { font-size: 16px; }
+    .diagram figcaption { font-size: 13px; }
+    .tab { font-size: 14px; padding: 9px 10px; }
+  }
+
+  @media print {
+    body { background: #fff; color: #000; }
+    .checks li, .table-wrap, .pitfalls li { break-inside: avoid; }
+    .panel[hidden] { display: block; }
+    .tabs { display: none; }
+    .table-wrap { max-height: none; overflow: visible; }
+  }
+  /* "check" markers: things not confirmed from a source */
+  .unsure { display: inline-block; font-size: 11px; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; line-height: 1.5;
+            color: #8a520c; background: #fbf1de; border: 1px dashed #d9a34a; border-radius: 999px; padding: 0 6px; margin-left: 4px;
+            vertical-align: 1px; white-space: nowrap; cursor: help; }
+  .to-check ul { padding-left: 20px; }
+  .to-check li { margin: 4px 0; }
+  .to-check li strong { margin-right: 4px; }
+  @media (prefers-color-scheme: dark) { .unsure { color: #f3c77a; background: #3a2f1c; border-color: #8a6a2c; } }
+</style>
+</head>
+<body>
+<main>
+  <header>
+    <p class="kicker"><a class="home" href="index.html">← Home</a> · Tricky birds · Iowa and Texas</p>
+    <h1>Dusky Ducks: Mottled, Mexican, American Black and Mallard</h1>
+    <p class="lede">Four brown, Mallard-shaped ducks: Mottled, Mexican and American Black Ducks, and female or eclipse male Mallards. Rule out Mallard with the speculum and tail first, then use the face, bill and body. All four hybridize, so some birds won’t fit any one species.</p>
+  </header>
+
+  <!-- ========================= CAST ========================= -->
+  <section>
+    <h2>Who to expect</h2>
+    <ul class="cast">
+      <li><strong>Mallard</strong><span class="chip chip-common">Common everywhere</span><small>The default brown duck in both states. A brown male Mallard is in eclipse, about June to September; by winter, drakes have green heads.</small></li>
+      <li><strong>Mottled Duck</strong><span class="chip chip-common">Texas coast</span><span class="chip chip-casual">Iowa: Casual</span><small>Resident on the upper and central Texas coast, spreading inland. In Iowa it’s listed as Casual (seen in 5–8 of the last 10 years) and every report needs documentation; first Iowa record 7 Jul 2006 at Saylorville.</small></li>
+      <li><strong>Mexican Duck</strong><span class="chip chip-uncommon">West Texas</span><small>Resident in the Trans-Pecos and along the border, east to about Webb County, and spreading into central Texas. Meets Mottled Duck in South Texas brush country, where they hybridize. No Iowa record.</small></li>
+      <li><strong>American Black Duck</strong><span class="chip chip-acc">Texas: very rare</span><span class="chip chip-regular">Iowa: Regular</span><small>The Texas Bird Records Committee had accepted only 8 records by 2010, over half from the coastal prairies.<span class="unsure" title="Current Texas review status not confirmed.">check</span> In Iowa it’s Regular (seen in 7–10 of the last 10 years) and has nested.</small></li>
+    </ul>
+  </section>
+
+  <!-- ========================= STEP 1 ========================= -->
+  <section class="decoder">
+    <h2>Step 1: Rule out Mallard</h2>
+    <p>Tap a check to see where to look. The small duck at top right shows the underwing in flight.</p>
+    <div class="how">
+    <figure class="diagram" data-svg>
+        <figcaption>Schematic only. Shading just separates the parts.</figcaption>
+      </figure>
+    <ol class="checks">
+        <li><button type="button" class="check" data-parts="speculum" aria-pressed="false"><strong>Speculum borders</strong>Bold white bars in front of and behind the blue speculum: Mallard. Mexican Duck has a white rear bar and a narrow or no front bar.<span class="unsure" title="Sources disagree on Mexican Duck’s front bar: Ducks Unlimited says none; Audubon says narrow or missing; All About Birds says narrower than Mallard’s.">check</span> Mottled has no front bar and a thin rear line or none; Black Duck has little or no white at all.<span class="unsure" title="Sources disagree on the rear bar of Black and Mottled Ducks: Ducks Unlimited gives a thin white line on one page and none on another; All About Birds says Black Duck has none.">check</span></button></li>
+        <li><button type="button" class="check" data-parts="tail" aria-pressed="false"><strong>Tail</strong>Whitish, with white outer feathers: Mallard. Dark brown, including under the tail: Mottled, Mexican and Black.</button></li>
+        <li><button type="button" class="check" data-parts="bill" aria-pressed="false"><strong>Bill and sex</strong>Females: orange with a bold dark saddle is classic Mallard; Mottled is dull orange to olive and fairly plain; Black is olive or greenish-gray; Mexican ranges from orange with dark marks to drab olive. Males of all four have yellow to olive bills, so the bill helps most on females.</button></li>
+      </ol>
+    </div>
+    <p class="note"><strong>White in the speculum or tail means Mallard genes.</strong> A dark duck with bold white speculum bars or a pale tail is a Mallard or a hybrid, whatever its body color.</p>
+  </section>
+
+  <!-- ========================= TABLE ========================= -->
+  <section>
+    <h2>Side by side</h2>
+    <p class="scroll-hint">Swipe the table sideways for more →</p>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th scope="col">Species</th><th scope="col">Speculum</th><th scope="col">Tail</th><th scope="col">Bill</th><th scope="col">Head and throat</th><th scope="col">Body</th><th scope="col">Clincher</th></tr></thead>
+          <tbody>
+            <tr><th scope="row">Mallard (female or eclipse male)</th><td>Blue; bold white bars in front and behind</td><td>Whitish, white outer feathers</td><td>Female orange with a dark saddle; eclipse male dull yellow to olive<span class="unsure" title="General field-guide description; not confirmed from a source I could open.">check</span></td><td>Buffy, dark crown and eyeline; low contrast with the body</td><td>Paler, warmer buff-brown; patchier</td><td class="clincher">White speculum bars and pale tail</td></tr>
+            <tr><th scope="row">Mottled Duck</th><td>Blue-green; no white in front; thin white rear line or none<span class="unsure" title="Sources disagree on the rear bar of Black and Mottled Ducks: Ducks Unlimited gives a thin white line on one page and none on another; All About Birds says Black Duck has none.">check</span></td><td>Dark brown</td><td>Male plain yellow to olive; female dull orange to olive, sometimes spotted; black spot at the gape<span class="unsure" title="Ducks Unlimited says only Mottled Duck has it, but no source says how often it’s missing, and hybrids may show it.">check</span></td><td>Buff, plain unmarked throat, faint cheek streaks; dark crown and eyeline</td><td>Warm dark brown with buff edges, mottled</td><td class="clincher">Plain buff throat and gape spot</td></tr>
+            <tr><th scope="row">Mexican Duck</th><td>Blue to blue-green; white rear bar; front bar narrow or missing<span class="unsure" title="Sources disagree on Mexican Duck’s front bar: Ducks Unlimited says none; Audubon says narrow or missing; All About Birds says narrower than Mallard’s.">check</span></td><td>Dark, including undertail</td><td>Male olive-green; female dusky orange to olive with dark marks</td><td>Tan-buff with faint streaks; darker cheek and stronger eyeline than Mottled<span class="unsure" title="The sources I could read don’t describe the throat of Mallard or Mexican Duck.">check</span></td><td>Dark brown, evenly patterned, like a dark female Mallard</td><td class="clincher">Dark tail on a Mallard-like bird</td></tr>
+            <tr><th scope="row">American Black Duck</th><td>Purple to violet; little or no white<span class="unsure" title="Sources disagree on the rear bar of Black and Mottled Ducks: Ducks Unlimited gives a thin white line on one page and none on another; All About Birds says Black Duck has none.">check</span></td><td>Dark</td><td>Male yellow to olive; female olive or greenish-gray, sometimes a dark saddle</td><td>Grayish, finely streaked right down the throat</td><td>Blackish brown, the darkest; very thin pale edges<span class="unsure" title="General field-guide description; not confirmed from a source I could open.">check</span></td><td class="clincher">Pale gray head on a blackish body; white underwing flashes in flight</td></tr>
+          </tbody>
+        </table>
+      </div>
+  </section>
+
+  <!-- ========================= TABS ========================= -->
+  <section>
+    <h2 id="step-2">Step 2: The hard pairs</h2>
+    <div class="tabs" role="tablist" aria-labelledby="step-2">
+      <button type="button" class="tab" role="tab" id="tab-texas" aria-controls="texas" aria-selected="true">Mottled vs. Mexican</button>
+      <button type="button" class="tab" role="tab" id="tab-black" aria-controls="black" aria-selected="false">Black Duck</button>
+      <button type="button" class="tab" role="tab" id="tab-hybrid" aria-controls="hybrid" aria-selected="false">Hybrids</button>
+    </div>
+
+    <div class="panel decoder" role="tabpanel" id="texas" aria-labelledby="tab-texas">
+      <h3>Mottled vs. Mexican Duck (Texas)</h3>
+      <p>Both have dark tails and are darker than a female Mallard. Location narrows it: Mottled on the coast, Mexican in the west, both in South Texas brush country.</p>
+      <div class="how">
+      <figure class="diagram" data-svg>
+        <figcaption>Schematic only. Shading just separates the parts.</figcaption>
+      </figure>
+      <ol class="checks">
+        <li><button type="button" class="check" data-parts="bill" aria-pressed="false"><strong>Gape spot</strong>A small black spot at the corner of the bill: Mottled.<span class="unsure" title="Ducks Unlimited says only Mottled Duck has it, but no source says how often it’s missing, and hybrids may show it.">check</span> Mexican’s bill is also more often marked with dark on the female.</button></li>
+        <li><button type="button" class="check" data-parts="head" aria-pressed="false"><strong>Face</strong>Paler, plainer buff cheek and a lighter eyeline, with an unmarked throat: Mottled. Darker cheek with faint streaks and a bolder eyeline: Mexican.</button></li>
+        <li><button type="button" class="check" data-parts="speculum" aria-pressed="false"><strong>Speculum</strong>No white front bar: Mottled. A narrow white front bar often shows on Mexican.<span class="unsure" title="Sources disagree on Mexican Duck’s front bar: Ducks Unlimited says none; Audubon says narrow or missing; All About Birds says narrower than Mallard’s.">check</span></button></li>
+        <li><button type="button" class="check" data-parts="body" aria-pressed="false"><strong>Body</strong>Warmer brown with broad buff edges, mottled: Mottled. Grayer brown and evenly patterned, like a dark Mallard: Mexican.</button></li>
+      </ol>
+      </div>
+      <h3>Pitfalls</h3>
+      <ul class="pitfalls">
+        <li><strong>They hybridize.</strong>A 2024 genetic study found a contact zone about 100 km wide in South Texas brush country, so birds there may be mixed.</li>
+        <li><strong>Gulf Coast Mottled are dark.</strong>Western Gulf Coast birds are darker than Florida’s, closer to Mexican Duck in tone.</li>
+      </ul>
+    </div>
+
+    <div class="panel decoder" role="tabpanel" id="black" aria-labelledby="tab-black" hidden>
+      <h3>American Black Duck</h3>
+      <p>The darkest of the four. In Iowa it’s the expected dark duck; in Texas it’s very rare, so a dark Mottled is far more likely there.</p>
+      <div class="how">
+      <figure class="diagram" data-svg>
+        <figcaption>Schematic only. Shading just separates the parts.</figcaption>
+      </figure>
+      <ol class="checks">
+        <li><button type="button" class="check" data-parts="head body" aria-pressed="false"><strong>Head against body</strong>A pale grayish, finely streaked head on a blackish body gives strong contrast. Mottled has a buff, plain-throated head on a warmer brown body.</button></li>
+        <li><button type="button" class="check" data-parts="speculum" aria-pressed="false"><strong>Speculum</strong>Purple to violet, with little or no white.<span class="unsure" title="Sources disagree on the rear bar of Black and Mottled Ducks: Ducks Unlimited gives a thin white line on one page and none on another; All About Birds says Black Duck has none.">check</span></button></li>
+        <li><button type="button" class="check" data-parts="underwing underflight" aria-pressed="false"><strong>Underwing in flight</strong>Bright white wing linings flash against the blackish body, the strongest contrast of the four.</button></li>
+      </ol>
+      </div>
+      <h3>Pitfalls</h3>
+      <ul class="pitfalls">
+        <li><strong>Some Mottled look like Black Ducks.</strong>A Georgia eBird reviewer notes Mottled Ducks with dark caps and lores, streaked cheeks and red legs. Check the throat and the gape spot.</li>
+        <li><strong>Black × Mallard hybrids are common.</strong>They are paler than a Black Duck, with a blue speculum and white on one or both edges.</li>
+      </ul>
+    </div>
+
+    <div class="panel decoder" role="tabpanel" id="hybrid" aria-labelledby="tab-hybrid" hidden>
+      <h3>Hybrids and domestic ducks</h3>
+      <p>Mallard crosses with all three, and feral Mallards are common near towns. Look for Mallard traits on an otherwise dusky bird.</p>
+      <div class="how">
+      <figure class="diagram" data-svg>
+        <figcaption>Schematic only. Shading just separates the parts.</figcaption>
+      </figure>
+      <ol class="checks">
+        <li><button type="button" class="check" data-parts="speculum" aria-pressed="false"><strong>White speculum bars</strong>Bold white bars on a dusky bird point to Mallard genes.</button></li>
+        <li><button type="button" class="check" data-parts="tail" aria-pressed="false"><strong>Tail</strong>A whitish tail, or curled-up central tail feathers on a male.</button></li>
+        <li><button type="button" class="check" data-parts="head" aria-pressed="false"><strong>Head</strong>Any green on a male’s head.</button></li>
+        <li><button type="button" class="check" data-parts="body" aria-pressed="false"><strong>Body and shape</strong>Heavy, upright body, odd white patches or unusual colors mean a domestic or hybrid duck.<span class="unsure" title="General field-guide description; not confirmed from a source I could open.">check</span></button></li>
+      </ol>
+      </div>
+      <h3>Pitfalls</h3>
+      <ul class="pitfalls">
+        <li><strong>Mexican × Mallard intergrades are widespread</strong>in the Southwest; many West Texas birds show some Mallard traits.</li>
+        <li><strong>Young male Mexican Ducks can show some green and curled tail feathers</strong>without being hybrids (Ducks Unlimited).</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="to-check" id="to-check">
+    <h2>To check</h2>
+    <p>Anything tagged <span class="unsure" title="Example">check</span> couldn’t be confirmed from a source I could open, or sources disagree.</p>
+    <ul>
+      <li><strong>Mexican Duck’s front speculum bar.</strong>None (Ducks Unlimited), narrow or missing (Audubon), or narrower than Mallard’s (All About Birds).</li>
+      <li><strong>Rear bar on Black and Mottled.</strong>Ducks Unlimited gives a thin white line on one page and none on another.</li>
+      <li><strong>Gape spot.</strong>How often Mottled lacks it, and whether hybrids show it.</li>
+      <li><strong>Throat of Mallard and Mexican Duck.</strong>Not described in the sources I could read.</li>
+      <li><strong>Black Duck in Texas.</strong>Its current review status.</li>
+      <li><strong>Iowa Mottled Duck records.</strong>The current total of accepted records.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>Sources</h2>
+    <ul class="sources">
+      <li>Ducks Unlimited species pages: <a href="https://www.ducks.org/hunting/waterfowl-id/mottled-duck">Mottled</a>, <a href="https://www.ducks.org/hunting/waterfowl-id/mexican-duck">Mexican</a>, <a href="https://www.ducks.org/hunting/waterfowl-id/american-black-duck">American Black</a></li>
+      <li>All About Birds species comparisons: <a href="https://www.allaboutbirds.org/guide/Mexican_Duck/species-compare">Mexican</a>, <a href="https://www.allaboutbirds.org/guide/Mottled_Duck/species-compare">Mottled</a></li>
+      <li><a href="https://www.audubon.org/field-guide/bird/mexican-duck">Audubon Field Guide: Mexican Duck</a></li>
+      <li><a href="https://par.nsf.gov/servlets/purl/10515808">Mexican × Mottled Duck hybrid zone in South Texas (2024)</a></li>
+      <li><a href="https://tpwd.texas.gov/huntwild/wild/research/highlights/taxa/publications/Johnson_Garrettson_2010_BlackDucksPublished.pdf">Johnson and Garrettson (2010), American Black Ducks in Texas</a></li>
+      <li><a href="https://macaulaylibrary.org/asset/633761707">eBird reviewer comment on a Black Duck-like Mottled Duck</a></li>
+      <li>Iowa Ornithologists’ Union: <a href="https://iowabirds.org/birds/Checklist.aspx">checklist</a> and <a href="https://iowabirds.org/birds/ReviewList.aspx">Review List</a></li>
+    </ul>
+  </section>
+
+  <footer><a href="index.html">← All bird pages</a> · <a href="ducks-picker.html">Dusky Duck Picker</a> · Kevin Ripka · Nov 27, 2026</footer>
+</main>
+
+<!-- One schematic duck, copied into every figure with data-svg -->
+<template id="duck-svg">
+  <svg viewBox="0 0 600 340" role="img">
+    <title>Schematic swimming duck with labeled parts: bill and gape, head and throat, body, speculum, tail and legs, plus a small duck in flight showing the underwing</title>
+    <!-- flight inset, seen from below -->
+    <g class="inset">
+      <path class="part" data-part="underflight" d="M452,56 C462,34 486,12 528,2 C518,24 506,42 496,56 Z"/>
+      <path class="part" data-part="underflight" d="M452,70 C462,92 486,114 528,124 C518,102 506,84 496,70 Z"/>
+      <path class="part" data-part="underwing" d="M452,56 C460,42 474,28 492,20 C494,34 494,46 496,56 Z"/>
+      <path class="part" data-part="underwing" d="M452,70 C460,84 474,98 492,106 C494,92 494,80 496,70 Z"/>
+      <path class="part" data-part="tail" d="M520,58 L560,63 L520,68 Z"/>
+      <ellipse class="part" data-part="body" cx="474" cy="63" rx="50" ry="13"/>
+      <path class="part" data-part="head" d="M430,58 C420,52 404,54 398,60 C404,70 420,72 430,68 Z"/>
+      <path class="part" data-part="bill" d="M399,60 L380,62 L399,66 Z"/>
+    </g>
+    <text class="side-label" x="592" y="140" text-anchor="end">in flight, from below</text>
+
+    <!-- main bird, side view -->
+    <path class="part leg-line" data-part="legs" d="M292,238 L286,296 M274,300 L286,296 L298,302"/>
+    <path class="part leg-line" data-part="legs" d="M322,238 L326,292 M314,296 L326,292 L338,296"/>
+    <path class="part" data-part="tail" d="M444,150 L528,170 L446,178 Z"/>
+    <path class="part" data-part="outertail" d="M446,178 L528,170 L448,196 Z"/>
+    <path class="part" data-part="body" d="M150,196 C146,160 196,140 270,140 C350,140 420,146 460,166 C478,178 468,204 446,216 C400,240 310,252 240,246 C186,240 154,222 150,196 Z"/>
+    <path class="part" data-part="wing" d="M226,158 C290,136 390,138 462,164 C440,184 360,198 290,198 C258,194 236,178 226,158 Z"/>
+    <path class="part" data-part="speculum" d="M318,178 L438,166 L446,177 L322,191 Z"/>
+    <path class="part" data-part="head" d="M204,150 C190,138 176,122 168,108 C166,80 150,56 124,56 C98,56 84,72 84,90 C84,106 94,118 106,126 C122,136 140,154 152,178 C168,164 186,154 204,150 Z"/>
+    <path class="part" data-part="bill" d="M88,80 C70,82 50,88 36,95 C29,100 31,107 40,107 C58,107 74,106 92,104 Z"/>
+    <circle class="pupil" cx="114" cy="84" r="3.5"/>
+    <!-- labels -->
+    <g class="label" data-part="bill"><line x1="46" y1="62" x2="56" y2="90"/><text x="46" y="54" text-anchor="middle">Bill</text></g>
+    <g class="label" data-part="bill"><line x1="60" y1="138" x2="86" y2="106"/><text x="56" y="154" text-anchor="middle">Gape</text></g>
+    <g class="label" data-part="head"><line x1="160" y1="40" x2="140" y2="66"/><text x="162" y="34" text-anchor="middle">Head</text></g>
+    <g class="label" data-part="head"><line x1="104" y1="186" x2="128" y2="134"/><text x="100" y="204" text-anchor="middle">Throat</text></g>
+    <g class="label" data-part="body"><line x1="230" y1="96" x2="250" y2="144"/><text x="230" y="88" text-anchor="middle">Body</text></g>
+    <g class="label" data-part="speculum"><line x1="320" y1="104" x2="364" y2="176"/><text x="320" y="96" text-anchor="middle">Speculum</text></g>
+    <g class="label" data-part="tail"><line x1="516" y1="216" x2="492" y2="184"/><text x="520" y="234" text-anchor="middle">Tail</text></g>
+    <g class="label" data-part="legs"><line x1="370" y1="300" x2="330" y2="288"/><text x="374" y="306" text-anchor="start">Legs</text></g>
+    <g class="label" data-part="underwing"><line x1="430" y1="26" x2="470" y2="36"/><text x="426" y="30" text-anchor="end">Underwing</text></g>
+  </svg>
+</template>
+
+<script>
+  (function () {
+    var tpl = document.getElementById('duck-svg');
+
+    // Put a diagram in each figure and wire up that section's checks
+    document.querySelectorAll('.decoder').forEach(function (section) {
+      var fig = section.querySelector('figure[data-svg]');
+      var svg = tpl.content.firstElementChild.cloneNode(true);
+      fig.insertBefore(svg, fig.firstChild);
+      var caption = fig.querySelector('figcaption');
+      var defaultCaption = caption.textContent;
+      var buttons = section.querySelectorAll('.check');
+
+      function show(btn) {
+        var parts = btn ? btn.dataset.parts.split(' ') : [];
+        buttons.forEach(function (b) { b.setAttribute('aria-pressed', b === btn ? 'true' : 'false'); });
+        svg.classList.toggle('focus', !!btn);
+        svg.querySelectorAll('[data-part]').forEach(function (el) {
+          el.classList.toggle('on', parts.indexOf(el.dataset.part) !== -1);
+        });
+        caption.textContent = btn
+          ? 'Check: ' + btn.querySelector('strong').textContent + '. Tap it again to show all parts.'
+          : defaultCaption;
+      }
+
+      buttons.forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          show(btn.getAttribute('aria-pressed') === 'true' ? null : btn);
+        });
+      });
+    });
+
+    // Tabs; the URL hash (#texas, #black, #hybrid) remembers the choice
+    var tabs = Array.prototype.slice.call(document.querySelectorAll('.tab'));
+    function select(id, fromHash) {
+      var found = false;
+      tabs.forEach(function (t) {
+        var on = t.getAttribute('aria-controls') === id;
+        if (on) found = true;
+        t.setAttribute('aria-selected', on ? 'true' : 'false');
+        t.tabIndex = on ? 0 : -1;
+        document.getElementById(t.getAttribute('aria-controls')).hidden = !on;
+      });
+      if (found && !fromHash) history.replaceState(null, '', '#' + id);
+      return found;
+    }
+    tabs.forEach(function (t, i) {
+      t.addEventListener('click', function () { select(t.getAttribute('aria-controls')); });
+      t.addEventListener('keydown', function (e) {
+        var d = e.key === 'ArrowRight' ? 1 : e.key === 'ArrowLeft' ? -1 : 0;
+        if (!d) return;
+        var next = tabs[(i + d + tabs.length) % tabs.length];
+        next.focus(); next.click();
+      });
+    });
+    var start = location.hash.slice(1);
+    if (!start || !select(start, true)) select('texas', true);
+    window.addEventListener('hashchange', function () { select(location.hash.slice(1), true); });
+  })();
+</script>
+</body>
+</html>
