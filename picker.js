@@ -255,8 +255,7 @@
           r.why.forEach(function (w) { ul.appendChild(el('li', w.k, w.t)); });
           li.appendChild(ul);
         }
-        var a = el('a', null, 'Details on the reference page →'); a.href = cfg.ref + tab;
-        li.appendChild(a);
+        if (cfg.ref) { var a = el('a', null, 'Details on the reference page →'); a.href = cfg.ref + tab; li.appendChild(a); }
         list.appendChild(li);
       });
       var names = fitting.slice(0, 3).map(function (r) { return r.sp.name; }).join(', ');
