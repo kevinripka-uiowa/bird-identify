@@ -1,0 +1,268 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light">
+<title>Cuckoo Picker</title>
+<meta name="description" content="Yellow-billed or Black-billed Cuckoo: tap the wing, undertail, bill or eye-ring of a flying or perched cuckoo, pick what you see, even when you missed the bill.">
+<link rel="stylesheet" href="picker.css?v=4">
+<style>
+  .part[data-part="fbody"], .part[data-part="fhead"], .part[data-part="fwing"], .part[data-part="pbelly"], .part[data-part="pthroat"] { fill: var(--bird-white); }
+  .part[data-part="pback"], .part[data-part="phead"], .part[data-part="pwing"], .part[data-part="ptail"] { fill: var(--bird-a); }
+  .part[data-part="fprim"], .part[data-part="ppri"] { fill: var(--bird-c); }
+  .part[data-part="ftail"], .part[data-part="ptailu"] { fill: var(--bird-b); }
+  .part[data-part="fbill"], .part[data-part="pbill"] { fill: var(--bird-d); }
+  .part[data-part="peye"] { fill: var(--bird-c); }
+  :root { --c-white: #fbfbf9; --c-black: #2b2d31; --c-yellow: #e8c23a; --c-red: #c8452f; --c-yring: #e6cf5a; --c-buffring: #e3cf9a; --c-gring: #b9b6b0;
+          --c-rufous: #c0662a; --c-cwash: #a98d72; --c-wingplain: #8f857a; --c-gbrown: #91887d; --c-obrown: #857a5f;
+          --c-tgray: #8f8d89; --c-nbrown: #8c8378; --c-dtail: #4a4a4c; --c-buff: #efdcbc; --c-wash: #ece4d6; }
+  .side-label { fill: var(--muted); font-size: 13px; font-style: italic; }
+  .opt .thumb { background: var(--surface); }
+  @media (max-width: 820px) { .side-label { font-size: 16px; } .label text { font-size: 16px; } }
+  .notes { margin-top: 20px; font-size: 15px; }
+  .notes ul { margin: 0; padding-left: 20px; }
+  .notes li + li { margin-top: 6px; }
+  .notes .src { color: var(--muted); font-size: 13px; margin: 12px 0 0; }
+  .notes a { color: inherit; }
+</style>
+</head>
+<body>
+<main>
+  <p class="kicker"><a class="home" href="index.html">← Home</a> · Tricky birds · Iowa</p>
+  <h1>Cuckoo Picker</h1>
+  <p class="lede">Yellow-billed or Black-billed? The bill settles it, but a cuckoo flying by rarely shows it. Pick the age, then tap the outer wing or the undertail and choose what you see; the bird repaints to match. Answers that conflict with your other picks fade, and answers tagged <span class="unsure">check</span> aren’t confirmed. For the full write-up, see the <a href="cuckoos.html">cuckoo reference page</a>.</p>
+
+  <div class="layout">
+    <div class="stack">
+      <section class="card">
+        <div class="card-head"><h2>1 · Age</h2><button type="button" class="clear">↺ Start over</button></div>
+        <div class="seg" id="stages" role="group" aria-label="Age"></div>
+        <p class="stage-hint" id="stage-hint"></p>
+      </section>
+
+      <section class="card">
+        <h2>2 · Tap a part</h2>
+        <div id="diagram"></div>
+        <div class="parts" id="partchips" role="group" aria-label="Parts"></div>
+      </section>
+
+      <section class="card q" id="question" aria-live="polite"></section>
+
+      <section class="card">
+        <h2>Your picks</h2>
+        <div class="picks" id="picks"></div>
+      </section>
+    </div>
+
+    <section class="card results" id="results-card">
+      <div class="results-head">
+        <h2 id="results">Could be</h2>
+        <span class="count" id="count"></span>
+        <button type="button" class="clear">↺ Start over</button>
+      </div>
+      <ul class="res" id="res"></ul>
+    </section>
+  </div>
+
+  <section class="card notes" id="notes">
+    <h2>Notes and sources</h2>
+    <ul>
+      <li><strong>No bill? Use the wing and the tail.</strong> A rufous flash in the outer wing means Yellow-billed at any age; Black-billed’s wing is plain. Underneath, Yellow-billed’s tail is black with big white ovals; Black-billed’s is gray with thin white tips.</li>
+      <li><strong>Young birds:</strong> young Yellow-billeds can have all-dark bills and smaller tail spots, so the wing matters even more. Young Black-billeds have a buff or yellowish eye-ring, not red.</li>
+      <li><strong>Voice overlaps.</strong> Even-pitched “cu-cu-cu” groups mean Black-billed; a slowing, knocking series is usually Yellow-billed, but Black-billed’s long call is similar. It’s fine to leave a heard-only bird as “cuckoo sp.”</li>
+      <li><strong>Iowa:</strong> both nest statewide from May to September. Earliest records are 23–24 April; Black-billed’s latest are 17–25 October, Yellow-billed’s 30 October to 4 November.</li>
+    </ul>
+    <p class="src">Sources: USGS Patuxent ID accounts for <a href="https://www.mbr-pwrc.usgs.gov/id/htmid/h3870id.html">Yellow-billed</a> and <a href="https://www.mbr-pwrc.usgs.gov/id/htmid/h3880id.html">Black-billed Cuckoo</a>; All About Birds species comparisons for <a href="https://www.allaboutbirds.org/guide/Yellow-billed_Cuckoo/species-compare/">Yellow-billed</a> and <a href="https://www.allaboutbirds.org/guide/Black-billed_Cuckoo/species-compare/">Black-billed</a>; Audubon field guide, <a href="https://www.audubon.org/field-guide/bird/black-billed-cuckoo">Black-billed Cuckoo</a> and <a href="https://www.audubon.org/field-guide/bird/yellow-billed-cuckoo">Yellow-billed Cuckoo</a>; Birds Ontario, <a href="https://www.birdsontario.org/cuckoos/">Going cuckoo: atlassing cuckoos</a>; Iowa Ornithologists’ Union <a href="https://iowabirds.org/Birds/Checklist.aspx">checklist</a> and <a href="https://iowabirds.org/Birds/EarlyLate.aspx">early and late dates</a>.</p>
+  </section>
+
+  <footer><a href="index.html">← All bird pages</a> · Full write-up on the <a href="cuckoos.html">cuckoo reference page</a>. Things tagged <span class="unsure">check</span> aren’t confirmed.</footer>
+</main>
+
+<div class="bar" id="bar"><span id="bar-text"></span><button type="button" class="clear">↺</button><a href="#results">See results ↓</a></div>
+
+<template id="bird-svg">
+  <svg viewBox="0 0 600 360" role="img" aria-label="Cuckoo diagram, flying from below with a perched bird: tap a part">
+    <!-- flying, seen from below (large) -->
+    <path class="part" data-part="fwing" d="M196,100 C166,90 120,84 84,88 C60,92 40,104 24,122 C64,126 120,134 194,142 Z"/>
+    <path class="part" data-part="fwing" d="M224,100 C254,90 300,84 336,88 C360,92 380,104 396,122 C356,126 300,134 226,142 Z"/>
+    <path class="part" data-part="fprim" d="M88,88 C62,92 40,104 24,122 C54,124 84,127 108,130 Z"/>
+    <path class="part" data-part="fprim" d="M332,88 C358,92 380,104 396,122 C366,124 336,127 312,130 Z"/>
+    <path class="part" data-part="ftail" d="M196,182 L224,182 L236,320 C227,337 193,337 184,320 Z"/>
+    <g data-look="yspots" class="no-stroke" style="fill:var(--c-white)">
+      <ellipse cx="200" cy="234" rx="5" ry="9"/><ellipse cx="220" cy="234" rx="5" ry="9"/>
+      <ellipse cx="198" cy="270" rx="6" ry="10"/><ellipse cx="222" cy="270" rx="6" ry="10"/>
+      <ellipse cx="196" cy="305" rx="6.5" ry="10"/><ellipse cx="224" cy="305" rx="6.5" ry="10"/>
+      <ellipse cx="210" cy="327" rx="15" ry="6.5"/>
+      <ellipse cx="510" cy="306" rx="5" ry="2.6"/><ellipse cx="536" cy="314" rx="5" ry="2.6"/><ellipse cx="562" cy="321.5" rx="5" ry="2.6"/><ellipse cx="584" cy="328" rx="4.5" ry="2.4"/>
+    </g>
+    <g data-look="ysmall" class="no-stroke" style="fill:var(--c-white)">
+      <ellipse cx="200" cy="237" rx="3" ry="5"/><ellipse cx="220" cy="237" rx="3" ry="5"/>
+      <ellipse cx="198" cy="273" rx="3.5" ry="5.5"/><ellipse cx="222" cy="273" rx="3.5" ry="5.5"/>
+      <ellipse cx="196" cy="309" rx="3.5" ry="5.5"/><ellipse cx="224" cy="309" rx="3.5" ry="5.5"/>
+      <ellipse cx="210" cy="329" rx="10" ry="3.5"/>
+      <ellipse cx="510" cy="306" rx="3" ry="1.6"/><ellipse cx="536" cy="314" rx="3" ry="1.6"/><ellipse cx="562" cy="321.5" rx="3" ry="1.6"/><ellipse cx="584" cy="328" rx="3" ry="1.6"/>
+    </g>
+    <path data-look="btips" d="M193,241 l9,-3 M218,238 l9,3 M190,277 l10,-3 M220,274 l10,3 M188,313 l10,-3 M222,310 l10,3 M196,331 q14,4 28,0 M508,308 l5,-4 M534,316 l5,-4 M560,323 l5,-4 M582,330 l5,-4" style="fill:none;stroke:var(--c-white);stroke-width:2.6;stroke-linecap:round"/>
+    <path data-look="bbuff" d="M193,241 l9,-3 M218,238 l9,3 M190,277 l10,-3 M220,274 l10,3 M188,313 l10,-3 M222,310 l10,3 M196,331 q14,4 28,0 M508,308 l5,-4 M534,316 l5,-4 M560,323 l5,-4 M582,330 l5,-4" style="fill:none;stroke:var(--c-buff);stroke-width:2.6;stroke-linecap:round"/>
+    <ellipse class="part" data-part="fbody" cx="210" cy="130" rx="21" ry="56"/>
+    <circle class="part" data-part="fhead" cx="210" cy="74" r="15"/>
+    <path class="part" data-part="fbill" d="M206.5,62 L210,34 L213.5,62 Z"/>
+    <path data-look="fyel" class="no-stroke" d="M207.2,61 L209,47 L211,47 L212.8,61 Z" style="fill:var(--c-yellow)"/>
+
+    <!-- perched, side view facing left (inset) -->
+    <path d="M380,312 L592,321" style="fill:none;stroke:#9b8a72;stroke-width:4;stroke-linecap:round"/>
+    <path d="M436,300 L432,313 M450,301 L448,315" style="fill:none;stroke:#6f6a64;stroke-width:2.5;stroke-linecap:round"/>
+    <path class="part" data-part="ptail" d="M478,284 L598,318 L594,326 L476,292 Z"/>
+    <path class="part" data-part="ptailu" d="M476,292 L594,326 L588,334 L474,298 Z"/>
+    <ellipse class="part" data-part="pbelly" cx="438" cy="288" rx="46" ry="17"/>
+    <path class="part" data-part="pback" d="M394,284 C404,266 452,262 486,280 L484,286 C452,280 420,282 394,288 Z"/>
+    <path class="part" data-part="pwing" d="M410,278 C440,270 474,274 496,288 C470,292 440,292 414,288 Z"/>
+    <g data-look="cov" class="no-stroke" style="fill:var(--c-buff)">
+      <ellipse cx="424" cy="280.5" rx="2.6" ry="1.5"/><ellipse cx="434" cy="279" rx="2.6" ry="1.5"/><ellipse cx="444" cy="278.5" rx="2.6" ry="1.5"/><ellipse cx="454" cy="279" rx="2.6" ry="1.5"/>
+      <ellipse cx="430" cy="285" rx="2.6" ry="1.5"/><ellipse cx="441" cy="284.5" rx="2.6" ry="1.5"/><ellipse cx="452" cy="284.5" rx="2.6" ry="1.5"/>
+    </g>
+    <path class="part" data-part="ppri" d="M462,280 C478,282 490,286 500,292 C486,294 472,293 458,291 Z"/>
+    <circle class="part" data-part="phead" cx="392" cy="272" r="13"/>
+    <path class="part" data-part="pthroat" d="M380,276 Q386,288 398,286 L402,280 Q390,280 381,272 Z"/>
+    <circle class="part" data-part="peye" cx="388" cy="269" r="3.8"/>
+    <circle class="pupil" cx="388" cy="269" r="1.8"/>
+    <path class="part" data-part="pbill" d="M380,268 C372,268 362,271 354,276 C364,275 372,274 381,274 Z"/>
+    <path data-look="pyel" class="no-stroke" d="M381,271.6 C373,272.6 366,274 359,275.4 C367,275 374,274.4 381,274 Z" style="fill:var(--c-yellow)"/>
+
+    <text class="side-label" x="210" y="354" text-anchor="middle">flying, from below</text>
+    <text class="side-label" x="530" y="352" text-anchor="middle">perched</text>
+
+    <!-- labels -->
+    <g class="label" data-q="wing"><line x1="60" y1="66" x2="66" y2="104"/><text x="60" y="58" text-anchor="middle">Outer wing</text></g>
+    <g class="label" data-q="bill"><line x1="252" y1="40" x2="215" y2="48"/><text x="256" y="44" text-anchor="start">Bill</text></g>
+    <g class="label" data-q="under"><line x1="128" y1="182" x2="190" y2="150"/><text x="124" y="188" text-anchor="end">Underparts</text></g>
+    <g class="label" data-q="undertail"><line x1="128" y1="284" x2="186" y2="284"/><text x="124" y="290" text-anchor="end">Undertail</text></g>
+    <g class="label" data-q="eyering"><line x1="372" y1="230" x2="386" y2="264"/><text x="372" y="222" text-anchor="middle">Eye-ring</text></g>
+    <g class="label" data-q="upper"><line x1="478" y1="230" x2="458" y2="270"/><text x="478" y="222" text-anchor="middle">Upperparts</text></g>
+  </svg>
+</template>
+
+<script src="picker.js?v=4"></script>
+<script>
+(function () {
+  var SPECIES = [
+    { id: 'yb', name: 'Yellow-billed Cuckoo' },
+    { id: 'bb', name: 'Black-billed Cuckoo' }
+  ];
+  var PART_TO_Q = { fprim: 'wing', ppri: 'wing', fwing: 'wing', ftail: 'undertail', ptailu: 'undertail', fbill: 'bill', pbill: 'bill',
+                    peye: 'eyering', pback: 'upper', phead: 'upper', pwing: 'upper', ptail: 'upper',
+                    fbody: 'under', fhead: 'under', pbelly: 'under', pthroat: 'under' };
+  var Q_ORDER = ['wing', 'undertail', 'bill', 'eyering', 'voice', 'under', 'upper', 'size', 'date'];
+  var Q_NAMES = { wing: 'Wing', undertail: 'Undertail', bill: 'Bill', eyering: 'Eye-ring', voice: 'Voice', under: 'Underparts',
+                  upper: 'Upperparts', size: 'Size & shape', date: 'Date' };
+
+  // ---------- Paint helpers ----------
+  function C(n) { return 'var(--c-' + n + ')'; }
+  function L() { var o = {}; [].forEach.call(arguments, function (a) { Object.keys(a).forEach(function (k) { o[k] = a[k]; }); }); return o; }
+  function wing(c) { return { fprim: C(c), ppri: C(c) }; }
+  function upper(c) { return { pback: C(c), phead: C(c), pwing: C(c), ptail: C(c) }; }
+  function under(c) { return { fbody: C(c), fhead: C(c), pbelly: C(c), pthroat: C(c) }; }
+  function ring(c) { return { peye: C(c) }; }
+  var DARKBILL = { fbill: C('black'), pbill: C('black') };
+  var YELBILL = L(DARKBILL, { fyel: true, pyel: true });
+  function utail(c) { return { ftail: C(c), ptailu: C(c) }; }
+
+  // ---------- Shared groups ----------
+  var VOICE = [{ id: 'voice', title: 'Voice', help: 'Cuckoos call far more often than they show themselves, and young birds are mostly silent.',
+    check: 'The songs overlap: Black-billed’s long call also has “kowlp” notes, and even experienced birders leave some calls as “cuckoo sp.”', options: [
+    { label: 'Soft, even “cu-cu-cu” in groups of 2–5 notes, on one pitch, over and over', fits: 'bb' },
+    { label: 'A long, hollow, wooden knocking that slows down and ends in “kowlp, kowlp”', fits: 'yb ~bb' },
+    { label: 'Single soft “cooo” notes, about a second apart', fits: 'yb ~bb' }
+  ]}];
+  var SIZE = [{ id: 'size', title: 'Size and shape', help: 'Both are slim, long-tailed and about the size of a Blue Jay; the difference is small.',
+    check: 'A standard field-guide impression, not confirmed from a source I could open.', options: [
+    { label: 'Bulkier and heavier, with a heavier bill', fits: 'yb ~bb' },
+    { label: 'Slimmer and slightly smaller, with a thinner bill', fits: 'bb ~yb' }
+  ]}];
+  var DATE = [{ id: 'date', title: 'When, in Iowa', help: 'Both arrive in early to mid-May (earliest records late April) and nest. Black-billed’s latest Iowa records are 17–25 October; Yellow-billed’s run to 4 November.', options: [
+    { label: 'Late April through mid-October', fits: 'yb bb' },
+    { label: 'After 25 October', fits: 'yb', check: 'Based on Iowa’s three latest records for each species; a later Black-billed is possible.' }
+  ]}];
+
+  // ---------- Adults ----------
+  var ADULT = {
+    voice: VOICE, size: SIZE, date: DATE,
+    wing: [{ id: 'rufous', title: 'Outer wing, in flight or at rest', help: 'The best mark when you can’t see the bill. On Yellow-billed the rufous flashes with every wingbeat, from above and below, and often shows on a perched bird’s folded wingtip.', options: [
+      { label: 'A bright rufous (cinnamon) flash in the outer wing', fits: 'yb', look: wing('rufous') },
+      { label: 'Plain gray-brown wing, no rufous at all', fits: 'bb', look: wing('wingplain') }
+    ]}],
+    undertail: [{ id: 'utail', title: 'Underside of the tail', help: 'From below as it flies over, or on a perched bird. Look at the contrast as much as the spots.', options: [
+      { label: 'Black, with big white ovals in pairs: bold, high contrast', fits: 'yb', look: L(utail('black'), { yspots: true }) },
+      { label: 'Gray, with small, narrow white tips: little contrast', fits: 'bb', look: L(utail('tgray'), { btips: true }) }
+    ]}],
+    bill: [{ id: 'abill', title: 'Bill color', help: 'The clincher when you can see it. From below, the lower mandible is the part you see.', options: [
+      { label: 'Yellow lower mandible (upper mandible black)', fits: 'yb', look: YELBILL },
+      { label: 'All black', fits: 'bb', look: DARKBILL }
+    ]}],
+    eyering: [{ id: 'ring', title: 'Bare skin around the eye', help: 'Needs a close look at a perched bird.', options: [
+      { label: 'Red', fits: 'bb', look: ring('red') },
+      { label: 'Yellow, or no color obvious', fits: 'yb ~bb', look: ring('yring') }
+    ]}],
+    under: [{ id: 'aunder', title: 'Throat and underparts', check: 'Sources describe both adults as white below; the faint buff throat on Black-billed comes from field-guide impressions.', options: [
+      { label: 'Clean, bright white', fits: 'yb ~bb', look: under('white') },
+      { label: 'White with a faint buff or grayish wash on the throat', fits: 'bb ~yb', look: L(under('white'), { fhead: C('wash'), pthroat: C('wash') }) }
+    ]}],
+    upper: [{ id: 'aupper', title: 'Upperparts', help: 'Easiest with the two side by side, or in good light.', check: 'A standard field-guide impression, not confirmed from a source I could open.', options: [
+      { label: 'Cool gray-brown, contrasting with the white underparts', fits: 'yb ~bb', look: upper('gbrown') },
+      { label: 'Warmer olive-brown, with a little less contrast', fits: 'bb ~yb', look: upper('obrown') }
+    ]}]
+  };
+
+  // ---------- Juveniles (July to October) ----------
+  var YOUNG = {
+    voice: VOICE, size: SIZE, date: DATE,
+    wing: [{ id: 'jrufous', title: 'Outer wing', help: 'Still the best mark at this age: the rufous shows on young Yellow-billeds too.', options: [
+      { label: 'A bright rufous flash in the outer wing', fits: 'yb', look: wing('rufous') },
+      { label: 'Plain brown, or only a faint cinnamon wash', fits: 'bb', look: wing('cwash'),
+        check: 'USGS says young Black-billeds never show Yellow-billed’s cinnamon primaries; other sources mention a faint cinnamon wash on some.' }
+    ]}],
+    undertail: [{ id: 'jutail', title: 'Underside of the tail', help: 'Young Yellow-billeds have smaller spots than adults, so judge the contrast and the shape.', options: [
+      { label: 'Dark, with white ovals (smaller than an adult’s)', fits: 'yb', look: L(utail('dtail'), { ysmall: true }) },
+      { label: 'Gray, with narrow buff or whitish tips', fits: 'bb', look: L(utail('tgray'), { bbuff: true }) }
+    ]}],
+    eyering: [{ id: 'jring', title: 'Bare skin around the eye', check: 'Sources describe young Black-billed’s ring as buff or yellowish; young Yellow-billed’s ring isn’t described in a source I could open.', options: [
+      { label: 'Buff to yellowish ring', fits: 'bb ~yb', look: ring('buffring') },
+      { label: 'Grayish, or no ring obvious', fits: 'yb ~bb', look: ring('gring') }
+    ]}],
+    bill: [{ id: 'jbill', title: 'Bill color', help: 'Young Yellow-billeds have all-dark bills until about two months old, so a dark bill doesn’t rule it out.', options: [
+      { label: 'Some yellow on the lower mandible', fits: 'yb', look: YELBILL },
+      { label: 'All dark', fits: 'yb bb', look: DARKBILL }
+    ]}],
+    upper: [{ id: 'jcov', title: 'Wing coverts (perched)', check: 'Pale-tipped coverts are described for young Black-billed; I couldn’t confirm whether young Yellow-billeds show them too.', options: [
+      { label: 'Neat buff tips on the coverts: a scaly look', fits: 'bb ~yb', look: L(upper('obrown'), { cov: true }) },
+      { label: 'Plain coverts', fits: 'yb ~bb', look: upper('gbrown') }
+    ]}],
+    under: [{ id: 'junder', title: 'Throat and underparts', check: 'Young Black-billed is described as washed pale buff below; young Yellow-billed’s underparts aren’t described in a source I could open.', options: [
+      { label: 'Washed pale buff, especially the throat', fits: 'bb ~yb', look: under('buff') },
+      { label: 'Clean white', fits: 'yb ~bb', look: under('white') }
+    ]}]
+  };
+
+  Picker({
+    species: SPECIES,
+    stages: [
+      { id: 'adult', label: 'Adult', name: 'Adult', tab: 'adults',
+        qOrder: ['wing', 'undertail', 'bill', 'eyering', 'voice', 'under', 'upper', 'size', 'date'],
+        hint: 'May to September. No bill view? Start with the wing and the undertail.',
+        look: L(under('white'), upper('nbrown'), { fwing: C('white') }, { fbill: C('black'), pbill: C('black') }, ring('gring')) },
+      { id: 'young', label: 'Juvenile', name: 'Juvenile', tab: 'young',
+        qOrder: ['wing', 'undertail', 'eyering', 'bill', 'upper', 'under', 'voice', 'size', 'date'],
+        hint: 'July to October: duller, with a dark bill and a pale or buff eye-ring. Mostly silent.',
+        look: L(under('white'), upper('nbrown'), { fwing: C('white') }, { fbill: C('black'), pbill: C('black') }, ring('gring')) }
+    ],
+    defaultStage: 'adult',
+    thumbs: { rufous: '20 60 110 110', jrufous: '20 60 110 110', utail: '140 192 140 140', jutail: '140 192 140 140', abill: '350 250 54 54', jbill: '350 250 54 54', ring: '372 255 30 30', jring: '372 255 30 30', aunder: '150 40 120 120', junder: '150 40 120 120', aupper: '370 230 140 140', jcov: '370 230 140 140' },
+    partToQ: PART_TO_Q, qOrder: Q_ORDER, qNames: Q_NAMES,
+    data: { adult: ADULT, young: YOUNG },
+    ref: 'cuckoos.html'
+  });
+})();
+</script>
+</body>
+</html>
