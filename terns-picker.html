@@ -259,11 +259,11 @@
   Picker({
     species: SPECIES,
     stages: [
-      { id: 'breed', label: 'Breeding adult', name: 'Breeding adult', tab: 'breed', look: { head: C('black'), upperwing: C('back'), carpal: { fill: C('back'), stroke: 'none' }, secondaries: C('back') },
+      { id: 'breed', label: 'Breeding adult', qOrder: ['wingtip', 'underwing', 'bill', 'tail', 'body', 'rest', 'call', 'legs', 'head'], name: 'Breeding adult', tab: 'breed', look: { head: C('black'), upperwing: C('back'), carpal: { fill: C('back'), stroke: 'none' }, secondaries: C('back') },
         hint: 'Full black cap and a colored bill. Roughly April–August.' },
-      { id: 'fall', label: 'Fall adult', name: 'Fall adult or 1st-year', tab: 'fall',
+      { id: 'fall', label: 'Fall adult', qOrder: ['head', 'innerwing', 'wingtip', 'underwing', 'bill', 'rest', 'call', 'legs'], name: 'Fall adult or 1st-year', tab: 'fall',
         hint: 'White forehead or just a black mask, black bill, clean gray back. 1st-year birds look like this too.' },
-      { id: 'juv', label: 'Juvenile', name: 'Juvenile', tab: 'juv',
+      { id: 'juv', label: 'Juvenile', qOrder: ['innerwing', 'body', 'head', 'bill', 'legs'], name: 'Juvenile', tab: 'juv',
         look: { tail: { transform: 'scaleY(.8)', transformOrigin: '50% 0' }, outertail: { transform: 'scaleY(.8)', transformOrigin: '50% 0' } },
         hint: 'Brown, tan or scaly back and a short tail. July–October; most Iowa Arctic records fit here.' }
     ],

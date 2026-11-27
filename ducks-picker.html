@@ -274,10 +274,10 @@
   Picker({
     species: SPECIES,
     stages: [
-      { id: 'any', label: 'Not sure', name: 'Either sex',
+      { id: 'any', label: 'Not sure', qOrder: ['speculum', 'tail', 'where', 'head', 'body', 'bill', 'underwing', 'legs'], name: 'Either sex',
         hint: 'Mallard here means a female, or a male in eclipse (about June–September). By winter, Mallard drakes have green heads.' },
-      { id: 'f', label: 'Female', name: 'Female', hint: 'Bill orange to olive, often with dark marks.' },
-      { id: 'm', label: 'Male', name: 'Male', hint: 'Bill yellow to olive. A brown male Mallard is in eclipse, about June–September.' }
+      { id: 'f', label: 'Female', qOrder: ['speculum', 'tail', 'where', 'bill', 'head', 'body', 'underwing', 'legs'], name: 'Female', hint: 'Bill orange to olive, often with dark marks.' },
+      { id: 'm', label: 'Male', qOrder: ['speculum', 'tail', 'where', 'head', 'body', 'bill', 'underwing', 'legs'], name: 'Male', hint: 'Bill yellow to olive. A brown male Mallard is in eclipse, about June–September.' }
     ],
     defaultStage: 'any',
     partToQ: PART_TO_Q, qOrder: Q_ORDER, qNames: Q_NAMES,

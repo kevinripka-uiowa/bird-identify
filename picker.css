@@ -74,6 +74,7 @@
   .chipbtn[aria-pressed="true"] { border-color: var(--hi-line); box-shadow: 0 0 0 1px var(--hi-line) inset; background: var(--hi-soft); }
   .chipbtn.answered::after { content: " ✓"; color: var(--yes); }
   .chipbtn.na { color: var(--muted); }
+  .chipnote { color: var(--muted); font-size: 13px; margin: 8px 0 0; }
 
   /* Question panel */
   .q h3 { font-size: 18px; margin: 0 0 4px; }

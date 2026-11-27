@@ -74,12 +74,24 @@
     svg.querySelectorAll('.label').forEach(function (l) { l.addEventListener('click', function () { openQ(l.dataset.q); }); });
 
     var chipRow = document.getElementById('partchips');
+    var chips = {};
     cfg.qOrder.forEach(function (q) {
       var b = el('button', 'chipbtn', cfg.qNames[q]);
       b.type = 'button'; b.dataset.q = q;
       b.addEventListener('click', function () { openQ(q); });
-      chipRow.appendChild(b);
+      chips[q] = b; chipRow.appendChild(b);
     });
+    var chipNote = el('p', 'chipnote', hasStages ? 'Buttons run from most to least useful for the stage you picked; grayed-out ones don’t help at that stage.' : 'Buttons run from most to least useful.');
+    chipRow.parentNode.insertBefore(chipNote, chipRow.nextSibling);
+    // Chips follow the stage's own order if it has one; parts that don't help at this stage go last
+    function orderChips() {
+      var st = hasStages ? stageObj() : null;
+      var order = (st && st.qOrder) || cfg.qOrder;
+      cfg.qOrder.forEach(function (q) { if (order.indexOf(q) === -1) order = order.concat(q); });
+      order.filter(function (q) { return groupsFor(q); })
+        .concat(order.filter(function (q) { return !groupsFor(q); }))
+        .forEach(function (q) { chipRow.appendChild(chips[q]); });
+    }
 
     // ---------- Stage buttons ----------
     var stageRow = document.getElementById('stages');
@@ -129,6 +141,7 @@
 
     // ---------- Rendering ----------
     function renderDiagram() {
+      orderChips();
       var painted = renderLooks();
       svg.querySelectorAll('[data-part]').forEach(function (p) {
         var q = qOfPart(p.dataset.part);

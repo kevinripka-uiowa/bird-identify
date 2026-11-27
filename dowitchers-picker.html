@@ -310,10 +310,10 @@
   Picker({
     species: SPECIES,
     stages: [
-      { id: 'juv',    label: 'Juvenile',     name: 'Juvenile',          hint: 'Crisp, fresh, neatly patterned feathers, buffy or gray below with no orange. Mid-August to November.' },
-      { id: 'spring', label: 'Breeding',     name: 'Breeding adult',    hint: 'Fresh, bright orange below with crisp patterns. April–May.' },
-      { id: 'worn',   label: 'Worn or gray', name: 'Worn or gray adult', hint: 'Faded, patchy orange (July–Sept) or plain gray nonbreeding.' },
-      { id: 'unsure', label: 'Not sure',     name: 'Any plumage',       hint: 'Only marks that work at any age: call, date, face, bill, wingtips, tail and legs.' }
+      { id: 'juv',    label: 'Juvenile', qOrder: ['call', 'tertials', 'scapulars', 'wing', 'breast', 'face', 'date', 'bill', 'tail', 'legs'],     name: 'Juvenile',          hint: 'Crisp, fresh, neatly patterned feathers, buffy or gray below with no orange. Mid-August to November.' },
+      { id: 'spring', label: 'Breeding', qOrder: ['call', 'scapulars', 'belly', 'breast', 'wing', 'date', 'face', 'bill', 'tail', 'legs'],     name: 'Breeding adult',    hint: 'Fresh, bright orange below with crisp patterns. April–May.' },
+      { id: 'worn',   label: 'Worn or gray', qOrder: ['call', 'date', 'scapulars', 'breast', 'wing', 'face', 'bill', 'tail', 'legs'], name: 'Worn or gray adult', hint: 'Faded, patchy orange (July–Sept) or plain gray nonbreeding.' },
+      { id: 'unsure', label: 'Not sure', qOrder: ['call', 'date', 'face', 'bill', 'wing', 'tail', 'legs'],     name: 'Any plumage',       hint: 'Only marks that work at any age: call, date, face, bill, wingtips, tail and legs.' }
     ],
     defaultStage: 'unsure',
     partToQ: PART_TO_Q, qOrder: Q_ORDER, qNames: Q_NAMES,
