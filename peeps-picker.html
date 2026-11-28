@@ -198,7 +198,7 @@
   function legColor(c) { return { legs: { stroke: C(c) } }; }
 
   var COX = 'Cameron Cox, “Identification of North American Peeps,” Birding (2008).';
-  var STD = 'Standard field-guide mark; not from the two Cox articles.';
+  var STD = 'Standard field-guide mark; not from the two Cox articles. Semipalmated and Western details agree with the Bird Observer New England Shorebird Guide.';
   var IA = 'Iowa timing is approximate and couldn’t be checked against current eBird data.';
 
   var SPECIES = [
@@ -222,8 +222,8 @@
     { label: 'Well past the tail, often crossed like open scissors', fits: 'wr ba', look: { primg: { transform: 'scaleX(1.5)', transformOrigin: '296px 0' }, primcross: true } }
   ]}];
   var SHAPE = [{ id: 'shape', title: 'Shape and posture', help: 'Best side by side with another peep. Size matters too: Least is the smallest; the long-winged peeps are noticeably longer-bodied.', options: [
-    { label: 'Tiny; often crouches, breast near the ground', fits: 'le', look: shape(.72, .95, .97, .92) },
-    { label: 'Compact and round: small head, thick neck, full belly', fits: 'se', look: shape(1, .96, 1.06, .9) },
+    { label: 'Tiny and hunched; often crouches, breast near the ground', fits: 'le', look: shape(.72, .95, .97, .92) },
+    { label: 'Compact and round, standing fairly upright: small head, thick neck', fits: 'se', look: shape(1, .96, 1.06, .9) },
     { label: 'Lanky: longer legs, big head, heavy in front', fits: 'we', look: shape(1.14, 1, .95, 1.06) },
     { label: 'Long and slim, heavy chest, larger blocky head', fits: 'wr', look: shape(1, 1.12, .98, 1) },
     { label: 'Long, low and flat-backed; small head, short legs', fits: 'ba', look: shape(.82, 1.12, .9, .88) }
@@ -237,8 +237,8 @@
   ]}];
   var LEGS = [
     { id: 'legcolor', title: 'Leg color', help: 'Mud can hide the color, and wet legs look dark.', options: [
-      { label: 'Yellowish to greenish', fits: 'le', check: STD, look: legColor('legyellow') },
-      { label: 'Black', fits: 'se we wr ba', check: STD, look: legColor('black') }
+      { label: 'Yellowish to greenish', fits: 'le', look: legColor('legyellow') },
+      { label: 'Black or very dark gray-green', fits: 'se we wr ba', look: legColor('black') }
     ]},
     { id: 'toes', title: 'Toes (close views)', options: [
       { label: 'Small webs between the front toes', fits: 'se we' },
@@ -276,26 +276,28 @@
     back: [{ id: 'back', title: 'Back and scapulars', check: STD, options: [
       { label: 'Warm brown: black centers with rufous edges', fits: 'le ~wr', look: mix(upper('brown'), { 'scap-black': true, 'scap-rufous': true }) },
       { label: 'Bright rufous upper scapulars with black centers; rest grayer', fits: 'we', look: mix(upper('graybrown'), { 'scap-upper': true, 'scap-black': true }) },
-      { label: 'Gray-brown, dark centers, little rufous', fits: 'se', look: mix(upper('graybrown'), { 'scap-black': { opacity: '.6' } }) },
+      { label: 'Gray-brown, dark centers, little rufous (any rufous is on the crown)', fits: 'se', look: mix(upper('graybrown'), { 'scap-black': { opacity: '.6' } }) },
       { label: 'Grayish, with black centers and some rufous edges', fits: 'wr ~se', look: mix(upper('gray'), { 'scap-black': true, 'scap-rufous': { opacity: '.6' } }) },
       { label: 'Scaly: black centers with buffy-gray fringes', fits: 'ba', look: mix(upper('gbrown'), { 'scap-black': true, 'scap-scaly': true }) }
     ]}],
     breast: [{ id: 'breast', title: 'Breast', check: STD, options: [
       { label: 'Brown band of dense streaks', fits: 'le', look: { breast: C('buffwash'), 'breast-streaks': true } },
-      { label: 'Light streaks across the upper breast', fits: 'se ~wr', look: { breast: C('white'), 'breast-streaks': { opacity: '.55' } } },
+      { label: 'Coarse streaks on the breast sides, thinning in the middle', fits: 'se ~wr', look: { breast: C('white'), 'breast-streaks': { opacity: '.55' } } },
       { label: 'Heavy black arrowheads', fits: 'we', look: { breast: C('white'), 'breast-chev': true } },
       { label: 'Fine black streaks on white', fits: 'wr ~se', look: { breast: C('white'), 'breast-streaks': true } },
       { label: 'Buffy wash with fine streaks', fits: 'ba', look: { breast: C('buffwash'), 'breast-streaks': { opacity: '.7' } } }
     ]}],
     flanks: [{ id: 'flanks', title: 'Sides and flanks', options: [
-      { label: 'Arrowheads continue down the flanks', fits: 'we', check: STD, look: { 'flank-chev': true } },
+      { label: 'Arrowheads continue down the flanks', fits: 'we', look: { 'flank-chev': true } },
       { label: 'Streaks continue down the flanks', fits: 'wr', check: 'Heavy flank streaks: USGS and Audubon (via search results). Cox: flank streaks rule out Baird’s.', look: { 'flank-streaks': true } },
-      { label: 'Clean white flanks', fits: 'le se ba', look: {} }
+      { label: 'A few faint streaks or flecks on the flanks', fits: 'se ~wr', look: { 'flank-streaks': { opacity: '.35' } } },
+      { label: 'Clean white flanks', fits: 'le ba ~se', look: {} }
     ]}],
     face: [{ id: 'face', title: 'Crown and cheeks', check: STD, options: [
       { label: 'Bright rufous crown and ear patch', fits: 'we', look: { crown: C('rufous'), ear: C('rufous') } },
-      { label: 'Rusty tinge on the crown and cheeks', fits: 'wr ~le ~se', look: { crown: C('brown'), ear: C('brown') } },
-      { label: 'Plain brownish or buffy face', fits: 'le se ba', look: { crown: C('gbrown') } }
+      { label: 'Rusty tinge on the crown and cheeks', fits: 'wr ~se', look: { crown: C('brown'), ear: C('brown') } },
+      { label: 'Crown streaked with rusty; cheeks plain', fits: 'se ~le', look: { crown: C('brown') } },
+      { label: 'Plain brownish or buffy face', fits: 'le ba ~se', look: { crown: C('gbrown') } }
     ]}],
     date: [{ id: 'date', title: 'When you saw it', check: IA, options: [
       { label: 'April', fits: 'le ba ~se' },
@@ -314,7 +316,7 @@
     back: [{ id: 'back', title: 'Back and scapulars', options: [
       { label: 'Plain pale gray, with thin dark shaft streaks', fits: 'we ~se', check: 'Westerns molt early; some are fully gray by August (Cox).', look: mix(upper('gray'), { 'scap-black': { opacity: '.25' } }) },
       { label: 'Brownish-gray, darker and browner than other peeps', fits: 'le', check: STD, look: upper('gbrown') },
-      { label: 'Worn breeding feathers: faded and patchy, not gray', fits: 'se wr ba ~le', check: 'Semipalmateds rarely reach full gray plumage in North America (Cox).', look: mix(upper('graybrown'), { 'scap-black': { opacity: '.55' } }) }
+      { label: 'Worn breeding feathers mixed with new gray ones (salt-and-pepper)', fits: 'se wr ba ~le', check: 'Semipalmateds rarely reach full gray plumage in North America (Cox).', look: mix(upper('graybrown'), { 'scap-black': { opacity: '.55' } }) }
     ]}],
     breast: [{ id: 'breast', title: 'Breast', check: STD, options: [
       { label: 'Brownish-gray band across the breast', fits: 'le', look: { breast: C('graybrown') } },
@@ -343,10 +345,10 @@
     wingtips: WINGTIPS, legs: LEGS, shape: SHAPE, bill: BILL, rump: RUMP, call: CALL, feeding: FEEDING,
     flight: [WINGSHAPE],
     back: [
-      { id: 'back', title: 'Back and scapulars', check: STD, options: [
-        { label: 'Bright rufous edges; white lines form a “V” on the back', fits: 'le ~wr', look: mix(upper('dbrown'), { 'scap-rufous': true, braces: true, 'tert-edge': true }) },
+      { id: 'back', title: 'Back and scapulars', check: STD, help: 'Most juvenile Semipalmateds are grayish-brown, but some are buffy with rufous edges: lean on the wingtips, legs, bill and call too.', options: [
+        { label: 'Bright rufous edges; white lines form a “V” on the back', fits: 'le ~wr ~se', look: mix(upper('dbrown'), { 'scap-rufous': true, braces: true, 'tert-edge': true }) },
         { label: 'Rufous only on the upper scapulars; the rest gray and neatly scaled', fits: 'we', check: 'Rusty upper scapulars: USGS and Audubon (via search results); can be faint.', look: mix(upper('gray'), { 'scap-upper': true, 'scap-anchor': true, 'cov-fringe': true }) },
-        { label: 'Brown and scaly, with dark “anchors” and pale edges; no rufous', fits: 'se', look: mix(upper('graybrown'), { 'scap-anchor': true, 'cov-fringe': true }) },
+        { label: 'Cold gray-brown and scaly: dark centers, broad pale edges; little or no rufous', fits: 'se ~we', look: mix(upper('graybrown'), { 'scap-black': { opacity: '.8' }, 'scap-scaly': true, 'cov-fringe': true }) },
         { label: 'Rufous and white edges, white lines on the back', fits: 'wr ~le', look: mix(upper('dbrown'), { 'scap-rufous': { opacity: '.75' }, braces: true, 'cov-fringe': true }) },
         { label: 'Evenly scaly: buff-white fringes on every feather', fits: 'ba', check: 'Scaly juvenile back: USGS Patuxent ID account (via search results).', look: mix(upper('gbrown'), { 'scap-black': true, 'scap-scaly': true, 'cov-fringe': true }) }
       ]},
