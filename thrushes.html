@@ -1,0 +1,406 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light">
+<title>Brown Thrushes</title>
+<meta name="description" content="Wood Thrush, Veery, Gray-cheeked, Swainson’s and Hermit Thrushes: eye-ring and face, color above, tail, spots, flanks, song and Iowa timing.">
+<style>
+  :root {
+    --bg: #f6f4ef;
+    --surface: #ffffff;
+    --ink: #22262b;
+    --muted: #5d646c;
+    --line: #dcd8cf;
+    --accent: #4a5563;
+    --accent-soft: #e8ebef;
+    --rust: #9a5a34;
+    --chip-common: #dfe9dc;   --chip-common-ink: #2f5129;
+    --chip-uncommon: #f2e7d2; --chip-uncommon-ink: #6b4b14;
+    --chip-regular: #e6e3f1;  --chip-regular-ink: #43386d;
+    --chip-casual: #ecdde6;   --chip-casual-ink: #6a2850;
+    --chip-acc: #f4dfd8;      --chip-acc-ink: #7a3322;
+    --bird-a: #bfc4ca; --bird-b: #cfd3d8; --bird-c: #dde0e3; --bird-d: #8e959d;
+    --bird-white: #fbfbf9; --bird-line: #4f565e;
+    --hi: #f3cf8a; --hi-line: #b8741a; --hi-soft: #fbf1de; --hi-ink: #8a520c;
+  }
+
+  * { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font: 16px/1.55 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  }
+  main { max-width: 1040px; margin: 0 auto; padding: 32px 16px 64px; }
+
+  header { margin-bottom: 28px; }
+  .kicker { font-size: 13px; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); margin: 0 0 6px; }
+  .kicker .home { display: inline-block; padding: 6px 10px 6px 0; margin: -6px 0; color: inherit; font-weight: 700; text-decoration: none; }
+  .kicker .home:hover { text-decoration: underline; }
+  h1 { font-size: clamp(28px, 5vw, 40px); line-height: 1.15; margin: 0 0 10px; }
+  .lede { font-size: 18px; color: var(--muted); max-width: 62ch; margin: 0; }
+
+  h2 { font-size: 24px; margin: 44px 0 12px; }
+  h3 { font-size: 19px; margin: 28px 0 10px; }
+  p { max-width: 70ch; }
+  em.sci { font-style: italic; color: var(--muted); font-weight: 400; }
+  .note { background: var(--accent-soft); border-radius: 10px; padding: 14px 16px; max-width: none; }
+
+  /* Cast list */
+  .cast { list-style: none; padding: 0; margin: 12px 0; display: grid; gap: 8px;
+          grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); }
+  .cast li { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 10px 14px; }
+  .cast strong { display: block; }
+  .cast small { display: block; color: var(--muted); font-size: 13px; margin-top: 4px; }
+  .chip { display: inline-block; font-size: 12px; font-weight: 600; padding: 1px 8px; border-radius: 999px; white-space: nowrap; margin-top: 4px; }
+  .chip-common   { background: var(--chip-common);   color: var(--chip-common-ink); }
+  .chip-uncommon { background: var(--chip-uncommon); color: var(--chip-uncommon-ink); }
+  .chip-regular  { background: var(--chip-regular);  color: var(--chip-regular-ink); }
+  .chip-casual   { background: var(--chip-casual);   color: var(--chip-casual-ink); }
+  .chip-acc      { background: var(--chip-acc);      color: var(--chip-acc-ink); }
+
+  /* Tabs */
+  .tabs { display: flex; gap: 6px; margin: 16px 0 8px; padding: 4px; background: var(--accent-soft);
+          border-radius: 12px; overflow-x: auto; }
+  .tab { flex: 1 0 auto; font: inherit; font-weight: 600; font-size: 15px; color: var(--muted); cursor: pointer;
+         background: none; border: 0; border-radius: 9px; padding: 10px 14px; white-space: nowrap; }
+  .tab[aria-selected="true"] { background: var(--surface); color: var(--ink); box-shadow: 0 1px 3px rgba(0,0,0,.15); }
+  .tab:focus-visible { outline: 2px solid var(--hi-line); outline-offset: 1px; }
+  .panel[hidden] { display: none; }
+  .panel > h3:first-child { margin-top: 20px; }
+
+  /* Checks */
+  .checks { list-style: none; padding: 0; margin: 16px 0; display: grid; gap: 12px;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); counter-reset: check; }
+  .checks li { position: relative; counter-increment: check; display: flex; }
+  .checks li::before { content: counter(check); position: absolute; left: 16px; top: 15px; z-index: 1; pointer-events: none;
+                       width: 28px; height: 28px; border-radius: 50%; background: var(--accent);
+                       color: var(--bg); font-weight: 700; display: grid; place-items: center; font-size: 15px; }
+  .check { flex: 1; text-align: left; font: inherit; color: inherit; cursor: pointer;
+           background: var(--surface); border: 1px solid var(--line); border-radius: 10px;
+           padding: 16px 16px 16px 56px; transition: border-color .15s, box-shadow .15s; }
+  .check:hover { border-color: var(--hi-line); }
+  .check:focus-visible { outline: 2px solid var(--hi-line); outline-offset: 2px; }
+  .check[aria-pressed="true"] { border-color: var(--hi-line); box-shadow: 0 0 0 2px var(--hi-line) inset; background: var(--hi-soft); }
+  .checks strong { display: block; margin-bottom: 4px; }
+
+  /* Diagram */
+  .diagram { margin: 16px 0; background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 12px 12px 10px; }
+  .diagram svg { display: block; width: 100%; height: auto; max-height: 340px; }
+  .diagram figcaption { font-size: 14px; color: var(--muted); padding: 4px 4px 0; }
+  .part { fill: var(--bird-white); stroke: var(--bird-line); stroke-width: 1.5; stroke-linejoin: round; }
+  /* Drawn as a plain brown thrush */
+  .part[data-part="back"], .part[data-part="nape"], .part[data-part="head"], .part[data-part="wing"], .part[data-part="tertials"], .part[data-part="tail"] { fill: #8c7660; }
+  .part[data-part="primaries"], .part[data-part="bill"] { fill: #5a4c3e; }
+  .part[data-part="ear"] { fill: #9a8670; stroke: none; }
+  .part[data-part="breast"], .part[data-part="throat"], .part[data-part="flanks"] { stroke: none; }
+  .part[data-part="breast"] { fill: #f7f1e3; }
+  .part.ring { fill: none; stroke: #f7f1e3; stroke-width: 1.6; }
+  .part.stroke-only { fill: none; stroke: #d2aa9c; stroke-width: 3.4; stroke-linecap: round; }
+  svg.focus .part.stroke-only:not(.on), svg.focus .part.ring:not(.on) { fill: none; }
+  svg.focus .part.stroke-only.on, svg.focus .part.ring.on { fill: none; stroke: var(--hi-line); stroke-width: 4; }
+  svg.focus .spots { opacity: .25; }
+  .inset * { vector-effect: non-scaling-stroke; }
+  .eye { fill: var(--bird-line); pointer-events: none; }
+  :root { --c-surface: #ffffff; --c-spot: #4e4034; --c-branch: #b9a58d; --c-buff: #e7cc98; }
+  .side-label { fill: var(--muted); font-size: 13px; font-style: italic; }
+  .label line { stroke: var(--muted); stroke-width: 1; }
+  .label text { fill: var(--ink); font-size: 15px; font-weight: 600; }
+  /* When a check is selected, other parts become blank outlines (still opaque, so they hide what's beneath) */
+  svg.focus .part:not(.on) { fill: var(--surface); stroke: var(--muted); stroke-opacity: .55; }
+  svg.focus .label { opacity: .3; }
+  svg.focus .label.on { opacity: 1; }
+  svg.focus .part.on { fill: var(--hi); stroke: var(--hi-line); stroke-width: 2.5; }
+  svg.focus .label.on line { stroke: var(--hi-line); stroke-width: 2; }
+  svg.focus .label.on text { fill: var(--hi-ink); }
+
+  /* Tables */
+  .table-wrap { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; overflow: auto; max-height: 75vh; max-height: 75svh; -webkit-overflow-scrolling: touch; }
+  table { width: 100%; border-collapse: separate; border-spacing: 0; font-size: 15px; }
+  th, td { text-align: left; vertical-align: top; padding: 12px 14px; border-bottom: 1px solid var(--line); }
+  thead th { font-size: 13px; text-transform: uppercase; letter-spacing: .05em; color: var(--muted);
+             background: var(--accent-soft); font-weight: 600; }
+  thead th { position: sticky; top: 0; z-index: 2; }  /* header row stays put while the table scrolls */
+  tbody tr:last-child td, tbody tr:last-child th { border-bottom: 0; }
+  tbody th { font-weight: 700; min-width: 130px; }
+  tbody th em { display: block; }
+  tr.rarity th { color: var(--muted); }
+  td.clincher { font-weight: 600; }
+  .scroll-hint { display: none; font-size: 13px; color: var(--muted); margin: 0 0 6px; }
+
+  /* Pitfalls */
+  .pitfalls { padding: 0; list-style: none; display: grid; gap: 10px; }
+  .pitfalls li { background: var(--surface); border: 1px solid var(--line); border-left: 4px solid var(--rust);
+                 border-radius: 8px; padding: 12px 16px; }
+  .pitfalls strong { display: block; }
+
+  .sources { color: var(--muted); padding-left: 20px; }
+  .sources a { color: inherit; }
+  footer { margin-top: 40px; padding-top: 16px; border-top: 1px solid var(--line); color: var(--muted); font-size: 14px; }
+  footer a { color: inherit; }
+
+  /* Narrow screens */
+  @media (max-width: 760px) {
+    /* Tables scroll sideways with the first column frozen */
+    table { width: auto; min-width: 760px; font-size: 14px; }
+    th, td { padding: 10px 12px; }
+    td { min-width: 150px; }
+    thead th:first-child, tbody th {
+      position: sticky; left: 0; z-index: 1;
+      width: 108px; min-width: 108px; max-width: 108px;
+      border-right: 1px solid var(--line);
+      box-shadow: 4px 0 6px -4px rgba(0,0,0,.25);
+    }
+    thead th:first-child { background: var(--accent-soft); z-index: 3; }
+    tbody th { background: var(--surface); }
+    .scroll-hint { display: block; }
+
+    /* Keep the bird in view while tapping through the checks below it */
+    .diagram { position: sticky; top: 0; z-index: 4; margin-left: -8px; margin-right: -8px; padding: 8px;
+               box-shadow: 0 6px 12px -8px rgba(0,0,0,.25); }
+    .label text { font-size: 19px; }
+    .side-label { font-size: 16px; }
+    .diagram figcaption { font-size: 13px; }
+    .tab { font-size: 14px; padding: 9px 10px; }
+  }
+
+  @media print {
+    body { background: #fff; color: #000; }
+    .checks li, .table-wrap, .pitfalls li { break-inside: avoid; }
+    .panel[hidden] { display: block; }
+    .tabs { display: none; }
+    .table-wrap { max-height: none; overflow: visible; }
+  }
+  /* "check" markers: things not confirmed from a source */
+  .unsure { display: inline-block; font-size: 11px; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; line-height: 1.5;
+            color: #8a520c; background: #fbf1de; border: 1px dashed #d9a34a; border-radius: 999px; padding: 0 6px; margin-left: 4px;
+            vertical-align: 1px; white-space: nowrap; cursor: help; }
+  .to-check ul { padding-left: 20px; }
+  .to-check li { margin: 4px 0; }
+  .to-check li strong { margin-right: 4px; }
+  .checks-order { color: var(--muted); font-size: 14px; margin: -4px 0 16px; }
+</style>
+<body>
+<main>
+  <header>
+    <p class="kicker"><a class="home" href="index.html">← Home</a> · Tricky birds · Iowa</p>
+    <h1>Brown Thrushes</h1>
+    <p class="lede">Wood Thrush and the four <em>Catharus</em> thrushes, Veery, Gray-cheeked, Swainson’s and Hermit, are brown above and spotted below. Check the date first, then the face (eye-ring and cheeks), the color above and whether the tail matches the back, then the spots and flanks. Song settles most. Try the <a href="thrushes-picker.html">Thrush Picker</a> to work through a bird in the field.</p>
+  </header>
+
+  <section>
+    <h2>Who to expect</h2>
+    <p>Status is approximate.<span class="unsure" title="From general knowledge of Iowa’s thrush migration; not checked against the IOU checklist or eBird.">check</span></p>
+    <ul class="cast">
+      <li><strong>Wood Thrush</strong><span class="chip chip-common">Regular; nests</span><small>Nests in mature deciduous woods, mostly in eastern Iowa. Back from late April; tracked Iowa birds started returning in April 2025.</small></li>
+      <li><strong>Swainson’s Thrush</strong><span class="chip chip-common">Common migrant</span><small>Usually the commonest migrant thrush, peaking in mid-May and again in September.</small></li>
+      <li><strong>Hermit Thrush</strong><span class="chip chip-common">Common migrant</span><small>The early-spring (April) and late-fall (October) thrush. The only one of these likely in winter.</small></li>
+      <li><strong>Gray-cheeked Thrush</strong><span class="chip chip-uncommon">Uncommon migrant</span><small>Mid- to late May and September into October, often outnumbered by Swainson’s.</small></li>
+      <li><strong>Veery</strong><span class="chip chip-uncommon">Uncommon migrant</span><small>Mostly May and late August–September; may nest very locally in the northeast.</small></li>
+    </ul>
+  </section>
+
+  <section class="decoder">
+    <h2>The marks</h2>
+    <p>Tap a check to see where to look.</p>
+    <div class="how">
+    <figure class="diagram" data-svg>
+        <figcaption>Schematic only. Left: perched, side view. Right: the face, close up.</figcaption>
+      </figure>
+    <ol class="checks">
+        <li><button type="button" class="check" data-parts="eyering ear" aria-pressed="false"><strong>Eye-ring and face</strong>Bold buffy “spectacles,” the eye-ring joined to buffy lores, on buffy cheeks: Swainson’s. A thin, crisp white eye-ring: Hermit. A bold white eye-ring on black-and-white streaked cheeks: Wood. A plain gray face with at most a hint of an eye-ring: Gray-cheeked. A weak eye-ring on a plain, warm face: Veery.</button></li>
+        <li><button type="button" class="check" data-parts="back nape head wing tail" aria-pressed="false"><strong>Color above, and the tail</strong>Warm tawny to russet all over: Veery. Cold gray-olive: Gray-cheeked. Olive-brown: Swainson’s. Plain brown with a redder tail: Hermit. Rich rufous-brown, brightest on the head: Wood. Judge color in even light; low sun warms every thrush.<span class="unsure" title="Standard field-guide marks, seen in search-result summaries of All About Birds and USGS.">check</span></button></li>
+        <li><button type="button" class="check" data-parts="breast throat" aria-pressed="false"><strong>Spots</strong>Big, round, black spots across the breast and down the flanks on white: Wood. Dark spots on the upper breast that fade lower down: Swainson’s, Hermit and Gray-cheeked. The fewest and faintest: Veery, small blurry spots on a buffy upper breast.</button></li>
+        <li><button type="button" class="check" data-parts="flanks" aria-pressed="false"><strong>Flanks</strong>Gray: Veery and Gray-cheeked. Brownish: Swainson’s and Hermit. The quickest Veery vs. Swainson’s check after the face.</button></li>
+      </ol>
+    <p class="checks-order">Checks run from most to least useful; date comes first of all.</p>
+    </div>
+    <p class="scroll-hint">Swipe the table sideways for more →</p>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th scope="col">Species</th><th scope="col">Face</th><th scope="col">Above</th><th scope="col">Spots</th><th scope="col">Flanks</th><th scope="col">Song</th><th scope="col">Clincher</th></tr></thead>
+        <tbody>
+          <tr><th scope="row">Wood</th><td>Bold white eye-ring; streaked cheeks</td><td>Rufous-brown, brightest on the head</td><td>Big, round, black; down the flanks</td><td>White, spotted</td><td>Flutey <em>ee-oh-lay</em> with a buzzy trill</td><td class="clincher">Bold black spots; rufous head</td></tr>
+          <tr><th scope="row">Veery</th><td>Weak eye-ring; plain</td><td>Warm tawny-russet all over</td><td>Few, small, blurry, on buff</td><td>Gray</td><td>Breezy phrases spiraling down</td><td class="clincher">Warmest above, faintest spots</td></tr>
+          <tr><th scope="row">Gray-cheeked</th><td>Gray cheeks; little or no eye-ring</td><td>Cold gray-olive</td><td>Dark, on grayish-white</td><td>Gray</td><td>Thin, nasal, dropping at the end</td><td class="clincher">Gray face, no eye-ring</td></tr>
+          <tr><th scope="row">Swainson’s</th><td>Bold buffy spectacles; buffy cheeks</td><td>Olive-brown</td><td>Dark, on a buffy breast</td><td>Brownish</td><td>Flutey phrases spiraling up</td><td class="clincher">Spectacles</td></tr>
+          <tr><th scope="row">Hermit</th><td>Thin white eye-ring</td><td>Brown, with a redder tail</td><td>Dark, on whitish</td><td>Brownish</td><td>Clear first note, then flutey phrases at different pitches</td><td class="clincher">Red tail; April and October</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section>
+    <h2>Voice, behavior and timing</h2>
+    <ul class="pitfalls">
+      <li><strong>Songs.</strong>Veery’s spiral down; Swainson’s spiral up. Hermit starts each phrase with a long, clear note, which the others lack. Wood sings <em>ee-oh-lay</em> and ends with a buzzy trill. Gray-cheeked is thinner and more nasal, dropping at the end.<span class="unsure" title="Veery’s descending song and Hermit’s introductory note: search-result summaries; the rest are standard field-guide descriptions.">check</span></li>
+      <li><strong>Calls.</strong>Veery: a low, down-slurred <em>veer</em>. Swainson’s: a liquid <em>whit</em>. Hermit: a low <em>chuck</em>. Wood: rapid <em>pit-pit-pit</em>. Gray-cheeked: a nasal <em>vee-a</em>, higher than Veery’s. Night flight calls differ too: Swainson’s usually rise, Hermit’s fall.<span class="unsure" title="Only the flight-call note (Xeno-canto forum) and Veery’s call came up in sources; the rest are standard field-guide descriptions.">check</span></li>
+      <li><strong>Hermit’s tail.</strong>Hermit slowly raises its tail and lowers it, often flicking its wings. The others don’t.<span class="unsure" title="Standard field-guide behavior; not confirmed in the sources I could see.">check</span></li>
+      <li><strong>Date.</strong>From November to March, Hermit is the only one of these likely in the U.S. Hermit also passes earliest in spring (April) and latest in fall (October).</li>
+    </ul>
+    <h3>Pitfalls</h3>
+    <ul class="pitfalls">
+      <li><strong>Lighting.</strong>Warm evening light makes a Swainson’s or Gray-cheeked look like a Veery. Check the face and flanks.</li>
+      <li><strong>Gray-cheeked vs. Swainson’s.</strong>Both are dull above with dark spots. Swainson’s spectacles and buffy face are the difference; Gray-cheeked looks plain-faced.</li>
+      <li><strong>Variable birds.</strong>Western and northern populations look different from typical eastern birds, so weigh several marks.</li>
+      <li><strong>Bicknell’s Thrush.</strong>A Gray-cheeked look-alike of northeastern mountains, not expected in Iowa.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>Iowa timing</h2>
+    <p>Rough windows<span class="unsure" title="From regional BirdCast tables, a Cedar Rapids Gazette column and general timing; not checked against eBird or Iowa Bird Life.">check</span>:</p>
+    <ul>
+      <li><strong>Hermit Thrush:</strong> late March to early May, peaking in April; late September to November, peaking in mid-October.</li>
+      <li><strong>Wood Thrush:</strong> late April to September; Iowa Motus stations first detected a returning tagged bird on 29 April 2025.</li>
+      <li><strong>Swainson’s Thrush:</strong> early May to early June, peaking about mid-May; late August to early October.</li>
+      <li><strong>Gray-cheeked Thrush:</strong> about 7 May to early June; September to mid-October.</li>
+      <li><strong>Veery:</strong> May; late August to September.</li>
+    </ul>
+  </section>
+
+  <section class="to-check" id="to-check">
+    <h2>To check</h2>
+    <p>Anything tagged <span class="unsure" title="Example">check</span> couldn’t be confirmed from a source I could open.</p>
+    <ul>
+      <li><strong>Sources.</strong>All About Birds and USGS were read only through search-result summaries; their pages are blocked here.</li>
+      <li><strong>Calls and songs.</strong>Several are standard field-guide descriptions.</li>
+      <li><strong>Hermit’s tail-raising.</strong>Standard behavior, not confirmed from a source.</li>
+      <li><strong>Iowa status and dates.</strong>Not checked against the IOU checklist, eBird or Iowa Bird Life; Veery’s Iowa nesting status is uncertain.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>Sources</h2>
+    <ul class="sources">
+      <li>All About Birds: <a href="https://www.allaboutbirds.org/news/?p=6609">ID Workshop: Use 4 Basic Keys Plus Migration Timing to Sort Out Your Thrushes</a>, the <a href="https://www.allaboutbirds.org/news/spring-thrush-animated-migration-map-identification/">spring thrush migration map</a>, and species comparisons for <a href="https://allaboutbirds.org/guide/Hermit_Thrush/species-compare">Hermit</a> and <a href="https://www.allaboutbirds.org/guide/Wood_Thrush/species-compare/64439011">Wood</a> (seen through search results)</li>
+      <li>USGS Patuxent bird ID accounts: <a href="https://www.mbr-pwrc.usgs.gov/id/htmid/h7560id.html">Veery</a>, <a href="https://www.mbr-pwrc.usgs.gov/id/framlst/Idtips/h7570id.html">Gray-cheeked</a>, <a href="https://www.mbr-pwrc.usgs.gov/id/framlst/account/h7580id.html">Swainson’s</a>, <a href="https://www.mbr-pwrc.usgs.gov/id/framlst/account/h7590id.html">Hermit</a> (seen through search results)</li>
+      <li><a href="https://www.xeno-canto.org/forum/topic/16804">Xeno-canto forum</a> on Catharus flight calls</li>
+      <li>Iowa DNR: <a href="https://content.govdelivery.com/accounts/IACIO/bulletins/3e8f49b">Tracking Bird Migration: The Iowa Motus Wildlife Tracking Network</a>; <a href="https://www.thegazette.com/?p=347180">Cedar Rapids Gazette</a> on spring migration; BirdCast <a href="https://birdcast.org/species-on-the-move-early-may/">species on the move</a></li>
+    </ul>
+  </section>
+
+  <footer><a href="index.html">← All bird pages</a> · <a href="thrushes-picker.html">Thrush Picker</a> · Kevin Ripka · Nov 27, 2026</footer>
+</main>
+
+<template id="bird-svg">
+<svg viewBox="0 0 600 320" role="img" aria-label="Diagram: tap a part">
+  <defs>
+    <clipPath id="th-body"><ellipse cx="245" cy="150" rx="88" ry="48"/></clipPath>
+    <clipPath id="th-lens"><circle cx="140" cy="104" r="48"/></clipPath>
+  </defs>
+  <!-- PERCHED, side view facing left (main view) -->
+  <g transform="translate(-58 6)">
+    <path d="M120,276 L400,286" style="stroke:var(--c-branch);stroke-width:8;stroke-linecap:round;fill:none"/>
+    <path class="part stroke-only" data-part="legs" d="M226,196 L222,240 L226,276 M250,196 L256,244 L252,278"/>
+    <path class="part stroke-only" data-part="feet" d="M212,276 L238,277 M240,278 L266,279"/>
+    <g transform="rotate(24 245 160)">
+      <path class="part" data-part="tail" d="M318,138 L412,150 L410,170 L314,170 Z"/>
+      <ellipse class="part" data-part="belly" cx="245" cy="150" rx="88" ry="48"/>
+      <g clip-path="url(#th-body)">
+        <ellipse class="part" data-part="flanks" cx="290" cy="180" rx="58" ry="20"/>
+        <ellipse class="part" data-part="back" cx="250" cy="104" rx="112" ry="32"/>
+      </g>
+      
+      <path class="part" data-part="wing" d="M192,120 C238,106 300,110 340,130 C316,152 258,158 206,148 Z"/>
+      <path class="part" data-part="tertials" d="M276,124 C300,120 322,126 340,136 C322,146 298,146 280,140 Z"/>
+      <path class="part" data-part="primaries" d="M328,130 L388,150 L384,158 L322,146 Z"/>
+    </g>
+    <path class="part" data-part="nape" d="M150,62 C170,62 186,72 198,86 C208,98 222,106 242,107 L204,126 C186,114 168,106 150,98 Z"/>
+    <path class="part" data-part="breast" d="M124,100 C122,132 146,158 190,166 L206,122 C186,112 166,100 152,92 Z"/>
+    <g class="spots" style="fill:var(--c-spot)" class="no-stroke"><ellipse cx="140" cy="118" rx="3.4" ry="3.8"/><ellipse cx="152" cy="122" rx="3.6" ry="4"/><ellipse cx="164" cy="126" rx="3.6" ry="4"/><ellipse cx="176" cy="130" rx="3.4" ry="3.8"/><ellipse cx="146" cy="132" rx="3.6" ry="4"/><ellipse cx="158" cy="136" rx="3.6" ry="4"/><ellipse cx="170" cy="140" rx="3.4" ry="3.8"/><ellipse cx="184" cy="142" rx="3.2" ry="3.6"/><ellipse cx="152" cy="148" rx="3" ry="3.2" opacity=".7"/><ellipse cx="166" cy="152" rx="2.8" ry="3" opacity=".6"/><ellipse cx="134" cy="108" rx="2.6" ry="3"/></g>
+    
+    
+    <path class="part" data-part="bill" d="M124,85 L100,92 L124,99 Z"/>
+    
+    <circle class="part" data-part="head" cx="150" cy="92" r="30"/>
+    <ellipse class="part" data-part="ear" cx="157" cy="101" rx="15" ry="10"/>
+    
+    <path class="part" data-part="throat" d="M125,99 C130,112 142,120 156,122 L162,112 C150,110 138,104 131,96 Z"/>
+    <path d="M129,102 Q140,114 156,117" style="fill:none;stroke:var(--c-spot);stroke-width:2.2;stroke-linecap:round"/>
+    
+    <circle class="part ring" data-part="eyering" cx="140" cy="89" r="6.2"/>
+    <circle class="eye" cx="140" cy="89" r="4.2"/>
+    <circle cx="141.4" cy="87.8" r="1.1" style="fill:#fff"/>
+  </g>
+  <text class="side-label" x="40" y="312" text-anchor="start">perched</text>
+
+  <!-- FACE CLOSE-UP (inset), same parts at 2x -->
+  <circle cx="490" cy="138" r="96" style="fill:var(--c-surface);stroke:var(--line);stroke-width:2"/>
+  <g class="inset" transform="translate(210 -70) scale(2)">
+    <g clip-path="url(#th-lens)">
+      <g transform="rotate(24 245 160)">
+        <ellipse class="part" data-part="belly" cx="245" cy="150" rx="88" ry="48"/>
+        <g clip-path="url(#th-body)"><ellipse class="part" data-part="back" cx="250" cy="104" rx="112" ry="32"/></g>
+        <path class="part" data-part="wing" d="M192,120 C238,106 300,110 340,130 C316,152 258,158 206,148 Z"/>
+      </g>
+    <path class="part" data-part="nape" d="M150,62 C170,62 186,72 198,86 C208,98 222,106 242,107 L204,126 C186,114 168,106 150,98 Z"/>
+    <path class="part" data-part="breast" d="M124,100 C122,132 146,158 190,166 L206,122 C186,112 166,100 152,92 Z"/>
+    <g class="spots" style="fill:var(--c-spot)" class="no-stroke"><ellipse cx="140" cy="118" rx="3.4" ry="3.8"/><ellipse cx="152" cy="122" rx="3.6" ry="4"/><ellipse cx="164" cy="126" rx="3.6" ry="4"/><ellipse cx="176" cy="130" rx="3.4" ry="3.8"/><ellipse cx="146" cy="132" rx="3.6" ry="4"/><ellipse cx="158" cy="136" rx="3.6" ry="4"/><ellipse cx="170" cy="140" rx="3.4" ry="3.8"/><ellipse cx="184" cy="142" rx="3.2" ry="3.6"/><ellipse cx="152" cy="148" rx="3" ry="3.2" opacity=".7"/><ellipse cx="166" cy="152" rx="2.8" ry="3" opacity=".6"/><ellipse cx="134" cy="108" rx="2.6" ry="3"/></g>
+    
+    
+    <path class="part" data-part="bill" d="M124,85 L100,92 L124,99 Z"/>
+    
+    <circle class="part" data-part="head" cx="150" cy="92" r="30"/>
+    <ellipse class="part" data-part="ear" cx="157" cy="101" rx="15" ry="10"/>
+    
+    <path class="part" data-part="throat" d="M125,99 C130,112 142,120 156,122 L162,112 C150,110 138,104 131,96 Z"/>
+    <path d="M129,102 Q140,114 156,117" style="fill:none;stroke:var(--c-spot);stroke-width:2.2;stroke-linecap:round"/>
+    
+    <circle class="part ring" data-part="eyering" cx="140" cy="89" r="6.2"/>
+    <circle class="eye" cx="140" cy="89" r="4.2"/>
+    <circle cx="141.4" cy="87.8" r="1.1" style="fill:#fff"/>
+    </g>
+  </g>
+  <circle cx="490" cy="138" r="96" style="fill:none;stroke:var(--muted);stroke-width:2"/>
+  <text class="side-label" x="490" y="252" text-anchor="middle">face, close up</text>
+
+  <!-- labels -->
+  <g class="label" data-part="eyering"><line x1="470" y1="26" x2="490" y2="104"/><text x="470" y="20" text-anchor="middle">Eye-ring &amp; face</text></g>
+  <g class="label" data-part="back"><line x1="200" y1="56" x2="190" y2="128"/><text x="200" y="50" text-anchor="middle">Back</text></g>
+  <g class="label" data-part="tail"><line x1="372" y1="214" x2="344" y2="236"/><text x="376" y="208" text-anchor="middle">Tail</text></g>
+  <g class="label" data-part="breast"><line x1="40" y1="186" x2="92" y2="148"/><text x="36" y="202" text-anchor="middle">Spots</text></g>
+  <g class="label" data-part="flanks"><line x1="262" y1="250" x2="230" y2="212"/><text x="266" y="264" text-anchor="start">Flanks</text></g>
+  <g class="label" data-part="legs"><line x1="132" y1="262" x2="166" y2="262"/><text x="128" y="268" text-anchor="end">Legs</text></g>
+</svg>
+</template>
+
+<script>
+  (function () {
+    var tpl = document.getElementById('bird-svg');
+
+    // Put a diagram in each figure and wire up that section's checks
+    document.querySelectorAll('.decoder').forEach(function (section) {
+      var fig = section.querySelector('figure[data-svg]');
+      var svg = tpl.content.firstElementChild.cloneNode(true);
+      fig.insertBefore(svg, fig.firstChild);
+      var caption = fig.querySelector('figcaption');
+      var defaultCaption = caption.textContent;
+      var buttons = section.querySelectorAll('.check');
+
+      function show(btn) {
+        var parts = btn ? btn.dataset.parts.split(' ') : [];
+        buttons.forEach(function (b) { b.setAttribute('aria-pressed', b === btn ? 'true' : 'false'); });
+        svg.classList.toggle('focus', !!btn);
+        svg.querySelectorAll('[data-part]').forEach(function (el) {
+          el.classList.toggle('on', parts.indexOf(el.dataset.part) !== -1);
+        });
+        caption.textContent = btn
+          ? 'Check: ' + btn.querySelector('strong').textContent + '. Tap it again to show all parts.'
+          : defaultCaption;
+      }
+
+      buttons.forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          show(btn.getAttribute('aria-pressed') === 'true' ? null : btn);
+        });
+      });
+    });
+
+  })();
+</script>
+</body>
+</html>
