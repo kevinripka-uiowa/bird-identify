@@ -1,0 +1,420 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light">
+<title>Mourning, Connecticut and MacGillivray’s Warblers</title>
+<meta name="description" content="Mourning, Connecticut and MacGillivray’s Warblers, with Nashville and Common Yellowthroat: eye-ring, throat and hood, undertail coverts, lores, voice and Iowa records.">
+<style>
+  :root {
+    --bg: #f6f4ef;
+    --surface: #ffffff;
+    --ink: #22262b;
+    --muted: #5d646c;
+    --line: #dcd8cf;
+    --accent: #4a5563;
+    --accent-soft: #e8ebef;
+    --rust: #9a5a34;
+    --chip-common: #dfe9dc;   --chip-common-ink: #2f5129;
+    --chip-uncommon: #f2e7d2; --chip-uncommon-ink: #6b4b14;
+    --chip-regular: #e6e3f1;  --chip-regular-ink: #43386d;
+    --chip-casual: #ecdde6;   --chip-casual-ink: #6a2850;
+    --chip-acc: #f4dfd8;      --chip-acc-ink: #7a3322;
+    --bird-a: #bfc4ca; --bird-b: #cfd3d8; --bird-c: #dde0e3; --bird-d: #8e959d;
+    --bird-white: #fbfbf9; --bird-line: #4f565e;
+    --hi: #f3cf8a; --hi-line: #b8741a; --hi-soft: #fbf1de; --hi-ink: #8a520c;
+  }
+
+  * { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font: 16px/1.55 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  }
+  main { max-width: 1040px; margin: 0 auto; padding: 32px 16px 64px; }
+
+  header { margin-bottom: 28px; }
+  .kicker { font-size: 13px; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); margin: 0 0 6px; }
+  .kicker .home { display: inline-block; padding: 6px 10px 6px 0; margin: -6px 0; color: inherit; font-weight: 700; text-decoration: none; }
+  .kicker .home:hover { text-decoration: underline; }
+  h1 { font-size: clamp(28px, 5vw, 40px); line-height: 1.15; margin: 0 0 10px; }
+  .lede { font-size: 18px; color: var(--muted); max-width: 62ch; margin: 0; }
+
+  h2 { font-size: 24px; margin: 44px 0 12px; }
+  h3 { font-size: 19px; margin: 28px 0 10px; }
+  p { max-width: 70ch; }
+  em.sci { font-style: italic; color: var(--muted); font-weight: 400; }
+  .note { background: var(--accent-soft); border-radius: 10px; padding: 14px 16px; max-width: none; }
+
+  /* Cast list */
+  .cast { list-style: none; padding: 0; margin: 12px 0; display: grid; gap: 8px;
+          grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); }
+  .cast li { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 10px 14px; }
+  .cast strong { display: block; }
+  .cast small { display: block; color: var(--muted); font-size: 13px; margin-top: 4px; }
+  .chip { display: inline-block; font-size: 12px; font-weight: 600; padding: 1px 8px; border-radius: 999px; white-space: nowrap; margin-top: 4px; }
+  .chip-common   { background: var(--chip-common);   color: var(--chip-common-ink); }
+  .chip-uncommon { background: var(--chip-uncommon); color: var(--chip-uncommon-ink); }
+  .chip-regular  { background: var(--chip-regular);  color: var(--chip-regular-ink); }
+  .chip-casual   { background: var(--chip-casual);   color: var(--chip-casual-ink); }
+  .chip-acc      { background: var(--chip-acc);      color: var(--chip-acc-ink); }
+
+  /* Tabs */
+  .tabs { display: flex; gap: 6px; margin: 16px 0 8px; padding: 4px; background: var(--accent-soft);
+          border-radius: 12px; overflow-x: auto; }
+  .tab { flex: 1 0 auto; font: inherit; font-weight: 600; font-size: 15px; color: var(--muted); cursor: pointer;
+         background: none; border: 0; border-radius: 9px; padding: 10px 14px; white-space: nowrap; }
+  .tab[aria-selected="true"] { background: var(--surface); color: var(--ink); box-shadow: 0 1px 3px rgba(0,0,0,.15); }
+  .tab:focus-visible { outline: 2px solid var(--hi-line); outline-offset: 1px; }
+  .panel[hidden] { display: none; }
+  .panel > h3:first-child { margin-top: 20px; }
+
+  /* Checks */
+  .checks { list-style: none; padding: 0; margin: 16px 0; display: grid; gap: 12px;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); counter-reset: check; }
+  .checks li { position: relative; counter-increment: check; display: flex; }
+  .checks li::before { content: counter(check); position: absolute; left: 16px; top: 15px; z-index: 1; pointer-events: none;
+                       width: 28px; height: 28px; border-radius: 50%; background: var(--accent);
+                       color: var(--bg); font-weight: 700; display: grid; place-items: center; font-size: 15px; }
+  .check { flex: 1; text-align: left; font: inherit; color: inherit; cursor: pointer;
+           background: var(--surface); border: 1px solid var(--line); border-radius: 10px;
+           padding: 16px 16px 16px 56px; transition: border-color .15s, box-shadow .15s; }
+  .check:hover { border-color: var(--hi-line); }
+  .check:focus-visible { outline: 2px solid var(--hi-line); outline-offset: 2px; }
+  .check[aria-pressed="true"] { border-color: var(--hi-line); box-shadow: 0 0 0 2px var(--hi-line) inset; background: var(--hi-soft); }
+  .checks strong { display: block; margin-bottom: 4px; }
+
+  /* Diagram */
+  .diagram { margin: 16px 0; background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 12px 12px 10px; }
+  .diagram svg { display: block; width: 100%; height: auto; max-height: 340px; }
+  .diagram figcaption { font-size: 14px; color: var(--muted); padding: 4px 4px 0; }
+  .part { fill: var(--bird-white); stroke: var(--bird-line); stroke-width: 1.5; stroke-linejoin: round; }
+  .part.stroke-only { fill: none; stroke: #d2aa9c; stroke-width: 3.4; stroke-linecap: round; }
+  svg.focus .part.stroke-only:not(.on), svg.focus .part.ring:not(.on) { fill: none; }
+  svg.focus .part.stroke-only.on, svg.focus .part.ring.on { fill: none; stroke: var(--hi-line); stroke-width: 4; }
+  svg.focus .spots { opacity: .25; }
+  .inset * { vector-effect: non-scaling-stroke; }
+  .eye { fill: var(--bird-line); pointer-events: none; }
+  .side-label { fill: var(--muted); font-size: 13px; font-style: italic; }
+  .label line { stroke: var(--muted); stroke-width: 1; }
+  .label text { fill: var(--ink); font-size: 15px; font-weight: 600; }
+  /* When a check is selected, other parts become blank outlines (still opaque, so they hide what's beneath) */
+  svg.focus .part:not(.on) { fill: var(--surface); stroke: var(--muted); stroke-opacity: .55; }
+  svg.focus .label { opacity: .3; }
+  svg.focus .label.on { opacity: 1; }
+  svg.focus .part.on { fill: var(--hi); stroke: var(--hi-line); stroke-width: 2.5; }
+  svg.focus .label.on line { stroke: var(--hi-line); stroke-width: 2; }
+  svg.focus .label.on text { fill: var(--hi-ink); }
+
+  /* Tables */
+  .table-wrap { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; overflow: auto; max-height: 75vh; max-height: 75svh; -webkit-overflow-scrolling: touch; }
+  table { width: 100%; border-collapse: separate; border-spacing: 0; font-size: 15px; }
+  th, td { text-align: left; vertical-align: top; padding: 12px 14px; border-bottom: 1px solid var(--line); }
+  thead th { font-size: 13px; text-transform: uppercase; letter-spacing: .05em; color: var(--muted);
+             background: var(--accent-soft); font-weight: 600; }
+  thead th { position: sticky; top: 0; z-index: 2; }  /* header row stays put while the table scrolls */
+  tbody tr:last-child td, tbody tr:last-child th { border-bottom: 0; }
+  tbody th { font-weight: 700; min-width: 130px; }
+  tbody th em { display: block; }
+  tr.rarity th { color: var(--muted); }
+  td.clincher { font-weight: 600; }
+  .scroll-hint { display: none; font-size: 13px; color: var(--muted); margin: 0 0 6px; }
+
+  /* Pitfalls */
+  .pitfalls { padding: 0; list-style: none; display: grid; gap: 10px; }
+  .pitfalls li { background: var(--surface); border: 1px solid var(--line); border-left: 4px solid var(--rust);
+                 border-radius: 8px; padding: 12px 16px; }
+  .pitfalls strong { display: block; }
+
+  .sources { color: var(--muted); padding-left: 20px; }
+  .sources a { color: inherit; }
+  footer { margin-top: 40px; padding-top: 16px; border-top: 1px solid var(--line); color: var(--muted); font-size: 14px; }
+  footer a { color: inherit; }
+
+  /* Narrow screens */
+  @media (max-width: 760px) {
+    /* Tables scroll sideways with the first column frozen */
+    table { width: auto; min-width: 760px; font-size: 14px; }
+    th, td { padding: 10px 12px; }
+    td { min-width: 150px; }
+    thead th:first-child, tbody th {
+      position: sticky; left: 0; z-index: 1;
+      width: 108px; min-width: 108px; max-width: 108px;
+      border-right: 1px solid var(--line);
+      box-shadow: 4px 0 6px -4px rgba(0,0,0,.25);
+    }
+    thead th:first-child { background: var(--accent-soft); z-index: 3; }
+    tbody th { background: var(--surface); }
+    .scroll-hint { display: block; }
+
+    /* Keep the bird in view while tapping through the checks below it */
+    .diagram { position: sticky; top: 0; z-index: 4; margin-left: -8px; margin-right: -8px; padding: 8px;
+               box-shadow: 0 6px 12px -8px rgba(0,0,0,.25); }
+    .label text { font-size: 19px; }
+    .side-label { font-size: 16px; }
+    .diagram figcaption { font-size: 13px; }
+    .tab { font-size: 14px; padding: 9px 10px; }
+  }
+
+  @media print {
+    body { background: #fff; color: #000; }
+    .checks li, .table-wrap, .pitfalls li { break-inside: avoid; }
+    .panel[hidden] { display: block; }
+    .tabs { display: none; }
+    .table-wrap { max-height: none; overflow: visible; }
+  }
+  /* "check" markers: things not confirmed from a source */
+  .unsure { display: inline-block; font-size: 11px; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; line-height: 1.5;
+            color: #8a520c; background: #fbf1de; border: 1px dashed #d9a34a; border-radius: 999px; padding: 0 6px; margin-left: 4px;
+            vertical-align: 1px; white-space: nowrap; cursor: help; }
+  .to-check ul { padding-left: 20px; }
+  .to-check li { margin: 4px 0; }
+  .to-check li strong { margin-right: 4px; }
+  .checks-order { color: var(--muted); font-size: 14px; margin: -4px 0 16px; }
+  :root { --c-black: #26282a; --c-white: #fbfbf9; --c-surface: #ffffff; --c-branch: #b9a58d; --c-gray: #9aa1a8; --c-olive: #8f9455;
+          --c-darkolive: #6f7246; --c-yellow: #ecd64a; }
+  .part[data-part="back"], .part[data-part="wing"], .part[data-part="tertials"] { fill: var(--c-olive); }
+  .part[data-part="primaries"], .part[data-part="tail"] { fill: var(--c-darkolive); }
+  .part[data-part="head"], .part[data-part="nape"], .part[data-part="throat"], .part[data-part="breast"], .part[data-part="ear"] { fill: var(--c-gray); }
+  .part[data-part="ear"], .part[data-part="throat"], .part[data-part="breast"], .part[data-part="flanks"] { stroke: none; }
+  .part[data-part="belly"], .part[data-part="flanks"], .part[data-part="undertail"] { fill: var(--c-yellow); }
+  .part[data-part="bill"] { fill: #55534e; }
+  .part.ring { fill: none; stroke: var(--c-white); stroke-width: 2.2; }
+  .part.stroke-only { fill: none; stroke: #e2b0a4; stroke-width: 3.2; stroke-linecap: round; }
+  svg [data-look] { display: none; }
+</style>
+</head>
+<body>
+<main>
+  <header>
+    <p class="kicker"><a class="home" href="index.html">← Home</a> · Tricky birds · Iowa</p>
+    <h1>Mourning, Connecticut and MacGillivray’s Warblers</h1>
+    <p class="lede">Three skulking, gray-hooded warblers that are yellow below, plus the two common birds most often mistaken for them: Nashville Warbler and a dull Common Yellowthroat. MacGillivray’s has only one accepted Iowa record, so it’s the one to rule in carefully. Check the eye-ring first, then the throat and hood, then how far the undertail coverts reach. Try the <a href="mourning-warblers-picker.html">Mourning-type Warbler Picker</a> to work through a bird in the field.</p>
+  </header>
+
+  <section>
+    <h2>Who to expect</h2>
+    <p>Status from the IOU state checklist; dates are Iowa’s record early and late spring dates.</p>
+    <ul class="cast">
+      <li><strong>Nashville Warbler</strong><span class="chip chip-common">Common migrant</span><small>Spring 14 Apr–13 Jun at the extremes; also common in fall. Gray head, white eye-ring, but a <em>yellow</em> throat.</small></li>
+      <li><strong>Connecticut Warbler</strong><span class="chip chip-uncommon">Uncommon migrant</span><small>A late spring migrant: 6 May–16 Jun at the extremes, mostly late May. Also passes in fall.</small></li>
+      <li><strong>Mourning Warbler</strong><span class="chip chip-common">Regular migrant</span><small>Spring 2 May–20 Jun at the extremes; common in early September in western Iowa.</small></li>
+      <li><strong>Common Yellowthroat</strong><span class="chip chip-common">Common; nests</span><small>From mid-April; stragglers into winter. Females and young are the look-alikes.</small></li>
+      <li><strong>MacGillivray’s Warbler</strong><span class="chip chip-acc">Accidental</span><small>One accepted record: an adult male, 2 Jun 1995, Eagle City County Park, Hardin Co. A fall 1997 bird in Ida Co. wasn’t accepted.</small></li>
+    </ul>
+  </section>
+
+  <section class="decoder">
+    <h2>The marks</h2>
+    <p>Tap a check to see where to look.</p>
+    <div class="how">
+    <figure class="diagram" data-svg>
+        <figcaption>Schematic only, drawn as an adult male Connecticut. Left: perched, side view. Right: the face, close up.</figcaption>
+      </figure>
+    <ol class="checks">
+        <li><button type="button" class="check" data-parts="eyering" aria-pressed="false"><strong>Eye-ring</strong>Bold and complete at every age: Connecticut and Nashville. Thick white arcs above and below, cleanly broken in front and behind: MacGillivray’s (it never has a complete ring). Thin and broken, sometimes nearly complete, often yellowish: female and young Mourning; adult male Mourning usually has none. Faint and pale on a plain face: female or young yellowthroat.</button></li>
+        <li><button type="button" class="check" data-parts="head throat breast nape ear" aria-pressed="false"><strong>Throat and hood</strong>A yellow throat under a gray head is Nashville. Male Mourning has a black “crepe” patch on the breast; male MacGillivray’s has blackish lores and a dark-mottled throat; male Connecticut is plain gray. Young Mourning has a yellowish throat and a broken hood; young MacGillivray’s a whitish-gray throat under a hood that’s sharply cut off; young Connecticut a brownish hood with a buffy or dingy throat.</button></li>
+        <li><button type="button" class="check" data-parts="undertail tail" aria-pressed="false"><strong>Undertail coverts</strong>Connecticut’s long yellow undertail coverts reach nearly to the tip of its short tail. Mourning and the others show much more tail. Treat it as support: one long-covert “Connecticut” in Macaulay was re-identified as a Mourning.</button></li>
+        <li><button type="button" class="check" data-parts="bill" aria-pressed="false"><strong>Lores</strong>Dark lores are in all MacGillivray’s but fewer than 30% of Mournings (Pyle, quoted in the Iowa committee file); Connecticut lacks them. Iowa’s committee turned down a 1966 MacGillivray’s partly because the lores weren’t described.</button></li>
+        <li><button type="button" class="check" data-parts="primaries" aria-pressed="false"><strong>Wingtip, size and gait</strong>Connecticut is bigger and plumper, with a heavier bill, longer wingtips<span class="unsure" title="Standard in Sibley and The Warbler Guide; not confirmed from a source I could open.">check</span> and a habit of walking. Mourning, MacGillivray’s and yellowthroat hop. Nashville is small and sharp-billed.</button></li>
+      </ol>
+    <p class="checks-order">Checks run from most to least useful.</p>
+    </div>
+    <p class="scroll-hint">Swipe the table sideways for more →</p>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th scope="col">Species</th><th scope="col">Eye-ring</th><th scope="col">Throat and hood</th><th scope="col">Undertail</th><th scope="col">Behavior</th><th scope="col">Song</th><th scope="col">Clincher</th></tr></thead>
+        <tbody>
+          <tr><th scope="row">Nashville</th><td>Bold, complete, white</td><td>Gray head, yellow throat</td><td>Short coverts; white patch near the legs</td><td>Active, higher up; flicks its tail</td><td>Two parts: <em>teebit-teebit</em>, then a faster <em>chipper</em></td><td class="clincher">Yellow throat with a full eye-ring</td></tr>
+          <tr><th scope="row">Connecticut</th><td>Bold, complete, white (buffier on young)</td><td>Full gray hood; brownish on females and young</td><td>Very long, nearly to the tail tip</td><td>Walks</td><td>Loud <em>beecher-beecher</em></td><td class="clincher">Full eye-ring on a hooded bird; long coverts</td></tr>
+          <tr><th scope="row">MacGillivray’s</th><td>Thick white arcs, broken front and back</td><td>Gray hood; male has black lores and a dark-mottled throat; young have a whitish-gray throat</td><td>Shorter coverts; longer tail</td><td>Hops; skulks</td><td>Hurried, chanting series</td><td class="clincher">Bold arcs plus dark lores</td></tr>
+          <tr><th scope="row">Mourning</th><td>None (adult male); thin, broken (females, young)</td><td>Male: black crepe on the breast. Young: yellowish throat, broken hood</td><td>Coverts cover about half the tail</td><td>Hops; skulks</td><td>Ringing <em>chirry-chirry, chorry-chorry</em></td><td class="clincher">Thin, broken ring; yellowish throat on young</td></tr>
+          <tr><th scope="row">Common Yellowthroat (female, young)</th><td>Faint, pale</td><td>No hood: olive-brown head, yellow throat</td><td>Yellow undertail; whitish belly; brownish flanks</td><td>Hops; skulks</td><td><em>Witchety-witchety</em></td><td class="clincher">Whitish belly and brownish flanks</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section>
+    <h2>Voice, behavior and timing</h2>
+    <ul class="pitfalls">
+      <li><strong>Chips.</strong>Connecticut: a squeaky, musical <em>pwik</em>, mostly at dawn in fall. Mourning: a louder, huskier <em>pwik</em>, much like a catbird note. MacGillivray’s: a sharper <em>tik</em>. Nashville: a high, thin <em>seet</em><span class="unsure" title="Wikipedia only.">check</span>. Yellowthroat: a soft <em>jip</em> or a rough chatter.</li>
+      <li><strong>Gait.</strong>Connecticut walks on the ground and along branches; the rest hop.</li>
+      <li><strong>Nashville’s tail.</strong>Nashville flicks its tail, but steady tail-wagging belongs mainly to the western form. Palm Warbler is the true tail-pumper.</li>
+      <li><strong>Season.</strong>Connecticut is one of the last spring migrants, mostly late May into June. Mourning overlaps it. Nashville arrives weeks earlier.</li>
+    </ul>
+    <h3>Pitfalls</h3>
+    <ul class="pitfalls">
+      <li><strong>Young Mourning with a near-complete ring.</strong>An August 2016 bird at Jester Park, Polk Co., with a prominent eye-ring was resolved as a Mourning: short undertail coverts ruled out Connecticut. Mourning rings are thinner and usually broken.</li>
+      <li><strong>Fall MacGillivray’s.</strong>Iowa’s committee has said a fall female or young bird likely needs measurements in the hand. MacGillivray’s has a longer tail: flat wing minus tail is 2–13 mm vs. Mourning’s 9–18 mm (Pyle), and the ranges overlap. The two also hybridize.</li>
+      <li><strong>Dull yellowthroats.</strong>Mourning is bigger, with a heftier pinkish bill and more even yellow below. A yellowthroat’s belly is whitish, with brownish flanks.</li>
+      <li><strong>Nashville vs. a young Mourning.</strong>Both can show a yellowish throat. Nashville is smaller and sharper-billed, with a complete ring, a white patch near the legs and a grayer back.</li>
+    </ul>
+    <h3>Other look-alikes</h3>
+    <ul class="pitfalls">
+      <li><strong>Orange-crowned Warbler.</strong>Moderately cited, mainly against Nashville and dull young birds: faint broken eye-ring, dark eyeline, blurry breast streaks, brightest yellow under the tail.</li>
+      <li><strong>Kentucky, Canada and dull Yellow Warblers.</strong>Only weakly cited. Kentucky has a black mask and yellow spectacles; Canada a blue-gray back and a necklace; a dull Yellow has yellow tail spots.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>Iowa timing</h2>
+    <p>Spring extremes from the IOU early and late dates (three earliest and three latest)<span class="unsure" title="Fall windows aren’t confirmed from an Iowa source.">check</span>:</p>
+    <ul>
+      <li><strong>Nashville:</strong> earliest 14, 17 and 20 Apr; latest 5, 5 and 13 Jun.</li>
+      <li><strong>Connecticut:</strong> earliest 6, 6 and 7 May; latest 8, 10 and 16 Jun.</li>
+      <li><strong>Mourning:</strong> earliest 2, 2 and 8 May; latest 17, 19 and 20 Jun.</li>
+      <li><strong>Common Yellowthroat:</strong> arrives 17–19 Apr at the earliest; stragglers to early January.</li>
+      <li><strong>MacGillivray’s:</strong> the one accepted record is 2 Jun 1995.</li>
+    </ul>
+  </section>
+
+  <section class="to-check" id="to-check">
+    <h2>To check</h2>
+    <p>Anything tagged <span class="unsure" title="Example">check</span> couldn’t be confirmed from a source I could open.</p>
+    <ul>
+      <li><strong>Sources.</strong>All About Birds, USGS Patuxent, eBird and Birds of the World were seen only through search results.</li>
+      <li><strong>Primary projection.</strong>Connecticut’s long wingtips are standard in field guides but weren’t confirmed here.</li>
+      <li><strong>Young Connecticut’s throat.</strong>Sources say buff, whitish or dingy gray.</li>
+      <li><strong>Nashville’s legs and call.</strong>Seen only in search results or Wikipedia.</li>
+      <li><strong>Fall timing.</strong>Fall windows aren’t checked against an Iowa source; records after 2000 weren’t checked.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>Sources</h2>
+    <ul class="sources">
+      <li>Audubon Guide to North American Birds: <a href="https://www.audubon.org/field-guide/bird/mourning-warbler">Mourning</a>, <a href="https://www.audubon.org/field-guide/bird/connecticut-warbler">Connecticut</a>, <a href="https://www.audubon.org/field-guide/bird/macgillivrays-warbler">MacGillivray’s</a>, <a href="https://www.audubon.org/field-guide/bird/nashville-warbler">Nashville</a>, <a href="https://www.audubon.org/field-guide/bird/common-yellowthroat">Common Yellowthroat</a>; <a href="https://www.audubon.org/magazine/fall-warbler-identification-tips">fall warbler ID tips</a></li>
+      <li>USGS Bird Banding Laboratory: <a href="https://www.usgs.gov/labs/bird-banding-laboratory/news/macgillivrays-warbler-first-confirmed-state-record-maryland">MacGillivray’s Warbler, first confirmed Maryland record</a> (Pyle measurements)</li>
+      <li>Iowa Ornithologists’ Union: <a href="https://iowabirdrecords.org/StateList/">state checklist</a>, <a href="https://iowabirds.org/Birds/Docs/Early_Late.pdf">early and late dates</a>, and Records Committee files in the <a href="https://avian.lib.iastate.edu/documents/1421/view">ISU avian archive</a></li>
+      <li><a href="https://groups.google.com/g/ia-bird/c/kmBAUVobyzg">IA-Bird thread</a> on the 2016 Jester Park bird; <a href="https://birdweb.org/birdweb/bird/macgillivrays_warbler">BirdWeb</a> on MacGillivray’s</li>
+    </ul>
+  </section>
+
+  <footer><a href="index.html">← All bird pages</a> · <a href="mourning-warblers-picker.html">Mourning-type Warbler Picker</a> · Kevin Ripka · Nov 28, 2026</footer>
+</main>
+
+<template id="bird-svg">
+<svg viewBox="0 0 600 320" role="img" aria-label="Diagram: tap a part">
+  <defs>
+    <clipPath id="mw-body"><ellipse cx="245" cy="150" rx="86" ry="44"/></clipPath>
+    <clipPath id="mw-lens"><circle cx="140" cy="104" r="48"/></clipPath>
+  </defs>
+  <!-- PERCHED, side view facing left (main view) -->
+  <g transform="translate(-58 6)">
+    <path d="M120,272 L400,282" style="stroke:var(--c-branch);stroke-width:7;stroke-linecap:round;fill:none"/>
+    <path class="part stroke-only" data-part="legs" d="M228,192 L224,236 L228,272 M252,192 L258,240 L254,274"/>
+    <path class="part stroke-only" data-part="feet" d="M214,272 L240,273 M242,274 L268,275"/>
+    <g transform="rotate(22 245 160)">
+      <path class="part" data-part="tail" d="M316,142 L408,148 L406,164 L312,166 Z"/>
+      <ellipse class="part" data-part="belly" cx="245" cy="150" rx="86" ry="44"/>
+      <g clip-path="url(#mw-body)">
+        <ellipse class="part" data-part="flanks" cx="290" cy="178" rx="58" ry="20"/>
+        <ellipse data-look="vent" class="no-stroke" cx="262" cy="190" rx="34" ry="12" style="fill:var(--c-whitish)"/>
+        <ellipse class="part" data-part="back" cx="250" cy="106" rx="112" ry="30"/>
+      </g>
+      <path class="part" data-part="undertail" d="M312,158 C328,160 344,164 356,170 C342,177 326,177 308,172 Z"/>
+      <path class="part" data-part="wing" d="M194,122 C238,108 298,112 336,132 C312,152 256,156 206,148 Z"/>
+      <path class="part" data-part="tertials" d="M274,126 C298,122 318,128 336,138 C318,148 296,148 278,142 Z"/>
+      <path class="part" data-part="primaries" d="M326,132 L376,148 L372,156 L320,146 Z"/>
+    </g>
+    <path class="part" data-part="nape" d="M150,62 C170,62 186,72 198,86 C208,98 222,106 242,107 L204,126 C186,114 168,106 150,98 Z"/>
+    <path class="part" data-part="breast" d="M124,100 C122,132 146,158 190,166 L206,122 C186,112 166,100 152,92 Z"/>
+    <path data-look="bib" class="no-stroke" d="M128,112 C134,126 150,140 172,146 C178,138 176,128 168,122 C154,122 140,118 128,108 Z" style="fill:var(--c-black)"/>
+    <path class="part" data-part="bill" d="M124,87 L105,92 L124,97 Z"/>
+    <circle class="part" data-part="head" cx="150" cy="92" r="30"/>
+    <ellipse class="part" data-part="ear" cx="157" cy="101" rx="15" ry="10"/>
+    <path class="part" data-part="throat" d="M125,98 C130,112 142,120 156,122 L162,112 C150,110 138,104 131,95 Z"/>
+    <path data-look="bibthroat" class="no-stroke" d="M128,104 C134,114 144,120 156,121 L159,115 C148,113 138,108 132,100 Z" style="fill:var(--c-black);opacity:.55"/>
+    <path data-look="crown" class="no-stroke" d="M150,63 C162,63 172,68 178,76 C168,74 158,74 150,76 Z" style="fill:var(--c-chestnut)"/>
+    <path data-look="mask" class="no-stroke" d="M122,84 C128,79 138,78 146,80 C156,84 166,92 172,102 C166,112 150,114 138,106 C132,102 126,98 123,95 Z" style="fill:var(--c-black)"/>
+    <path data-look="maskborder" d="M126,79 C136,73 150,74 160,81 C168,87 172,94 175,100" style="fill:none;stroke:var(--c-paler);stroke-width:3.4;stroke-linecap:round"/>
+    <path data-look="lores" class="no-stroke" d="M123.6,87 C127,85.4 131,84.6 135.4,85 L135.6,93 C131,93.2 127,94 123.8,95.4 Z" style="fill:var(--c-black)"/>
+    <circle class="part ring" data-part="eyering" cx="140" cy="89" r="6.2"/>
+    <path data-look="arcs" d="M134.9,85.4 A6.2,6.2 0 0 1 145.1,85.4 M134.9,92.6 A6.2,6.2 0 0 0 145.1,92.6" style="fill:none;stroke:var(--c-white);stroke-width:2.8;stroke-linecap:round"/>
+    <circle class="eye" cx="140" cy="89" r="4.2"/>
+    <circle cx="141.4" cy="87.8" r="1.1" style="fill:#fff;pointer-events:none"/>
+  </g>
+  <text class="side-label" x="40" y="312" text-anchor="start">perched</text>
+
+  <!-- FACE CLOSE-UP (inset), same parts at 2x -->
+  <circle cx="490" cy="138" r="96" style="fill:var(--c-surface);stroke:var(--line);stroke-width:2"/>
+  <g class="inset" transform="translate(210 -70) scale(2)">
+    <g clip-path="url(#mw-lens)">
+      <g transform="rotate(22 245 160)">
+        <ellipse class="part" data-part="belly" cx="245" cy="150" rx="86" ry="44"/>
+        <g clip-path="url(#mw-body)"><ellipse class="part" data-part="back" cx="250" cy="106" rx="112" ry="30"/></g>
+        <path class="part" data-part="wing" d="M194,122 C238,108 298,112 336,132 C312,152 256,156 206,148 Z"/>
+      </g>
+      <path class="part" data-part="nape" d="M150,62 C170,62 186,72 198,86 C208,98 222,106 242,107 L204,126 C186,114 168,106 150,98 Z"/>
+      <path class="part" data-part="breast" d="M124,100 C122,132 146,158 190,166 L206,122 C186,112 166,100 152,92 Z"/>
+      <path data-look="bib" class="no-stroke" d="M128,112 C134,126 150,140 172,146 C178,138 176,128 168,122 C154,122 140,118 128,108 Z" style="fill:var(--c-black)"/>
+      <path class="part" data-part="bill" d="M124,87 L105,92 L124,97 Z"/>
+      <circle class="part" data-part="head" cx="150" cy="92" r="30"/>
+      <ellipse class="part" data-part="ear" cx="157" cy="101" rx="15" ry="10"/>
+      <path class="part" data-part="throat" d="M125,98 C130,112 142,120 156,122 L162,112 C150,110 138,104 131,95 Z"/>
+      <path data-look="bibthroat" class="no-stroke" d="M128,104 C134,114 144,120 156,121 L159,115 C148,113 138,108 132,100 Z" style="fill:var(--c-black);opacity:.55"/>
+      <path data-look="crown" class="no-stroke" d="M150,63 C162,63 172,68 178,76 C168,74 158,74 150,76 Z" style="fill:var(--c-chestnut)"/>
+      <path data-look="mask" class="no-stroke" d="M122,84 C128,79 138,78 146,80 C156,84 166,92 172,102 C166,112 150,114 138,106 C132,102 126,98 123,95 Z" style="fill:var(--c-black)"/>
+      <path data-look="maskborder" d="M126,79 C136,73 150,74 160,81 C168,87 172,94 175,100" style="fill:none;stroke:var(--c-paler);stroke-width:3.4;stroke-linecap:round"/>
+      <path data-look="lores" class="no-stroke" d="M123.6,87 C127,85.4 131,84.6 135.4,85 L135.6,93 C131,93.2 127,94 123.8,95.4 Z" style="fill:var(--c-black)"/>
+      <circle class="part ring" data-part="eyering" cx="140" cy="89" r="6.2"/>
+      <path data-look="arcs" d="M134.9,85.4 A6.2,6.2 0 0 1 145.1,85.4 M134.9,92.6 A6.2,6.2 0 0 0 145.1,92.6" style="fill:none;stroke:var(--c-white);stroke-width:2.8;stroke-linecap:round"/>
+      <circle class="eye" cx="140" cy="89" r="4.2"/>
+      <circle cx="141.4" cy="87.8" r="1.1" style="fill:#fff;pointer-events:none"/>
+    </g>
+  </g>
+  <circle cx="490" cy="138" r="96" style="fill:none;stroke:var(--muted);stroke-width:2"/>
+  <text class="side-label" x="490" y="252" text-anchor="middle">face, close up</text>
+
+  <!-- labels -->
+  <g class="label" data-part="eyering"><line x1="512" y1="26" x2="496" y2="96"/><text x="512" y="20" text-anchor="middle">Eye-ring</text></g>
+  <g class="label" data-part="bill"><line x1="410" y1="40" x2="464" y2="104"/><text x="410" y="34" text-anchor="middle">Lores</text></g>
+  <g class="label" data-part="head"><line x1="70" y1="36" x2="88" y2="70"/><text x="70" y="28" text-anchor="middle">Hood &amp; throat</text></g>
+  <g class="label" data-part="breast"><line x1="36" y1="186" x2="86" y2="146"/><text x="32" y="202" text-anchor="middle">Breast</text></g>
+  <g class="label" data-part="belly"><line x1="196" y1="246" x2="190" y2="194"/><text x="200" y="262" text-anchor="middle">Belly</text></g>
+  <g class="label" data-part="undertail"><line x1="330" y1="270" x2="278" y2="210"/><text x="330" y="288" text-anchor="middle">Undertail &amp; tail</text></g>
+  <g class="label" data-part="primaries"><line x1="330" y1="150" x2="296" y2="190"/><text x="330" y="144" text-anchor="middle">Wingtip</text></g>
+  <g class="label" data-part="legs"><line x1="128" y1="262" x2="164" y2="258"/><text x="124" y="268" text-anchor="end">Legs</text></g>
+</svg>
+</template>
+
+<script>
+  (function () {
+    var tpl = document.getElementById('bird-svg');
+
+    // Put a diagram in each figure and wire up that section's checks
+    document.querySelectorAll('.decoder').forEach(function (section) {
+      var fig = section.querySelector('figure[data-svg]');
+      var svg = tpl.content.firstElementChild.cloneNode(true);
+      fig.insertBefore(svg, fig.firstChild);
+      var caption = fig.querySelector('figcaption');
+      var defaultCaption = caption.textContent;
+      var buttons = section.querySelectorAll('.check');
+
+      function show(btn) {
+        var parts = btn ? btn.dataset.parts.split(' ') : [];
+        buttons.forEach(function (b) { b.setAttribute('aria-pressed', b === btn ? 'true' : 'false'); });
+        svg.classList.toggle('focus', !!btn);
+        svg.querySelectorAll('[data-part]').forEach(function (el) {
+          el.classList.toggle('on', parts.indexOf(el.dataset.part) !== -1);
+        });
+        caption.textContent = btn
+          ? 'Check: ' + btn.querySelector('strong').textContent + '. Tap it again to show all parts.'
+          : defaultCaption;
+      }
+
+      buttons.forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          show(btn.getAttribute('aria-pressed') === 'true' ? null : btn);
+        });
+      });
+    });
+
+  })();
+</script>
+</body>
+</html>

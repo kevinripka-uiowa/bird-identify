@@ -1,0 +1,387 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light">
+<title>Sharp-tailed and Pectoral Sandpipers</title>
+<meta name="description" content="Sharp-tailed vs. Pectoral Sandpiper: the breast edge, cap and eyebrow, plus Ruff and Cox’s Sandpiper pitfalls and Iowa records.">
+<style>
+  :root {
+    --bg: #f6f4ef;
+    --surface: #ffffff;
+    --ink: #22262b;
+    --muted: #5d646c;
+    --line: #dcd8cf;
+    --accent: #4a5563;
+    --accent-soft: #e8ebef;
+    --rust: #9a5a34;
+    --chip-common: #dfe9dc;   --chip-common-ink: #2f5129;
+    --chip-uncommon: #f2e7d2; --chip-uncommon-ink: #6b4b14;
+    --chip-regular: #e6e3f1;  --chip-regular-ink: #43386d;
+    --chip-casual: #ecdde6;   --chip-casual-ink: #6a2850;
+    --chip-acc: #f4dfd8;      --chip-acc-ink: #7a3322;
+    --bird-a: #bfc4ca; --bird-b: #cfd3d8; --bird-c: #dde0e3; --bird-d: #8e959d;
+    --bird-white: #fbfbf9; --bird-line: #4f565e;
+    --hi: #f3cf8a; --hi-line: #b8741a; --hi-soft: #fbf1de; --hi-ink: #8a520c;
+  }
+
+  * { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font: 16px/1.55 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  }
+  main { max-width: 1040px; margin: 0 auto; padding: 32px 16px 64px; }
+
+  header { margin-bottom: 28px; }
+  .kicker { font-size: 13px; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); margin: 0 0 6px; }
+  .kicker .home { display: inline-block; padding: 6px 10px 6px 0; margin: -6px 0; color: inherit; font-weight: 700; text-decoration: none; }
+  .kicker .home:hover { text-decoration: underline; }
+  h1 { font-size: clamp(28px, 5vw, 40px); line-height: 1.15; margin: 0 0 10px; }
+  .lede { font-size: 18px; color: var(--muted); max-width: 62ch; margin: 0; }
+
+  h2 { font-size: 24px; margin: 44px 0 12px; }
+  h3 { font-size: 19px; margin: 28px 0 10px; }
+  p { max-width: 70ch; }
+  em.sci { font-style: italic; color: var(--muted); font-weight: 400; }
+  .note { background: var(--accent-soft); border-radius: 10px; padding: 14px 16px; max-width: none; }
+
+  /* Cast list */
+  .cast { list-style: none; padding: 0; margin: 12px 0; display: grid; gap: 8px;
+          grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); }
+  .cast li { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 10px 14px; }
+  .cast strong { display: block; }
+  .cast small { display: block; color: var(--muted); font-size: 13px; margin-top: 4px; }
+  .chip { display: inline-block; font-size: 12px; font-weight: 600; padding: 1px 8px; border-radius: 999px; white-space: nowrap; margin-top: 4px; }
+  .chip-common   { background: var(--chip-common);   color: var(--chip-common-ink); }
+  .chip-uncommon { background: var(--chip-uncommon); color: var(--chip-uncommon-ink); }
+  .chip-regular  { background: var(--chip-regular);  color: var(--chip-regular-ink); }
+  .chip-casual   { background: var(--chip-casual);   color: var(--chip-casual-ink); }
+  .chip-acc      { background: var(--chip-acc);      color: var(--chip-acc-ink); }
+
+  /* Tabs */
+  .tabs { display: flex; gap: 6px; margin: 16px 0 8px; padding: 4px; background: var(--accent-soft);
+          border-radius: 12px; overflow-x: auto; }
+  .tab { flex: 1 0 auto; font: inherit; font-weight: 600; font-size: 15px; color: var(--muted); cursor: pointer;
+         background: none; border: 0; border-radius: 9px; padding: 10px 14px; white-space: nowrap; }
+  .tab[aria-selected="true"] { background: var(--surface); color: var(--ink); box-shadow: 0 1px 3px rgba(0,0,0,.15); }
+  .tab:focus-visible { outline: 2px solid var(--hi-line); outline-offset: 1px; }
+  .panel[hidden] { display: none; }
+  .panel > h3:first-child { margin-top: 20px; }
+
+  /* Checks */
+  .checks { list-style: none; padding: 0; margin: 16px 0; display: grid; gap: 12px;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); counter-reset: check; }
+  .checks li { position: relative; counter-increment: check; display: flex; }
+  .checks li::before { content: counter(check); position: absolute; left: 16px; top: 15px; z-index: 1; pointer-events: none;
+                       width: 28px; height: 28px; border-radius: 50%; background: var(--accent);
+                       color: var(--bg); font-weight: 700; display: grid; place-items: center; font-size: 15px; }
+  .check { flex: 1; text-align: left; font: inherit; color: inherit; cursor: pointer;
+           background: var(--surface); border: 1px solid var(--line); border-radius: 10px;
+           padding: 16px 16px 16px 56px; transition: border-color .15s, box-shadow .15s; }
+  .check:hover { border-color: var(--hi-line); }
+  .check:focus-visible { outline: 2px solid var(--hi-line); outline-offset: 2px; }
+  .check[aria-pressed="true"] { border-color: var(--hi-line); box-shadow: 0 0 0 2px var(--hi-line) inset; background: var(--hi-soft); }
+  .checks strong { display: block; margin-bottom: 4px; }
+
+  /* Diagram */
+  .diagram { margin: 16px 0; background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 12px 12px 10px; }
+  .diagram svg { display: block; width: 100%; height: auto; max-height: 340px; }
+  .diagram figcaption { font-size: 14px; color: var(--muted); padding: 4px 4px 0; }
+  .part { fill: var(--bird-white); stroke: var(--bird-line); stroke-width: 1.5; stroke-linejoin: round; }
+  .part.stroke-only { fill: none; stroke: #d2aa9c; stroke-width: 3.4; stroke-linecap: round; }
+  svg.focus .part.stroke-only:not(.on), svg.focus .part.ring:not(.on) { fill: none; }
+  svg.focus .part.stroke-only.on, svg.focus .part.ring.on { fill: none; stroke: var(--hi-line); stroke-width: 4; }
+  svg.focus .spots { opacity: .25; }
+  .inset * { vector-effect: non-scaling-stroke; }
+  .eye { fill: var(--bird-line); pointer-events: none; }
+  .side-label { fill: var(--muted); font-size: 13px; font-style: italic; }
+  .label line { stroke: var(--muted); stroke-width: 1; }
+  .label text { fill: var(--ink); font-size: 15px; font-weight: 600; }
+  /* When a check is selected, other parts become blank outlines (still opaque, so they hide what's beneath) */
+  svg.focus .part:not(.on) { fill: var(--surface); stroke: var(--muted); stroke-opacity: .55; }
+  svg.focus .label { opacity: .3; }
+  svg.focus .label.on { opacity: 1; }
+  svg.focus .part.on { fill: var(--hi); stroke: var(--hi-line); stroke-width: 2.5; }
+  svg.focus .label.on line { stroke: var(--hi-line); stroke-width: 2; }
+  svg.focus .label.on text { fill: var(--hi-ink); }
+
+  /* Tables */
+  .table-wrap { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; overflow: auto; max-height: 75vh; max-height: 75svh; -webkit-overflow-scrolling: touch; }
+  table { width: 100%; border-collapse: separate; border-spacing: 0; font-size: 15px; }
+  th, td { text-align: left; vertical-align: top; padding: 12px 14px; border-bottom: 1px solid var(--line); }
+  thead th { font-size: 13px; text-transform: uppercase; letter-spacing: .05em; color: var(--muted);
+             background: var(--accent-soft); font-weight: 600; }
+  thead th { position: sticky; top: 0; z-index: 2; }  /* header row stays put while the table scrolls */
+  tbody tr:last-child td, tbody tr:last-child th { border-bottom: 0; }
+  tbody th { font-weight: 700; min-width: 130px; }
+  tbody th em { display: block; }
+  tr.rarity th { color: var(--muted); }
+  td.clincher { font-weight: 600; }
+  .scroll-hint { display: none; font-size: 13px; color: var(--muted); margin: 0 0 6px; }
+
+  /* Pitfalls */
+  .pitfalls { padding: 0; list-style: none; display: grid; gap: 10px; }
+  .pitfalls li { background: var(--surface); border: 1px solid var(--line); border-left: 4px solid var(--rust);
+                 border-radius: 8px; padding: 12px 16px; }
+  .pitfalls strong { display: block; }
+
+  .sources { color: var(--muted); padding-left: 20px; }
+  .sources a { color: inherit; }
+  footer { margin-top: 40px; padding-top: 16px; border-top: 1px solid var(--line); color: var(--muted); font-size: 14px; }
+  footer a { color: inherit; }
+
+  /* Narrow screens */
+  @media (max-width: 760px) {
+    /* Tables scroll sideways with the first column frozen */
+    table { width: auto; min-width: 760px; font-size: 14px; }
+    th, td { padding: 10px 12px; }
+    td { min-width: 150px; }
+    thead th:first-child, tbody th {
+      position: sticky; left: 0; z-index: 1;
+      width: 108px; min-width: 108px; max-width: 108px;
+      border-right: 1px solid var(--line);
+      box-shadow: 4px 0 6px -4px rgba(0,0,0,.25);
+    }
+    thead th:first-child { background: var(--accent-soft); z-index: 3; }
+    tbody th { background: var(--surface); }
+    .scroll-hint { display: block; }
+
+    /* Keep the bird in view while tapping through the checks below it */
+    .diagram { position: sticky; top: 0; z-index: 4; margin-left: -8px; margin-right: -8px; padding: 8px;
+               box-shadow: 0 6px 12px -8px rgba(0,0,0,.25); }
+    .label text { font-size: 19px; }
+    .side-label { font-size: 16px; }
+    .diagram figcaption { font-size: 13px; }
+    .tab { font-size: 14px; padding: 9px 10px; }
+  }
+
+  @media print {
+    body { background: #fff; color: #000; }
+    .checks li, .table-wrap, .pitfalls li { break-inside: avoid; }
+    .panel[hidden] { display: block; }
+    .tabs { display: none; }
+    .table-wrap { max-height: none; overflow: visible; }
+  }
+  /* "check" markers: things not confirmed from a source */
+  .unsure { display: inline-block; font-size: 11px; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; line-height: 1.5;
+            color: #8a520c; background: #fbf1de; border: 1px dashed #d9a34a; border-radius: 999px; padding: 0 6px; margin-left: 4px;
+            vertical-align: 1px; white-space: nowrap; cursor: help; }
+  .to-check ul { padding-left: 20px; }
+  .to-check li { margin: 4px 0; }
+  .to-check li strong { margin-right: 4px; }
+  .checks-order { color: var(--muted); font-size: 14px; margin: -4px 0 16px; }
+  :root { --c-dark: #3b3631; --c-white: #fbfbf9; --c-buffwash: #ecdcc0; --c-pale: #e9e1cf; --c-surface: #ffffff; }
+  .part[data-part="scapulars"], .part[data-part="fback"] { fill: #6b5442; }
+  .part[data-part="wing"], .part[data-part="fwing"] { fill: #8a7563; }
+  .part[data-part="tertials"] { fill: #5e4a3b; }
+  .part[data-part="primaries"], .part[data-part="tail"], .part[data-part="ftail"] { fill: #3e352e; }
+  .part[data-part="breast"] { fill: var(--c-buffwash); stroke: none; }
+  .part[data-part="head"], .part[data-part="fhead"], .part[data-part="ear"] { fill: #a08b74; }
+  .part[data-part="cap"], .part[data-part="ear"] { stroke: none; }
+  .part[data-part="cap"] { fill: #7f6650; }
+  .part[data-part="bill"], .part[data-part="fbill"] { fill: #2e2a26; }
+  .part[data-part="legs"], .part[data-part="supercilium"] { fill: none !important; stroke-width: 3; stroke-linecap: round; stroke-linejoin: round; }
+  .part[data-part="legs"] { stroke: #b4ad3f; }
+  .part[data-part="supercilium"] { stroke: var(--c-pale); stroke-width: 4; }
+  svg.focus .part[data-part="legs"].on, svg.focus .part[data-part="supercilium"].on { stroke: var(--hi-line); }
+  svg [data-look] { display: none; }
+</style>
+</head>
+<body>
+<main>
+  <header>
+    <p class="kicker"><a class="home" href="index.html">← Home</a> · Tricky birds · Iowa</p>
+    <h1>Sharp-tailed and Pectoral Sandpipers</h1>
+    <p class="lede">Pectoral Sandpiper passes through Iowa by the thousands; Sharp-tailed, a Siberian breeder, has five accepted Iowa records, four of them fall juveniles. A juvenile Sharp-tailed hides in Pectoral flocks in September and October. The breast settles most birds: where the streaks stop and how the color fades. Then check the cap and eyebrow. Try the <a href="sharp-tailed-sandpiper-picker.html">Sharp-tailed Sandpiper Picker</a> to work through a bird in the field.</p>
+  </header>
+
+  <section>
+    <h2>Who to expect</h2>
+    <ul class="cast">
+      <li><strong>Pectoral Sandpiper</strong><span class="chip chip-common">Common migrant</span><small>Late March to late May, and early July to late October; fall flocks can reach thousands in late July and August. Juveniles dominate from September.</small></li>
+      <li><strong>Sharp-tailed Sandpiper</strong><span class="chip chip-acc">Accidental</span><small>Five accepted records: 3 Oct 1974 and 14 Oct 1990, Coralville Reservoir; 30 Sep 1988, Credit Island, Davenport; 15 May 1994, Riverton WA; 10 Nov 2013, Otter Creek Marsh (photographed). Three more weren’t accepted.</small></li>
+    </ul>
+  </section>
+
+  <section class="decoder">
+    <h2>The marks</h2>
+    <p>Tap a check to see where to look.</p>
+    <div class="how">
+    <figure class="diagram" data-svg>
+        <figcaption>Schematic only. Left: standing, side view. Right: flying, from above.</figcaption>
+      </figure>
+    <ol class="checks">
+        <li><button type="button" class="check" data-parts="breast" aria-pressed="false"><strong>Breast</strong>Pectoral’s breast is heavily streaked in every plumage, and the streaks stop in a sharp line at the white belly. A juvenile Sharp-tailed has a bright orange-buff breast that fades into the belly, with fine streaks only across the top and down the sides. Spring adult Sharp-taileds have spots that turn into chevrons on the lower breast and flanks, still with no sharp edge.</button></li>
+        <li><button type="button" class="check" data-parts="cap" aria-pressed="false"><strong>Cap</strong>Sharp-tailed has a bright rufous cap that contrasts with the face, duller on fall adults. Pectoral’s cap is browner and streaked, though breeding Pectorals have chestnut edges and can look warm-capped.</button></li>
+        <li><button type="button" class="check" data-parts="supercilium head" aria-pressed="false"><strong>Eyebrow and eye-ring</strong>Sharp-tailed has a cleaner white eyebrow that flares behind the eye and an obvious white eye-ring. Pectoral’s eyebrow is thinner, often split, and fades behind the eye.</button></li>
+        <li><button type="button" class="check" data-parts="scapulars wing tertials" aria-pressed="false"><strong>Back (juveniles)</strong>Juvenile Pectoral shows crisp white V-lines on a neatly scaly back. Juvenile Sharp-tailed has rustier fringes and fainter white lines.</button></li>
+        <li><button type="button" class="check" data-parts="bill" aria-pressed="false"><strong>Bill</strong>Sharp-tailed’s bill is a little shorter and straighter<span class="unsure" title="Kaufman (1987), seen only in search results.">check</span>; Pectoral’s is slightly drooping, often with an orange-brown base.</button></li>
+      </ol>
+    <p class="checks-order">Checks run from most to least useful. Legs, size and the rump pattern are shared.</p>
+    </div>
+    <p class="scroll-hint">Swipe the table sideways for more →</p>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th scope="col">Species</th><th scope="col">Breast</th><th scope="col">Cap</th><th scope="col">Eyebrow</th><th scope="col">Back (juvenile)</th><th scope="col">Call</th><th scope="col">Clincher</th></tr></thead>
+        <tbody>
+          <tr><th scope="row">Sharp-tailed</th><td>Juvenile: orange-buff, fading out, fine streaks at the top. Spring: chevrons onto the flanks</td><td>Bright rufous</td><td>Bold white, flaring behind the eye; white eye-ring</td><td>Rusty fringes; faint white lines</td><td>Soft <em>whit-whit</em> or <em>plipp</em>; twittering</td><td class="clincher">No sharp edge to the breast</td></tr>
+          <tr><th scope="row">Pectoral</th><td>Heavy streaks ending in a sharp line</td><td>Brown, streaked</td><td>Thinner, often split</td><td>Crisp white V-lines</td><td>Raspy, reedy <em>krrrip</em></td><td class="clincher">Sharp-edged streaked bib</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section>
+    <h2>Pitfalls</h2>
+    <ul class="pitfalls">
+      <li><strong>Bright Pectorals.</strong>Fresh juvenile Pectorals can look warm and buffy. Color alone isn’t enough; check that the streaks stop in a sharp line.</li>
+      <li><strong>Ruff (Reeve).</strong>Juvenile Ruffs also lack a sharp breast edge. Ruff is bigger, with larger white ovals on the sides of the rump. It’s casual in Iowa (27 records), far likelier than Sharp-tailed.</li>
+      <li><strong>Cox’s Sandpiper.</strong>A Pectoral × Curlew Sandpiper hybrid with a longer, darker, drooping bill, duller legs and more white on the rump. A 1987 Massachusetts juvenile was first called a Pectoral, then a Sharp-tailed.</li>
+      <li><strong>Spring chevrons.</strong>Pectorals can show marks back toward the undertail too<span class="unsure" title="Kaufman (1987), seen only in search results.">check</span>, so treat flank and undertail chevrons as support.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>Iowa timing</h2>
+    <ul>
+      <li><strong>Pectoral:</strong> earliest spring 19 Feb, 27 Feb, 3 Mar; latest fall 1, 2 and 4 Dec (IOU early and late dates).</li>
+      <li><strong>Sharp-tailed:</strong> four fall records, 30 Sep to 10 Nov, and one spring record, 15 May.</li>
+    </ul>
+  </section>
+
+  <section class="to-check" id="to-check">
+    <h2>To check</h2>
+    <p>Anything tagged <span class="unsure" title="Example">check</span> couldn’t be confirmed from a source I could open.</p>
+    <ul>
+      <li><strong>Kaufman (1987).</strong>The bill and undertail points come from search-result text of his “Practiced Eye” article.</li>
+      <li><strong>Sharp-tailed’s legs.</strong>Yellowish-green in field guides; not confirmed from a source I could open.</li>
+      <li><strong>Darker rump on fall adults.</strong>From one source.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>Sources</h2>
+    <ul class="sources">
+      <li>Iowa Ornithologists’ Union: <a href="https://iowabirdrecords.org/Reports/Records.aspx?id=706">Sharp-tailed Sandpiper records</a>, <a href="https://iowabirdrecords.org/Reports/Status.aspx">status list</a>, <a href="https://iowabirds.org/Birds/Docs/Early_Late.pdf">early and late dates</a></li>
+      <li>Bird Observer: <a href="https://birdobserver.org/Better-Birding/New-England-Shorebird-Guide/Pectoral-Sandpiper-photographic-identification-guide">Pectoral Sandpiper photographic guide</a>; <a href="https://www.shanghaibirding.com/sharp-tailed-sandpiper/">Shanghai Birding on Sharp-tailed</a>; <a href="https://nzbirdsonline.org.nz/species/pectoral-sandpiper">NZ Birds Online, Pectoral</a></li>
+      <li>Audubon: <a href="https://www.audubon.org/field-guide/bird/sharp-tailed-sandpiper">Sharp-tailed Sandpiper</a>; Iowa State: <a href="https://faculty.sites.iastate.edu/cootjr/pectoral-sandpiper-stopover-study">Pectoral stopover study</a>; <a href="https://en.wikipedia.org/wiki/Cox%27s_sandpiper">Cox’s Sandpiper</a></li>
+    </ul>
+  </section>
+
+  <footer><a href="index.html">← All bird pages</a> · <a href="sharp-tailed-sandpiper-picker.html">Sharp-tailed Sandpiper Picker</a> · Kevin Ripka · Nov 28, 2026</footer>
+</main>
+
+<template id="bird-svg">
+  <svg viewBox="24 36 578 286" role="img" aria-label="Diagram: tap a part">
+    <defs>
+      <clipPath id="st-body"><ellipse cx="225" cy="170" rx="95" ry="44"/></clipPath>
+      <clipPath id="st-head"><circle cx="128" cy="112" r="28"/></clipPath>
+      <linearGradient id="st-blend" x1="0" y1="0" x2="0.35" y2="1"><stop offset="0" stop-color="#e9c48f"/><stop offset=".55" stop-color="#f1dcbc"/><stop offset="1" stop-color="#fbfbf9"/></linearGradient>
+    </defs>
+
+    <!-- STANDING, side view facing left (the main view) -->
+    <path d="M40,300 L420,300" style="stroke:var(--muted);stroke-width:5;stroke-linecap:round;fill:none;opacity:.45"/>
+    <path class="part" data-part="legs" d="M212,206 L205,252 L209,296 M195,298 L209,296 L223,298 M234,206 L242,252 L238,296 M224,298 L238,296 L252,298"/>
+    <path class="part" data-part="tail" d="M326,150 L372,156 L370,170 L326,174 Z"/>
+    <path class="part" data-part="primaries" d="M296,152 L368,162 L300,166 Z"/>
+    <ellipse class="part" data-part="belly" cx="225" cy="170" rx="95" ry="44"/>
+    <g clip-path="url(#st-body)">
+      <ellipse class="part" data-part="breast" cx="158" cy="176" rx="50" ry="44"/>
+      <ellipse class="part" data-part="scapulars" cx="238" cy="124" rx="110" ry="30"/>
+    </g>
+    <path class="part" data-part="breast" d="M108,126 C110,154 124,174 150,184 L172,138 C150,130 132,126 122,116 Z"/>
+    <path data-look="pec-streaks" d="M114,130 v6 M122,126 v6 M130,130 v6 M140,128 v6 M150,132 v6 M160,134 v6 M170,138 v6 M118,142 v6 M126,140 v6 M136,142 v6 M146,144 v6 M156,146 v6 M166,148 v6 M178,148 v6 M188,152 v6 M124,154 v6 M134,156 v6 M144,158 v6 M154,160 v6 M164,162 v6 M174,162 v6 M186,164 v6 M196,164 v6 M140,172 v5 M150,174 v5 M162,176 v5 M174,176 v5 M186,176 v5 M200,174 v5" style="fill:none;stroke:var(--c-streak);stroke-width:2.2;stroke-linecap:round"/>
+    <path data-look="st-necklace" d="M114,128 v4 M122,124 v4 M130,128 v4 M140,128 v4 M150,132 v4 M116,138 v3 M160,136 v4 M170,140 v4 M180,146 v4 M190,150 v4" style="fill:none;stroke:var(--c-streak);stroke-width:1.6;stroke-linecap:round"/>
+    <path data-look="breast-chev" d="M124,142 l4,5 l4,-5 M138,138 l4,5 l4,-5 M152,140 l4,5 l4,-5 M166,144 l4,5 l4,-5 M130,154 l4,5 l4,-5 M144,154 l4,5 l4,-5 M158,156 l4,5 l4,-5 M172,158 l4,5 l4,-5 M138,168 l4,5 l4,-5 M152,170 l4,5 l4,-5 M166,172 l4,5 l4,-5 M184,170 l4,5 l4,-5" style="fill:none;stroke:var(--c-black);stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round"/>
+    <path data-look="flank-chev" d="M200,184 l4,5 l4,-5 M218,188 l4,5 l4,-5 M236,190 l4,5 l4,-5 M254,190 l4,5 l4,-5 M272,188 l4,5 l4,-5 M290,184 l4,5 l4,-5 M306,180 l4,5 l4,-5" style="fill:none;stroke:var(--c-black);stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round"/>
+    <path data-look="side-streaks" d="M114,130 v4 M122,126 v4 M176,144 v4 M186,148 v4 M196,152 v4" style="fill:none;stroke:var(--c-streak);stroke-width:1.6;stroke-linecap:round"/>
+    <path data-look="scap-rufous" d="M186,138 q6,-8 12,0 M204,135 q6,-8 12,0 M222,134 q6,-8 12,0 M240,135 q6,-8 12,0 M258,137 q6,-8 12,0 M276,140 q6,-8 12,0 M195,145 q6,-8 12,0 M213,143 q6,-8 12,0 M231,143 q6,-8 12,0 M249,144 q6,-8 12,0" style="fill:none;stroke:var(--c-rufous);stroke-width:2.2;stroke-linecap:round"/>
+    <path data-look="scap-gray" d="M186,138 q6,-8 12,0 M204,135 q6,-8 12,0 M222,134 q6,-8 12,0 M240,135 q6,-8 12,0 M258,137 q6,-8 12,0 M276,140 q6,-8 12,0 M195,145 q6,-8 12,0 M213,143 q6,-8 12,0 M231,143 q6,-8 12,0" style="fill:none;stroke:var(--c-lgray);stroke-width:2.2;stroke-linecap:round"/>
+    <path data-look="braces" d="M168,134 C190,128 214,126 236,126 M176,141 C196,136 218,134 240,134" style="fill:none;stroke:var(--c-white);stroke-width:2.4;stroke-linecap:round"/>
+    <path class="part" data-part="wing" d="M182,146 C228,136 290,140 338,156 C298,172 236,176 194,168 Z"/>
+    <path data-look="cov-fringe" d="M200,152 q5,5 10,0 M214,152 q5,5 10,0 M228,153 q5,5 10,0 M242,154 q5,5 10,0 M206,161 q5,5 10,0 M220,162 q5,5 10,0 M234,163 q5,5 10,0 M248,163 q5,5 10,0" style="fill:none;stroke:var(--c-buffwash);stroke-width:1.8;stroke-linecap:round"/>
+    <path class="part" data-part="tertials" d="M258,144 C290,142 328,150 350,160 C324,168 288,168 262,160 Z"/>
+    <path data-look="tert-edge" d="M258,144 C290,142 328,150 350,160 C324,168 288,168 262,160 Z" style="fill:none;stroke:var(--c-rufous);stroke-width:2.2"/>
+    <path class="part" data-part="undertail" d="M300,190 C312,186 324,180 334,174 L338,184 C326,192 312,198 298,200 Z"/>
+    <path data-look="utc-chev" d="M306,190 l3,4 l3,-4 M318,185 l3,4 l3,-4 M326,180 l3,4 l3,-4" style="fill:none;stroke:var(--c-black);stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round"/>
+
+    <!-- head -->
+    <path class="part" data-part="bill" d="M103,106 C86,108 70,111 54,117 L54,119 C70,116 86,115 104,116 Z"/>
+    <path data-look="billbase" class="no-stroke" d="M104,111 L90,113.6 L90,116.2 L104,116 Z" style="fill:var(--c-billbase)"/>
+    <circle class="part" data-part="head" cx="128" cy="112" r="28"/>
+    <g clip-path="url(#st-head)">
+      <path class="part" data-part="cap" d="M100,98 C106,78 150,78 160,100 C142,90 118,90 100,98 Z"/>
+      <path data-look="capstreaks" d="M112,90 l3,-5 M122,87 l3,-5 M132,86 l3,-5 M142,88 l3,-5 M150,92 l3,-5" style="fill:none;stroke:var(--c-black);stroke-width:2;stroke-linecap:round"/>
+      <ellipse class="part" data-part="ear" cx="128" cy="116" rx="11" ry="7"/>
+    </g>
+    <path class="part" data-part="supercilium" d="M101,101 Q118,93 145,98"/>
+    <path data-look="browflare" d="M124,96 Q140,95 154,103" style="fill:none;stroke:var(--c-white);stroke-width:5.4;stroke-linecap:round"/>
+    <circle data-look="eyering" cx="116" cy="106" r="5.6" style="fill:none;stroke:var(--c-white);stroke-width:1.8"/>
+    <circle class="eye" cx="116" cy="106" r="3.8"/>
+    <text class="side-label" x="40" y="316" text-anchor="start">standing</text>
+
+    <!-- FLYING, seen from above (inset) -->
+    <path class="part" data-part="ftail" d="M496,132 L514,132 L512,152 L505,155 L498,152 Z"/>
+    <path class="part" data-part="fwing" d="M497,82 C483,76 462,78 442,90 L424,104 C446,100 472,104 497,108 Z"/>
+    <path class="part" data-part="fwing" d="M513,82 C527,76 548,78 568,90 L586,104 C564,100 538,104 513,108 Z"/>
+    <path d="M496,96 C478,93 458,94 438,99 M514,96 C532,93 552,94 572,99" style="fill:none;stroke:var(--c-white);stroke-width:1.6;stroke-linecap:round;pointer-events:none"/>
+    <ellipse class="part" data-part="fback" cx="505" cy="98" rx="11" ry="32"/>
+    <path class="part" data-part="frump" d="M495.4,116 C500,119 510,119 514.6,116 L514,134 L496,134 Z"/>
+    <path d="M505,116 L505,152" style="fill:none;stroke:var(--c-dark);stroke-width:6;pointer-events:none"/>
+    <path data-look="rumpstreaks" d="M498,122 l2,2 M498,128 l2,2 M510,122 l2,2 M510,128 l2,2" style="fill:none;stroke:var(--c-dark);stroke-width:2;stroke-linecap:round"/>
+    <path class="part" data-part="fbill" d="M503.6,52 L505,36 L506.4,52 Z"/>
+    <circle class="part" data-part="fhead" cx="505" cy="60" r="9.5"/>
+    <text class="side-label" x="505" y="176" text-anchor="middle">flying, from above</text>
+
+    <!-- labels -->
+    <g class="label" data-part="bill"><line x1="58" y1="146" x2="68" y2="120"/><text x="54" y="162" text-anchor="middle">Bill</text></g>
+    <g class="label" data-part="cap"><line x1="150" y1="56" x2="136" y2="86"/><text x="150" y="50" text-anchor="middle">Cap</text></g>
+    <g class="label" data-part="supercilium"><line x1="80" y1="70" x2="112" y2="100"/><text x="72" y="64" text-anchor="middle">Eyebrow</text></g>
+    <g class="label" data-part="scapulars"><line x1="238" y1="96" x2="234" y2="128"/><text x="238" y="90" text-anchor="middle">Back</text></g>
+    <g class="label" data-part="breast"><line x1="86" y1="196" x2="132" y2="168"/><text x="80" y="212" text-anchor="middle">Breast</text></g>
+    <g class="label" data-part="undertail"><line x1="290" y1="236" x2="262" y2="196"/><text x="294" y="252" text-anchor="start">Flanks &amp; undertail</text></g>
+    <g class="label" data-part="legs"><line x1="168" y1="276" x2="204" y2="262"/><text x="164" y="282" text-anchor="end">Legs</text></g>
+    <g class="label" data-part="frump"><line x1="552" y1="146" x2="516" y2="128"/><text x="556" y="152" text-anchor="start">Rump</text></g>
+  </svg>
+</template>
+
+<script>
+  (function () {
+    var tpl = document.getElementById('bird-svg');
+
+    // Put a diagram in each figure and wire up that section's checks
+    document.querySelectorAll('.decoder').forEach(function (section) {
+      var fig = section.querySelector('figure[data-svg]');
+      var svg = tpl.content.firstElementChild.cloneNode(true);
+      fig.insertBefore(svg, fig.firstChild);
+      var caption = fig.querySelector('figcaption');
+      var defaultCaption = caption.textContent;
+      var buttons = section.querySelectorAll('.check');
+
+      function show(btn) {
+        var parts = btn ? btn.dataset.parts.split(' ') : [];
+        buttons.forEach(function (b) { b.setAttribute('aria-pressed', b === btn ? 'true' : 'false'); });
+        svg.classList.toggle('focus', !!btn);
+        svg.querySelectorAll('[data-part]').forEach(function (el) {
+          el.classList.toggle('on', parts.indexOf(el.dataset.part) !== -1);
+        });
+        caption.textContent = btn
+          ? 'Check: ' + btn.querySelector('strong').textContent + '. Tap it again to show all parts.'
+          : defaultCaption;
+      }
+
+      buttons.forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          show(btn.getAttribute('aria-pressed') === 'true' ? null : btn);
+        });
+      });
+    });
+
+  })();
+</script>
+</body>
+</html>

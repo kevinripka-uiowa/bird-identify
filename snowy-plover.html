@@ -1,0 +1,386 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light">
+<title>Snowy, Piping and Semipalmated Plovers</title>
+<meta name="description" content="Snowy Plover vs. Piping and Semipalmated Plovers: legs, bill, breast band, back color and face, plus Iowa records.">
+<style>
+  :root {
+    --bg: #f6f4ef;
+    --surface: #ffffff;
+    --ink: #22262b;
+    --muted: #5d646c;
+    --line: #dcd8cf;
+    --accent: #4a5563;
+    --accent-soft: #e8ebef;
+    --rust: #9a5a34;
+    --chip-common: #dfe9dc;   --chip-common-ink: #2f5129;
+    --chip-uncommon: #f2e7d2; --chip-uncommon-ink: #6b4b14;
+    --chip-regular: #e6e3f1;  --chip-regular-ink: #43386d;
+    --chip-casual: #ecdde6;   --chip-casual-ink: #6a2850;
+    --chip-acc: #f4dfd8;      --chip-acc-ink: #7a3322;
+    --bird-a: #bfc4ca; --bird-b: #cfd3d8; --bird-c: #dde0e3; --bird-d: #8e959d;
+    --bird-white: #fbfbf9; --bird-line: #4f565e;
+    --hi: #f3cf8a; --hi-line: #b8741a; --hi-soft: #fbf1de; --hi-ink: #8a520c;
+  }
+
+  * { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font: 16px/1.55 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  }
+  main { max-width: 1040px; margin: 0 auto; padding: 32px 16px 64px; }
+
+  header { margin-bottom: 28px; }
+  .kicker { font-size: 13px; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); margin: 0 0 6px; }
+  .kicker .home { display: inline-block; padding: 6px 10px 6px 0; margin: -6px 0; color: inherit; font-weight: 700; text-decoration: none; }
+  .kicker .home:hover { text-decoration: underline; }
+  h1 { font-size: clamp(28px, 5vw, 40px); line-height: 1.15; margin: 0 0 10px; }
+  .lede { font-size: 18px; color: var(--muted); max-width: 62ch; margin: 0; }
+
+  h2 { font-size: 24px; margin: 44px 0 12px; }
+  h3 { font-size: 19px; margin: 28px 0 10px; }
+  p { max-width: 70ch; }
+  em.sci { font-style: italic; color: var(--muted); font-weight: 400; }
+  .note { background: var(--accent-soft); border-radius: 10px; padding: 14px 16px; max-width: none; }
+
+  /* Cast list */
+  .cast { list-style: none; padding: 0; margin: 12px 0; display: grid; gap: 8px;
+          grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); }
+  .cast li { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 10px 14px; }
+  .cast strong { display: block; }
+  .cast small { display: block; color: var(--muted); font-size: 13px; margin-top: 4px; }
+  .chip { display: inline-block; font-size: 12px; font-weight: 600; padding: 1px 8px; border-radius: 999px; white-space: nowrap; margin-top: 4px; }
+  .chip-common   { background: var(--chip-common);   color: var(--chip-common-ink); }
+  .chip-uncommon { background: var(--chip-uncommon); color: var(--chip-uncommon-ink); }
+  .chip-regular  { background: var(--chip-regular);  color: var(--chip-regular-ink); }
+  .chip-casual   { background: var(--chip-casual);   color: var(--chip-casual-ink); }
+  .chip-acc      { background: var(--chip-acc);      color: var(--chip-acc-ink); }
+
+  /* Tabs */
+  .tabs { display: flex; gap: 6px; margin: 16px 0 8px; padding: 4px; background: var(--accent-soft);
+          border-radius: 12px; overflow-x: auto; }
+  .tab { flex: 1 0 auto; font: inherit; font-weight: 600; font-size: 15px; color: var(--muted); cursor: pointer;
+         background: none; border: 0; border-radius: 9px; padding: 10px 14px; white-space: nowrap; }
+  .tab[aria-selected="true"] { background: var(--surface); color: var(--ink); box-shadow: 0 1px 3px rgba(0,0,0,.15); }
+  .tab:focus-visible { outline: 2px solid var(--hi-line); outline-offset: 1px; }
+  .panel[hidden] { display: none; }
+  .panel > h3:first-child { margin-top: 20px; }
+
+  /* Checks */
+  .checks { list-style: none; padding: 0; margin: 16px 0; display: grid; gap: 12px;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); counter-reset: check; }
+  .checks li { position: relative; counter-increment: check; display: flex; }
+  .checks li::before { content: counter(check); position: absolute; left: 16px; top: 15px; z-index: 1; pointer-events: none;
+                       width: 28px; height: 28px; border-radius: 50%; background: var(--accent);
+                       color: var(--bg); font-weight: 700; display: grid; place-items: center; font-size: 15px; }
+  .check { flex: 1; text-align: left; font: inherit; color: inherit; cursor: pointer;
+           background: var(--surface); border: 1px solid var(--line); border-radius: 10px;
+           padding: 16px 16px 16px 56px; transition: border-color .15s, box-shadow .15s; }
+  .check:hover { border-color: var(--hi-line); }
+  .check:focus-visible { outline: 2px solid var(--hi-line); outline-offset: 2px; }
+  .check[aria-pressed="true"] { border-color: var(--hi-line); box-shadow: 0 0 0 2px var(--hi-line) inset; background: var(--hi-soft); }
+  .checks strong { display: block; margin-bottom: 4px; }
+
+  /* Diagram */
+  .diagram { margin: 16px 0; background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 12px 12px 10px; }
+  .diagram svg { display: block; width: 100%; height: auto; max-height: 340px; }
+  .diagram figcaption { font-size: 14px; color: var(--muted); padding: 4px 4px 0; }
+  .part { fill: var(--bird-white); stroke: var(--bird-line); stroke-width: 1.5; stroke-linejoin: round; }
+  .part.stroke-only { fill: none; stroke: #d2aa9c; stroke-width: 3.4; stroke-linecap: round; }
+  svg.focus .part.stroke-only:not(.on), svg.focus .part.ring:not(.on) { fill: none; }
+  svg.focus .part.stroke-only.on, svg.focus .part.ring.on { fill: none; stroke: var(--hi-line); stroke-width: 4; }
+  svg.focus .spots { opacity: .25; }
+  .inset * { vector-effect: non-scaling-stroke; }
+  .eye { fill: var(--bird-line); pointer-events: none; }
+  .side-label { fill: var(--muted); font-size: 13px; font-style: italic; }
+  .label line { stroke: var(--muted); stroke-width: 1; }
+  .label text { fill: var(--ink); font-size: 15px; font-weight: 600; }
+  /* When a check is selected, other parts become blank outlines (still opaque, so they hide what's beneath) */
+  svg.focus .part:not(.on) { fill: var(--surface); stroke: var(--muted); stroke-opacity: .55; }
+  svg.focus .label { opacity: .3; }
+  svg.focus .label.on { opacity: 1; }
+  svg.focus .part.on { fill: var(--hi); stroke: var(--hi-line); stroke-width: 2.5; }
+  svg.focus .label.on line { stroke: var(--hi-line); stroke-width: 2; }
+  svg.focus .label.on text { fill: var(--hi-ink); }
+
+  /* Tables */
+  .table-wrap { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; overflow: auto; max-height: 75vh; max-height: 75svh; -webkit-overflow-scrolling: touch; }
+  table { width: 100%; border-collapse: separate; border-spacing: 0; font-size: 15px; }
+  th, td { text-align: left; vertical-align: top; padding: 12px 14px; border-bottom: 1px solid var(--line); }
+  thead th { font-size: 13px; text-transform: uppercase; letter-spacing: .05em; color: var(--muted);
+             background: var(--accent-soft); font-weight: 600; }
+  thead th { position: sticky; top: 0; z-index: 2; }  /* header row stays put while the table scrolls */
+  tbody tr:last-child td, tbody tr:last-child th { border-bottom: 0; }
+  tbody th { font-weight: 700; min-width: 130px; }
+  tbody th em { display: block; }
+  tr.rarity th { color: var(--muted); }
+  td.clincher { font-weight: 600; }
+  .scroll-hint { display: none; font-size: 13px; color: var(--muted); margin: 0 0 6px; }
+
+  /* Pitfalls */
+  .pitfalls { padding: 0; list-style: none; display: grid; gap: 10px; }
+  .pitfalls li { background: var(--surface); border: 1px solid var(--line); border-left: 4px solid var(--rust);
+                 border-radius: 8px; padding: 12px 16px; }
+  .pitfalls strong { display: block; }
+
+  .sources { color: var(--muted); padding-left: 20px; }
+  .sources a { color: inherit; }
+  footer { margin-top: 40px; padding-top: 16px; border-top: 1px solid var(--line); color: var(--muted); font-size: 14px; }
+  footer a { color: inherit; }
+
+  /* Narrow screens */
+  @media (max-width: 760px) {
+    /* Tables scroll sideways with the first column frozen */
+    table { width: auto; min-width: 760px; font-size: 14px; }
+    th, td { padding: 10px 12px; }
+    td { min-width: 150px; }
+    thead th:first-child, tbody th {
+      position: sticky; left: 0; z-index: 1;
+      width: 108px; min-width: 108px; max-width: 108px;
+      border-right: 1px solid var(--line);
+      box-shadow: 4px 0 6px -4px rgba(0,0,0,.25);
+    }
+    thead th:first-child { background: var(--accent-soft); z-index: 3; }
+    tbody th { background: var(--surface); }
+    .scroll-hint { display: block; }
+
+    /* Keep the bird in view while tapping through the checks below it */
+    .diagram { position: sticky; top: 0; z-index: 4; margin-left: -8px; margin-right: -8px; padding: 8px;
+               box-shadow: 0 6px 12px -8px rgba(0,0,0,.25); }
+    .label text { font-size: 19px; }
+    .side-label { font-size: 16px; }
+    .diagram figcaption { font-size: 13px; }
+    .tab { font-size: 14px; padding: 9px 10px; }
+  }
+
+  @media print {
+    body { background: #fff; color: #000; }
+    .checks li, .table-wrap, .pitfalls li { break-inside: avoid; }
+    .panel[hidden] { display: block; }
+    .tabs { display: none; }
+    .table-wrap { max-height: none; overflow: visible; }
+  }
+  /* "check" markers: things not confirmed from a source */
+  .unsure { display: inline-block; font-size: 11px; font-weight: 700; letter-spacing: .04em; text-transform: uppercase; line-height: 1.5;
+            color: #8a520c; background: #fbf1de; border: 1px dashed #d9a34a; border-radius: 999px; padding: 0 6px; margin-left: 4px;
+            vertical-align: 1px; white-space: nowrap; cursor: help; }
+  .to-check ul { padding-left: 20px; }
+  .to-check li { margin: 4px 0; }
+  .to-check li strong { margin-right: 4px; }
+  .checks-order { color: var(--muted); font-size: 14px; margin: -4px 0 16px; }
+  :root { --bird-leg: #8f8a80;
+          --c-black: #232323; --c-sand: #dccaa6; --c-pipe: #d8cfb9; --c-mud: #7a6249; --c-brownband: #7a6249; --c-sandband: #cdb791;
+          --c-paleear: #c9b08a; --c-white: #fbfbf9; --c-orange: #ec8a2c; --c-darkleg: #4d4f52; --c-dullleg: #c2ae62; --c-surface: #ffffff; }
+  .part[data-part="back"], .part[data-part="wing"], .part[data-part="crown"], .part[data-part="fback"], .part[data-part="fwing"], .part[data-part="frump"] { fill: #c9bba0; }
+  .part[data-part="crown"], .part[data-part="ear"] { stroke: none; }
+  .part[data-part="primaries"] { fill: #4a443e; }
+  .part[data-part="tail"] { fill: #8a7c68; }
+  .part[data-part="belly"], .part[data-part="head"], .part[data-part="collar"], .part[data-part="ftail"], .part[data-part="fhead"] { fill: var(--c-white); }
+  .part[data-part="collar"] { stroke: none; }
+  .part[data-part="ear"] { fill: var(--c-white); }
+  .part[data-part="bill"], .part[data-part="fbill"] { fill: #6b655d; }
+  .part[data-part="legs"] { fill: none !important; stroke: var(--bird-leg); stroke-width: 3.4; stroke-linecap: round; stroke-linejoin: round; }
+  .part[data-part="band"] { fill: none !important; stroke: #c9c3b8; stroke-width: 12; stroke-linecap: butt; }
+
+  svg.focus .part[data-part="legs"].on, svg.focus .part[data-part="band"].on { stroke: var(--hi-line); }
+  svg [data-look] { display: none; }
+</style>
+</head>
+<body>
+<main>
+  <header>
+    <p class="kicker"><a class="home" href="index.html">← Home</a> · Tricky birds · Iowa</p>
+    <h1>Snowy, Piping and Semipalmated Plovers</h1>
+    <p class="lede">Snowy Plover is a western beach and salt-flat plover with 19 accepted Iowa records, most of them from late April through May. It’s small, pale and easy to pass off as a Piping Plover, or as a Semipalmated at a distance. Legs and bill sort most birds in seconds; the breast band and face back them up. Try the <a href="snowy-plover-picker.html">Snowy Plover Picker</a> to work through a bird in the field.</p>
+  </header>
+
+  <section>
+    <h2>Who to expect</h2>
+    <ul class="cast">
+      <li><strong>Semipalmated Plover</strong><span class="chip chip-common">Common migrant</span><small>Early April to late November, mostly May and August–September. Often in groups at the waterline.</small></li>
+      <li><strong>Piping Plover</strong><span class="chip chip-uncommon">Rare migrant</span><small>Endangered in Iowa. Migrants from early April to early October; a few nest along the Missouri River.</small></li>
+      <li><strong>Snowy Plover</strong><span class="chip chip-acc">Accidental</span><small>19 accepted records, 1988–2022: most 24 Apr–30 May; also 14 Jun 1997, 27 Jun–9 Jul 2020, 22 Aug 2005 and 3 Sep 2008.</small></li>
+    </ul>
+  </section>
+
+  <section class="decoder">
+    <h2>The marks</h2>
+    <p>Tap a check to see where to look.</p>
+    <div class="how">
+    <figure class="diagram" data-svg>
+        <figcaption>Schematic only. Left: standing, side view. Right: flying, from above.</figcaption>
+      </figure>
+    <ol class="checks">
+        <li><button type="button" class="check" data-parts="legs" aria-pressed="false"><strong>Legs</strong>Snowy’s legs are dark gray to blackish, sometimes with a pinkish tint. Piping’s are bright orange in every season. Semipalmated’s are yellow-orange, but young and winter birds can look dull or two-toned.</button></li>
+        <li><button type="button" class="check" data-parts="bill" aria-pressed="false"><strong>Bill</strong>Snowy’s bill is thin, a little longer and all black at every age. Piping and Semipalmated have short, stubby bills, orange with a black tip in spring. Juvenile Pipings have all-black bills until their first spring, so judge the shape as well as the color.</button></li>
+        <li><button type="button" class="check" data-parts="band" aria-pressed="false"><strong>Breast band</strong>Snowy shows only small dark patches at the sides of the breast, which rarely meet. Semipalmated has a complete band in every plumage, black in spring and brown in fall. Piping’s band is the wild card: spring birds can be complete or broken, and fall birds show only pale side patches.</button></li>
+        <li><button type="button" class="check" data-parts="back crown wing fback fwing" aria-pressed="false"><strong>Back color</strong>Snowy and Piping are pale, like dry sand. Semipalmated is dark brown, like wet mud; that contrast is the easiest Piping vs Semipalmated split.</button></li>
+        <li><button type="button" class="check" data-parts="head ear" aria-pressed="false"><strong>Face</strong>Spring Snowy has a black ear patch behind the eye and a black forehead bar, with a pale face in front of the eye. Piping has only a forehead bar and a plain face with an orange eye-ring. Semipalmated has a full mask running from the bill through the eye. In fall, Snowy’s cheek stays darker than Piping’s.</button></li>
+        <li><button type="button" class="check" data-parts="ftail frump" aria-pressed="false"><strong>Rump and tail in flight</strong>Piping flashes a white rump and tail base<span class="unsure" title="The rump detail comes from an All About Birds comparison seen only in search results; Bird Observer describes a white tail base.">check</span>, with a broad white wing stripe. Snowy and Semipalmated have dark-centered tails with pale edges; Semipalmated adds a broad black band at the tip.</button></li>
+      </ol>
+    <p class="checks-order">Checks run from most to least useful.</p>
+    </div>
+    <p class="scroll-hint">Swipe the table sideways for more →</p>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th scope="col">Species</th><th scope="col">Legs</th><th scope="col">Bill</th><th scope="col">Breast band</th><th scope="col">Back</th><th scope="col">Call</th><th scope="col">Clincher</th></tr></thead>
+        <tbody>
+          <tr><th scope="row">Snowy</th><td>Dark gray</td><td>Thin, all black</td><td>Side patches only</td><td>Pale sand</td><td>Low <em>chu-we</em>, <em>tu-wheet</em></td><td class="clincher">Dark legs plus thin black bill</td></tr>
+          <tr><th scope="row">Piping</th><td>Bright orange</td><td>Stubby; orange and black in spring</td><td>Complete, broken or side patches</td><td>Pale sand</td><td>Clear whistled <em>peep-lo</em></td><td class="clincher">Orange legs on a pale bird</td></tr>
+          <tr><th scope="row">Semipalmated</th><td>Yellow-orange; dull in fall</td><td>Stubby; orange and black</td><td>Always complete</td><td>Dark brown</td><td>Rising <em>chew-ee</em></td><td class="clincher">Dark back plus full band</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section>
+    <h2>Behavior and pitfalls</h2>
+    <ul class="pitfalls">
+      <li><strong>Where.</strong>Semipalmateds feed at the waterline in groups with other shorebirds. Pipings are usually alone or in small groups. Snowy likes dry sand and alkaline flats; Iowa birds have turned up on reservoir beaches and drawn-down marshes.</li>
+      <li><strong>Juvenile Piping.</strong>Its all-black bill looks like Snowy’s, but the bill is stubby and the legs are orange.</li>
+      <li><strong>Faded or fall Piping.</strong>It shows only side patches and a mostly dark bill, much like Snowy. Check the legs, the bill shape and Snowy’s darker cheek.</li>
+      <li><strong>Young Semipalmated.</strong>Dull legs and little orange in the bill. The dark back and complete band still give it away.</li>
+      <li><strong>Great Plains Pipings.</strong>Iowa’s Pipings are mostly the darker interior subspecies, with thicker bands that are often complete. Don’t call one a Semipalmated on the band alone.</li>
+      <li><strong>Wilson’s Plover.</strong>Bigger, with a long, heavy black bill and pinkish legs. There’s no Iowa record, but it’s the other “black-billed plover.”</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>Iowa timing</h2>
+    <p>Extremes from the IOU early and late dates; peak windows<span class="unsure" title="Peak windows aren’t from an Iowa source.">check</span> are general:</p>
+    <ul>
+      <li><strong>Semipalmated:</strong> spring from 1 Apr; fall until 28 Nov. Mostly May and August–September.</li>
+      <li><strong>Piping:</strong> spring from 8 Apr; fall until 4 Oct.</li>
+      <li><strong>Snowy:</strong> 15 of 19 records from 24 Apr to 30 May; others 14 Jun, 27 Jun–9 Jul, 22 Aug and 3 Sep.</li>
+    </ul>
+  </section>
+
+  <section class="to-check" id="to-check">
+    <h2>To check</h2>
+    <p>Anything tagged <span class="unsure" title="Example">check</span> couldn’t be confirmed from a source I could open.</p>
+    <ul>
+      <li><strong>Piping’s white rump.</strong>From an All About Birds comparison seen only in search results. Bird Observer, which I could read, describes a white tail base.</li>
+      <li><strong>Semipalmated leg color.</strong>Bird Observer’s Piping guide calls Semipalmated legs usually darker or reddish brown; its Semipalmated guide and Audubon say yellow-orange, dull in winter. The picker follows the second view.</li>
+      <li><strong>Peak timing.</strong>Iowa peaks aren’t from an Iowa source.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>Sources</h2>
+    <ul class="sources">
+      <li>Iowa Ornithologists’ Union: <a href="https://iowabirdrecords.org/Reports/Records.aspx?id=576">Snowy Plover records</a>, <a href="https://iowabirdrecords.org/ReviewList.aspx">review list</a>, <a href="https://iowabirds.org/Birds/Docs/Early_Late.pdf">early and late dates</a></li>
+      <li>Bird Observer: <a href="https://www.birdobserver.org/Better-Birding/New-England-Shorebird-Guide/Piping-Plover-photographic-identification-guide">Piping Plover</a> and <a href="https://www.birdobserver.org/Better-Birding/New-England-Shorebird-Guide/Semipalmated-Plover-photographic-identification-guide">Semipalmated Plover</a> photographic guides</li>
+      <li>Audubon: <a href="https://www.audubon.org/field-guide/bird/snowy-plover">Snowy</a>, <a href="https://www.audubon.org/field-guide/bird/piping-plover">Piping</a>, <a href="https://www.audubon.org/field-guide/bird/semipalmated-plover">Semipalmated</a>; <a href="https://www.birdweb.org/birdweb/bird/snowy_plover">BirdWeb</a>; <a href="https://ternandplover.unl.edu/piping-plover/similar-species">Tern and Plover Conservation Partnership</a>; <a href="https://maineaudubon.org/news/commonly-misidentified-species-plovers/">Maine Audubon</a></li>
+    </ul>
+  </section>
+
+  <footer><a href="index.html">← All bird pages</a> · <a href="snowy-plover-picker.html">Snowy Plover Picker</a> · Kevin Ripka · Nov 28, 2026</footer>
+</main>
+
+<template id="bird-svg">
+  <svg viewBox="30 50 572 270" role="img" aria-label="Diagram: tap a part">
+    <defs>
+      <clipPath id="sp-body"><ellipse cx="232" cy="196" rx="90" ry="50"/></clipPath>
+      <clipPath id="sp-head"><circle cx="146" cy="132" r="30"/></clipPath>
+    </defs>
+
+    <!-- STANDING, side view facing left (the main view) -->
+    <path d="M60,300 L400,300" style="stroke:var(--muted);stroke-width:5;stroke-linecap:round;fill:none;opacity:.45"/>
+    <path class="part" data-part="legs" d="M222,240 L217,270 L221,296 M209,298 L221,296 L233,298 M244,240 L251,270 L247,296 M235,298 L247,296 L259,298"/>
+    <path class="part" data-part="tail" d="M318,180 L356,186 L354,198 L318,204 Z"/>
+    <ellipse class="part" data-part="belly" cx="232" cy="196" rx="90" ry="50"/>
+    <g clip-path="url(#sp-body)">
+      <ellipse class="part" data-part="back" cx="272" cy="160" rx="104" ry="36"/>
+    </g>
+    <path class="part" data-part="wing" d="M190,178 C236,160 296,164 340,186 C300,204 240,206 198,196 Z"/>
+    <path class="part" data-part="primaries" d="M300,184 L364,192 L306,200 Z"/>
+    <ellipse class="part" data-part="collar" cx="190" cy="164" rx="15" ry="13"/>
+    <path class="part" data-part="band" d="M206,174 C190,186 166,190 143,186"/>
+    <path data-look="patch" d="M206,174 C201,178 196,181 190,183" style="fill:none;stroke:var(--c-black);stroke-width:12;stroke-linecap:butt"/>
+    <path data-look="patchwide" d="M206,174 C196,183 182,188 168,189" style="fill:none;stroke:var(--c-black);stroke-width:14;stroke-linecap:butt"/>
+
+    <!-- head -->
+    <g transform="translate(16,14)">
+    <circle class="part" data-part="head" cx="146" cy="132" r="30"/>
+    <g clip-path="url(#sp-head)">
+      <path class="part" data-part="crown" d="M114,117 C118,92 176,88 180,142 C170,128 150,118 114,117 Z"/>
+      <ellipse class="part" data-part="ear" cx="161" cy="130" rx="9" ry="6.5"/>
+      <path data-look="mask" d="M110,122 L146,120 C158,122 166,128 166,138 C152,141 128,137 110,133 Z" style="fill:var(--c-black)"/>
+      <path data-look="forehead" d="M120,110 Q136,100 156,102" style="fill:none;stroke:var(--c-black);stroke-width:6;stroke-linecap:round"/>
+    </g>
+    <path class="part" data-part="bill" d="M117,124 C108,125 100,127 92,130 C100,132 108,134 117,135 Z"/>
+    <path data-look="billbase" class="no-stroke" d="M117,124 L106,125.8 L106,133.4 L117,135 Z" style="fill:var(--c-orange)"/>
+    <path data-look="billtip" class="no-stroke" d="M102,127.2 C98,128.3 95,129 92,130 C95,131 98,131.8 102,132.8 Z" style="fill:var(--c-black)"/>
+    <circle data-look="eyering" cx="134" cy="124" r="6.2" style="fill:none;stroke:var(--c-orange);stroke-width:2.2"/>
+    <circle class="eye" cx="134" cy="124" r="4"/>
+    </g>
+    <text class="side-label" x="60" y="316" text-anchor="start">standing</text>
+
+    <!-- FLYING, seen from above (inset) -->
+    <path class="part" data-part="fwing" d="M497,92 C483,86 462,88 442,100 L424,114 C446,110 472,114 497,118 Z"/>
+    <path class="part" data-part="fwing" d="M513,92 C527,86 548,88 568,100 L586,114 C564,110 538,114 513,118 Z"/>
+    <path data-look="stripe" d="M496,106 C478,103 458,104 438,109 M514,106 C532,103 552,104 572,109" style="fill:none;stroke:var(--c-white);stroke-width:2.6;stroke-linecap:round"/>
+    <path data-look="stripe-narrow" d="M496,106 C480,104 464,104 450,107 M514,106 C530,104 546,104 560,107" style="fill:none;stroke:var(--c-white);stroke-width:1.4;stroke-linecap:round"/>
+    <path class="part" data-part="ftail" d="M494,140 L516,140 L518,162 L505,166 L492,162 Z"/>
+    <ellipse class="part" data-part="fback" cx="505" cy="108" rx="11" ry="30"/>
+    <path class="part" data-part="frump" d="M495.4,124 C500,127 510,127 514.6,124 L515,142 L495,142 Z"/>
+    <path data-look="tailcenter" d="M505,124 L505,163" style="fill:none;stroke:#5c5348;stroke-width:8"/>
+    <path data-look="tailband" d="M495,157 L515,157" style="fill:none;stroke:var(--c-black);stroke-width:6"/>
+    <path data-look="tailtip" d="M497,159 L513,159" style="fill:none;stroke:#5c5348;stroke-width:5"/>
+    <path class="part" data-part="fbill" d="M503.6,64 L505,54 L506.4,64 Z"/>
+    <circle class="part" data-part="fhead" cx="505" cy="72" r="9.5"/>
+    <path data-look="fcrown" d="M496.5,70 A9.5,9.5 0 0 1 513.5,70 Z" style="fill:var(--c-sand)"/>
+    <text class="side-label" x="505" y="190" text-anchor="middle">flying, from above</text>
+
+    <!-- labels -->
+    <g class="label" data-part="bill"><line x1="80" y1="170" x2="110" y2="148"/><text x="76" y="186" text-anchor="middle">Bill</text></g>
+    <g class="label" data-part="head"><line x1="136" y1="86" x2="164" y2="120"/><text x="128" y="80" text-anchor="middle">Face</text></g>
+    <g class="label" data-part="back"><line x1="268" y1="118" x2="262" y2="150"/><text x="268" y="112" text-anchor="middle">Back</text></g>
+    <g class="label" data-part="band"><line x1="110" y1="236" x2="156" y2="194"/><text x="104" y="252" text-anchor="middle">Breast band</text></g>
+    <g class="label" data-part="legs"><line x1="182" y1="276" x2="216" y2="266"/><text x="178" y="282" text-anchor="end">Legs</text></g>
+    <g class="label" data-part="ftail"><line x1="556" y1="156" x2="518" y2="150"/><text x="560" y="152" text-anchor="start">Tail</text></g>
+  </svg>
+</template>
+
+<script>
+  (function () {
+    var tpl = document.getElementById('bird-svg');
+
+    // Put a diagram in each figure and wire up that section's checks
+    document.querySelectorAll('.decoder').forEach(function (section) {
+      var fig = section.querySelector('figure[data-svg]');
+      var svg = tpl.content.firstElementChild.cloneNode(true);
+      fig.insertBefore(svg, fig.firstChild);
+      var caption = fig.querySelector('figcaption');
+      var defaultCaption = caption.textContent;
+      var buttons = section.querySelectorAll('.check');
+
+      function show(btn) {
+        var parts = btn ? btn.dataset.parts.split(' ') : [];
+        buttons.forEach(function (b) { b.setAttribute('aria-pressed', b === btn ? 'true' : 'false'); });
+        svg.classList.toggle('focus', !!btn);
+        svg.querySelectorAll('[data-part]').forEach(function (el) {
+          el.classList.toggle('on', parts.indexOf(el.dataset.part) !== -1);
+        });
+        caption.textContent = btn
+          ? 'Check: ' + btn.querySelector('strong').textContent + '. Tap it again to show all parts.'
+          : defaultCaption;
+      }
+
+      buttons.forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          show(btn.getAttribute('aria-pressed') === 'true' ? null : btn);
+        });
+      });
+    });
+
+  })();
+</script>
+</body>
+</html>

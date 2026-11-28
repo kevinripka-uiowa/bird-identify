@@ -148,9 +148,11 @@
       var t = document.querySelector(cfg.svgTemplate || '#bird-svg').content.firstElementChild.cloneNode(true);
       t.querySelectorAll('.label, text').forEach(function (e) { e.remove(); });
       // Fade everything but this question's own parts (if it has any)
+      // cfg.thumbKeep (optional) maps a group id or question to parts that stay undimmed, e.g. the head around an eye-ring
       var parts = [].slice.call(t.querySelectorAll('[data-part]'));
+      var keep = (cfg.thumbKeep && (cfg.thumbKeep[g.id] || cfg.thumbKeep[q])) || [];
       if (parts.some(function (p) { return qOfPart(p.dataset.part) === q; }))
-        parts.forEach(function (p) { if (qOfPart(p.dataset.part) !== q) p.classList.add('dim'); });
+        parts.forEach(function (p) { if (qOfPart(p.dataset.part) !== q && keep.indexOf(p.dataset.part) === -1) p.classList.add('dim'); });
       if (stageObj().look) applyLook(stageObj().look, null, t);
       if (o.look) applyLook(o.look, null, t);
       t.setAttribute('viewBox', box);

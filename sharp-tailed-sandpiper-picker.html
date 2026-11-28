@@ -1,0 +1,294 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light">
+<title>Sharp-tailed Sandpiper Picker</title>
+<meta name="description" content="Tap parts of a Pectoral-like sandpiper, pick what you see, and check it for Sharp-tailed Sandpiper.">
+<link rel="stylesheet" href="picker.css?v=5">
+<style>
+  :root { --bird-leg: #b4ad3f;
+          --c-black: #26282a; --c-dark: #3b3631; --c-brown: #8a6a4c; --c-rufous: #b85e2e; --c-dullrufous: #a07254; --c-buffwash: #ecdcc0;
+          --c-graywash: #dedbd3; --c-lgray: #d4d6d5; --c-pale: #e9e1cf; --c-white: #fbfbf9; --c-streak: #5b4a3c; --c-billbase: #b98a4e; --c-surface: #ffffff; }
+  .part[data-part="scapulars"], .part[data-part="fback"] { fill: #6b5442; }
+  .part[data-part="wing"], .part[data-part="fwing"] { fill: #8a7563; }
+  .part[data-part="tertials"] { fill: #5e4a3b; }
+  .part[data-part="primaries"], .part[data-part="tail"], .part[data-part="ftail"] { fill: #3e352e; }
+  .part[data-part="belly"], .part[data-part="undertail"], .part[data-part="frump"] { fill: var(--c-white); }
+  .part[data-part="breast"] { fill: var(--c-buffwash); stroke: none; }
+  .part[data-part="head"], .part[data-part="fhead"] { fill: #a08b74; }
+  .part[data-part="cap"] { fill: #7f6650; stroke: none; }
+  .part[data-part="ear"] { fill: #a08b74; stroke: none; }
+  .part[data-part="bill"], .part[data-part="fbill"] { fill: #2e2a26; }
+  .part[data-part="legs"] { fill: none; stroke: var(--bird-leg); stroke-width: 3; stroke-linecap: round; stroke-linejoin: round; }
+  .part[data-part="supercilium"] { fill: none; stroke: var(--c-pale); stroke-width: 4; stroke-linecap: round; }
+  svg .part[data-part="legs"].answered, svg .part[data-part="supercilium"].answered { fill: none; stroke: var(--hi-line); }
+  .eye { fill: var(--bird-line); pointer-events: none; }
+  .side-label { fill: var(--muted); font-size: 13px; font-style: italic; }
+  @media (max-width: 820px) { .side-label { font-size: 16px; } .label text { font-size: 17px; } }
+</style>
+</head>
+<body>
+<main>
+  <p class="kicker"><a class="home" href="index.html">← Home</a> · Tricky birds · Iowa</p>
+  <h1>Sharp-tailed Sandpiper Picker</h1>
+  <p class="lede">A rare Sharp-tailed, or a Pectoral? Pick the bird’s age, then tap any part and choose what you see. Start with the breast: where the streaks stop and how the color fades. Then check the cap and eyebrow. Answers tagged <span class="unsure">check</span> aren’t confirmed yet. For the full write-up, see the <a href="sharp-tailed-sandpiper.html">Sharp-tailed and Pectoral reference page</a>.</p>
+
+  <div class="layout">
+    <div class="stack">
+      <section class="card">
+        <div class="card-head"><h2>1 · Age</h2><button type="button" class="clear">↺ Start over</button></div>
+        <div class="seg" id="stages" role="group" aria-label="Age"></div>
+        <p class="stage-hint" id="stage-hint"></p>
+      </section>
+
+      <section class="card">
+        <h2>2 · Tap a part</h2>
+        <div id="diagram"></div>
+        <div class="parts" id="partchips" role="group" aria-label="Parts"></div>
+      </section>
+
+      <section class="card q" id="question" aria-live="polite"></section>
+
+      <section class="card">
+        <h2>Your picks</h2>
+        <div class="picks" id="picks"></div>
+      </section>
+    </div>
+
+    <section class="card results" id="results-card">
+      <div class="results-head">
+        <h2 id="results">Could be</h2>
+        <span class="count" id="count"></span>
+        <button type="button" class="clear">↺ Start over</button>
+      </div>
+      <ul class="res" id="res"></ul>
+    </section>
+  </div>
+
+  <footer><a href="index.html">← All bird pages</a> · Answers come from the <a href="sharp-tailed-sandpiper.html">Sharp-tailed and Pectoral reference page</a> and its sources. Things tagged <span class="unsure">check</span> aren’t confirmed; the full list is in the reference page’s <a href="sharp-tailed-sandpiper.html#to-check">To check</a> section.</footer>
+</main>
+
+<div class="bar" id="bar"><span id="bar-text"></span><button type="button" class="clear">↺</button><a href="#results">See results ↓</a></div>
+
+<template id="bird-svg">
+  <svg viewBox="24 36 578 286" role="img" aria-label="Diagram: tap a part">
+    <defs>
+      <clipPath id="st-body"><ellipse cx="225" cy="170" rx="95" ry="44"/></clipPath>
+      <clipPath id="st-head"><circle cx="128" cy="112" r="28"/></clipPath>
+      <linearGradient id="st-blend" x1="0" y1="0" x2="0.35" y2="1"><stop offset="0" stop-color="#e9c48f"/><stop offset=".55" stop-color="#f1dcbc"/><stop offset="1" stop-color="#fbfbf9"/></linearGradient>
+    </defs>
+
+    <!-- STANDING, side view facing left (the main view) -->
+    <path d="M40,300 L420,300" style="stroke:var(--muted);stroke-width:5;stroke-linecap:round;fill:none;opacity:.45"/>
+    <path class="part" data-part="legs" d="M212,206 L205,252 L209,296 M195,298 L209,296 L223,298 M234,206 L242,252 L238,296 M224,298 L238,296 L252,298"/>
+    <path class="part" data-part="tail" d="M326,150 L372,156 L370,170 L326,174 Z"/>
+    <path class="part" data-part="primaries" d="M296,152 L368,162 L300,166 Z"/>
+    <ellipse class="part" data-part="belly" cx="225" cy="170" rx="95" ry="44"/>
+    <g clip-path="url(#st-body)">
+      <ellipse class="part" data-part="breast" cx="158" cy="176" rx="50" ry="44"/>
+      <ellipse class="part" data-part="scapulars" cx="238" cy="124" rx="110" ry="30"/>
+    </g>
+    <path class="part" data-part="breast" d="M108,126 C110,154 124,174 150,184 L172,138 C150,130 132,126 122,116 Z"/>
+    <path data-look="pec-streaks" d="M114,130 v6 M122,126 v6 M130,130 v6 M140,128 v6 M150,132 v6 M160,134 v6 M170,138 v6 M118,142 v6 M126,140 v6 M136,142 v6 M146,144 v6 M156,146 v6 M166,148 v6 M178,148 v6 M188,152 v6 M124,154 v6 M134,156 v6 M144,158 v6 M154,160 v6 M164,162 v6 M174,162 v6 M186,164 v6 M196,164 v6 M140,172 v5 M150,174 v5 M162,176 v5 M174,176 v5 M186,176 v5 M200,174 v5" style="fill:none;stroke:var(--c-streak);stroke-width:2.2;stroke-linecap:round"/>
+    <path data-look="st-necklace" d="M114,128 v4 M122,124 v4 M130,128 v4 M140,128 v4 M150,132 v4 M116,138 v3 M160,136 v4 M170,140 v4 M180,146 v4 M190,150 v4" style="fill:none;stroke:var(--c-streak);stroke-width:1.6;stroke-linecap:round"/>
+    <path data-look="breast-chev" d="M124,142 l4,5 l4,-5 M138,138 l4,5 l4,-5 M152,140 l4,5 l4,-5 M166,144 l4,5 l4,-5 M130,154 l4,5 l4,-5 M144,154 l4,5 l4,-5 M158,156 l4,5 l4,-5 M172,158 l4,5 l4,-5 M138,168 l4,5 l4,-5 M152,170 l4,5 l4,-5 M166,172 l4,5 l4,-5 M184,170 l4,5 l4,-5" style="fill:none;stroke:var(--c-black);stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round"/>
+    <path data-look="flank-chev" d="M200,184 l4,5 l4,-5 M218,188 l4,5 l4,-5 M236,190 l4,5 l4,-5 M254,190 l4,5 l4,-5 M272,188 l4,5 l4,-5 M290,184 l4,5 l4,-5 M306,180 l4,5 l4,-5" style="fill:none;stroke:var(--c-black);stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round"/>
+    <path data-look="side-streaks" d="M114,130 v4 M122,126 v4 M176,144 v4 M186,148 v4 M196,152 v4" style="fill:none;stroke:var(--c-streak);stroke-width:1.6;stroke-linecap:round"/>
+    <path data-look="scap-rufous" d="M186,138 q6,-8 12,0 M204,135 q6,-8 12,0 M222,134 q6,-8 12,0 M240,135 q6,-8 12,0 M258,137 q6,-8 12,0 M276,140 q6,-8 12,0 M195,145 q6,-8 12,0 M213,143 q6,-8 12,0 M231,143 q6,-8 12,0 M249,144 q6,-8 12,0" style="fill:none;stroke:var(--c-rufous);stroke-width:2.2;stroke-linecap:round"/>
+    <path data-look="scap-gray" d="M186,138 q6,-8 12,0 M204,135 q6,-8 12,0 M222,134 q6,-8 12,0 M240,135 q6,-8 12,0 M258,137 q6,-8 12,0 M276,140 q6,-8 12,0 M195,145 q6,-8 12,0 M213,143 q6,-8 12,0 M231,143 q6,-8 12,0" style="fill:none;stroke:var(--c-lgray);stroke-width:2.2;stroke-linecap:round"/>
+    <path data-look="braces" d="M168,134 C190,128 214,126 236,126 M176,141 C196,136 218,134 240,134" style="fill:none;stroke:var(--c-white);stroke-width:2.4;stroke-linecap:round"/>
+    <path class="part" data-part="wing" d="M182,146 C228,136 290,140 338,156 C298,172 236,176 194,168 Z"/>
+    <path data-look="cov-fringe" d="M200,152 q5,5 10,0 M214,152 q5,5 10,0 M228,153 q5,5 10,0 M242,154 q5,5 10,0 M206,161 q5,5 10,0 M220,162 q5,5 10,0 M234,163 q5,5 10,0 M248,163 q5,5 10,0" style="fill:none;stroke:var(--c-buffwash);stroke-width:1.8;stroke-linecap:round"/>
+    <path class="part" data-part="tertials" d="M258,144 C290,142 328,150 350,160 C324,168 288,168 262,160 Z"/>
+    <path data-look="tert-edge" d="M258,144 C290,142 328,150 350,160 C324,168 288,168 262,160 Z" style="fill:none;stroke:var(--c-rufous);stroke-width:2.2"/>
+    <path class="part" data-part="undertail" d="M300,190 C312,186 324,180 334,174 L338,184 C326,192 312,198 298,200 Z"/>
+    <path data-look="utc-chev" d="M306,190 l3,4 l3,-4 M318,185 l3,4 l3,-4 M326,180 l3,4 l3,-4" style="fill:none;stroke:var(--c-black);stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round"/>
+
+    <!-- head -->
+    <path class="part" data-part="bill" d="M103,106 C86,108 70,111 54,117 L54,119 C70,116 86,115 104,116 Z"/>
+    <path data-look="billbase" class="no-stroke" d="M104,111 L90,113.6 L90,116.2 L104,116 Z" style="fill:var(--c-billbase)"/>
+    <circle class="part" data-part="head" cx="128" cy="112" r="28"/>
+    <g clip-path="url(#st-head)">
+      <path class="part" data-part="cap" d="M100,98 C106,78 150,78 160,100 C142,90 118,90 100,98 Z"/>
+      <path data-look="capstreaks" d="M112,90 l3,-5 M122,87 l3,-5 M132,86 l3,-5 M142,88 l3,-5 M150,92 l3,-5" style="fill:none;stroke:var(--c-black);stroke-width:2;stroke-linecap:round"/>
+      <ellipse class="part" data-part="ear" cx="128" cy="116" rx="11" ry="7"/>
+    </g>
+    <path class="part" data-part="supercilium" d="M101,101 Q118,93 145,98"/>
+    <path data-look="browflare" d="M124,96 Q140,95 154,103" style="fill:none;stroke:var(--c-white);stroke-width:5.4;stroke-linecap:round"/>
+    <circle data-look="eyering" cx="116" cy="106" r="5.6" style="fill:none;stroke:var(--c-white);stroke-width:1.8"/>
+    <circle class="eye" cx="116" cy="106" r="3.8"/>
+    <text class="side-label" x="40" y="316" text-anchor="start">standing</text>
+
+    <!-- FLYING, seen from above (inset) -->
+    <path class="part" data-part="ftail" d="M496,132 L514,132 L512,152 L505,155 L498,152 Z"/>
+    <path class="part" data-part="fwing" d="M497,82 C483,76 462,78 442,90 L424,104 C446,100 472,104 497,108 Z"/>
+    <path class="part" data-part="fwing" d="M513,82 C527,76 548,78 568,90 L586,104 C564,100 538,104 513,108 Z"/>
+    <path d="M496,96 C478,93 458,94 438,99 M514,96 C532,93 552,94 572,99" style="fill:none;stroke:var(--c-white);stroke-width:1.6;stroke-linecap:round;pointer-events:none"/>
+    <ellipse class="part" data-part="fback" cx="505" cy="98" rx="11" ry="32"/>
+    <path class="part" data-part="frump" d="M495.4,116 C500,119 510,119 514.6,116 L514,134 L496,134 Z"/>
+    <path d="M505,116 L505,152" style="fill:none;stroke:var(--c-dark);stroke-width:6;pointer-events:none"/>
+    <path data-look="rumpstreaks" d="M498,122 l2,2 M498,128 l2,2 M510,122 l2,2 M510,128 l2,2" style="fill:none;stroke:var(--c-dark);stroke-width:2;stroke-linecap:round"/>
+    <path class="part" data-part="fbill" d="M503.6,52 L505,36 L506.4,52 Z"/>
+    <circle class="part" data-part="fhead" cx="505" cy="60" r="9.5"/>
+    <text class="side-label" x="505" y="176" text-anchor="middle">flying, from above</text>
+
+    <!-- labels -->
+    <g class="label" data-q="bill"><line x1="58" y1="146" x2="68" y2="120"/><text x="54" y="162" text-anchor="middle">Bill</text></g>
+    <g class="label" data-q="cap"><line x1="150" y1="56" x2="136" y2="86"/><text x="150" y="50" text-anchor="middle">Cap</text></g>
+    <g class="label" data-q="face"><line x1="80" y1="70" x2="112" y2="100"/><text x="72" y="64" text-anchor="middle">Eyebrow</text></g>
+    <g class="label" data-q="back"><line x1="238" y1="96" x2="234" y2="128"/><text x="238" y="90" text-anchor="middle">Back</text></g>
+    <g class="label" data-q="breast"><line x1="86" y1="196" x2="132" y2="168"/><text x="80" y="212" text-anchor="middle">Breast</text></g>
+    <g class="label" data-q="flanks"><line x1="290" y1="236" x2="262" y2="196"/><text x="294" y="252" text-anchor="start">Flanks &amp; undertail</text></g>
+    <g class="label" data-q="legs"><line x1="168" y1="276" x2="204" y2="262"/><text x="164" y="282" text-anchor="end">Legs</text></g>
+    <g class="label" data-q="rump"><line x1="552" y1="146" x2="516" y2="128"/><text x="556" y="152" text-anchor="start">Rump</text></g>
+  </svg>
+</template>
+
+
+<script src="picker.js?v=6"></script>
+<script>
+(function () {
+  function C(n) { return 'var(--c-' + n + ')'; }
+  function mix() { var o = {}; for (var i = 0; i < arguments.length; i++) for (var k in arguments[i]) o[k] = arguments[i][k]; return o; }
+  function grow(s, origin) { return { transform: 'scale(' + s + ')', transformOrigin: origin }; }
+  var KAUF = 'From Kaufman (1987, American Birds), seen only in search results.';
+
+  var SPECIES = [
+    { id: 'st', name: 'Sharp-tailed Sandpiper', rare: 'Accidental: 5 Iowa records' },
+    { id: 'pe', name: 'Pectoral Sandpiper' }
+  ];
+  var PART_TO_Q = { bill: 'bill', head: 'face', supercilium: 'face', ear: 'face', cap: 'cap', breast: 'breast', belly: 'breast',
+                    scapulars: 'back', wing: 'back', tertials: 'back', primaries: 'back', undertail: 'flanks', tail: 'flanks',
+                    legs: 'legs', frump: 'rump', ftail: 'rump', fback: 'rump', fwing: 'rump', fhead: 'rump', fbill: 'rump' };
+  var Q_NAMES = { breast: 'Breast', cap: 'Cap', face: 'Eyebrow & eye-ring', bill: 'Bill', back: 'Back', flanks: 'Flanks & undertail',
+                  legs: 'Legs', rump: 'Rump in flight', call: 'Call', date: 'Date' };
+  var Q_ORDER = ['breast', 'cap', 'face', 'back', 'bill', 'flanks', 'call', 'rump', 'legs', 'date'];
+
+  var PEC_BIB = { label: 'Heavy streaks over the whole breast, ending in a sharp line at the white belly', fits: 'pe',
+                  look: { breast: C('buffwash'), 'pec-streaks': true } };
+  var BREAST = {
+    juv: [{ id: 'breast', title: 'Breast', help: 'The key mark. Bright Pectorals exist, so judge the streaks and the edge, not the color.', options: [
+      { label: 'Bright orange-buff wash fading into the belly; fine streaks only at the top and sides', fits: 'st', look: { breast: 'url(#st-blend)', 'st-necklace': true } },
+      PEC_BIB
+    ]}],
+    breed: [{ id: 'breast', title: 'Breast', options: [
+      { label: 'Spots turning into chevrons down the lower breast and flanks; no sharp edge', fits: 'st', look: { breast: 'url(#st-blend)', 'breast-chev': true, 'flank-chev': true } },
+      { label: 'Dark streaks ending in a sharp, V-shaped line at the white belly', fits: 'pe', look: { breast: C('buffwash'), 'pec-streaks': true } }
+    ]}],
+    fallad: [{ id: 'breast', title: 'Breast', options: [
+      { label: 'Grayish wash; streaks mostly at the sides; no sharp edge', fits: 'st', look: { breast: C('graywash'), 'side-streaks': true } },
+      PEC_BIB
+    ]}]
+  };
+  var CAP = {
+    juv: [{ id: 'cap', title: 'Cap', options: [
+      { label: 'Bright rufous, contrasting with the face', fits: 'st', look: { cap: C('rufous') } },
+      { label: 'Brown, finely streaked; less contrast', fits: 'pe', look: { cap: C('brown'), capstreaks: true } }
+    ]}],
+    breed: [{ id: 'cap', title: 'Cap', help: 'Breeding Pectorals have chestnut-edged crown feathers and can look warm-capped too.', options: [
+      { label: 'Rufous, streaked black, brighter than the back', fits: 'st ~pe', look: { cap: C('rufous'), capstreaks: true } },
+      { label: 'Brown, streaked', fits: 'pe', look: { cap: C('brown'), capstreaks: true } }
+    ]}],
+    fallad: [{ id: 'cap', title: 'Cap', options: [
+      { label: 'Dull rufous', fits: 'st', look: { cap: C('dullrufous') } },
+      { label: 'Brown, streaked', fits: 'pe', look: { cap: C('brown'), capstreaks: true } }
+    ]}]
+  };
+  var FACE = [{ id: 'face', title: 'Eyebrow and eye-ring', options: [
+    { label: 'Bold white eyebrow, flaring behind the eye; obvious white eye-ring', fits: 'st', look: { browflare: true, eyering: true, supercilium: { strokeWidth: '5' } } },
+    { label: 'Thinner pale eyebrow, often split or fading behind the eye; little eye-ring', fits: 'pe', look: { supercilium: { stroke: C('pale'), strokeWidth: '3' } } }
+  ]}];
+  var BILL = [{ id: 'bill', title: 'Bill', options: [
+    { label: 'Medium-long and slightly drooping, often with an orange-brown base', fits: 'pe', look: { bill: grow(1.08, '100% 50%'), billbase: true } },
+    { label: 'A little shorter and straighter, mostly dark', fits: 'st', check: KAUF, look: { bill: grow(.86, '100% 50%') } }
+  ]}];
+  var BACK = {
+    juv: [{ id: 'back', title: 'Back', options: [
+      { label: 'Crisp white V-lines (braces) on a neatly scaly back', fits: 'pe', look: { braces: true, 'scap-rufous': true, 'cov-fringe': true } },
+      { label: 'Rusty fringes; white lines fainter', fits: 'st', look: { braces: { opacity: '.4' }, 'scap-rufous': true, 'tert-edge': true, 'cov-fringe': true } }
+    ]}],
+    breed: [{ id: 'back', title: 'Back', help: 'Both are dark-centered with rusty edges in spring; the back doesn’t separate them.', options: [
+      { label: 'Dark feathers with rusty edges', fits: 'st pe', look: { 'scap-rufous': true } }
+    ]}],
+    fallad: [{ id: 'back', title: 'Back', options: [
+      { label: 'Gray-brown with pale fringes', fits: 'st pe', look: { 'scap-gray': true } }
+    ]}]
+  };
+  var FLANKS = {
+    juv: [{ id: 'flanks', title: 'Flanks and undertail', options: [
+      { label: 'Clean white', fits: 'st pe', look: {} }
+    ]}],
+    breed: [{ id: 'flanks', title: 'Flanks and undertail', help: 'Support only: Pectorals can show some marks back to the undertail too.', check: KAUF, options: [
+      { label: 'Black chevrons along the flanks and on the undertail', fits: 'st ~pe', look: { 'flank-chev': true, 'utc-chev': true } },
+      { label: 'Clean white', fits: 'pe', look: {} }
+    ]}],
+    fallad: [{ id: 'flanks', title: 'Flanks and undertail', options: [
+      { label: 'White, a few streaks at the front of the flanks at most', fits: 'st pe', look: {} }
+    ]}]
+  };
+  var RUMP = {
+    juv: [{ id: 'rump', title: 'Rump in flight', help: 'Both show white sides to the rump split by a black center.', options: [
+      { label: 'Black center with white sides', fits: 'st pe', look: {} }
+    ]}],
+    breed: [{ id: 'rump', title: 'Rump in flight', help: 'Both show white sides to the rump split by a black center.', options: [
+      { label: 'Black center with white sides', fits: 'st pe', look: {} }
+    ]}],
+    fallad: [{ id: 'rump', title: 'Rump in flight', options: [
+      { label: 'White sides streaked dark, so the rump looks darker', fits: 'st', check: 'Subtle; from one source (Shanghai Birding).', look: { rumpstreaks: true } },
+      { label: 'Clean white sides', fits: 'pe', look: {} }
+    ]}]
+  };
+  var LEGS = [{ id: 'legs', title: 'Legs', help: 'Both have yellowish to greenish legs, so this doesn’t separate them.', options: [
+    { label: 'Yellowish to greenish', fits: 'pe st', check: 'Sharp-tailed’s leg color is standard in field guides but wasn’t confirmed from a source I could open.', look: {} }
+  ]}];
+  var CALL = [{ id: 'call', title: 'Call', options: [
+    { label: 'Raspy, reedy krrrip, often on takeoff', fits: 'pe' },
+    { label: 'Soft whit-whit or plipp; twittering', fits: 'st' }
+  ]}];
+  var DATE = {
+    juv: [{ id: 'date', title: 'When you saw it (Iowa)', help: 'Iowa’s fall Sharp-taileds: 30 Sep, 3 Oct, 14 Oct and 10 Nov.', options: [
+      { label: 'August to mid-September', fits: 'pe' },
+      { label: 'Late September to October', fits: 'pe st' },
+      { label: 'November', fits: 'pe st' }
+    ]}],
+    breed: [{ id: 'date', title: 'When you saw it (Iowa)', help: 'Iowa’s one spring Sharp-tailed was 15 May 1994.', options: [
+      { label: 'March to April', fits: 'pe' },
+      { label: 'May', fits: 'pe st' }
+    ]}],
+    fallad: [{ id: 'date', title: 'When you saw it (Iowa)', help: 'Iowa has no adult fall Sharp-tailed record.', options: [
+      { label: 'July to August', fits: 'pe ~st' },
+      { label: 'September to October', fits: 'pe ~st' }
+    ]}]
+  };
+  function stage(id) { return { breast: BREAST[id], cap: CAP[id], face: FACE, bill: BILL, back: BACK[id], flanks: FLANKS[id], rump: RUMP[id],
+                                legs: LEGS, call: CALL, date: DATE[id] }; }
+
+  Picker({
+    showBird: true,
+    species: SPECIES,
+    stages: [
+      { id: 'juv', label: 'Juvenile', name: 'Juvenile (fall)', look: { 'scap-rufous': true, 'cov-fringe': true },
+        qOrder: ['breast', 'cap', 'face', 'back', 'date', 'bill', 'call', 'flanks', 'rump', 'legs'],
+        hint: 'September to November: crisp, scaly back. Four of Iowa’s five Sharp-taileds were fall juveniles.' },
+      { id: 'breed', label: 'Spring adult', name: 'Spring adult', look: { 'scap-rufous': true, capstreaks: true },
+        qOrder: ['breast', 'flanks', 'cap', 'face', 'bill', 'call', 'date', 'rump', 'back', 'legs'],
+        hint: 'March to May. Iowa has one spring Sharp-tailed, 15 May 1994.' },
+      { id: 'fallad', label: 'Fall adult', name: 'Adult, July–October', look: { 'scap-gray': true },
+        qOrder: ['breast', 'cap', 'face', 'bill', 'rump', 'call', 'back', 'date', 'flanks', 'legs'],
+        hint: 'Worn or grayer adults, mostly July and August. Pectoral flocks peak then.' }
+    ],
+    defaultStage: 'juv',
+    partToQ: PART_TO_Q, qOrder: Q_ORDER, qNames: Q_NAMES,
+    data: { juv: stage('juv'), breed: stage('breed'), fallad: stage('fallad') },
+    thumbKeep: { face: ['cap', 'bill'], cap: ['head', 'supercilium', 'ear', 'bill'], breast: ['head', 'cap', 'ear', 'supercilium'],
+                 bill: ['head', 'cap', 'supercilium', 'ear'] },
+    thumbs: { breast: '98 112 112 112', cap: '84 68 92 92', face: '84 70 92 92', bill: '40 80 80 80', back: '170 100 130 130',
+              flanks: '186 140 160 160', rump: '470 90 70 70' },
+    ref: 'sharp-tailed-sandpiper.html'
+  });
+})();
+</script>
+</body>
+</html>
