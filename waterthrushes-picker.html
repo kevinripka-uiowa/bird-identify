@@ -1,0 +1,293 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light">
+<title>Waterthrush Picker</title>
+<meta name="description" content="Tap parts of a waterthrush, pick what you see, and see whether it fits Louisiana or Northern Waterthrush.">
+<link rel="stylesheet" href="picker.css?v=5">
+<style>
+  :root { --bird-leg: #c39a97;
+          --c-olive: #75684f; --c-dolive: #5f5442; --c-dark: #3b3630; --c-streak: #4a4036; --c-softstreak: #8a7864;
+          --c-white: #fbfbf9; --c-yellow: #efe5b4; --c-buffy: #efe3c6; --c-buff: #e3cfa4; --c-salmon: #ebc7a6;
+          --c-pink: #ee9fb0; --c-duskypink: #b8918c; --c-rock: #c9c3b8; --c-surface: #ffffff; }
+  .part[data-part="back"], .part[data-part="nape"], .part[data-part="head"] { fill: var(--c-olive); }
+  .part[data-part="wing"], .part[data-part="tertials"] { fill: var(--c-olive); }
+  .part[data-part="primaries"], .part[data-part="tail"] { fill: var(--c-dolive); }
+  .part[data-part="belly"], .part[data-part="breast"], .part[data-part="throat"], .part[data-part="flanks"], .part[data-part="undertail"] { fill: var(--bird-white); }
+  .part[data-part="flanks"], .part[data-part="breast"], .part[data-part="throat"] { stroke: none; }
+  .part[data-part="brow"] { fill: var(--c-buffy); stroke: var(--c-dark); stroke-width: .8; }
+  .part[data-part="bill"] { fill: var(--c-dark); }
+  .part[data-part="legs"], .part[data-part="feet"] { stroke: var(--bird-leg); stroke-width: 3.4; stroke-linecap: round; stroke-linejoin: round; }
+  svg .part[data-part="legs"].answered, svg .part[data-part="feet"].answered { stroke: var(--hi-line); stroke-width: 4; }
+  .eye { fill: var(--bird-line); }
+  .inset * { vector-effect: non-scaling-stroke; }
+  /* eyebrow shapes: tapering is drawn by default; the flaring one swaps in */
+  svg [data-look="brow-taper"] { display: inline; stroke: none; }
+  svg [data-look^="brow-"] .part { pointer-events: auto; }
+  .side-label { fill: var(--muted); font-size: 13px; font-style: italic; }
+  @media (max-width: 820px) { .side-label { font-size: 16px; } .label text { font-size: 17px; } }
+</style>
+</head>
+<body>
+<main>
+  <p class="kicker"><a class="home" href="index.html">← Home</a> · Tricky birds · Iowa</p>
+  <h1>Waterthrush Picker</h1>
+  <p class="lede">Pick the season, then tap any part of the bird and choose what you see. The eyebrow, throat and flanks do most of the work; song and date settle many birds. Answers tagged <span class="unsure">check</span> aren’t confirmed yet. For the full write-up, see the <a href="waterthrushes.html">waterthrush reference page</a>.</p>
+
+  <div class="layout">
+    <div class="stack">
+      <section class="card">
+        <div class="card-head"><h2>1 · Season</h2><button type="button" class="clear">↺ Start over</button></div>
+        <div class="seg" id="stages" role="group" aria-label="Season"></div>
+        <p class="stage-hint" id="stage-hint"></p>
+      </section>
+
+      <section class="card">
+        <h2>2 · Tap a part</h2>
+        <div id="diagram"></div>
+        <div class="parts" id="partchips" role="group" aria-label="Parts"></div>
+      </section>
+
+      <section class="card q" id="question" aria-live="polite"></section>
+
+      <section class="card">
+        <h2>Your picks</h2>
+        <div class="picks" id="picks"></div>
+      </section>
+    </div>
+
+    <section class="card results" id="results-card">
+      <div class="results-head">
+        <h2 id="results">Could be</h2>
+        <span class="count" id="count"></span>
+        <button type="button" class="clear">↺ Start over</button>
+      </div>
+      <ul class="res" id="res"></ul>
+    </section>
+  </div>
+
+  <footer><a href="index.html">← All bird pages</a> · Answers come from the <a href="waterthrushes.html">waterthrush reference page</a> and its sources. Things tagged <span class="unsure">check</span> aren’t confirmed; the full list is in the reference page’s <a href="waterthrushes.html#to-check">To check</a> section.</footer>
+</main>
+
+<div class="bar" id="bar"><span id="bar-text"></span><button type="button" class="clear">↺</button><a href="#results">See results ↓</a></div>
+
+<template id="bird-svg">
+<svg viewBox="0 0 600 320" role="img" aria-label="Diagram: tap a part">
+  <defs>
+    <clipPath id="wt-body"><ellipse cx="245" cy="150" rx="92" ry="44"/></clipPath>
+    <clipPath id="wt-lens"><circle cx="136" cy="104" r="48"/></clipPath>
+  </defs>
+  <!-- WALKING, side view facing left (main view) -->
+  <g transform="translate(-60 16)">
+    <path d="M150,258 C170,240 300,236 330,258 Z" style="fill:var(--c-rock);stroke:var(--muted);stroke-width:1.5;opacity:.7"/>
+    <path d="M90,266 Q140,260 190,266 T290,266 T390,266" style="fill:none;stroke:#9cc3d6;stroke-width:3;stroke-linecap:round;opacity:.7"/>
+    <path class="part" data-part="tail" d="M318,146 L408,150 L408,166 L316,174 Z"/>
+    <path class="part stroke-only" data-part="legs" d="M232,186 L226,222 L232,248 M262,188 L268,224 L262,250"/>
+    <path class="part stroke-only" data-part="feet" d="M218,249 L246,250 M250,252 L280,251"/>
+    <ellipse class="part" data-part="belly" cx="245" cy="150" rx="92" ry="44"/>
+    <g clip-path="url(#wt-body)">
+      <ellipse class="part" data-part="flanks" cx="292" cy="176" rx="56" ry="20"/>
+      <ellipse class="part" data-part="back" cx="250" cy="106" rx="112" ry="30"/>
+    </g>
+    <path class="part" data-part="undertail" d="M318,164 C336,166 354,170 368,178 C350,186 330,186 314,180 Z"/>
+    <path data-look="fstreaks-bold" d="M196,150 l-3,8 M210,156 l-3,8 M224,160 l-3,8 M238,162 l-3,8 M252,163 l-3,7 M204,170 l-3,8 M218,175 l-3,7 M232,178 l-3,7 M248,180 l-3,6 M264,181 l-3,6 M280,180 l-3,6 M296,178 l-3,6 M194,136 l-3,8 M208,142 l-3,7" style="fill:none;stroke:var(--c-streak);stroke-width:3;stroke-linecap:round"/>
+    <path data-look="fstreaks-soft" d="M198,152 l-3,7 M214,158 l-3,7 M230,162 l-3,7 M246,164 l-3,6 M208,172 l-3,6 M226,177 l-3,6 M244,180 l-3,6 M262,181 l-3,6 M196,138 l-3,7" style="fill:none;stroke:var(--c-softstreak);stroke-width:3;stroke-linecap:round"/>
+    <path class="part" data-part="wing" d="M196,122 C240,108 300,112 340,132 C316,152 258,158 208,148 Z"/>
+    <path class="part" data-part="tertials" d="M276,126 C300,122 322,128 340,138 C322,148 298,148 280,142 Z"/>
+    <path class="part" data-part="primaries" d="M328,132 L384,150 L380,158 L322,148 Z"/>
+    <path class="part" data-part="nape" d="M150,62 C170,62 186,72 198,86 C208,98 222,106 242,107 L204,126 C186,114 168,106 150,98 Z"/>
+    <path class="part" data-part="breast" d="M126,100 C126,128 148,152 186,160 L204,120 C186,110 166,100 152,92 Z"/>
+    <path data-look="streaks-bold" d="M146,124 l-2,7 M156,128 l-2,8 M168,132 l-2,8 M180,134 l-2,8 M192,134 l-2,7 M150,140 l-2,8 M162,144 l-2,8 M174,148 l-2,8 M186,150 l-2,8 M140,114 l-2,7 M152,116 l-1,6 M198,146 l-2,7" style="fill:none;stroke:var(--c-streak);stroke-width:3.4;stroke-linecap:round"/>
+    <path data-look="streaks-soft" d="M144,122 l-2,6 M156,127 l-2,7 M168,132 l-2,7 M182,136 l-2,7 M150,140 l-2,7 M164,145 l-2,7 M178,149 l-2,7 M192,148 l-2,6" style="fill:none;stroke:var(--c-softstreak);stroke-width:3.4;stroke-linecap:round"/>
+    <path class="part" data-part="bill" d="M124,85 L90,93 L124,100 Z"/>
+    <circle class="part" data-part="head" cx="150" cy="92" r="30"/>
+    <path class="part" data-part="throat" d="M126,99 C132,114 146,124 164,128 L174,116 C156,112 142,106 133,95 Z"/>
+    <path data-look="throatspots" d="M140,112 h.1 M148,117 h.1 M156,120 h.1 M136,105 h.1 M146,109 h.1 M154,113 h.1 M162,117 h.1" style="fill:none;stroke:var(--c-streak);stroke-width:2.8;stroke-linecap:round"/>
+    <path d="M131,101 Q143,114 162,120" style="fill:none;stroke:var(--c-streak);stroke-width:2.4;stroke-linecap:round"/>
+    <path d="M122,90 L180,93" style="fill:none;stroke:var(--c-dark);stroke-width:3.2;stroke-linecap:round"/>
+    <g data-look="brow-taper"><path class="part" data-part="brow" d="M122,84 C140,74 162,75 184,84 C162,81 142,82 124,88 Z"/></g>
+    <g data-look="brow-flare"><path class="part" data-part="brow" d="M123,85 C140,81 160,76 182,74 C188,76 190,82 186,87 C166,85 144,85 124,88 Z"/></g>
+    <path data-look="browfront" class="no-stroke" d="M123.6,85.4 C130,83.6 136,82.4 141,81.6 L141.6,85.6 C136,85.8 130,86.4 124.4,87.6 Z" style="fill:var(--c-buff)"/>
+    <circle class="eye" cx="140" cy="89" r="4.2"/>
+    <circle cx="141.4" cy="87.8" r="1.1" style="fill:#fff"/>
+  </g>
+  <text class="side-label" x="40" y="312" text-anchor="start">walking</text>
+
+  <!-- FACE CLOSE-UP (inset): same parts at 2.2x -->
+  <circle cx="490" cy="138" r="96" style="fill:var(--c-surface);stroke:var(--line);stroke-width:2"/>
+  <g class="inset" transform="translate(218 -70) scale(2)">
+    <g clip-path="url(#wt-lens)">
+      <ellipse class="part" data-part="belly" cx="245" cy="150" rx="92" ry="44"/>
+      <g clip-path="url(#wt-body)"><ellipse class="part" data-part="back" cx="250" cy="106" rx="112" ry="30"/></g>
+      <path class="part" data-part="wing" d="M196,122 C240,108 300,112 340,132 C316,152 258,158 208,148 Z"/>
+    <path class="part" data-part="nape" d="M150,62 C170,62 186,72 198,86 C208,98 222,106 242,107 L204,126 C186,114 168,106 150,98 Z"/>
+    <path class="part" data-part="breast" d="M126,100 C126,128 148,152 186,160 L204,120 C186,110 166,100 152,92 Z"/>
+    <path data-look="streaks-bold" d="M146,124 l-2,7 M156,128 l-2,8 M168,132 l-2,8 M180,134 l-2,8 M192,134 l-2,7 M150,140 l-2,8 M162,144 l-2,8 M174,148 l-2,8 M186,150 l-2,8 M140,114 l-2,7 M152,116 l-1,6 M198,146 l-2,7" style="fill:none;stroke:var(--c-streak);stroke-width:3.4;stroke-linecap:round"/>
+    <path data-look="streaks-soft" d="M144,122 l-2,6 M156,127 l-2,7 M168,132 l-2,7 M182,136 l-2,7 M150,140 l-2,7 M164,145 l-2,7 M178,149 l-2,7 M192,148 l-2,6" style="fill:none;stroke:var(--c-softstreak);stroke-width:3.4;stroke-linecap:round"/>
+    <path class="part" data-part="bill" d="M124,85 L90,93 L124,100 Z"/>
+    <circle class="part" data-part="head" cx="150" cy="92" r="30"/>
+    <path class="part" data-part="throat" d="M126,99 C132,114 146,124 164,128 L174,116 C156,112 142,106 133,95 Z"/>
+    <path data-look="throatspots" d="M140,112 h.1 M148,117 h.1 M156,120 h.1 M136,105 h.1 M146,109 h.1 M154,113 h.1 M162,117 h.1" style="fill:none;stroke:var(--c-streak);stroke-width:2.8;stroke-linecap:round"/>
+    <path d="M131,101 Q143,114 162,120" style="fill:none;stroke:var(--c-streak);stroke-width:2.4;stroke-linecap:round"/>
+    <path d="M122,90 L180,93" style="fill:none;stroke:var(--c-dark);stroke-width:3.2;stroke-linecap:round"/>
+    <g data-look="brow-taper"><path class="part" data-part="brow" d="M122,84 C140,74 162,75 184,84 C162,81 142,82 124,88 Z"/></g>
+    <g data-look="brow-flare"><path class="part" data-part="brow" d="M123,85 C140,81 160,76 182,74 C188,76 190,82 186,87 C166,85 144,85 124,88 Z"/></g>
+    <path data-look="browfront" class="no-stroke" d="M123.6,85.4 C130,83.6 136,82.4 141,81.6 L141.6,85.6 C136,85.8 130,86.4 124.4,87.6 Z" style="fill:var(--c-buff)"/>
+    <circle class="eye" cx="140" cy="89" r="4.2"/>
+    <circle cx="141.4" cy="87.8" r="1.1" style="fill:#fff"/>
+    </g>
+  </g>
+  <circle cx="490" cy="138" r="96" style="fill:none;stroke:var(--muted);stroke-width:2"/>
+  <text class="side-label" x="490" y="252" text-anchor="middle">face, close up</text>
+
+  <!-- labels -->
+  <g class="label" data-q="brow"><line x1="566" y1="34" x2="560" y2="84"/><text x="566" y="28" text-anchor="middle">Eyebrow</text></g>
+  <g class="label" data-q="throat"><line x1="400" y1="250" x2="440" y2="196"/><text x="396" y="266" text-anchor="end">Throat</text></g>
+  <g class="label" data-q="bill"><line x1="24" y1="78" x2="40" y2="100"/><text x="24" y="70" text-anchor="middle">Bill</text></g>
+  <g class="label" data-q="breast"><line x1="54" y1="196" x2="96" y2="160"/><text x="50" y="212" text-anchor="middle">Breast</text></g>
+  <g class="label" data-q="flanks"><line x1="232" y1="236" x2="214" y2="200"/><text x="236" y="250" text-anchor="start">Flanks</text></g>
+  <g class="label" data-q="legs"><line x1="130" y1="250" x2="168" y2="244"/><text x="126" y="256" text-anchor="end">Legs</text></g>
+  <g class="label" data-q="bobbing"><line x1="372" y1="140" x2="344" y2="170"/><text x="372" y="134" text-anchor="middle">Tail</text></g>
+  <g class="label" data-q="shape"><line x1="190" y1="62" x2="190" y2="110"/><text x="190" y="56" text-anchor="middle">Shape</text></g>
+</svg>
+</template>
+
+<script src="picker.js?v=5"></script>
+<script>
+(function () {
+  function C(n) { return 'var(--c-' + n + ')'; }
+  function mix() { var o = {}; for (var i = 0; i < arguments.length; i++) for (var k in arguments[i]) o[k] = arguments[i][k]; return o; }
+  function legs(c) { return { legs: { stroke: C(c) }, feet: { stroke: C(c) } }; }
+  var IA = 'Iowa timing is approximate: from general migration timing and New Hampshire data, not checked against eBird or Iowa Bird Life.';
+  var SIB = 'David Sibley, “Identification of waterthrushes” (Sibley Guides, 2012), seen through search results.';
+
+  var SPECIES = [
+    { id: 'lo', name: 'Louisiana Waterthrush' },
+    { id: 'no', name: 'Northern Waterthrush' }
+  ];
+  var PART_TO_Q = { brow: 'brow', head: 'brow', nape: 'shape', throat: 'throat', bill: 'bill', breast: 'breast', belly: 'breast',
+                    flanks: 'flanks', undertail: 'flanks', legs: 'legs', feet: 'legs', tail: 'bobbing',
+                    back: 'shape', wing: 'shape', tertials: 'shape', primaries: 'shape' };
+  var Q_NAMES = { brow: 'Eyebrow', throat: 'Throat', breast: 'Breast', flanks: 'Flanks', song: 'Song', bill: 'Bill', legs: 'Legs',
+                  bobbing: 'Tail motion', shape: 'Shape', habitat: 'Habitat', date: 'Date' };
+  var Q_ORDER = ['brow', 'throat', 'song', 'flanks', 'breast', 'bill', 'bobbing', 'legs', 'shape', 'habitat', 'date'];
+
+  var BROW = [
+    { id: 'browshape', title: 'Eyebrow shape', help: 'Look behind the eye, from the side.', options: [
+      { label: 'Widens behind the eye, flaring toward the back', fits: 'lo', look: { 'brow-taper': { display: 'none' }, 'brow-flare': true } },
+      { label: 'Even, or narrowing to a point behind the eye', fits: 'no', look: {} }
+    ]},
+    { id: 'browcolor', title: 'Eyebrow color', options: [
+      { label: 'Bright white behind the eye; buffy in front (two-toned)', fits: 'lo', look: { brow: C('white'), browfront: true } },
+      { label: 'Evenly buffy to yellowish', fits: 'no', look: { brow: C('yellow') } },
+      { label: 'Evenly whitish', fits: '~no ~lo', look: { brow: C('white') } }
+    ]}
+  ];
+  var THROAT = [{ id: 'throat', title: 'Throat', help: 'Look between the dark lines that run down from the bill.', options: [
+    { label: 'Clean white, unmarked', fits: 'lo ~no', look: { throat: C('white') } },
+    { label: 'Finely spotted', fits: 'no ~lo', check: 'Some Louisianas have heavier throat spots than some Northerns (Sibley, via search results).', look: { throat: C('white'), throatspots: true } }
+  ]}];
+  var BREAST = [
+    { id: 'ground', title: 'Color under the streaks', help: 'Judge it in shade if you can: sunlight can wash out yellow.', options: [
+      { label: 'Yellowish or buffy-yellow all over', fits: 'no', look: { breast: C('yellow'), belly: C('yellow'), throat: C('yellow'), flanks: C('yellow'), undertail: C('yellow') } },
+      { label: 'White', fits: 'lo ~no', check: 'A significant minority of Northerns look bright white below (Sibley, via search results).', look: { breast: C('white'), belly: C('white') } }
+    ]},
+    { id: 'streaks', title: 'Breast streaks', check: 'Two Shutterbirds (2014) describes Northern as crisper and more contrasting, Louisiana as softer and more blended.', options: [
+      { label: 'Crisp, dark and dense', fits: 'no ~lo', look: { 'streaks-soft': { display: 'none' }, 'fstreaks-soft': { display: 'none' }, 'streaks-bold': true, 'fstreaks-bold': true } },
+      { label: 'Softer and browner, more blended', fits: 'lo ~no', look: {} }
+    ]}
+  ];
+  var FLANKS = [{ id: 'flanks', title: 'Flanks and under the tail', options: [
+    { label: 'Pinkish-buff wash on the rear flanks, contrasting with a white breast', fits: 'lo', look: { flanks: C('salmon'), undertail: C('salmon'), breast: C('white'), belly: C('white') } },
+    { label: 'Same color as the rest of the underparts', fits: 'no', look: {} }
+  ]}];
+  var BILL = [{ id: 'bill', title: 'Bill', help: 'Support only; easiest side by side.', options: [
+    { label: 'Long and heavy', fits: 'lo ~no', look: { bill: { transform: 'scale(1.18, 1.12)', transformOrigin: '100% 50%' } } },
+    { label: 'Smaller and finer', fits: 'no ~lo', look: { bill: { transform: 'scale(.88, .9)', transformOrigin: '100% 50%' } } }
+  ]}];
+  var BOB = [{ id: 'bob', title: 'Tail motion', help: 'Both bob their tails constantly; watch the rhythm.', check: SIB + ' Louisianas foraging can copy Northern’s quick bob, but not the reverse (Kaufman, quoted by Sibley).', options: [
+    { label: 'Slow, sweeping and circular, with some side-to-side swing; slow down, quick up', fits: 'lo' },
+    { label: 'Quick, nervous, mostly up and down', fits: 'no ~lo' }
+  ]}];
+  var SHAPE = [{ id: 'shape', title: 'Size and shape', options: [
+    { label: 'Bigger and stockier, larger-headed', fits: 'lo ~no', look: { back: { transform: 'scaleY(1.04)' } } },
+    { label: 'Sleeker, slimmer', fits: 'no ~lo', look: {} }
+  ]}];
+  var SONG = [
+    { id: 'song', title: 'Song', help: 'The best mark when you hear it.', options: [
+      { label: '2–5 clear, slurred-down whistles, then a jumbled, tumbling twitter', fits: 'lo' },
+      { label: 'Loud, ringing, fast, even phrases that speed up: “sweet sweet sweet swee wee wee chew chew”', fits: 'no' }
+    ]},
+    { id: 'call', title: 'Call', options: [
+      { label: 'Loud, metallic chink', fits: 'lo no', check: 'Calls are similar; sources don’t give a reliable difference.' }
+    ]}
+  ];
+  var HABITAT = [{ id: 'habitat', title: 'Where it was', help: 'Helpful in summer; in migration, Northerns show up anywhere wet.', options: [
+    { label: 'Along a flowing stream in a wooded ravine', fits: 'lo ~no' },
+    { label: 'Still water: swampy woods, ponds, puddles, flooded willows', fits: 'no ~lo' },
+    { label: 'A wet spot in a park or yard in migration', fits: 'no ~lo' }
+  ]}];
+  function legsQ(fall) {
+    return [{ id: 'legs', title: 'Leg color', help: 'Support only: wet legs look brighter.', options: [
+      { label: 'Bright bubblegum pink', fits: fall ? '~lo' : 'lo ~no', look: legs('pink') },
+      { label: 'Dull pinkish to dusky', fits: fall ? 'no lo' : 'no ~lo', check: fall ? 'Most fall Louisianas have dusky legs like Northern (Sibley, via search results).' : null, look: legs('duskypink') }
+    ]}];
+  }
+  function base(fall) { return { brow: BROW, throat: THROAT, breast: BREAST, flanks: FLANKS, bill: BILL, bobbing: BOB, shape: SHAPE, song: SONG, habitat: HABITAT, legs: legsQ(fall) }; }
+
+  var SPRING = mix(base(false), { date: [{ id: 'date', title: 'When you saw it', check: IA, options: [
+    { label: 'Late March to mid-April', fits: 'lo' },
+    { label: 'Late April', fits: 'lo no' },
+    { label: 'May', fits: 'no ~lo' }
+  ]}]});
+  var SUMMER = mix(base(false), { date: [{ id: 'date', title: 'When you saw it', check: IA + ' Northern doesn’t nest in Iowa.', options: [
+    { label: 'Early June', fits: 'lo ~no' },
+    { label: 'Mid-June to July', fits: 'lo' }
+  ]}]});
+  var FALL = mix(base(true), {
+    song: [{ id: 'song', title: 'Song', help: 'Rarely sings in fall; the call doesn’t help.', options: [
+      { label: '2–5 clear, slurred-down whistles, then a jumbled, tumbling twitter', fits: 'lo' },
+      { label: 'Loud, ringing, fast, even phrases that speed up', fits: 'no' }
+    ]}],
+    date: [{ id: 'date', title: 'When you saw it', check: IA, help: 'After about August 20, any waterthrush in the East is almost certainly a Northern (Jon Dunn, quoted by NH Audubon).', options: [
+      { label: 'Late July to mid-August', fits: 'lo no' },
+      { label: 'Late August', fits: 'no ~lo' },
+      { label: 'September–October', fits: 'no' }
+    ]}]
+  });
+  var ANY = mix(base(true), { date: [{ id: 'date', title: 'When you saw it', check: IA, options: [
+    { label: 'Late March to mid-April', fits: 'lo' },
+    { label: 'Late April', fits: 'lo no' },
+    { label: 'May', fits: 'no ~lo' },
+    { label: 'June–July', fits: 'lo ~no' },
+    { label: 'August', fits: 'no lo' },
+    { label: 'September–October', fits: 'no' }
+  ]}]});
+
+  var LOOK = { 'streaks-soft': true, 'fstreaks-soft': true };
+  Picker({
+    showBird: true,
+    species: SPECIES,
+    stages: [
+      { id: 'spring', label: 'Spring', name: 'Spring migrant', qOrder: ['brow', 'throat', 'song', 'flanks', 'breast', 'bill', 'bobbing', 'legs', 'shape', 'habitat', 'date'], look: LOOK,
+        hint: 'Late March to May. Louisiana comes through first, from late March; Northern peaks in May.' },
+      { id: 'summer', label: 'Summer', name: 'Summer (nesting season)', qOrder: ['song', 'habitat', 'brow', 'throat', 'flanks', 'breast', 'bill', 'bobbing', 'legs', 'shape', 'date'], look: LOOK,
+        hint: 'June and July. Louisiana nests along wooded streams in eastern Iowa; Northern nests far to the north.' },
+      { id: 'fall', label: 'Fall', name: 'Fall migrant', qOrder: ['brow', 'throat', 'flanks', 'date', 'breast', 'bill', 'bobbing', 'shape', 'habitat', 'legs', 'song'], look: LOOK,
+        hint: 'Late July to October. Louisianas leave early; by late August almost every waterthrush is a Northern.' },
+      { id: 'any', label: 'Not sure', name: 'Any season', qOrder: ['brow', 'throat', 'flanks', 'song', 'breast', 'bill', 'bobbing', 'legs', 'shape', 'habitat', 'date'], look: LOOK,
+        hint: 'Leg color is weighed as in fall, when it helps least.' }
+    ],
+    defaultStage: 'spring',
+    partToQ: PART_TO_Q, qOrder: Q_ORDER, qNames: Q_NAMES,
+    data: { spring: SPRING, summer: SUMMER, fall: FALL, any: ANY },
+    thumbs: { browshape: '462 46 120 120', browcolor: '462 46 120 120', throat: '444 100 124 124', ground: '40 90 300 300', streaks: '50 96 130 130',
+              flanks: '196 116 150 150', bill: '390 64 100 100', legs: '146 186 100 100', shape: '0 0 420 420' },
+    ref: 'waterthrushes.html'
+  });
+})();
+</script>
+</body>
+</html>
