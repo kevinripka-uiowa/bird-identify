@@ -131,6 +131,22 @@
     <path class="part leg-line" data-part="legs" d="M124,234 L120,264 M110,268 L120,264 L128,270 M146,234 L148,262 M138,266 L148,262 L156,268"/>
     <path class="part" data-part="belly" d="M94,150 C94,202 114,240 140,240 C166,240 186,202 186,150 Z"/>
     <path class="part" data-part="breast" d="M94,150 C94,112 116,96 140,96 C164,96 186,112 186,150 Z"/>
+    <!-- belly marks sit under the folded wing -->
+    <g data-look="bellyband" class="no-stroke" style="fill:var(--c-dark)">
+      <ellipse cx="108" cy="188" rx="8" ry="11"/><ellipse cx="124" cy="194" rx="7" ry="10"/><ellipse cx="140" cy="196" rx="7" ry="10"/><ellipse cx="156" cy="194" rx="7" ry="10"/><ellipse cx="172" cy="188" rx="8" ry="11"/>
+    </g>
+    <g data-look="streaks" style="fill:none;stroke:var(--c-dark);stroke-width:3;stroke-linecap:round">
+      <path d="M110,124 v10"/><path d="M126,120 v12"/><path d="M142,122 v12"/><path d="M158,124 v10"/><path d="M172,130 v10"/>
+      <path d="M104,150 v12"/><path d="M118,148 v14"/><path d="M134,150 v14"/><path d="M150,150 v14"/><path d="M166,150 v12"/><path d="M178,154 v10"/>
+      <path d="M110,178 v12"/><path d="M126,182 v14"/><path d="M142,184 v14"/><path d="M158,182 v14"/><path d="M172,178 v12"/>
+      <path d="M124,212 v10"/><path d="M140,214 v10"/><path d="M156,212 v10"/>
+    </g>
+    <g data-look="bars" style="fill:none;stroke:var(--c-rufous);stroke-width:4;stroke-linecap:round">
+      <path d="M104,128 h76"/><path d="M98,142 h86"/><path d="M96,156 h90"/><path d="M96,170 h90"/><path d="M98,184 h86"/><path d="M102,198 h78"/><path d="M108,212 h64"/><path d="M118,226 h44"/>
+    </g>
+    <g data-look="speckle" class="no-stroke" style="fill:var(--c-white)">
+      <ellipse cx="118" cy="122" rx="3" ry="2.2"/><ellipse cx="134" cy="112" rx="3" ry="2.2"/><ellipse cx="150" cy="124" rx="3" ry="2.2"/><ellipse cx="128" cy="134" rx="3" ry="2.2"/><ellipse cx="162" cy="136" rx="3" ry="2.2"/><ellipse cx="108" cy="138" rx="3" ry="2.2"/><ellipse cx="144" cy="142" rx="3" ry="2.2"/><ellipse cx="172" cy="124" rx="3" ry="2.2"/><ellipse cx="120" cy="146" rx="2.6" ry="2"/><ellipse cx="156" cy="112" rx="2.6" ry="2"/>
+    </g>
     <path class="part" data-part="back" d="M150,102 C184,106 202,140 206,190 C192,196 172,196 158,200 C146,168 144,130 150,102 Z"/>
     <path class="part" data-part="wingtips" d="M158,200 C172,196 192,196 206,190 C208,230 206,262 198,296 C186,264 168,232 158,200 Z"/>
     <circle class="part" data-part="head" cx="128" cy="76" r="27"/>
@@ -263,21 +279,6 @@
     <path data-look="facepale" class="no-stroke" d="M104,62 C112,56 124,56 134,62 C130,70 128,80 130,92 C120,96 108,92 104,84 Z" style="fill:var(--c-white);opacity:.9"/>
     <path data-look="cap" class="no-stroke" d="M102,64 C106,52 118,48 130,49 C142,50 152,58 155,70 C146,64 136,62 128,62 C118,62 110,62 102,64 Z" style="fill:var(--c-black)"/>
     <path data-look="brow" d="M104,64 C112,60 124,60 140,64" style="fill:none;stroke:var(--c-white);stroke-width:4;stroke-linecap:round"/>
-    <g data-look="bellyband" class="no-stroke" style="fill:var(--c-dark)">
-      <ellipse cx="108" cy="188" rx="8" ry="11"/><ellipse cx="124" cy="194" rx="7" ry="10"/><ellipse cx="140" cy="196" rx="7" ry="10"/><ellipse cx="156" cy="194" rx="7" ry="10"/><ellipse cx="172" cy="188" rx="8" ry="11"/>
-    </g>
-    <g data-look="streaks" style="fill:none;stroke:var(--c-dark);stroke-width:3;stroke-linecap:round">
-      <path d="M110,124 v10"/><path d="M126,120 v12"/><path d="M142,122 v12"/><path d="M158,124 v10"/><path d="M172,130 v10"/>
-      <path d="M104,150 v12"/><path d="M118,148 v14"/><path d="M134,150 v14"/><path d="M150,150 v14"/><path d="M166,150 v12"/><path d="M178,154 v10"/>
-      <path d="M110,178 v12"/><path d="M126,182 v14"/><path d="M142,184 v14"/><path d="M158,182 v14"/><path d="M172,178 v12"/>
-      <path d="M124,212 v10"/><path d="M140,214 v10"/><path d="M156,212 v10"/>
-    </g>
-    <g data-look="bars" style="fill:none;stroke:var(--c-rufous);stroke-width:4;stroke-linecap:round">
-      <path d="M104,128 h76"/><path d="M98,142 h86"/><path d="M96,156 h90"/><path d="M96,170 h90"/><path d="M98,184 h86"/><path d="M102,198 h78"/><path d="M108,212 h64"/><path d="M118,226 h44"/>
-    </g>
-    <g data-look="speckle" class="no-stroke" style="fill:var(--c-white)">
-      <ellipse cx="118" cy="122" rx="3" ry="2.2"/><ellipse cx="134" cy="112" rx="3" ry="2.2"/><ellipse cx="150" cy="124" rx="3" ry="2.2"/><ellipse cx="128" cy="134" rx="3" ry="2.2"/><ellipse cx="162" cy="136" rx="3" ry="2.2"/><ellipse cx="108" cy="138" rx="3" ry="2.2"/><ellipse cx="144" cy="142" rx="3" ry="2.2"/><ellipse cx="172" cy="124" rx="3" ry="2.2"/><ellipse cx="120" cy="146" rx="2.6" ry="2"/><ellipse cx="156" cy="112" rx="2.6" ry="2"/>
-    </g>
     <g data-look="scapv" class="no-stroke" style="fill:var(--c-white)">
       <ellipse cx="166" cy="124" rx="5" ry="3"/><ellipse cx="176" cy="134" rx="5" ry="3"/><ellipse cx="164" cy="140" rx="5" ry="3"/><ellipse cx="184" cy="148" rx="5" ry="3"/><ellipse cx="172" cy="154" rx="5" ry="3"/><ellipse cx="190" cy="164" rx="4" ry="3"/>
     </g>
@@ -477,7 +478,7 @@
       ]},
       { id: 'face', title: 'Head pattern', options: [
         { label: 'Owl-like facial disk', fits: 'noh', look: { facepale: { opacity: '.5' } } },
-        { label: 'Brown head, white throat', fits: 'rte swh ~rtk', look: { head: C('brown'), fhead: C('brown') } },
+        { label: 'Brown head, white throat', fits: 'rte swh bwh ~rsh ~rtk', look: { head: C('brown'), fhead: C('brown') } },
         { label: 'Dark head and throat', fits: 'rtn rtw rth ~rlh', look: { head: C('dark'), fhead: C('dark') } },
         { label: 'Mostly white or grayish-white head', fits: 'rtk rlh fh ~rth', look: { head: C('pale'), fhead: C('pale') } }
       ]}
