@@ -12,7 +12,7 @@
   .part[data-part="underwing"] { fill: var(--bird-c); }
   .part[data-part="fhead"], .part[data-part="phead"], .part[data-part="pfore"], .part[data-part="pback"], .part[data-part="prump"] { fill: var(--bird-a); }
   .part[data-part="pwing"] { fill: var(--bird-d); }
-  .part[data-part="ftail"], .part[data-part="stail"], .part[data-part="ptail"] { fill: var(--bird-d); }
+  .part[data-part="ftail"], .part[data-part="ptail"] { fill: var(--bird-d); }
   :root { --c-white: #fbfbf9; --c-tail: #3a3f47; --c-slate: #565e68; --c-teal: #2c6e83; --c-teal2: #23586a; --c-steel: #2f4169; --c-purple: #3a3160;
           --c-brown: #8b715a; --c-brown2: #76604c; --c-palebrown: #ad967d; --c-dusky: #b3a08c; --c-wash: #d3c8bb; --c-band: #7d6450; --c-rust: #c4612e;
           --c-buff: #ecc595; --c-cream: #f1e4c6; --c-chestnut: #5e2b22; --c-gray: #c6c9cd; --c-gbrown: #8f8a84; --c-cinn: #c98a52; --c-dgray: #6c6f74;
@@ -31,7 +31,7 @@
 <main>
   <p class="kicker"><a class="home" href="index.html">← Home</a> · Tricky birds · Iowa</p>
   <h1>Swallow Picker</h1>
-  <p class="lede">Which of Iowa’s six swallows, or one of two accidental strays? Pick the age, then tap any part of the bird flying overhead, the spread tail or the perched bird, and choose what you see. Start with the tail: the bird reshapes to match. Answers that conflict with your other picks fade, and answers tagged <span class="unsure">check</span> aren’t confirmed. For the full write-up, see the <a href="swallows.html">swallow reference page</a>.</p>
+  <p class="lede">Which of Iowa’s six swallows, or one of two accidental strays? Pick the age, then tap any part of the bird flying overhead or the perched bird, and choose what you see. Start with the tail: the bird reshapes to match. Answers that conflict with your other picks fade, and answers tagged <span class="unsure">check</span> aren’t confirmed. For the full write-up, see the <a href="swallows.html">swallow reference page</a>.</p>
 
   <div class="layout">
     <div class="stack">
@@ -83,7 +83,7 @@
 <div class="bar" id="bar"><span id="bar-text"></span><button type="button" class="clear">↺</button><a href="#results">See results ↓</a></div>
 
 <template id="bird-svg">
-  <svg viewBox="0 0 600 360" role="img" aria-label="Swallow diagram, flying from below with a perched bird and a spread tail: tap a part">
+  <svg viewBox="0 0 600 360" role="img" aria-label="Swallow diagram, flying from below with a perched bird: tap a part">
     <!-- flying, seen from below (large) -->
     <path class="part" data-part="ftail" d="M219,196 L241,196 L248,262 L230,252 L212,262 Z"/>
     <path data-look="tsq" d="M219,196 L241,196 L245,258 L215,258 Z" style="fill:var(--c-tail)"/>
@@ -100,13 +100,6 @@
     <circle class="part" data-part="fhead" cx="230" cy="84" r="18"/>
     <path class="part" data-part="fthroat" d="M215,90 Q230,80 245,90 L249,106 Q230,112 211,106 Z"/>
 
-    <!-- tail spread, from below (inset) -->
-    <path class="part" data-part="stail" d="M516,262 L534,262 L578,318 Q525,334 472,318 Z"/>
-    <path data-look="spoint" d="M516,262 L534,262 L586,328 Q525,322 464,328 Z" style="fill:var(--c-tail)"/>
-    <path data-look="sfork" d="M516,262 L534,262 L590,338 L580,340 L552,318 Q525,312 498,318 L470,340 L460,338 Z" style="fill:var(--c-tail)"/>
-    <g data-look="sspots" class="no-stroke" style="fill:var(--c-white)">
-      <ellipse cx="497" cy="300" rx="4.5" ry="2.6"/><ellipse cx="511" cy="303" rx="4.5" ry="2.6"/><ellipse cx="525" cy="304" rx="4.5" ry="2.6"/><ellipse cx="539" cy="303" rx="4.5" ry="2.6"/><ellipse cx="553" cy="300" rx="4.5" ry="2.6"/>
-    </g>
 
     <!-- perched, side view facing left (inset) -->
     <path class="part" data-part="ptail" d="M533.2,85.6 L578.8,107.2 L571.6,114.4 L528.4,95.2 Z"/>
@@ -130,7 +123,6 @@
 
     <text class="side-label" x="230" y="346" text-anchor="middle">flying, from below</text>
     <text class="side-label" x="505" y="142" text-anchor="middle">perched</text>
-    <text class="side-label" x="525" y="356" text-anchor="middle">tail spread</text>
 
     <!-- labels -->
     <g class="label" data-q="throat"><line x1="166" y1="48" x2="218" y2="94"/><text x="162" y="46" text-anchor="end">Throat</text></g>
@@ -158,7 +150,7 @@
     { id: 'cv', name: 'Cave Swallow', rare: 'Accidental' }
   ];
   var STRAY = 'Accidental in Iowa (Iowa Ornithologists’ Union checklist); marks are standard field-guide ones, not checked against a source I could open.';
-  var PART_TO_Q = { ftail: 'tail', stail: 'tail', ptail: 'tail', fthroat: 'throat', pthroat: 'throat', fbreast: 'breast',
+  var PART_TO_Q = { ftail: 'tail', ptail: 'tail', fthroat: 'throat', pthroat: 'throat', fbreast: 'breast',
                     fbelly: 'belly', pbody: 'belly', underwing: 'wings', fhead: 'face', phead: 'face', pfore: 'face',
                     pback: 'back', pwing: 'back', prump: 'rump' };
   var Q_ORDER = ['tail', 'throat', 'breast', 'rump', 'belly', 'face', 'back', 'wings', 'flight', 'size', 'nest', 'date'];
@@ -175,14 +167,9 @@
   function throat(c) { return { fthroat: C(c), pthroat: C(c) }; }
   function belly(c) { return { fbelly: C(c), pbody: C(c) }; }
   function wing(sy, sx) { return { underwing: { transform: 'scale(' + (sx || 1) + ',' + sy + ')', transformOrigin: '50% 10%' } }; }
-  var TAILS = { ftail: C('tail'), stail: C('tail'), ptail: C('tail') };
+  var TAILS = { ftail: C('tail'), ptail: C('tail') };
 
   // ---------- Shared groups ----------
-  var SPREAD = { id: 'tspread', title: 'Tail spread, from below', help: 'A fanned tail loses its fork, so check the closed tail too.', options: [
-    { label: 'A row of white spots across it; outer feathers still long', fits: 'bs', look: { stail: HIDE, sfork: true, sspots: true } },
-    { label: 'Plain; the outer corners stick out in points', fits: 'pm', look: { stail: HIDE, spoint: true } },
-    { label: 'Plain, evenly rounded or square', fits: 'tr rw ba cl vg cv ~pm', look: { stail: C('tail') } }
-  ]};
   var WINGS = [{ id: 'wshape', title: 'Wing shape', help: 'From below, as it passes overhead.', options: [
     { label: 'Broad at the base, triangular, with tapered tips', fits: 'pm', look: wing(1.28) },
     { label: 'Long and slender, swept back', fits: 'bs ~tr ~vg', look: wing(0.82, 1.04) },
@@ -222,15 +209,14 @@
   // ---------- Adults ----------
   var ADULT = {
     tail: [
-      { id: 'tshape', title: 'Tail shape, closed, from below', help: 'The quickest mark. Most of the time the tail is held closed.',
+      { id: 'tshape', title: 'Tail shape, closed, from below', help: 'The quickest mark. A fanned tail loses its fork, so wait for it to close.',
         check: 'Sources differ on Tree (moderately forked vs. slightly notched) and Rough-winged (square vs. notched) tails.', options: [
         { label: 'Deeply forked, with long, thin outer streamers', fits: 'bs', look: L(tail('tdeep'), { pstream: true }) },
         { label: 'Forked; outer feathers longer and pointed, but no streamers', fits: 'pm ~tr', look: tail('tmartin') },
         { label: 'A clear V fork', fits: 'tr ~pm', look: tail('tfork') },
         { label: 'A shallow notch', fits: 'ba vg ~rw ~tr', look: tail('tnotch') },
         { label: 'Square, no notch', fits: 'cl rw cv', look: tail('tsq') }
-      ]},
-      SPREAD
+      ]}
     ],
     throat: [{ id: 'throat', title: 'Throat', options: [
       { label: 'Clean white, sharply set off', fits: 'tr ba vg', look: throat('white') },
@@ -289,8 +275,7 @@
         { label: 'Forked; outer feathers a bit longer and pointed', fits: 'pm ~tr', look: tail('tmartin') },
         { label: 'A shallow notch or slight fork', fits: 'tr ba vg ~rw', look: tail('tnotch') },
         { label: 'Square, no notch', fits: 'cl rw cv', look: tail('tsq') }
-      ]},
-      SPREAD
+      ]}
     ],
     throat: [{ id: 'throat', title: 'Throat', options: [
       { label: 'White', fits: 'tr ba vg', look: throat('white') },
@@ -339,7 +324,7 @@
     ],
     defaultStage: 'adult',
     // Close-up for each answer button: a square of the diagram around that part
-    thumbs: { tshape: '172 196 116 116', tspread: '455 231 140 140', throat: '200 66 60 60', band: '186 80 88 88', belly: '150 70 160 160',
+    thumbs: { tshape: '172 196 116 116', throat: '200 66 60 60', band: '186 80 88 88', belly: '150 70 160 160',
               rump: '506 50 44 44', face: '404 36 58 58', upper: '432 20 120 120', wbars: '462 56 56 56', wshape: '18 44 196 196' },
     partToQ: PART_TO_Q, qOrder: Q_ORDER, qNames: Q_NAMES,
     data: { adult: ADULT, juv: JUV },

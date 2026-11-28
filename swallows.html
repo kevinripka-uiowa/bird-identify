@@ -96,7 +96,7 @@
   .part[data-part="fbelly"], .part[data-part="fbreast"], .part[data-part="fthroat"], .part[data-part="pbody"], .part[data-part="pthroat"] { fill: var(--bird-white); }
   .part[data-part="underwing"] { fill: #c6c9cd; }
   .part[data-part="fhead"], .part[data-part="phead"], .part[data-part="pfore"], .part[data-part="pback"], .part[data-part="prump"] { fill: #4a5568; }
-  .part[data-part="pwing"], .part[data-part="ftail"], .part[data-part="stail"], .part[data-part="ptail"] { fill: #3a3f47; }
+  .part[data-part="pwing"], .part[data-part="ftail"], .part[data-part="ptail"] { fill: #3a3f47; }
   .tails { margin: 16px 0; background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 12px; }
   .tails svg { display: block; width: 100%; max-width: 560px; height: auto; margin: 0 auto; }
   .tails figcaption { font-size: 14px; color: var(--muted); padding: 4px 4px 0; }
@@ -248,7 +248,7 @@
     <p>Tap a check to see where to look.</p>
     <div class="how">
     <figure class="diagram" data-svg>
-        <figcaption>Schematic only. Big bird: flying overhead, from below. Top right: perched. Bottom right: the tail spread.</figcaption>
+        <figcaption>Schematic only. Big bird: flying overhead, from below. Right: perched.</figcaption>
       </figure>
     <ol class="checks">
         <li><button type="button" class="check" data-parts="underwing ftail" aria-pressed="false"><strong>Swallow or swift</strong>Swallows have flexible, bent wings, a notched or forked tail and fluid wingbeats, and they perch on wires. Chimney Swift has stiff, curved wings, a stubby tail and quick, flickering wingbeats, and never perches in the open.</button></li>
@@ -273,10 +273,10 @@
       <p>Barn, adult male Purple Martin and Tree are distinctive. Bank, Cliff, Rough-winged and female-type martins take more care: look for the contrast between the throat and the chest.</p>
       <div class="how">
       <figure class="diagram" data-svg>
-        <figcaption>Schematic only. Big bird: flying overhead, from below. Top right: perched. Bottom right: the tail spread.</figcaption>
+        <figcaption>Schematic only. Big bird: flying overhead, from below. Right: perched.</figcaption>
       </figure>
       <ol class="checks">
-        <li><button type="button" class="check" data-parts="ftail stail ptail" aria-pressed="false"><strong>Tail</strong>Long, thin streamers: Barn. Forked with long, pointed outer feathers on a big, gliding bird: Purple Martin. A clear fork: Tree. A shallow notch: Bank. Square: Cliff and Rough-winged.<span class="unsure" title="Sources differ: Chicago Bird Alliance calls Tree’s tail moderately forked; All About Birds calls it squared or slightly notched. Rough-winged is called square-tipped by All About Birds and notched by iNaturalist.">check</span></button></li>
+        <li><button type="button" class="check" data-parts="ftail ptail" aria-pressed="false"><strong>Tail</strong>Long, thin streamers: Barn. Forked with long, pointed outer feathers on a big, gliding bird: Purple Martin. A clear fork: Tree. A shallow notch: Bank. Square: Cliff and Rough-winged.<span class="unsure" title="Sources differ: Chicago Bird Alliance calls Tree’s tail moderately forked; All About Birds calls it squared or slightly notched. Rough-winged is called square-tipped by All About Birds and notched by iNaturalist.">check</span></button></li>
         <li><button type="button" class="check" data-parts="fthroat fbreast" aria-pressed="false"><strong>Throat and breast</strong>Clean white throat above a sharp brown band: Bank. Dark throat sharply set off from a pale chest, so the bird looks black and white from below: Cliff. Dusky throat blending into the chest, with no strong contrast: Rough-winged or a female-type martin. Rusty throat: Barn. All white below: Tree. All dark: adult male martin.</button></li>
         <li><button type="button" class="check" data-parts="prump pback" aria-pressed="false"><strong>Rump and back</strong>Pale buff rump on a dark back: Cliff (wait for it to bank). Glossy blue-green back with a small white notch behind each wing: Tree. Plain brown: Rough-winged, a little paler than Bank. Bank’s rump is paler than its back.</button></li>
         <li><button type="button" class="check" data-parts="underwing fbelly" aria-pressed="false"><strong>Shape and flight</strong>Biggest, with broad-based, tapered wings; glides a lot with slow wingbeats: Purple Martin. Smallest and thinnest, with a long rear end and quick, bouncing, fluttery wingbeats: Bank. Steady, with slower wingbeats and fewer turns: Tree. Fast, low and swooping: Barn.<span class="unsure" title="Barn, Cliff and Rough-winged flight styles come from general field-guide descriptions, not a source I could open.">check</span></button></li>
@@ -316,11 +316,11 @@
       <p>Young birds are duller and browner, with blurry patterns and shorter tails. The biggest trap is a brown young Tree Swallow, which can look like a Bank or Rough-winged.<span class="unsure" title="Juvenile marks other than Barn Swallow’s short streamers and the young Tree Swallow’s blurry band come from general field-guide knowledge.">check</span></p>
       <div class="how">
       <figure class="diagram" data-svg>
-        <figcaption>Schematic only. Big bird: flying overhead, from below. Top right: perched. Bottom right: the tail spread.</figcaption>
+        <figcaption>Schematic only. Big bird: flying overhead, from below. Right: perched.</figcaption>
       </figure>
       <ol class="checks">
         <li><button type="button" class="check" data-parts="fbreast fthroat" aria-pressed="false"><strong>Breast band</strong>A sharp, solid brown band: Bank. A blurry gray-brown wash or a partial band on a clean white throat and belly: young Tree. A dusky throat and breast with no band: Rough-winged or a young martin.</button></li>
-        <li><button type="button" class="check" data-parts="ftail stail" aria-pressed="false"><strong>Tail</strong>Forked, but the outer feathers only a little longer: young Barn. Square: Cliff and Rough-winged. Other young birds have shallow forks or notches.</button></li>
+        <li><button type="button" class="check" data-parts="ftail" aria-pressed="false"><strong>Tail</strong>Forked, but the outer feathers only a little longer: young Barn. Square: Cliff and Rough-winged. Other young birds have shallow forks or notches.</button></li>
         <li><button type="button" class="check" data-parts="pback pwing" aria-pressed="false"><strong>Back and wings</strong>Brown or gray-brown, without gloss: young Tree, Bank, Rough-winged and martin. Dull blue-black: young Barn and Cliff. Cinnamon feather edges forming wing bars: young Rough-winged.<span class="unsure" title="Standard field-guide mark for young Rough-winged; not confirmed from a source I could open.">check</span></button></li>
         <li><button type="button" class="check" data-parts="prump" aria-pressed="false"><strong>Rump</strong>A pale rump still marks a young Cliff, though duller than an adult’s.</button></li>
         <li><button type="button" class="check" data-parts="fthroat" aria-pressed="false"><strong>Throat</strong>Pale rusty-buff: young Barn. White: young Tree and Bank. Dusky: Rough-winged and young martin.</button></li>
@@ -392,10 +392,10 @@
   <footer><a href="index.html">← All bird pages</a> · <a href="swallows-picker.html">Swallow Picker</a> · Kevin Ripka · Nov 27, 2026</footer>
 </main>
 
-<!-- One schematic swallow: flying overhead from below, perched, and the tail spread -->
+<!-- One schematic swallow: flying overhead from below, and perched -->
 <template id="swallow-svg">
   <svg viewBox="0 0 600 360" role="img">
-    <title>Schematic swallow flying overhead seen from below, with a perched swallow and a spread tail, labeled: throat, breast, belly, wings, tail, face, back and rump</title>
+    <title>Schematic swallow flying overhead seen from below, with a perched swallow, labeled: throat, breast, belly, wings, tail, face, back and rump</title>
     <!-- flying, seen from below (large) -->
     <path class="part" data-part="ftail" d="M219,196 L241,196 L248,262 L230,252 L212,262 Z"/>
     <path class="part" data-part="underwing" d="M206,112 C175,100 140,94 118,96 C90,108 56,136 28,176 C80,158 150,156 206,150 Z"/>
@@ -406,8 +406,6 @@
     <circle class="part" data-part="fhead" cx="230" cy="84" r="18"/>
     <path class="part" data-part="fthroat" d="M215,90 Q230,80 245,90 L249,106 Q230,112 211,106 Z"/>
 
-    <!-- tail spread, from below (inset) -->
-    <path class="part" data-part="stail" d="M516,262 L534,262 L578,318 Q525,334 472,318 Z"/>
 
     <!-- perched, side view facing left (inset) -->
     <path class="part" data-part="ptail" d="M533.2,85.6 L578.8,107.2 L571.6,114.4 L528.4,95.2 Z"/>
@@ -423,7 +421,7 @@
 
     <text class="side-label" x="230" y="346" text-anchor="middle">flying, from below</text>
     <text class="side-label" x="505" y="142" text-anchor="middle">perched</text>
-    <text class="side-label" x="525" y="356" text-anchor="middle">tail spread</text>
+
 
     <!-- labels -->
     <g class="label" data-part="fthroat"><line x1="166" y1="48" x2="218" y2="94"/><text x="162" y="46" text-anchor="end">Throat</text></g>

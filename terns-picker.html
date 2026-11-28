@@ -19,7 +19,14 @@
   .part[data-part="outertail"]     { fill: var(--bird-a); }
   :root { --c-black: #24282c; --c-dgray: #5f666d; --c-gray: #aab2ba; --c-back: #bcc3ca; --c-silver: #e8ecef; --c-white: #fbfbf9;
           --c-wash: #cdd2d7; --c-dwash: #a9b0b7; --c-brown: #9a6a43; --c-rust: #c9a07a; --c-tanwash: #d3c6b6;
-          --c-orange: #ef8a1f; --c-redorange: #dd4a26; --c-red: #b0141e; --c-base: #e9b98c; }
+          --c-orange: #ef8a1f; --c-redorange: #dd4a26; --c-red: #b0141e; --c-base: #e9b98c;
+          --c-flesh: #e3b3a1; --c-paleorange: #eeae74; --c-redbrown: #a8674c; }
+  .part[data-part="sbody"]         { fill: var(--bird-white); }
+  .part[data-part="smantle"]       { fill: var(--bird-b); }
+  .part[data-part="sbill"]         { fill: var(--bird-d); }
+  .part.leg-line[data-part="slegs"] { stroke-width: 3.5; }
+  svg [data-look="sbird"], svg [data-look="slegsg"], svg [data-look="sbillg"], svg [data-look="stailg"] { display: inline; stroke: none; }
+  svg [data-look="sbird"] .part, svg [data-look="slegsg"] .part, svg [data-look="sbillg"] .part, svg [data-look="stailg"] .part { pointer-events: auto; }
   .side-label { fill: var(--muted); font-size: 13px; font-style: italic; }
   @media (max-width: 820px) { .side-label { font-size: 16px; } .label text { font-size: 16px; } }
 </style>
@@ -68,7 +75,8 @@
 <div class="bar" id="bar"><span id="bar-text"></span><button type="button" class="clear">↺</button><a href="#results">See results ↓</a></div>
 
 <template id="bird-svg">
-  <svg viewBox="0 0 600 320" role="img">
+  <svg viewBox="0 0 600 505" role="img">
+    <defs><clipPath id="sh-clip"><circle cx="205" cy="362" r="16"/></clipPath></defs>
     <!-- left wing, from above -->
     <path class="part" data-part="upperwing" d="M286,128 L176,106 C146,116 86,150 24,186 C72,174 116,164 152,158 C205,158 248,160 286,162 Z"/>
     <path class="part" data-part="secondaries" d="M152,158 C205,158 248,160 286,162 L286,154 C248,152 205,150 156,151 Z"/>
@@ -101,6 +109,43 @@
       <path data-look="trail-pale" d="M24,186 C72,174 116,164 152,158" style="fill:none;stroke:var(--c-gray);stroke-width:6"/>
     </g>
 
+    <g transform="translate(-165 -189) scale(1.5)">
+    <!-- STANDING, side view facing left. Legs stretch and the body rises or sinks with leg length -->
+    <path d="M140,444 L470,444" style="stroke:var(--muted);stroke-width:5;stroke-linecap:round;fill:none;opacity:.45"/>
+    <g data-look="slegsg">
+      <path class="part leg-line" data-part="slegs" d="M256,412 L252,442 M244,443 L252,442 L257,444 M268,412 L266,442 L258,443 M266,442 L271,444"/>
+    </g>
+    <g data-look="sbird">
+      <g data-look="stailg">
+        <path class="part" data-part="tail" d="M296,393 L420,402 L296,403 Z"/>
+        <path class="part" data-part="outertail" d="M296,400 L420,402 L296,403.5 Z"/>
+      </g>
+      <path class="part" data-part="sbody" d="M196,372 C192,388 204,402 222,408 C244,416 280,416 304,406 C318,400 322,392 312,388 C292,380 252,378 228,376 C214,375 206,372 204,366 Z"/>
+      <path class="part" data-part="upperwing" d="M222,377 C250,371 300,375 340,384 L420,394 L338,398 C300,404 256,404 230,396 C220,391 218,382 222,377 Z"/>
+      <path class="part" data-part="primaries" d="M306,380 L340,384 L420,394 L338,398 C326,399.5 316,400.5 306,401 Z"/>
+      <path data-look="wedge" d="M318,382.5 L340,384 L420,394 L394,393 L340,388.5 L318,387 Z"/>
+      <path class="part" data-part="secondaries" d="M232,393 C256,400 284,401 306,399 L306,401 C284,404 256,404 230,396 Z"/>
+      <path class="part" data-part="carpal" d="M224,377 C248,372 278,373 298,377 L298,382 C278,379 250,379 226,384 Z"/>
+      <path class="part" data-part="smantle" d="M210,370 C226,369 246,371 262,374 C250,377 236,378 222,379 C216,377 212,374 210,370 Z"/>
+      <g data-look="mottle" style="fill:none;stroke:var(--c-brown);stroke-width:1.6;stroke-linecap:round">
+        <path d="M222,374 q3,3 6,0 q3,3 6,0 M240,374 q3,3 6,0 q3,3 6,0 M232,386 q3,3 6,0 q3,3 6,0 M252,385 q3,3 6,0 q3,3 6,0 M272,386 q3,3 6,0 q3,3 6,0 M246,394 q3,3 6,0 q3,3 6,0 M266,395 q3,3 6,0 q3,3 6,0 M286,393 q3,3 6,0 q3,3 6,0"/>
+      </g>
+      <g data-look="sbillg">
+        <path class="part" data-part="sbill" d="M194,356 L150,364 L194,368 Z"/>
+        <path data-look="billtip" d="M163,361.6 L150,364 L163,365.2 Z" style="fill:var(--c-black)"/>
+        <path data-look="billbase" d="M194,356 L178,358.9 L178,366.5 L194,368 Z"/>
+      </g>
+      <circle class="part" data-part="head" cx="205" cy="362" r="16"/>
+      <g clip-path="url(#sh-clip)">
+        <path d="M180,366 C194,367 208,369 224,372 L224,392 L180,392 Z" style="fill:var(--c-white);stroke:none;pointer-events:none"/>
+        <path data-look="forehead" class="no-stroke" d="M184,342 L204,342 C200,348 198,354 199,361 C195,363 189,364 184,365 Z" style="fill:var(--c-white)"/>
+        <path data-look="mask" class="no-stroke" d="M194,358 C198,353 210,354 218,358 C222,361 221,367 215,368 C207,369 198,366 194,362 Z" style="fill:var(--c-black)"/>
+      </g>
+      <circle cx="198" cy="360" r="2.6" style="fill:var(--bird-line);pointer-events:none"/>
+    </g>
+    </g>
+    <text class="side-label" x="20" y="498" text-anchor="start">standing</text>
+
     <text class="side-label" x="70" y="226" text-anchor="middle">upperwing</text>
     <text class="side-label" x="530" y="226" text-anchor="middle">underwing</text>
 
@@ -114,6 +159,9 @@
     <g class="label" data-q="tail"><line x1="348" y1="296" x2="322" y2="278"/><text x="352" y="302" text-anchor="start">Outer tail edges</text></g>
     <g class="label" data-q="underwing"><line x1="400" y1="222" x2="396" y2="162"/><text x="400" y="240" text-anchor="middle">Underwing</text></g>
     <g class="label" data-q="underwing"><line x1="522" y1="118" x2="504" y2="154"/><text x="522" y="110" text-anchor="middle">Under wingtip</text></g>
+    <g class="label" data-q="legs"><line x1="160" y1="472" x2="206" y2="462"/><text x="156" y="477" text-anchor="end">Legs</text></g>
+    <g class="label" data-q="rest"><line x1="528" y1="374" x2="484" y2="400"/><text x="532" y="358" text-anchor="middle">Wingtips</text><text x="532" y="372" text-anchor="middle">vs. tail</text></g>
+    <g class="label" data-q="body"><line x1="104" y1="428" x2="140" y2="414"/><text x="96" y="442" text-anchor="middle">Underparts</text></g>
   </svg>
 </template>
 
@@ -139,19 +187,31 @@
   ];
   var PART_TO_Q = { primaries: 'wingtip', upperwing: 'innerwing', carpal: 'innerwing', secondaries: 'innerwing',
                     underwing: 'underwing', underprimaries: 'underwing', head: 'head', bill: 'bill',
-                    body: 'body', tail: 'tail', outertail: 'tail' };
+                    body: 'body', tail: 'tail', outertail: 'tail', sbody: 'body', smantle: 'body', sbill: 'bill', slegs: 'legs' };
   var Q_ORDER = ['wingtip', 'underwing', 'head', 'bill', 'innerwing', 'body', 'tail', 'rest', 'legs', 'call'];
   var Q_NAMES = { wingtip: 'Wingtip', underwing: 'Underwing', head: 'Head', bill: 'Bill', innerwing: 'Inner wing',
                   body: 'Body', tail: 'Tail', rest: 'Perched', legs: 'Legs', call: 'Call' };
 
+  // Leg length: the standing bird's legs stretch from the hip, and the body rises or sinks so the feet stay on the ground
+  function legs(k, color) {
+    var d = (30 * (1 - k)).toFixed(1), o = { slegsg: { transform: 'translateY(' + d + 'px) scaleY(' + k + ')', transformOrigin: '50% 0' }, sbird: { transform: 'translateY(' + d + 'px)' } };
+    if (color) o.slegs = { stroke: color };
+    return o;
+  }
+  var LONGTAIL = { tail: { transform: 'scaleY(1.15)', transformOrigin: '50% 0' }, outertail: { transform: 'scaleY(1.15)', transformOrigin: '50% 0' }, stailg: { transform: 'scaleX(1.42)', transformOrigin: '0 50%' } };
+  var LEGLEN = { id: 'leglen', title: 'Leg length (standing)', options: [
+    { label: 'Very short; sits low to the ground', fits: 'a', look: legs(.55) },
+    { label: 'Short', fits: 'c', look: legs(1) },
+    { label: 'Longer; stands tall and upright', fits: 'f', check: LEG, look: legs(1.35) }
+  ]};
   var UW = [{ id: 'uw', title: 'Underwing trailing edge', options: [
     { label: 'Thin, crisp black line; whole wing see-through', fits: 'a', look: { underwing: C('white'), underprimaries: C('white'), 'trail-thin': true } },
     { label: 'Broad, blurry dark edge; see-through only near the body', fits: 'c ~f', look: { underwing: C('white'), underprimaries: C('silver'), 'trail-broad': true } },
     { label: 'Paler gray edge; not much see-through', fits: 'f', check: UWF, look: { underwing: C('white'), underprimaries: C('wash'), 'trail-pale': true } }
   ]}];
   var REST = [{ id: 'rest', title: 'Perched: tail vs. wingtips', options: [
-    { label: 'Tail reaches past the wingtips', fits: 'f a', look: { tail: { transform: 'scaleY(1.15)', transformOrigin: '50% 0' }, outertail: { transform: 'scaleY(1.15)', transformOrigin: '50% 0' } } },
-    { label: 'Tail about reaches the wingtips', fits: 'c' }
+    { label: 'Tail reaches past the wingtips', fits: 'f a', look: LONGTAIL },
+    { label: 'Tail about reaches the wingtips', fits: 'c', look: { stailg: {} } }
   ]}];
   var CALL = [{ id: 'call', title: 'Call', options: [
     { label: 'Grating “kee-ar”', fits: 'c' },
@@ -178,10 +238,10 @@
     head: [{ id: 'cap', title: 'Cap', help: 'All three have a full black cap now. Forster’s shows the most white above the gape and Arctic the least, but that’s hard to judge.', options: [
       { label: 'Full black cap', fits: 'f c a', look: { head: C('black') } }
     ]}],
-    bill: [{ id: 'bill', title: 'Bill', help: 'Orange vs. red is hard to judge in poor light; use other marks too.', options: [
-      { label: 'Orange with a black tip; big and thick', fits: 'f', look: { bill: S(C('orange'), 'scale(1.2, 1)'), billtip: true } },
-      { label: 'Red-orange with a black tip', fits: 'c', look: { bill: C('redorange'), billtip: true } },
-      { label: 'All dark red, short and thin', fits: 'a ~c', look: { bill: S(C('red'), 'scale(.8)') } }
+    bill: [{ id: 'bill', title: 'Bill', help: 'Orange vs. red is hard to judge in poor light; use other marks too. The diagram colors the legs to match the bill.', options: [
+      { label: 'Orange with a black tip; big and thick', fits: 'f', look: { bill: S(C('orange'), 'scale(1.2, 1)'), billtip: true, slegs: { stroke: C('orange') } } },
+      { label: 'Red-orange with a black tip', fits: 'c', look: { bill: C('redorange'), billtip: true, slegs: { stroke: C('redorange') } } },
+      { label: 'All dark red, short and thin', fits: 'a ~c', look: { bill: S(C('red'), 'scale(.8)'), slegs: { stroke: C('red') } } }
     ]}],
     innerwing: { note: 'Breeding adults have plain gray inner wings. Use the wingtip.' },
     body: [{ id: 'under', title: 'Underparts', options: [
@@ -195,11 +255,7 @@
       { label: 'White; the dark edges very thin or invisible', fits: 'a', look: { tail: C('white'), outertail: C('wash') } }
     ]}],
     rest: REST,
-    legs: [{ id: 'legs', title: 'Legs', options: [
-      { label: 'Very short; sits low to the ground', fits: 'a' },
-      { label: 'Short', fits: 'c' },
-      { label: 'Longer; stands tall and upright', fits: 'f', check: LEG }
-    ]}],
+    legs: [LEGLEN],
     call: CALL
   };
 
@@ -220,9 +276,9 @@
     tail: { note: 'Not covered for fall birds. Use the head and wing.' },
     rest: REST,
     legs: [{ id: 'legs', title: 'Legs', options: [
-      { label: 'Black', fits: 'a ~c', check: CLEG },
-      { label: 'Red', fits: '~c', check: CLEG }
-    ]}],
+      { label: 'Black', fits: 'a ~c', check: CLEG, look: { slegs: { stroke: C('black') } } },
+      { label: 'Red', fits: '~c', check: CLEG, look: { slegs: { stroke: C('redorange') } } }
+    ]}, LEGLEN],
     call: CALL
   };
 
@@ -242,10 +298,10 @@
       { label: 'All black', fits: 'a f', look: { bill: C('black') } }
     ]}],
     legs: [{ id: 'legs', title: 'Legs', help: 'All pale and variable; use only as support.', options: [
-      { label: 'Pale flesh', fits: 'c' },
-      { label: 'Pale orange', fits: 'f' },
-      { label: 'Pale red to brown', fits: 'a' }
-    ]}],
+      { label: 'Pale flesh', fits: 'c', look: { slegs: { stroke: C('flesh') } } },
+      { label: 'Pale orange', fits: 'f', look: { slegs: { stroke: C('paleorange') } } },
+      { label: 'Pale red to brown', fits: 'a', look: { slegs: { stroke: C('redbrown') } } }
+    ]}, LEGLEN],
     wingtip: { note: 'Juvenile Commons look darker-winged overall, but the inner wing is more useful at this age.' },
     underwing: { note: 'Not covered for juveniles. Arctic is the most see-through at every age.' },
     tail: { note: 'Juveniles have short tails, so tail length doesn’t help.' },
@@ -253,22 +309,39 @@
     call: { note: 'Not covered for juveniles.' }
   };
 
+  // The standing bird shares most part names with the flying one; bill and body need their own copies
+  function side(look, stage) {
+    if (!look || look.__side) return;
+    Object.defineProperty(look, '__side', { value: true });
+    if (look.bill) {
+      var b = look.bill; look.sbill = typeof b === 'string' ? b : b.fill;
+      if (b.transform) look.sbillg = { transform: b.transform === 'scale(.8)' ? 'scale(.8)' : 'scale(1.08, 1.35)', transformOrigin: '100% 50%' };
+    }
+    if (look.body) { if (stage === 'juv') look.smantle = look.body; else look.sbody = look.body; }
+  }
+  [['breed', BREED], ['fall', FALL], ['juv', JUV]].forEach(function (p) {
+    Object.keys(p[1]).forEach(function (q) {
+      if (!Array.isArray(p[1][q])) return;
+      p[1][q].forEach(function (g) { g.options.forEach(function (o) { side(o.look, p[0]); }); });
+    });
+  });
+
   Picker({
     showBird: true,
     species: SPECIES,
     stages: [
-      { id: 'breed', label: 'Breeding adult', qOrder: ['wingtip', 'underwing', 'bill', 'tail', 'body', 'rest', 'call', 'legs', 'head'], name: 'Breeding adult', tab: 'breed', look: { head: C('black'), upperwing: C('back'), carpal: { fill: C('back'), stroke: 'none' }, secondaries: C('back') },
+      { id: 'breed', label: 'Breeding adult', qOrder: ['wingtip', 'underwing', 'bill', 'tail', 'body', 'rest', 'call', 'legs', 'head'], name: 'Breeding adult', tab: 'breed', look: { head: C('black'), upperwing: C('back'), carpal: { fill: C('back'), stroke: 'none' }, secondaries: C('back'), smantle: C('back'), slegs: { stroke: C('redorange') } },
         hint: 'Full black cap and a colored bill. Roughly April–August.' },
       { id: 'fall', label: 'Fall adult', qOrder: ['head', 'innerwing', 'wingtip', 'underwing', 'bill', 'rest', 'call', 'legs'], name: 'Fall adult or 1st-year', tab: 'fall',
         hint: 'White forehead or just a black mask, black bill, clean gray back. 1st-year birds look like this too.' },
       { id: 'juv', label: 'Juvenile', qOrder: ['innerwing', 'body', 'head', 'bill', 'legs'], name: 'Juvenile', tab: 'juv',
-        look: { tail: { transform: 'scaleY(.8)', transformOrigin: '50% 0' }, outertail: { transform: 'scaleY(.8)', transformOrigin: '50% 0' } },
+        look: { tail: { transform: 'scaleY(.8)', transformOrigin: '50% 0' }, outertail: { transform: 'scaleY(.8)', transformOrigin: '50% 0' }, stailg: { transform: 'scaleX(.68)', transformOrigin: '0 50%' } },
         hint: 'Brown, tan or scaly back and a short tail. July–October; most Iowa Arctic records fit here.' }
     ],
     defaultStage: 'breed',
     // Close-up for each answer button: a square of the diagram around that part
     thumbs: { bill: '280 34 40 40', head: '274 60 52 52', body: '260 100 80 80', innerwing: '158 82 132 132', wingtip: '28 76 148 148',
-              underwing: '428 76 148 148', tail: '254 204 92 92' },
+              underwing: '428 76 148 148', tail: '254 204 92 92', legs: '184 416 76 76', leglen: '112 346 150 150', rest: '372 318 176 176' },
     partToQ: PART_TO_Q, qOrder: Q_ORDER, qNames: Q_NAMES,
     data: { breed: BREED, fall: FALL, juv: JUV },
     ref: 'terns.html'
