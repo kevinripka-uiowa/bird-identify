@@ -187,11 +187,14 @@
       </g>
       <path class="part" data-part="vent" d="M150,226 C156,242 178,244 188,230 L186,212 C176,222 162,226 150,226 Z"/>
       <g data-look="ventstreak" style="fill:none;stroke:var(--c-dark);stroke-width:3;stroke-linecap:round"><path d="M160,228 v8"/><path d="M172,226 v8"/><path d="M182,222 v8"/></g>
+      <!-- solid underlay so belly marks never show through a dimmed wing -->
+      <path class="no-stroke" d="M150,102 C184,106 202,140 206,190 C206,214 200,236 190,258 C178,240 166,222 158,200 C146,168 144,130 150,102 Z" style="fill:var(--surface);pointer-events:none"/>
       <path class="part" data-part="back" d="M150,102 C184,106 202,140 206,190 C192,196 172,196 158,200 C146,168 144,130 150,102 Z"/>
       <path data-look="edges" d="M160,130 q6,4 12,0 M166,146 q6,4 12,0 M172,162 q6,4 12,0 M160,170 q6,4 12,0 M184,176 q6,4 12,0" style="fill:none;stroke:var(--c-rufous);stroke-width:2.5"/>
       <g data-look="covbar" class="no-stroke" style="fill:var(--c-pale)"><ellipse cx="166" cy="150" rx="5" ry="3"/><ellipse cx="176" cy="156" rx="5" ry="3"/><ellipse cx="186" cy="162" rx="5" ry="3"/><ellipse cx="196" cy="168" rx="4" ry="3"/><ellipse cx="170" cy="164" rx="4" ry="3"/><ellipse cx="182" cy="170" rx="4" ry="3"/></g>
       <path class="part" data-part="wingtips" d="M158,200 C172,196 192,196 206,190 C206,214 200,236 190,258 C178,240 166,222 158,200 Z"/>
       <circle class="part" data-part="head" cx="128" cy="76" r="25"/>
+      <path data-look="hood" class="no-stroke" d="M104,70 C104,56 116,50 129,51 C145,52 153,64 153,77 C153,86 149,93 144,96 C140,88 136,80 128,76 C120,73 111,73 104,70 Z" style="fill:var(--c-slate)"/>
       <path data-look="cap" class="no-stroke" d="M104,66 C108,54 118,50 130,51 C141,52 150,59 153,70 C145,65 136,63 128,63 C118,63 111,64 104,66 Z" style="fill:var(--c-black)"/>
       <path data-look="mask" class="no-stroke" d="M112,74 C120,70 134,70 146,76 C138,82 124,82 112,80 Z" style="fill:var(--c-black)"/>
       <path data-look="brow" d="M106,66 C114,62 126,61 142,66" style="fill:none;stroke:var(--c-white);stroke-width:5;stroke-linecap:round"/>
@@ -357,7 +360,7 @@
     ]}],
     head: [
       { id: 'face', title: 'Head pattern', options: [
-        { label: 'Dark hood running down onto the nape', fits: 'ssh', look: { head: C('slate') } },
+        { label: 'Dark hood running down onto the nape', fits: 'ssh', look: { head: C('gray'), hood: true, cheek: { fill: C('rufous'), opacity: '.45' } } },
         { label: 'Black cap; paler nape and cheeks', fits: 'coh', look: { head: C('gray'), cap: true, cheek: true } },
         { label: 'Black crown and mask with a bold white eyebrow', fits: 'gos', look: { head: C('gray'), cap: true, mask: true, brow: true } }
       ]},
