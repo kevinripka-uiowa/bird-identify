@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="color-scheme" content="light">
 <title>Swallow Picker</title>
-<meta name="description" content="Tap the tail, throat, breast or rump of a flying or perched swallow, pick what you see, and get which of Iowa’s six swallows it is, for adults and juveniles.">
+<meta name="description" content="Tap the tail, throat, breast or rump of a flying or perched swallow, pick what you see, and get which of Iowa’s six swallows (or two accidental strays) it is, for adults and juveniles.">
 <link rel="stylesheet" href="picker.css?v=5">
 <style>
   .part[data-part="fbelly"], .part[data-part="fbreast"], .part[data-part="fthroat"], .part[data-part="pbody"], .part[data-part="pthroat"] { fill: var(--bird-white); }
@@ -15,7 +15,8 @@
   .part[data-part="ftail"], .part[data-part="stail"], .part[data-part="ptail"] { fill: var(--bird-d); }
   :root { --c-white: #fbfbf9; --c-tail: #3a3f47; --c-slate: #565e68; --c-teal: #2c6e83; --c-teal2: #23586a; --c-steel: #2f4169; --c-purple: #3a3160;
           --c-brown: #8b715a; --c-brown2: #76604c; --c-palebrown: #ad967d; --c-dusky: #b3a08c; --c-wash: #d3c8bb; --c-band: #7d6450; --c-rust: #c4612e;
-          --c-buff: #ecc595; --c-cream: #f1e4c6; --c-chestnut: #5e2b22; --c-gray: #c6c9cd; --c-gbrown: #8f8a84; --c-cinn: #c98a52; --c-dgray: #6c6f74; }
+          --c-buff: #ecc595; --c-cream: #f1e4c6; --c-chestnut: #5e2b22; --c-gray: #c6c9cd; --c-gbrown: #8f8a84; --c-cinn: #c98a52; --c-dgray: #6c6f74;
+          --c-green: #4f7d4b; --c-violet: #5d4a8c; --c-cinnrump: #b9703e; }
   .side-label { fill: var(--muted); font-size: 13px; font-style: italic; }
   .opt .thumb { background: var(--surface); }
   @media (max-width: 820px) { .side-label { font-size: 16px; } .label text { font-size: 16px; } }
@@ -30,7 +31,7 @@
 <main>
   <p class="kicker"><a class="home" href="index.html">← Home</a> · Tricky birds · Iowa</p>
   <h1>Swallow Picker</h1>
-  <p class="lede">Which of Iowa’s six swallows? Pick the age, then tap any part of the bird flying overhead, the spread tail or the perched bird, and choose what you see. Start with the tail: the bird reshapes to match. Answers that conflict with your other picks fade, and answers tagged <span class="unsure">check</span> aren’t confirmed. For the full write-up, see the <a href="swallows.html">swallow reference page</a>.</p>
+  <p class="lede">Which of Iowa’s six swallows, or one of two accidental strays? Pick the age, then tap any part of the bird flying overhead, the spread tail or the perched bird, and choose what you see. Start with the tail: the bird reshapes to match. Answers that conflict with your other picks fade, and answers tagged <span class="unsure">check</span> aren’t confirmed. For the full write-up, see the <a href="swallows.html">swallow reference page</a>.</p>
 
   <div class="layout">
     <div class="stack">
@@ -70,6 +71,7 @@
       <li><strong>Look for contrast, not color.</strong> A swallow zipping past gives you a second or two. Dark against pale (a dark throat, a dark band, a pale rump) is what you can actually see.</li>
       <li><strong>Tail shape is the quickest mark.</strong> Long streamers: Barn. Pointed outer feathers on a big, gliding bird: Purple Martin. A clear fork: Tree. Square or barely notched: Cliff, Rough-winged or Bank. Spread tails lose their fork, so judge a closed tail.</li>
       <li><strong>Watch one bird for a while.</strong> Flight style varies from bird to bird; compare it with a swallow you already know.</li>
+      <li><strong>Two accidental strays.</strong> Violet-green (white cheek reaching above the eye, white patches beside a dark rump, green back) and Cave (Cliff-like, but a pale buff throat, dark chestnut forehead and darker cinnamon rump) are on Iowa’s list as accidentals. Photograph and report one.</li>
       <li><strong>Not a swallow:</strong> Chimney Swift is a dark “flying cigar” with a stubby tail and stiff, flickering wingbeats, and it never perches on wires.</li>
     </ul>
     <p class="src">Sources: Woody Goss, Chicago Bird Alliance, <a href="https://www.chicagoaudubon.org/blog/2023/6/22/identifying-adult-swallows-in-flight">Identification of Swallows in Flight</a> (2023); USGS Patuxent ID accounts for <a href="https://www.mbr-pwrc.usgs.gov/id/framlst/account/h6110id.html">Purple Martin</a>, <a href="https://www.mbr-pwrc.usgs.gov/id/framlst/account/h6140id.html">Tree</a>, <a href="https://www.mbr-pwrc.usgs.gov/id/framlst/account/h6170id.html">Northern Rough-winged</a>, <a href="https://www.mbr-pwrc.usgs.gov/id/framlst/account/h6160id.html">Bank</a>, <a href="https://www.mbr-pwrc.usgs.gov/id/htmid/h6120id.html">Cliff</a> and <a href="https://www.mbr-pwrc.usgs.gov/id/framlst/account/h6130id.html">Barn</a>; All About Birds species comparisons; <a href="https://iowabirds.org/Birds/Checklist.aspx">Iowa Ornithologists’ Union checklist</a>; Iowa Bird Life field reports, <a href="https://iowabirds.org/Library/Journals/2000-2009%20Vol.%2070-79/2005-Vol%2075/IBL-75-3.pdf">spring 2005</a> and <a href="https://iowabirds.org/Library/Journals/2000-2009%20Vol.%2070-79/2006-Vol%2076/IBL-76-1.pdf">fall 2005</a>.</p>
@@ -114,10 +116,16 @@
     <path class="part" data-part="pwing" d="M451.6,73.6 C487.6,68.8 550,78.4 598,104.8 C550,95.2 502,95.2 456.4,88 Z"/>
     <path data-look="pwbars" d="M468.4,79.6 L504.4,80.8 M473.2,85.6 L511.6,88" style="fill:none;stroke:var(--c-cinn);stroke-width:2.4;stroke-linecap:round"/>
     <path class="part" data-part="prump" d="M517.6,65.2 C529.6,66.4 538,71.2 541.6,76 L535.6,82 C529.6,78.4 523.6,76 515.2,74.8 Z"/>
+    <!-- Violet-green: white patch on the side of the rump, above the folded wing -->
+    <path data-look="prumpwhite" class="no-stroke" d="M512,74.6 C520,74 528,76.6 534.6,81.2 C526,82.4 518,81.6 511,79.4 Z" style="fill:var(--c-white)"/>
     <path class="pupil" d="M424,61.6 L410.8,64.6 L424,67.6 Z"/>
     <circle class="part" data-part="phead" cx="439.6" cy="64" r="18"/>
     <path class="part" data-part="pfore" d="M422.8,59.2 Q424,49.6 432.4,47.2 L436,53.2 Q430,54.4 426.4,62.8 Z"/>
     <path class="part" data-part="pthroat" d="M424,68.8 Q430,83.2 444.4,82 L449.2,73.6 Q436,73.6 426.4,62.8 Z"/>
+    <!-- Violet-green: white cheek wrapping up behind and above the eye -->
+    <path data-look="pwhiteface" class="no-stroke" d="M426.4,62.8 C428,58.4 432,55.6 436.4,56 C441.6,56.6 446.4,61.6 452,64 C455,68.4 452.4,73.2 449.2,73.6 Q436,73.6 426.4,62.8 Z" style="fill:var(--c-white)"/>
+    <!-- Cave: pale buff cheek joining the throat -->
+    <path data-look="pcheek" class="no-stroke" d="M427,64.4 C432,66 440,66 448,64.8 C452,68.4 451.6,72.4 449.2,73.6 Q436,73.6 426.4,62.8 Z" style="fill:var(--c-buff)"/>
     <circle class="pupil" cx="432.4" cy="60.4" r="2.4"/>
 
     <text class="side-label" x="230" y="346" text-anchor="middle">flying, from below</text>
@@ -145,8 +153,11 @@
     { id: 'rw', name: 'Northern Rough-winged Swallow' },
     { id: 'ba', name: 'Bank Swallow' },
     { id: 'cl', name: 'Cliff Swallow' },
-    { id: 'bs', name: 'Barn Swallow' }
+    { id: 'bs', name: 'Barn Swallow' },
+    { id: 'vg', name: 'Violet-green Swallow', rare: 'Accidental' },
+    { id: 'cv', name: 'Cave Swallow', rare: 'Accidental' }
   ];
+  var STRAY = 'Accidental in Iowa (Iowa Ornithologists’ Union checklist); marks are standard field-guide ones, not checked against a source I could open.';
   var PART_TO_Q = { ftail: 'tail', stail: 'tail', ptail: 'tail', fthroat: 'throat', pthroat: 'throat', fbreast: 'breast',
                     fbelly: 'belly', pbody: 'belly', underwing: 'wings', fhead: 'face', phead: 'face', pfore: 'face',
                     pback: 'back', pwing: 'back', prump: 'rump' };
@@ -170,39 +181,42 @@
   var SPREAD = { id: 'tspread', title: 'Tail spread, from below', help: 'A fanned tail loses its fork, so check the closed tail too.', options: [
     { label: 'A row of white spots across it; outer feathers still long', fits: 'bs', look: { stail: HIDE, sfork: true, sspots: true } },
     { label: 'Plain; the outer corners stick out in points', fits: 'pm', look: { stail: HIDE, spoint: true } },
-    { label: 'Plain, evenly rounded or square', fits: 'tr rw ba cl ~pm', look: { stail: C('tail') } }
+    { label: 'Plain, evenly rounded or square', fits: 'tr rw ba cl vg cv ~pm', look: { stail: C('tail') } }
   ]};
   var WINGS = [{ id: 'wshape', title: 'Wing shape', help: 'From below, as it passes overhead.', options: [
     { label: 'Broad at the base, triangular, with tapered tips', fits: 'pm', look: wing(1.28) },
-    { label: 'Long and slender, swept back', fits: 'bs ~tr', look: wing(0.82, 1.04) },
+    { label: 'Long and slender, swept back', fits: 'bs ~tr ~vg', look: wing(0.82, 1.04) },
     { label: 'Short; a small, thin-bodied bird with a long rear end', fits: 'ba', look: L(wing(0.9, 0.86), { fbelly: { transform: 'scaleX(.85)', transformOrigin: '50% 50%' } }) },
-    { label: 'Medium: nothing stands out', fits: 'tr rw cl ~ba', look: { underwing: C('gray') } }
+    { label: 'Medium: nothing stands out', fits: 'tr rw cl cv vg ~ba', look: { underwing: C('gray') } }
   ]}];
   var FLIGHT = [{ id: 'flight', title: 'How it flies', help: 'Watch one bird for a while; flight varies, so compare it with a swallow you know.',
     check: 'Barn, Cliff and Rough-winged flight styles come from general field-guide descriptions, not the Chicago Bird Alliance guide.', options: [
     { label: 'Glides a lot, with slow wingbeats; often circles high', fits: 'pm' },
-    { label: 'Steady, slower wingbeats; less bouncing and fewer turns', fits: 'tr ~cl' },
+    { label: 'Steady, slower wingbeats; less bouncing and fewer turns', fits: 'tr ~cl ~vg' },
     { label: 'Quick, fluttery wingbeats; bounces and changes direction a lot', fits: 'ba' },
     { label: 'Fast and low, swooping over fields and water', fits: 'bs ~tr' },
     { label: 'Circles and glides around a busy colony', fits: 'cl ~pm' },
-    { label: 'Steady and unhurried, often low over water; nothing stands out', fits: 'rw ~cl' }
+    { label: 'Steady and unhurried, often low over water; nothing stands out', fits: 'rw vg cv ~cl' }
   ]}];
   var SIZE = [{ id: 'size', title: 'Size, beside other swallows', options: [
     { label: 'Clearly the biggest: about starling-sized', fits: 'pm' },
-    { label: 'Clearly the smallest and thinnest', fits: 'ba' },
-    { label: 'In between', fits: 'tr rw cl bs ~ba' }
+    { label: 'Clearly the smallest and thinnest', fits: 'ba ~vg' },
+    { label: 'In between', fits: 'tr rw cl bs vg cv ~ba' }
   ]}];
   var RUMP = [{ id: 'rump', title: 'Rump, from above', help: 'Wait for a flying bird to bank, or look at a perched one.', options: [
-    { label: 'A pale buff-orange patch, sharply set off from a dark back', fits: 'cl', look: { prump: C('buff') } },
+    { label: 'A pale buff-orange patch, sharply set off from a dark back', fits: 'cl ~cv', look: { prump: C('buff') } },
+    { label: 'A darker cinnamon-rufous patch', fits: 'cv ~cl', check: STRAY, look: { prump: C('cinnrump') } },
+    { label: 'Dark, with a white patch on each side that nearly meets over it', fits: 'vg', check: STRAY, look: { prumpwhite: true } },
     { label: 'Slightly paler brown than the back', fits: 'ba ~rw', look: { prump: C('palebrown') } },
-    { label: 'Same color as the back', fits: 'tr bs pm rw', look: { prump: C('slate') } }
+    { label: 'Same color as the back', fits: 'tr bs pm rw ~vg', look: { prump: C('slate') } }
   ]}];
   function dates(young) { return [{ id: 'date', title: 'When, in Iowa', help: 'Iowa’s swallows are gone from about November to mid-March. Late-summer flocks gather by the thousands at big reservoirs.',
     check: 'Windows are rounded from one year of Iowa Bird Life reports (2005) plus general timing, not a full date list.', options: (young ? [] : [
     { label: 'Mid-March to early April', fits: 'tr ~pm' }]).concat([
-    { label: young ? 'June to mid-August' : 'Mid-April to mid-August', fits: 'pm tr rw ba cl bs' },
-    { label: 'Late August to September', fits: 'tr bs pm cl ~ba ~rw' },
-    { label: 'October', fits: 'tr bs ~cl' }
+    { label: young ? 'June to mid-August' : 'Mid-April to mid-August', fits: 'pm tr rw ba cl bs ~vg ~cv' },
+    { label: 'Late August to September', fits: 'tr bs pm cl ~ba ~rw ~vg' },
+    { label: 'October', fits: 'tr bs ~cl ~cv' },
+    { label: 'November', fits: '~cv', check: 'Cave Swallows that stray north turn up mostly in late fall in the Great Lakes and Northeast; general pattern, not an Iowa date.' }
   ]) }]; }
 
   // ---------- Adults ----------
@@ -213,27 +227,28 @@
         { label: 'Deeply forked, with long, thin outer streamers', fits: 'bs', look: L(tail('tdeep'), { pstream: true }) },
         { label: 'Forked; outer feathers longer and pointed, but no streamers', fits: 'pm ~tr', look: tail('tmartin') },
         { label: 'A clear V fork', fits: 'tr ~pm', look: tail('tfork') },
-        { label: 'A shallow notch', fits: 'ba ~rw ~tr', look: tail('tnotch') },
-        { label: 'Square, no notch', fits: 'cl rw', look: tail('tsq') }
+        { label: 'A shallow notch', fits: 'ba vg ~rw ~tr', look: tail('tnotch') },
+        { label: 'Square, no notch', fits: 'cl rw cv', look: tail('tsq') }
       ]},
       SPREAD
     ],
     throat: [{ id: 'throat', title: 'Throat', options: [
-      { label: 'Clean white, sharply set off', fits: 'tr ba', look: throat('white') },
+      { label: 'Clean white, sharply set off', fits: 'tr ba vg', look: throat('white') },
       { label: 'Dusky gray-brown, blending into the breast', fits: 'rw pm', look: throat('dusky') },
       { label: 'Dark chestnut to black, sharp against a pale chest', fits: 'cl', look: throat('chestnut') },
       { label: 'Rusty orange', fits: 'bs', look: throat('rust') },
+      { label: 'Pale buff or cinnamon, like the cheeks', fits: 'cv', check: STRAY, look: L(throat('buff'), { pcheek: true }) },
       { label: 'Glossy blue-black, like the whole bird', fits: 'pm', look: throat('purple') }
     ]}],
     breast: [{ id: 'band', title: 'Across the breast', options: [
       { label: 'A sharp brown band between a white throat and belly', fits: 'ba', look: { fbreast: C('band') } },
       { label: 'A dingy gray-brown wash with no sharp edges', fits: 'rw pm', look: { fbreast: C('wash') } },
-      { label: 'No band: clean white, buff or orange', fits: 'tr cl bs', look: { fbreast: C('white') } },
+      { label: 'No band: clean white, buff or orange', fits: 'tr cl bs vg cv', look: { fbreast: C('white') } },
       { label: 'Glossy blue-black', fits: 'pm', look: { fbreast: C('purple') } }
     ]}],
     belly: [{ id: 'belly', title: 'Belly', options: [
-      { label: 'White', fits: 'tr ba rw ~cl ~pm', look: belly('white') },
-      { label: 'Pale buff to orange', fits: 'bs ~cl', look: belly('buff') },
+      { label: 'White', fits: 'tr ba rw vg ~cl ~pm ~cv', look: belly('white') },
+      { label: 'Pale buff to orange', fits: 'bs cv ~cl', look: belly('buff') },
       { label: 'Glossy blue-black', fits: 'pm', look: belly('purple') }
     ]}],
     rump: RUMP,
@@ -241,23 +256,26 @@
       { label: 'Pale cream forehead, dark chestnut cheeks and throat', fits: 'cl', look: { pfore: C('cream'), phead: C('steel'), pthroat: C('chestnut') } },
       { label: 'Rusty forehead and throat', fits: 'bs', look: { pfore: C('rust'), phead: C('steel'), pthroat: C('rust') } },
       { label: 'Glossy dark cap and cheeks, crisp edge to a white throat', fits: 'tr', look: { phead: C('teal'), pfore: C('teal'), pthroat: C('white') } },
+      { label: 'White cheek wrapping up behind and above the eye; green cap', fits: 'vg', check: STRAY, look: { phead: C('green'), pfore: C('green'), pthroat: C('white'), pwhiteface: true } },
+      { label: 'Dark chestnut forehead, dark cap, pale buff cheeks and throat', fits: 'cv', check: STRAY, look: { pfore: C('chestnut'), phead: C('steel'), pthroat: C('buff'), pcheek: true } },
       { label: 'Plain brown head', fits: 'ba rw ~pm', look: { phead: C('brown'), pfore: C('brown') } },
       { label: 'All glossy blue-black', fits: 'pm', look: { phead: C('purple'), pfore: C('purple'), pthroat: C('purple') } }
     ]}],
     back: [{ id: 'upper', title: 'Back color', options: [
-      { label: 'Glossy blue-green, with a white notch showing behind each wing', fits: 'tr', look: { pback: C('teal'), pwing: C('teal2'), prump: C('teal') } },
-      { label: 'Glossy dark steel-blue', fits: 'bs cl ~pm', look: { pback: C('steel'), pwing: C('steel') } },
+      { label: 'Glossy blue-green, with a white notch showing behind each wing', fits: 'tr ~vg', look: { pback: C('teal'), pwing: C('teal2'), prump: C('teal') } },
+      { label: 'Glossy dark steel-blue', fits: 'bs cl cv ~pm', look: { pback: C('steel'), pwing: C('steel') } },
+      { label: 'Velvety green, with a violet rump', fits: 'vg', check: STRAY, look: { pback: C('green'), pwing: C('dgray'), prump: C('violet') } },
       { label: 'Glossy purple-black all over', fits: 'pm', look: { pback: C('purple'), pwing: C('purple'), prump: C('purple') } },
       { label: 'Plain brown', fits: 'ba rw', look: { pback: C('brown'), pwing: C('brown2') } }
     ]}],
     wings: WINGS, flight: FLIGHT, size: SIZE,
     nest: [{ id: 'nest', title: 'Nest site', options: [
       { label: 'Martin houses or hanging gourds, in a colony', fits: 'pm' },
-      { label: 'Nest boxes or tree holes', fits: 'tr' },
+      { label: 'Nest boxes or tree holes', fits: 'tr ~vg' },
       { label: 'Burrows in a sand or gravel bank, many together', fits: 'ba ~rw' },
       { label: 'A single hole: a pipe, a crevice in a bridge, or an old burrow', fits: 'rw' },
       { label: 'Gourd-shaped mud nests packed together under a bridge or eave', fits: 'cl' },
-      { label: 'An open mud cup inside a barn or shed, or under a bridge', fits: 'bs' }
+      { label: 'An open mud cup inside a barn or shed, or under a bridge', fits: 'bs ~cv' }
     ]}],
     date: dates(false)
   };
@@ -269,35 +287,35 @@
         check: 'Juvenile tail shapes, other than Barn Swallow’s shorter fork, come from general field-guide knowledge.', options: [
         { label: 'Forked, the outer feathers only a little longer', fits: 'bs', look: tail('tshort') },
         { label: 'Forked; outer feathers a bit longer and pointed', fits: 'pm ~tr', look: tail('tmartin') },
-        { label: 'A shallow notch or slight fork', fits: 'tr ba ~rw', look: tail('tnotch') },
-        { label: 'Square, no notch', fits: 'cl rw', look: tail('tsq') }
+        { label: 'A shallow notch or slight fork', fits: 'tr ba vg ~rw', look: tail('tnotch') },
+        { label: 'Square, no notch', fits: 'cl rw cv', look: tail('tsq') }
       ]},
       SPREAD
     ],
     throat: [{ id: 'throat', title: 'Throat', options: [
-      { label: 'White', fits: 'tr ba', look: throat('white') },
+      { label: 'White', fits: 'tr ba vg', look: throat('white') },
       { label: 'Dusky gray-brown', fits: 'rw pm ~cl', look: throat('dusky') },
-      { label: 'Pale rusty-buff', fits: 'bs', look: throat('buff') },
+      { label: 'Pale rusty-buff', fits: 'bs cv', look: throat('buff') },
       { label: 'Dark and mottled', fits: 'cl', look: throat('chestnut'), check: 'USGS only says young Cliffs are duller than adults; how dark the throat is varies.' }
     ]}],
     breast: [{ id: 'band', title: 'Across the breast', help: 'The commonest trap: a brown young Tree Swallow with a smudgy band looks like a Bank.', options: [
       { label: 'A sharp, dark brown band', fits: 'ba', look: { fbreast: C('band') } },
-      { label: 'A blurry gray-brown wash or a partial band', fits: 'tr rw pm', look: { fbreast: C('wash') } },
-      { label: 'No band', fits: 'bs cl ~tr', look: { fbreast: C('white') } }
+      { label: 'A blurry gray-brown wash or a partial band', fits: 'tr rw pm ~vg', look: { fbreast: C('wash') } },
+      { label: 'No band', fits: 'bs cl vg cv ~tr', look: { fbreast: C('white') } }
     ]}],
     belly: [{ id: 'belly', title: 'Belly', options: [
-      { label: 'White', fits: 'tr ba rw pm ~cl', look: belly('white') },
-      { label: 'Pale buff', fits: 'bs ~cl', look: belly('buff') }
+      { label: 'White', fits: 'tr ba rw pm vg ~cl ~cv', look: belly('white') },
+      { label: 'Pale buff', fits: 'bs cv ~cl', look: belly('buff') }
     ]}],
     rump: RUMP,
     back: [
       { id: 'upper', title: 'Back color', options: [
-        { label: 'Brown or gray-brown, no gloss', fits: 'tr ba rw pm', look: { pback: C('gbrown'), pwing: C('dgray') } },
-        { label: 'Dull blue-black', fits: 'bs cl', look: { pback: C('steel'), pwing: C('steel') } }
+        { label: 'Brown or gray-brown, no gloss', fits: 'tr ba rw pm vg', look: { pback: C('gbrown'), pwing: C('dgray') } },
+        { label: 'Dull blue-black', fits: 'bs cl cv', look: { pback: C('steel'), pwing: C('steel') } }
       ]},
       { id: 'wbars', title: 'Wing bars', check: 'Standard field-guide mark for young Rough-winged; not confirmed from a source I could open.', options: [
         { label: 'Cinnamon feather edges forming wing bars', fits: 'rw', look: { pwbars: true } },
-        { label: 'None', fits: 'tr ba pm bs cl ~rw', look: { pwing: C('dgray') } }
+        { label: 'None', fits: 'tr ba pm bs cl vg cv ~rw', look: { pwing: C('dgray') } }
       ]}
     ],
     wings: WINGS, flight: FLIGHT, size: SIZE,
